@@ -1,0 +1,1 @@
+{"interface":"https://schema.skao.int/ska-csp-delaymodel/2.2","epoch":1711508136.0,"validity_period":900.0,"delay_details":[{"receptor":"SKA001","poly_info":[{"polarization":"X","coeffs":[0.0,0.0,0.0,0.0,0.0,0.0]},{"polarization":"Y","coeffs":[0.0,0.0,0.0,0.0,0.0,0.0]}]}]}
