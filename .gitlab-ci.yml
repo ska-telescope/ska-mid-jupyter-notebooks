@@ -35,6 +35,10 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
 
+  # OCI
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
+
 # Notebooks are not setup to be executed as automated tests at the moment.
 notebook-test:
   rules:
