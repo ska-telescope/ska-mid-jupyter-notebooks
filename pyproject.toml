@@ -51,6 +51,7 @@ fastjsonschema = "^2.19.1"
 sphinx = "^7.2.6"
 ska-ser-sphinx-theme = "^0.1.2"
 myst-parser = "^2.0.0"
+recommonmark = "^0.7.1"
 
 [tool.coverage.run]
 parallel = true
