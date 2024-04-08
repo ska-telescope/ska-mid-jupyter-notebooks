@@ -58,9 +58,7 @@ def set_cluster(
     env["telescope"] = telescope
     env["cluster_domain"] = cluster_domain
     env["ingress_name"] = ingress_name
-    env["tango_host"] = (
-        f"{database_name}.{namespace}.svc.{cluster_domain}:{db_port}"
-    )
+    env["tango_host"] = f"{database_name}.{namespace}.svc.{cluster_domain}:{db_port}"
     os.environ["TANGO_HOST"] = env["tango_host"]
     if polling:
         os.environ["USE_POLLING"] = "True"
