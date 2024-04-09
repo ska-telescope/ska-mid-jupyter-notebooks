@@ -37,6 +37,7 @@ jupyter-bokeh = "^3.0.7"
 jupyterhub = "^4.0.2"
 jupyter-events = "<0.10"
 fastjsonschema = "^2.19.1"
+jupyterlab-server = "2.24.0"
 
 [tool.poetry.extras]
 localtango = ["pytango"]
@@ -71,6 +72,11 @@ data_file = ".coverage/.coverage"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[[tool.poetry.source]]
+name = "PyPI-public"
+url = 'https://pypi.org/simple'
 
 [[tool.poetry.source]]
 name = 'ska'
