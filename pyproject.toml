@@ -73,11 +73,10 @@ data_file = ".coverage/.coverage"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[[tool.poetry.source]]
+name = 'ska'
+url = 'https://artefact.skao.int/repository/pypi-all/simple'
 
 [[tool.poetry.source]]
 name = "PyPI-public"
 url = 'https://pypi.org/simple'
-
-[[tool.poetry.source]]
-name = 'ska'
-url = 'https://artefact.skatelescope.org/repository/pypi-all/simple'
