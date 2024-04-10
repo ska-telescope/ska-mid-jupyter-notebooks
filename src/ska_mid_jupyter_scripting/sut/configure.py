@@ -63,3 +63,11 @@ def set_cluster(
     if polling:
         os.environ["USE_POLLING"] = "True"
     return smoke_test_cluster()
+
+
+def disable_qa():
+    """
+    Disable QA
+    :return: None
+    """
+    os.environ["DISABLE_QA"] = "True"
