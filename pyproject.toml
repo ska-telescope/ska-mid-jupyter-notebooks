@@ -5,9 +5,9 @@ description = ""
 authors = ["ATLAS", "MAPLE"]
 license = "BSD"
 readme = "README.md"
-repository = "https://gitlab.com/ska-telescope/ska-jupyter-scripting"
+repository = "https://gitlab.com/ska-telescope/ska-mid-jupyter-notebooks"
 packages = [
-    {include = "ska_mid_jupyter_scripting", from = "src"}
+    {include = "ska_mid_jupyter_notebooks", from = "src"}
 ]
 include = [
     { path = 'tests' }
