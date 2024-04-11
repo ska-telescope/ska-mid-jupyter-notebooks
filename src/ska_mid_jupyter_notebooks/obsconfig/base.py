@@ -1,13 +1,15 @@
-import datetime
 import json
 import os
+from datetime import datetime
 from typing import Any, Callable, Generic, NamedTuple, ParamSpec, TypeVar
+
 from ska_tmc_cdm.schemas import CODEC
 
 
 class SB(NamedTuple):
     eb: str
     pb: str
+
 
 def load_next_sb():
     """
@@ -20,7 +22,6 @@ def load_next_sb():
     eb = f"eb-mid-{unique}"
 
     return SB(eb, pb)
-
 
 
 class SchedulingBlock:
@@ -40,6 +41,7 @@ class SchedulingBlock:
         eb_id, pb_id = load_next_sb()
         self.eb_id = eb_id
         self.pb_id = pb_id
+
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -81,6 +83,7 @@ class EncodedObject(Generic[T]):
         :return: encoded object as an object
         """
         return self._object_to_encode
+
 
 def encoded(func: Callable[P, T]) -> Callable[P, EncodedObject[T]]:
     """

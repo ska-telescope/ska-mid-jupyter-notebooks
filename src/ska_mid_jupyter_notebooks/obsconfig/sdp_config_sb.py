@@ -1,9 +1,11 @@
 from typing import Any
 
-from ska_mid_jupyter_scripting.obsconfig.base import encoded
-from ska_mid_jupyter_scripting.obsconfig.dishes import Dishes
-from ska_mid_jupyter_scripting.obsconfig.sb import ExecutionBlockSpecsSB
 from ska_oso_pdm.entities.sdp.sdp_configuration import SDPConfiguration
+
+from ska_mid_jupyter_notebooks.obsconfig.base import encoded
+from ska_mid_jupyter_notebooks.obsconfig.dishes import Dishes
+from ska_mid_jupyter_notebooks.obsconfig.sb import ExecutionBlockSpecsSB
+from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ProcessingBlockSpec
 
 
 class SdpConfigSpecsSB(Dishes, ExecutionBlockSpecsSB, ProcessingBlockSpec):
@@ -12,7 +14,7 @@ class SdpConfigSpecsSB(Dishes, ExecutionBlockSpecsSB, ProcessingBlockSpec):
         Initializes SdpConfigSpecsSB class
         :param kwargs: Keyword arguments
         """
-        super().__init__(pdm_default_script=True, **kwargs)
+        super().__init__(**kwargs)
 
     def _generate_sdp_assign_resources_sb_config(self):
         """

@@ -1,8 +1,8 @@
-
-
 import os
-from typing import Any, TypedDict
+from typing import Any
+
 from tango import Database, DeviceProxy
+
 
 class TangoTestEquipment:
     def __init__(
@@ -24,12 +24,12 @@ class TangoTestEquipment:
         self._tango_port = db_port
         self._devices_to_ignore: list[str] = []
 
-    def ignore(self, *devices: str):
+    def ignore(self, device: str):
         """
         Devices to ignore
         :return: None
         """
-        self._devices_to_ignore = [*self._devices_to_ignore, *devices]
+        self._devices_to_ignore.append(device)
 
     @staticmethod
     def _not_in(value: str, pattern: str):
@@ -54,20 +54,12 @@ class TangoTestEquipment:
         :return: list
         """
         base: list[str] = [
-            dev
-            for dev in Database(
-                self._tango_host, self._tango_port
-            ).get_device_exported("*")
+            dev for dev in Database(self._tango_host, self._tango_port).get_device_exported("*")
         ]
         filtered = [
             item
             for item in base
-            if all(
-                [
-                    self._not_in(item, pattern)
-                    for pattern in self._devices_to_ignore
-                ]
-            )
+            if all([self._not_in(item, pattern) for pattern in self._devices_to_ignore])
         ]
         return filtered
 
@@ -97,9 +89,7 @@ class TangoTestEquipment:
         devices = {self._replace(dev): dev for dev in self.devices}
         if attr in devices.keys():
             dev_name = devices[attr]
-            return DeviceProxy(
-                f"tango://{self._tango_host}:{self._tango_port}/{dev_name}"
-            )
+            return DeviceProxy(f"tango://{self._tango_host}:{self._tango_port}/{dev_name}")
         try:
             return super().__getattribute__(attr)
         except AttributeError as exception:
@@ -113,32 +103,4 @@ class TangoTestEquipment:
 
     def smoke_test(self) -> int:
         """Smoke test cluster by pinging tango Database"""
-        return DeviceProxy(
-            f"tango://{self.tango_host()}/sys/database/2"
-        ).ping()
-
-def configure_test_equipment(
-    database_name: str = "tango-databaseds",
-    namespace: str = "test-equipment",
-    cluster_domain: str = "miditf.internal.skao.int",
-    db_port: int = 10000,
-) -> TangoTestEquipment:
-    """
-    Set up environment variables in order to connect to the test equipment tango devices in a specific namespace.
-
-    :param database_name: the name of the tango database service, defaults to "tango-databaseds"
-    :type database_name: str, optional
-    :param namespace: the k8s namespace containing the test equipment, defaults to "test-equipment"
-    :type namespace: str, optional
-    :param cluster_domain: the cluster domain of the k8s cluster, defaults to "miditf.internal.skao.int"
-    :type cluster_domain: str, optional
-    :param db_port: The tango database port, defaults to 10000
-    :type db_port: int, optional
-    :return: the configured test equipment
-    """
-    ingress_name= f"k8s.{cluster_domain}"
-    database_host = f"{database_name}.{namespace}.svc.{cluster_domain}:{db_port}"
-    te = TangoTestEquipment(database_name=database_name, namespace=namespace, cluster_domain=cluster_domain, db_port=db_port)
-    millis = te.smoke_test()
-    logger.debug("Smoke test succeeded after %dms", millis)
-    return te
+        return DeviceProxy(f"tango://{self.tango_host()}/sys/database/2").ping()

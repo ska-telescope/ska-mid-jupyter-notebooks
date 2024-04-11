@@ -1,8 +1,6 @@
 from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
 
-from ska_mid_jupyter_scripting.test_equipment.base import DeviceDevState, TestDevice
-from ska_mid_jupyter_scripting.test_equipment.configure import TangoTestEquipment
-from ska_mid_jupyter_scripting.monitoring.statemonitoring import (
+from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     EventData,
     EventsReducer,
     MonState,
@@ -11,6 +9,8 @@ from ska_mid_jupyter_scripting.monitoring.statemonitoring import (
     Selector,
     event_key,
 )
+from ska_mid_jupyter_notebooks.test_equipment.base import DeviceDevState, TestDevice
+from ska_mid_jupyter_notebooks.test_equipment.configure import TangoTestEquipment
 
 
 class DeviceNameAndState(NamedTuple):
@@ -31,7 +31,6 @@ def get_equipment_model(test_equipment: TangoTestEquipment):
     return TestEquipmentModel(test_equipment)
 
 
-
 class TestEquipmentModel:
 
     test_devices: list[TestDevice] = [
@@ -47,14 +46,9 @@ class TestEquipmentModel:
         :param test_equipment: TangoTestEquipment
         :return: None
         """
-        self._dev_factory = RemoteDeviceFactory(
-            test_equipment.tango_host()
-        )
+        self._dev_factory = RemoteDeviceFactory(test_equipment.tango_host())
         init_state = EquipmentState(
-            devices_states={
-                f"{device}:state": "UNKNOWN"
-                for device in test_equipment.devices
-            }
+            devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
         )
         self._state_monitor: MonState[EquipmentState] = MonState(init_state)
 
@@ -151,13 +145,11 @@ class TestEquipmentModel:
             """
             return {state.device_name: state.device_state for state in states}
 
-        test_equipment_state_selector = Selector[
-            EquipmentState, dict[str, DeviceDevState]
-        ](select_agg_dev_state, *input_test_equipment_states)
-
-        self._state_monitor.add_observer(
-            observe_function, test_equipment_state_selector
+        test_equipment_state_selector = Selector[EquipmentState, dict[str, DeviceDevState]](
+            select_agg_dev_state, *input_test_equipment_states
         )
+
+        self._state_monitor.add_observer(observe_function, test_equipment_state_selector)
 
     @property
     def state(self) -> EquipmentState:

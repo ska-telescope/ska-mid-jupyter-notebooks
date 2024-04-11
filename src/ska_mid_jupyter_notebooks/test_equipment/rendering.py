@@ -1,8 +1,7 @@
 from typing import Literal, OrderedDict, cast
 
-from ska_mid_jupyter_scripting.monitoring.rendering import Colours, MonitorPlot
-from ska_mid_jupyter_scripting.test_equipment.base import DeviceDevState, TestDevice
-
+from ska_mid_jupyter_notebooks.monitoring.rendering import Colours, MonitorPlot
+from ska_mid_jupyter_notebooks.test_equipment.base import DeviceDevState, TestDevice
 
 TestEquipmentLabels = Literal[
     "Programmable Attenuator",
@@ -20,9 +19,7 @@ def get_test_equipment_monitor_plot():
     return TestEquipmentMonitorPlot(plot_width=900, plot_height=200)
 
 
-class TestEquipmentMonitorPlot(
-    MonitorPlot[TestEquipmentLabels, DeviceDevState]
-):
+class TestEquipmentMonitorPlot(MonitorPlot[TestEquipmentLabels, DeviceDevState]):
     test_device_mapping: dict[TestDevice, TestEquipmentLabels] = {
         "mid-itf/progattenuator/1": "Programmable Attenuator",
         "mid-itf/siggen/1": "Signal Generator",
@@ -60,13 +57,9 @@ class TestEquipmentMonitorPlot(
         :param plot_height: height of the plot
         :return: None
         """
-        super().__init__(
-            plot_width, plot_height, self._items, self._colour_mapping
-        )
+        super().__init__(plot_width, plot_height, self._items, self._colour_mapping)
 
-    def handle_device_state_change(
-        self, input_state: dict[str, DeviceDevState]
-    ) -> None:
+    def handle_device_state_change(self, input_state: dict[str, DeviceDevState]) -> None:
         """
         Handles device state change
         :param input_state: input state

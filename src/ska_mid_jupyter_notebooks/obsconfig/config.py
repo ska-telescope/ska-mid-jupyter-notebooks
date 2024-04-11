@@ -1,40 +1,33 @@
 import json
 from typing import Any, cast
 
-from ska_mid_jupyter_scripting.obsconfig.dishes import Dishes
-from ska_mid_jupyter_scripting.obsconfig.sb import ActivitiesSB, MetaDataSB
-from ska_mid_jupyter_scripting.obsconfig.sdp_config_sb import SdpConfigSpecsSB
-from ska_oso_pdm.entities.common.sb_definition import (
-    SBD_SCHEMA_URI,
-    SBDefinition,
-    TelescopeType,
-)
+from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition
 from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
 from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
 from ska_oso_pdm.schemas.common.sb_definition import SBDefinitionSchema
 from ska_oso_scripting.functions import pdm_transforms
-from ska_tmc_cdm.messages.central_node.assign_resources import (
-    AssignResourcesRequest,
-)
-from ska_tmc_cdm.messages.central_node.common import (
-    DishAllocation as cdm_DishAllocation,
-)
-from ska_tmc_cdm.messages.central_node.csp import (
-    CSPConfiguration as CentralCSPConfiguration,
-)
+from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRequest
+from ska_tmc_cdm.messages.central_node.common import DishAllocation as cdm_DishAllocation
+from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CentralCSPConfiguration
 from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
 
-class ObservationSB(
-    SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TmcConfig, ActivitiesSB
-):
+from ska_mid_jupyter_notebooks.obsconfig.base import encoded
+from ska_mid_jupyter_notebooks.obsconfig.csp import CSPconfig
+from ska_mid_jupyter_notebooks.obsconfig.dishes import Dishes
+from ska_mid_jupyter_notebooks.obsconfig.sb import ActivitiesSB, MetaDataSB, ScanDefinitionSB
+from ska_mid_jupyter_notebooks.obsconfig.sdp_config_sb import SdpConfigSpecsSB
+from ska_mid_jupyter_notebooks.obsconfig.tmc_config import TMCConfig
+
+# pylint: disable=E1101
+
+
+class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, ActivitiesSB):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         ActivitiesSB.__init__(self)
 
-    assign_resources_schema = (
-        "https://schema.skao.int/ska-tmc-assignresources/2.1"
-    )
+    assign_resources_schema = "https://schema.skao.int/ska-tmc-assignresources/2.1"
     config_resources_schema = "https://schema.skao.int/ska-tmc-configure/2.2"
     sdp_schema = "https://schema.skao.int/ska-sdp-configure/0.4"
     transaction_id = "txn-....-00001"
@@ -52,21 +45,20 @@ class ObservationSB(
         :param: dish_configurations: List of  DishConfiguration
         :return: Scheduling Block Definition
         """
-        sdp_configuration = (
-            self.generate_sdp_assign_resources_sb_config().as_object
-        )
+        sdp_configuration = self.generate_sdp_assign_resources_sb_config().as_object
         sb_specs = SBDefinition(
             interface=SBD_SCHEMA_URI,
-            telescope=TelescopeType.MID,
             metadata=self.get_metadata().as_object,
             activities=self.get_activities(),
             sdp_configuration=sdp_configuration,
             dish_allocations=self.dish_allocation,
             targets=self.targets,
             csp_configurations=csp_configuration,
-            scan_sequence=self.scan_sequence_data[1:]
-            if len(self.scan_sequence_data) > 1
-            else self.scan_sequence_data,
+            scan_sequence=(
+                self.scan_sequence_data[1:]
+                if len(self.scan_sequence_data) > 1
+                else self.scan_sequence_data
+            ),
             scan_definitions=scan_configuration,
             dish_configurations=dish_configurations,
         )
@@ -75,9 +67,7 @@ class ObservationSB(
         pdm_request: SBDefinition = pdm_CODEC.loads(SBDefinition, sb)
         return pdm_request
 
-    def generate_pdm_object_for_sbd_save(
-        self, DEFAULT_TARGET_SPECS: dict = None
-    ) -> SBDefinition:
+    def generate_pdm_object_for_sbd_save(self, DEFAULT_TARGET_SPECS: dict = None) -> SBDefinition:
         """
         Generates CSP, DISH,Scan Definition configuration based on the Target SPec data provided and creates an SBD
         :param: DEFAULT_TARGET_SPECS : Target Spec details
@@ -119,9 +109,7 @@ class ObservationSB(
             )
             # this condition is used for creating configure request object
 
-            dish_configurations.append(
-                self.get_dish_configuration_sb(data["target_id"])
-            )
+            dish_configurations.append(self.get_dish_configuration_sb(data["target_id"]))
 
         pdm_allocation = self.generate_pdm_object(
             csp_configuration, scan_configuration, dish_configurations
@@ -163,9 +151,9 @@ class ObservationSB(
         :return: AssignResourcesRequest
         """
 
-        pdm_allocation_request.sdp_configuration.processing_blocks[0].sbi_ids[
-            0
-        ] = ("sbi" + pdm_allocation_request.sbd_id[3:])
+        pdm_allocation_request.sdp_configuration.processing_blocks[0].sbi_ids[0] = (
+            "sbi" + pdm_allocation_request.sbd_id[3:]
+        )
         cdm_allocation_request = AssignResourcesRequest(
             subarray_id=subarray_id,
             interface=self.assign_resources_schema,
@@ -223,28 +211,18 @@ class ObservationSB(
         scan_definition = scan_definitions[scan_definition]
         target = targets[scan_definition.target_id]
 
-        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(
-            target
-        )
+        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target)
 
-        dish_configuration = dish_configurations[
-            scan_definition.dish_configuration_id
-        ]
-        cdm_config.dish = pdm_transforms.convert_dishconfiguration(
-            dish_configuration
-        )
+        dish_configuration = dish_configurations[scan_definition.dish_configuration_id]
+        cdm_config.dish = pdm_transforms.convert_dishconfiguration(dish_configuration)
 
-        pdm_cspconfiguration = csp_configurations[
-            scan_definition.csp_configuration_id
-        ]
+        pdm_cspconfiguration = csp_configurations[scan_definition.csp_configuration_id]
         cdm_config.csp = pdm_transforms.convert_cspconfiguration(
             pdm_cspconfiguration, cdm_config.dish.receiver_band
         )
 
         # workaround against pdm transform for SDP
-        cdm_config.sdp = pdm_transforms.convert_sdpconfiguration_subarraynode(
-            scan_definition
-        )
+        cdm_config.sdp = pdm_transforms.convert_sdpconfiguration_subarraynode(scan_definition)
         cdm_config.sdp.interface = self.sdp_schema
         return cdm_config
 

@@ -1,9 +1,8 @@
 from typing import Any, NamedTuple, Tuple, Union
-from ska_mid_jupyter_scripting.obsconfig.target_spec import TargetSpecs
-from ska_mid_jupyter_scripting.obsconfig.base import load_next_sb
+
 from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock
-from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
 from ska_oso_pdm.entities.sdp import ScanType as ScanTypeSB
+from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
 from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
 from ska_tmc_cdm.messages.central_node.sdp import (
     BeamConfiguration,
@@ -18,6 +17,9 @@ from ska_tmc_cdm.messages.central_node.sdp import (
     ScriptConfiguration,
     SDPConfiguration,
 )
+
+from ska_mid_jupyter_notebooks.obsconfig.base import load_next_sb
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
 
 class Beamgrouping(NamedTuple):
@@ -61,6 +63,7 @@ DEFAULT_BEAMS_SB = {
     ),
 }
 
+
 def default_scan_types_sb(owner: "ScanTypes"):
     """
     Returns the default scan types
@@ -71,52 +74,36 @@ def default_scan_types_sb(owner: "ScanTypes"):
         ".default": ScanTypeSB(
             scan_type_id=".default",
             beams=[
-                owner.get_beam_configurations("vis0").types[
-                    "default_beam_type"
-                ],
+                owner.get_beam_configurations("vis0").types["default_beam_type"],
             ],
         ),
         "bandpass calibrator": ScanTypeSB(
             scan_type_id="bandpass calibrator",
-            beams=[
-                owner.get_beam_configurations("vis0").types[
-                    "default_beam_type"
-                ]
-            ],
+            beams=[owner.get_beam_configurations("vis0").types["default_beam_type"]],
             derive_from=".default",
         ),
         "Polaris Australis": ScanTypeSB(
             scan_type_id="Polaris Australis",
-            beams=[
-                owner.get_beam_configurations("vis0").types[
-                    "polaris_australis_beam_type"
-                ]
-            ],
+            beams=[owner.get_beam_configurations("vis0").types["polaris_australis_beam_type"]],
             derive_from=".default",
         ),
         "M85": ScanTypeSB(
             scan_type_id="M85",
-            beams=[
-                owner.get_beam_configurations("vis0").types[
-                    "default_beam_type"
-                ]
-            ],
+            beams=[owner.get_beam_configurations("vis0").types["default_beam_type"]],
             derive_from=".default",
         ),
     }
     return scan_type_details
 
+
 DEFAULT_SCAN_SEQUENCE_LIST = ["Polaris Australis"]
+
 
 class ScanTypes(TargetSpecs):
     def __init__(
         self,
-        additional_beam_groupings: Union[
-            list[Beamgrouping], list[BeamgroupingSB]
-        ]
-        | None = None,
-        additional_scan_types: Union[list[EBScanType], list[ScanTypeSB]]
-        | None = None,
+        additional_beam_groupings: Union[list[Beamgrouping], list[BeamgroupingSB]] | None = None,
+        additional_scan_types: Union[list[EBScanType], list[ScanTypeSB]] | None = None,
         **kwargs: Any,
     ) -> None:
         """
@@ -136,10 +123,7 @@ class ScanTypes(TargetSpecs):
         if additional_beam_groupings is not None:
             self._beam_configurations = {
                 **self._beam_configurations,
-                **{
-                    beam_grouping.id: beam_grouping
-                    for beam_grouping in additional_beam_groupings
-                },
+                **{beam_grouping.id: beam_grouping for beam_grouping in additional_beam_groupings},
             }
         if additional_scan_types is not None:
             self._scan_type_configurations = {
@@ -207,9 +191,7 @@ class ScanTypes(TargetSpecs):
             grouping_id
         ), f"grouping {grouping_id} does not exist, did you call `add_beam_configuration()`."
         current_beam_types = self._beam_configurations[grouping_id].types
-        current_beam_configuration = self._beam_configurations[
-            grouping_id
-        ].configuration
+        current_beam_configuration = self._beam_configurations[grouping_id].configuration
         self._beam_configurations[grouping_id] = Beamgrouping(
             grouping_id,
             current_beam_configuration,
@@ -335,9 +317,7 @@ class ScanTypes(TargetSpecs):
         unique_keys = self.target_spec_beams
         return [
             beam_configuration.configuration
-            for beam_configuration in [
-                self._beam_configurations.get(key) for key in unique_keys
-            ]
+            for beam_configuration in [self._beam_configurations.get(key) for key in unique_keys]
             if beam_configuration
         ]
 
@@ -400,9 +380,11 @@ class ProcessingSpec(NamedTuple):
     def __hash__(self):
         return hash(f"{self.script.name}")
 
+
 DEFAULT_SCRIPT_SB_PDM = Script(
     kind=ScriptKind.REALTIME, name="test-receive-addresses", version="0.7.1"
 )
+
 
 class ProcessingSpecs(TargetSpecs):
     def __init__(
@@ -414,14 +396,11 @@ class ProcessingSpecs(TargetSpecs):
         Initialize the processing specs class
         :param additional_processing_specs: list of additional processing specs
         :param kwargs: keyword arguments
-        :param pdm_default_script: Boolean flag to indicate if the default script is PDM
         :return: None
         """
         super().__init__(**kwargs)
         self._processing_specs = {
-            "test-receive-addresses": ProcessingSpec(
-                script=DEFAULT_SCRIPT_SB_PDM
-            )
+            "test-receive-addresses": ProcessingSpec(script=DEFAULT_SCRIPT_SB_PDM)
         }
         if additional_processing_specs is not None:
             self._processing_specs = {
@@ -476,12 +455,8 @@ class ProcessingSpecs(TargetSpecs):
         if parameters is None:
             parameters = {}
 
-        script = ScriptConfiguration(
-            kind=script_kind, name=script_name, version=script_version
-        )
-        self._processing_specs[spec_name] = ProcessingSpec(
-            script=script, parameters=parameters
-        )
+        script = ScriptConfiguration(kind=script_kind, name=script_name, version=script_version)
+        self._processing_specs[spec_name] = ProcessingSpec(script=script, parameters=parameters)
 
 
 class ProcessingBlockSpec(ProcessingSpecs):
@@ -504,23 +479,50 @@ class ProcessingBlockSpec(ProcessingSpecs):
         self.eb_id = sb.eb
         self.pb_id = sb.pb
 
-        if self.sb_driven:
-            return [
-                ProcessingBlock(
-                    pb_id=self.pb_id,
-                    script=processing_script.script,
-                    sbi_ids=["sbi" + self.eb_id[2:]],
-                    parameters=processing_script.parameters,
-                )
-                for processing_script in self.processing_scripts
-            ]
-        else:
-            return [
-                ProcessingBlockConfiguration(
-                    pb_id=self.pb_id,
-                    script=processing_script.script,
-                    sbi_ids=["sbi" + self.eb_id[2:]],
-                    parameters=processing_script.parameters,
-                )
-                for processing_script in self.processing_scripts
-            ]
+        return [
+            ProcessingBlock(
+                pb_id=self.pb_id,
+                script=processing_script.script,
+                sbi_ids=["sbi" + self.eb_id[2:]],
+                parameters=processing_script.parameters,
+            )
+            for processing_script in self.processing_scripts
+        ]
+
+
+DEFAULT_POLARISATIONS = {
+    "all": PolarisationConfiguration(polarisations_id="all", corr_type=["XX", "XY", "YX", "YY"])
+}
+
+
+class Polarisations(TargetSpecs):
+    def __init__(
+        self,
+        additional_polarizations: list[PolarisationConfiguration] | None = None,
+        **kwargs: Any,
+    ) -> None:
+        """
+        Initialize the polarsiations class
+        :param additional_polarizations: list of additional polarizations
+        :param kwargs: keyword arguments
+        :return: None
+        """
+        super().__init__(**kwargs)
+
+        self.polarizations = DEFAULT_POLARISATIONS
+        if additional_polarizations is not None:
+            self.polarizations = {
+                **self.polarizations,
+                **{
+                    additional_polarization.polarisations_id: additional_polarization
+                    for additional_polarization in additional_polarizations
+                },
+            }
+
+    def get_polarisations_from_target_specs(self):
+        """
+        Get the polarisations
+        :return: list of polarisations
+        """
+        unique_keys = {target.polarisation for target in self.target_specs.values()}
+        return [self.polarizations[key] for key in unique_keys]

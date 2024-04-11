@@ -1,15 +1,13 @@
 from typing import Any, Literal, Set, TypedDict
 
-from ska_oso_pdm.entities.dish.dish_configuration import (
-    DishConfiguration as sb_dish_configuration,
-)
+from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration as sb_dish_configuration
 from ska_tmc_cdm.messages.central_node.common import DishAllocation
 from ska_tmc_cdm.messages.subarray_node.configure.core import (
     DishConfiguration,
     PointingConfiguration,
 )
 
-from ska_mid_jupyter_scripting.obsconfig.target_spec import TargetSpecs
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
 ReceptorName = Literal["SKA001", "SKA002"]
 
@@ -25,13 +23,7 @@ class Dishes(TargetSpecs):
         Returns list of dishes
         :return: list of dishes
         """
-        return list(
-            {
-                dish
-                for target in self.target_specs.values()
-                for dish in target.dish_ids
-            }
-        )
+        return list({dish for target in self.target_specs.values() for dish in target.dish_ids})
 
     @property
     def dish_allocation(self):

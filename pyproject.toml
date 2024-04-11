@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ska-mid-jupyter-scripting"
+name = "ska-mid-jupyter-notebooks"
 version = "0.1.0"
 description = ""
 authors = ["ATLAS", "MAPLE"]
@@ -39,6 +39,8 @@ jupyter-events = "<0.10"
 fastjsonschema = "^2.19.1"
 jupyterlab-server = "2.24.0"
 build = "0.10.0"
+ska-ser-logging = "^0.4.3"
+schema = "0.7.5"
 
 [tool.poetry.extras]
 localtango = ["pytango"]

@@ -1,6 +1,5 @@
 from typing import Literal
 
-
 TestDevice = Literal[
     "mid-itf/awg/1",
     "mid-itf/siggen/1",
@@ -10,6 +9,4 @@ TestDevice = Literal[
     "mid-itf/progattenuator/1",
 ]
 
-DeviceDevState = Literal[
-    "ON", "ERROR", "DISABLE", "OFF", "UNKNOWN", "FAULT", "ALARM"
-]
+DeviceDevState = Literal["ON", "ERROR", "DISABLE", "OFF", "UNKNOWN", "FAULT", "ALARM"]

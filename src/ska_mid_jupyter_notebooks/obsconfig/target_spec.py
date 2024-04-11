@@ -1,11 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional, Union
-from ska_mid_jupyter_scripting.obsconfig.base import SchedulingBlock
-from ska_oso_pdm.entities.common.target import Target as PDMTarget
-from ska_tmc_cdm.messages.subarray_node.configure.core import (
-    ReceiverBand,
-    Target,
-)
+
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
     EquatorialCoordinates,
@@ -18,12 +13,16 @@ from ska_oso_pdm.entities.common.target import (
     StarRasterParameters,
 )
 from ska_oso_pdm.entities.common.target import Target as PDMTarget
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+
+from ska_mid_jupyter_notebooks.obsconfig.base import SchedulingBlock
 
 
 @dataclass
 class TargetSpec:
     # since dishes and band parameters are not required for low imaging scenario hence we have kept default attribute provision
 
+    dish_ids: List[str]
     scan_type: Optional[str] = None
     target: Optional[Union[Target, PDMTarget]] = None
     band: Optional[ReceiverBand] = None
@@ -31,8 +30,6 @@ class TargetSpec:
     polarisation: str = None
     field: str = None
     processing: str = None
-    dishes: Optional[str] = None
-    dish_ids: Optional[List[str]] = None
     scan_duration: Optional[float] = 10.0  # default scan duration
     target_sb_detail: Optional[dict] = None
 
@@ -106,21 +103,22 @@ class TargetSpecs(SchedulingBlock, Scan):
         self._init_scan()
 
         self.targets = []
+        self.target_specs: dict[str, TargetSpec] = {}
         self.add_target_specs(target_specs)
 
-    def add_target_specs(self, target_specs: dict[str, TargetSpec] = None):
+    def add_target_specs(self, target_specs: dict[str, TargetSpec]):
         """
         Add target specs
         :param target_specs: dictionary containing target specs data
         :return: None
         """
-        self.target_specs = {**self.target_specs, **target_specs}
+        if target_specs is None:
+            return
+        self.target_specs.update(target_specs)
 
         for key, value in self.target_specs.items():
             target_id = key
-            if self.target_specs[
-                list(self.target_specs.keys())[0]
-            ].target_sb_detail:
+            if self.target_specs[list(self.target_specs.keys())[0]].target_sb_detail:
                 parameters = [
                     value.target_sb_detail["pointing_pattern_type"][
                         value.target_sb_detail["pointing_pattern_type"][
@@ -129,9 +127,7 @@ class TargetSpecs(SchedulingBlock, Scan):
                     ]
                 ]
                 active = parameters[0].kind
-                pointing_pattern = PointingPattern(
-                    active=active, parameters=parameters
-                )
+                pointing_pattern = PointingPattern(active=active, parameters=parameters)
 
                 if value.target_sb_detail["co_ordinate_type"] == "Equatorial":
 
@@ -149,9 +145,7 @@ class TargetSpecs(SchedulingBlock, Scan):
                         az=value.target_sb_detail["az"],
                         el=value.target_sb_detail["el"],
                         unit=value.target_sb_detail["unit"],
-                        reference_frame=value.target_sb_detail[
-                            "reference_frame"
-                        ],
+                        reference_frame=value.target_sb_detail["reference_frame"],
                     )
 
                 pdm_target = PDMTarget(
@@ -165,10 +159,7 @@ class TargetSpecs(SchedulingBlock, Scan):
                     self.targets.append(pdm_target)
                 else:
                     for i, present_pdm_target in enumerate(self.targets):
-                        if (
-                            present_pdm_target.target_id
-                            == pdm_target.target_id
-                        ):
+                        if present_pdm_target.target_id == pdm_target.target_id:
                             self.targets[i] = pdm_target
                             break
                     else:
@@ -192,8 +183,10 @@ class TargetSpecs(SchedulingBlock, Scan):
         """
         return list(self.target_specs.keys())[0]
 
+
 DEFAULT_TARGET_SPECS_SB = {
     "Polaris Australis": TargetSpec(
+        dish_ids=["ska001", "ska036"],
         target_sb_detail={
             "co_ordinate_type": "Equatorial",
             "ra": "21:08:47.92 degrees",
@@ -217,12 +210,8 @@ DEFAULT_TARGET_SPECS_SB = {
                     row_offset_angle=0.0,
                     unidirectional=False,
                 ),
-                "five_point_parameters": FivePointParameters(
-                    offset_arcsec=0.0
-                ),
-                "cross_scan_parameters": CrossScanParameters(
-                    offset_arcsec=0.0
-                ),
+                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
                 "active_pointing_pattern_type": "single_pointing_parameters",
             },
         },
@@ -231,10 +220,10 @@ DEFAULT_TARGET_SPECS_SB = {
         channelisation="vis_channels",
         polarisation="all",
         processing="test-receive-addresses",
-        dishes="two",
         target=None,
     ),
     ".default": TargetSpec(
+        dish_ids=["ska001", "ska036"],
         target_sb_detail={
             "co_ordinate_type": "Equatorial",
             "ra": "21:08:47.92 degrees",
@@ -258,12 +247,8 @@ DEFAULT_TARGET_SPECS_SB = {
                     row_offset_angle=0.0,
                     unidirectional=False,
                 ),
-                "five_point_parameters": FivePointParameters(
-                    offset_arcsec=0.0
-                ),
-                "cross_scan_parameters": CrossScanParameters(
-                    offset_arcsec=0.0
-                ),
+                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
                 "active_pointing_pattern_type": "single_pointing_parameters",
             },
         },
@@ -272,9 +257,6 @@ DEFAULT_TARGET_SPECS_SB = {
         channelisation="vis_channels",
         polarisation="all",
         processing="test-receive-addresses",
-        dishes="two",
         target=None,
     ),
 }
-
-

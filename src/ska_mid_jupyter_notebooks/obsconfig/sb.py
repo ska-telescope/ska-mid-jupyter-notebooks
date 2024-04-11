@@ -1,18 +1,16 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from ska_mid_jupyter_scripting.obsconfig.base import encoded
-from ska_oso_pdm.entities.common.procedures import (
-    FilesystemScript,
-    GitScript,
-    PythonArguments,
-)
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
+from ska_oso_pdm.entities.common.procedures import FilesystemScript, GitScript, PythonArguments
 from ska_oso_pdm.entities.common.sb_definition import MetaData
 from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
 from ska_oso_pdm.entities.sdp.execution_block import ExecutionBlock
 from ska_oso_pdm.entities.sdp.scan_type import BeamMapping
 
-from ska_jupyter_scripting.obsconfig.target_spec import TargetSpecs
+from ska_mid_jupyter_notebooks.obsconfig.base import encoded, load_next_sb
+from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
+from ska_mid_jupyter_notebooks.obsconfig.sdp_config import Polarisations, ScanTypes
 
 DEFAULT_SCAN_TYPE = [
     {
@@ -193,7 +191,7 @@ class MetaDataSB(TargetSpecs):
         return self._get_metadata()
 
 
-class ExecutionBlockSpecsSB(ScanTypes, Channelization, Polarisations):
+class ExecutionBlockSpecsSB(ScanTypes, Channelisation, Polarisations):
     def __init__(
         self,
         context: dict[Any, Any] | None = None,
@@ -202,7 +200,6 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelization, Polarisations):
         target_specs: dict[Any, Any] | None = None,
         additional_channels=None,
         additional_polarizations=None,
-        pdm_default_script=None,
         additional_scan_types=None,
         **kwargs,
     ) -> None:
@@ -214,7 +211,6 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelization, Polarisations):
         :param target_specs: Additional target specifications
         :param additional_channels: Additional channels for the execution block.
         :param additional_polarizations: Additional polarizations for the execution block.
-        :param pdm_default_script: Default script for the execution block.
         :param additional_scan_types: Additional scan types for the execution block.
         :return: None
         """
@@ -223,7 +219,6 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelization, Polarisations):
             target_specs=target_specs,
             additional_channels=additional_channels,
             additional_polarizations=additional_polarizations,
-            pdm_default_script=pdm_default_script,
             additional_scan_types=additional_scan_types,
             **kwargs,
         )
@@ -339,9 +334,7 @@ class ActivitiesSB:
             if hasattr(self, key):
                 setattr(self, key, value)
             else:
-                raise AttributeError(
-                    f"'ActivitiesSB' object has no attribute '{key}'"
-                )
+                raise AttributeError(f"'ActivitiesSB' object has no attribute '{key}'")
 
     def get_activities(self):
         """
@@ -370,9 +363,7 @@ class ActivitiesSB:
         }
 
         allocate_obj = (
-            FilesystemScript(
-                path=self.allocate_path, function_args=allocate_function_args
-            )
+            FilesystemScript(path=self.allocate_path, function_args=allocate_function_args)
             if not self.allocate_repo
             else GitScript(
                 repo=self.allocate_repo,
@@ -383,9 +374,7 @@ class ActivitiesSB:
             )
         )
         observe_obj = (
-            FilesystemScript(
-                path=self.observe_path, function_args=observe_function_args
-            )
+            FilesystemScript(path=self.observe_path, function_args=observe_function_args)
             if not self.observe_repo
             else GitScript(
                 repo=self.observe_repo,

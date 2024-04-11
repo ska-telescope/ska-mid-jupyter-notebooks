@@ -1,4 +1,5 @@
 """Helper classes and functions dealing with aggregation of state from tango dev."""
+
 import abc
 import functools
 import logging
@@ -9,17 +10,7 @@ from concurrent.futures import CancelledError
 from datetime import datetime
 from queue import Queue
 from threading import Event, Lock, Thread
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    Literal,
-    NamedTuple,
-    TypedDict,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, Callable, Generic, Literal, NamedTuple, TypedDict, TypeVar, Union, cast
 
 from tango import AttributeProxy, DevFailed, DeviceProxy, EventType
 from tango.time_val import TimeVal
@@ -238,10 +229,7 @@ class EventsPusher:
         Get the last poll latency
         :return: last poll latency
         """
-        return (
-            datetime.now().timestamp()
-            - self._polling_keep_alive_timestamps[-1]
-        )
+        return datetime.now().timestamp() - self._polling_keep_alive_timestamps[-1]
 
     def get_average_poll_latency(self):
         """
@@ -250,9 +238,7 @@ class EventsPusher:
         """
         latencies = [
             current - self._polling_keep_alive_timestamps[index - 1]
-            for index, current in enumerate(
-                self._polling_keep_alive_timestamps
-            )
+            for index, current in enumerate(self._polling_keep_alive_timestamps)
             if index > 0
         ]
         return functools.reduce(lambda x, y: x + y, latencies) / len(
@@ -557,12 +543,10 @@ class DeviceAttrPoller:
         self._thread = Thread(target=self._polling_thread, daemon=True)
         self._index = 0
         self._dev_factory = dev_factory
-        self._subscriptions: dict[
-            SUB_ID, tuple[PolledAttribute, AttrEventsPusher]
-        ] = {}
-        self._device_attribute_pollings: dict[
-            PolledAttribute, PollingState
-        ] = defaultdict(PollingState)
+        self._subscriptions: dict[SUB_ID, tuple[PolledAttribute, AttrEventsPusher]] = {}
+        self._device_attribute_pollings: dict[PolledAttribute, PollingState] = defaultdict(
+            PollingState
+        )
         self._lock = Lock()
         self._thread.start()
 
@@ -589,9 +573,7 @@ class DeviceAttrPoller:
         # then we immediately push it as an event
         event = _generate_event(state.name, state, device_attribute.device)
         events_pusher.push_event(event)  # type: ignore
-        if polling_state := self._device_attribute_pollings.get(
-            device_attribute
-        ):
+        if polling_state := self._device_attribute_pollings.get(device_attribute):
             # if there are already existing subscriptions
             polling_state.update_state(state, device_attribute.device)  # type: ignore
         with self._lock:
@@ -601,9 +583,7 @@ class DeviceAttrPoller:
                 device_attribute,
                 atr_events_pusher,
             )
-            self._device_attribute_pollings[device_attribute].append(
-                atr_events_pusher
-            )
+            self._device_attribute_pollings[device_attribute].append(atr_events_pusher)
         # we only start the thread once we have an active subscription
         if not self._active.is_set():
             self._active.set()
@@ -616,12 +596,8 @@ class DeviceAttrPoller:
         :return: None
         """
         with self._lock:
-            device_attribute, attr_events_pusher = self._subscriptions.pop(
-                sub_id
-            )
-            self._device_attribute_pollings[device_attribute].remove(
-                attr_events_pusher
-            )
+            device_attribute, attr_events_pusher = self._subscriptions.pop(sub_id)
+            self._device_attribute_pollings[device_attribute].remove(attr_events_pusher)
 
     def _get_attr_to_poll(self) -> list[tuple[PolledAttribute, PollingState]]:
         """
@@ -757,12 +733,8 @@ class EventsSubscription(BaseSubscription):
         self._device_proxy.unsubscribe_event(self._sub_id)
 
 
-STATE = TypeVar(
-    "STATE"
-)  # STATE defines the current state of the entity being modeled
-VALUE = TypeVar(
-    "VALUE"
-)  # VALUE is the particular derived value obtained from querying the state
+STATE = TypeVar("STATE")  # STATE defines the current state of the entity being modeled
+VALUE = TypeVar("VALUE")  # VALUE is the particular derived value obtained from querying the state
 
 
 # user defined function that updates (returns) the given state based on an given action
@@ -770,9 +742,7 @@ ActionReducerFunction = Callable[[STATE, ACTION], STATE]
 # user defined function that updates (returns) the given state based on given EventData
 EventsReducerFunction = Callable[[STATE, EventData], STATE]
 # generic reducer function that can be of either of the above
-ReduceFunction = Union[
-    ActionReducerFunction[STATE, Any], EventsReducerFunction[STATE]
-]
+ReduceFunction = Union[ActionReducerFunction[STATE, Any], EventsReducerFunction[STATE]]
 
 
 class Reducer(Generic[STATE]):
@@ -878,9 +848,7 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         Generate a running subscription based on the inherent producer.
         :return: BaseSubscription
         """
-        return EventsSubscription(
-            self.device_name, self.attr_name, self._dev_factory
-        )
+        return EventsSubscription(self.device_name, self.attr_name, self._dev_factory)
 
     @property
     def key(self):
@@ -950,9 +918,7 @@ class Selector(Generic[STATE, VALUE]):
 
     def __init__(
         self,
-        selector_function: Union[
-            Callable[..., VALUE], Callable[[STATE], VALUE]
-        ],
+        selector_function: Union[Callable[..., VALUE], Callable[[STATE], VALUE]],
         *inputs: Union["Selector[STATE, Any]", Callable[[STATE], Any]],
     ) -> None:
         """Initialise the object.
@@ -968,9 +934,7 @@ class Selector(Generic[STATE, VALUE]):
         :return: None
         """
         self._selector_function = selector_function
-        self._inputs: list[
-            Union[Selector[Any, Any], Selector[STATE, Any]]
-        ] = []
+        self._inputs: list[Union[Selector[Any, Any], Selector[STATE, Any]]] = []
         for input_args in inputs:
             if not isinstance(input_args, Selector):
                 input_args = cast(Callable[[STATE], Any], input_args)  # type: ignore
@@ -1006,9 +970,7 @@ class Publisher(Generic[STATE, VALUE]):
     observer function will not be called with an value if the value did not change.
     """
 
-    def __init__(
-        self, selector: Selector[STATE, VALUE], observe: ObserveFunction[VALUE]
-    ) -> None:
+    def __init__(self, selector: Selector[STATE, VALUE], observe: ObserveFunction[VALUE]) -> None:
         """Initialise the object.
 
         :param selector: The selector (with user provided selector function)
@@ -1064,9 +1026,7 @@ class MonState(EventsPusher, Generic[STATE]):
         self.state = initState
         self._subscriptions: dict[str, BaseSubscription] = dict({})
         self._publishers: list[Publisher[STATE, Any]] = []
-        self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(
-            lambda: []
-        )
+        self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(lambda: [])
         self._daemon: Union[Thread, None] = None
         self._running: Event = Event()
 
@@ -1210,9 +1170,7 @@ class MonState(EventsPusher, Generic[STATE]):
                 counter += 1
             logging.info("exiting monitoring loop")
         except Exception as exception:
-            logging.warning(
-                "exiting monitoring loop due to an unknown exception"
-            )
+            logging.warning("exiting monitoring loop due to an unknown exception")
             raise exception
 
     def start_listening(self):

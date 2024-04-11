@@ -1,6 +1,16 @@
 from typing import Literal, OrderedDict
-from ska_mid_jupyter_scripting.monitoring.rendering import BoxLabels, Colours, ItemStates, MonitorPlot
-from ska_mid_jupyter_scripting.sut.state import SubarrayConfigurationState, SubarrayResourceState, SubarrayScanningState
+
+from ska_mid_jupyter_notebooks.monitoring.rendering import (
+    BoxLabels,
+    Colours,
+    ItemStates,
+    MonitorPlot,
+)
+from ska_mid_jupyter_notebooks.sut.state import (
+    SubarrayConfigurationState,
+    SubarrayResourceState,
+    SubarrayScanningState,
+)
 
 
 class TelescopeMononitorPlot(MonitorPlot[BoxLabels, ItemStates]):
@@ -27,9 +37,7 @@ class TelescopeMononitorPlot(MonitorPlot[BoxLabels, ItemStates]):
         :param plot_height: height of the plot
         :return: None
         """
-        super().__init__(
-            plot_width, plot_height, self._items, self._state_mapping_to_clr
-        )
+        super().__init__(plot_width, plot_height, self._items, self._state_mapping_to_clr)
         self.on_off_state: Literal["ON", "OFF", "OFFLINE"] = "OFF"
         self.resourcing_state: SubarrayResourceState = "EMPTY"
         self.configuration_state: SubarrayConfigurationState = "NOT_CONFIGURED"
@@ -135,9 +143,7 @@ class TelescopeMononitorPlot(MonitorPlot[BoxLabels, ItemStates]):
         self._set_box("On/Off", "OFFLINE")
         self.on_off_state = "OFFLINE"
 
-    def observe_telescope_on_off(
-        self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]
-    ):
+    def observe_telescope_on_off(self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]):
         """
         Observe telescope on/off state
         :param state: current state

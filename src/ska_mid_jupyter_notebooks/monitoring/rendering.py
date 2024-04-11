@@ -97,9 +97,7 @@ def _sample(start: float, end: float, number: int) -> list[float]:
     :param number: the quantity of items to be equally fitted in the range
     :return: the list of equidistant positions in the given start end range
     """
-    assert (
-        end > start
-    ), "You must give a range in which the end is higher than the start"
+    assert end > start, "You must give a range in which the end is higher than the start"
     inner_points = number - 2
     sample_range = end - start
 
@@ -224,4 +222,3 @@ class MonitorPlot(Generic[Name, Value]):
         self._labeled_blocks[box_name] = value
         self._update_data_source()
         self.re_render()
-

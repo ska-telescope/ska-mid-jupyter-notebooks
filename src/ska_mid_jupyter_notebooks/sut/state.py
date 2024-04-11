@@ -1,19 +1,18 @@
-from typing import Literal
-
-
 import os
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
-from ska_mid_jupyter_scripting.monitoring.statemonitoring import EventData, EventsReducer, MonState, Reducer, Selector, event_key, explode_from_key
-
-from .base import (
-    SubarrayConfigurationState,
-    SubarrayResourceState,
-    SubarrayScanningState,
+from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
+    EventData,
+    EventsReducer,
+    MonState,
+    Reducer,
+    Selector,
+    event_key,
+    explode_from_key,
 )
-from .qa_receiver import ObjectWithQAReceiver, QaReceiver, Spectrum
 
+from .base import SubarrayConfigurationState, SubarrayResourceState, SubarrayScanningState
 
 DeviceDevState = Literal["ON", "ERROR", "DISABLE", "OFF", "UNKNOWN"]
 
@@ -52,10 +51,7 @@ class TelescopeDeviceModel:
     def tm_devices(self) -> List[str]:
         return [
             "ska_mid/tm_central/central_node",
-            *[
-                f"ska_mid/tm_subarray_node/{index}"
-                for index in range(1, self._subarray_count + 1)
-            ],
+            *[f"ska_mid/tm_subarray_node/{index}" for index in range(1, self._subarray_count + 1)],
             "ska_mid/tm_leaf_node/csp_master",
             "ska_mid/tm_leaf_node/sdp_master",
             *[
@@ -72,10 +68,7 @@ class TelescopeDeviceModel:
     def csp_devices(self) -> List[str]:
         return [
             "mid-csp/control/0",
-            *[
-                f"mid-csp/subarray/{index:0>2}"
-                for index in range(1, self._subarray_count + 1)
-            ],
+            *[f"mid-csp/subarray/{index:0>2}" for index in range(1, self._subarray_count + 1)],
         ]
 
     def low_csp_devices(self) -> List[str]:
@@ -84,10 +77,7 @@ class TelescopeDeviceModel:
     def sdp_devices(self) -> List[str]:
         return [
             "mid-sdp/control/0",
-            *[
-                f"mid-sdp/subarray/{index:0>2}"
-                for index in range(1, self._subarray_count + 1)
-            ],
+            *[f"mid-sdp/subarray/{index:0>2}" for index in range(1, self._subarray_count + 1)],
         ]
 
     def tmc_devices(self) -> List[str]:
@@ -99,6 +89,7 @@ class TelescopeDeviceModel:
             *["mid-csp/subarray/01"],
         ]
 
+
 TelescopeAggState = Literal["ON", "ERROR", "OFFLINE", "OFF", "UNKNOWN"]
 
 
@@ -107,7 +98,7 @@ class DeviceNameAndState(NamedTuple):
     device_state: DeviceState
 
 
-class TelescopeState(ObjectWithQAReceiver):
+class TelescopeModel:
     """Object use to generate reducers and selectors on a Monitor state object."""
 
     def __init__(
@@ -127,14 +118,8 @@ class TelescopeState(ObjectWithQAReceiver):
             EventsReducer(device, attr, self._reducer_set_device_attribute)
             for device, attr in [explode_from_key(key) for key in keys]
         ]
-        self._state_monitor.add_reducers(
-            cast(list[Reducer[TelescopeState]], reducers)
-        )
+        self._state_monitor.add_reducers(cast(list[Reducer[TelescopeState]], reducers))
         self._tel_ready = Event()
-        if not os.getenv("DISABLE_QA"):
-            self.qa_receiver = QaReceiver(state_monitor)
-        else:
-            self.qa_receiver = None
         self.subscribe_to_on_off(self.monitor_ready)
 
     def get_last_poll_latency(self):
@@ -157,32 +142,23 @@ class TelescopeState(ObjectWithQAReceiver):
 
     def subscribe_to_on_off(
         self,
-        observe_function: Callable[
-            [Literal["ON", "ERROR", "OFFLINE", "OFF"]], None
-        ],
+        observe_function: Callable[[Literal["ON", "ERROR", "OFFLINE", "OFF"]], None],
     ):
         """
         Add an observe function to be called when the telescope aggregate state change between ON/OFF
         :param observe_function: observe function
         """
 
-        input_telescope_agg_state_selector = (
-            self._generate_select_all_devices_agg_state(self._device_model)
+        input_telescope_agg_state_selector = self._generate_select_all_devices_agg_state(
+            self._device_model
         )
-        if (
-            os.environ.get("SKA_TELESCOPE")
-            and os.environ["SKA_TELESCOPE"] == "SKA-low"
-        ):
-            input_central_node_tel_state_selector = (
-                self._generate_select_device_attr(
-                    "ska_low/tm_central/central_node", "telescopestate"
-                )
+        if os.environ.get("SKA_TELESCOPE") and os.environ["SKA_TELESCOPE"] == "SKA-low":
+            input_central_node_tel_state_selector = self._generate_select_device_attr(
+                "ska_low/tm_central/central_node", "telescopestate"
             )
         else:
-            input_central_node_tel_state_selector = (
-                self._generate_select_device_attr(
-                    "ska_mid/tm_central/central_node", "telescopestate"
-                )
+            input_central_node_tel_state_selector = self._generate_select_device_attr(
+                "ska_mid/tm_central/central_node", "telescopestate"
             )
 
         def select_telescope_state(
@@ -210,9 +186,7 @@ class TelescopeState(ObjectWithQAReceiver):
             input_central_node_tel_state_selector,
         )
 
-        self._state_monitor.add_observer(
-            observe_function, telescope_state_selector
-        )
+        self._state_monitor.add_observer(observe_function, telescope_state_selector)
 
     def monitor_ready(self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]):
         """
@@ -272,16 +246,12 @@ class TelescopeState(ObjectWithQAReceiver):
                 ]
             ):
                 return "COMPOSED"
-            else:
-                return "EMPTY"
-            # TODO handle errors
+            return "EMPTY"
 
-        subarray_resource_state_selector = Selector[
-            TelescopeState, SubarrayResourceState
-        ](select_agg_subarray_resource_state, *input_subarray_obsstates)
-        self._state_monitor.add_observer(
-            observe_function, subarray_resource_state_selector
+        subarray_resource_state_selector = Selector[TelescopeState, SubarrayResourceState](
+            select_agg_subarray_resource_state, *input_subarray_obsstates
         )
+        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarray_configurational_state(
         self,
@@ -312,17 +282,13 @@ class TelescopeState(ObjectWithQAReceiver):
             # if it is already passed READY
             elif any([obsstate == "SCANNING" for obsstate in obsstates]):
                 return "READY"
-            else:
-                return "NOT_CONFIGURED"
-            # TODO handle errors
+            return "NOT_CONFIGURED"
 
-        subarray_resource_state_selector = Selector[
-            TelescopeState, SubarrayConfigurationState
-        ](select_agg_subarray_config_state, *input_subarray_obsstates)
-
-        self._state_monitor.add_observer(
-            observe_function, subarray_resource_state_selector
+        subarray_resource_state_selector = Selector[TelescopeState, SubarrayConfigurationState](
+            select_agg_subarray_config_state, *input_subarray_obsstates
         )
+
+        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarray_scanning_state(
         self,
@@ -350,17 +316,13 @@ class TelescopeState(ObjectWithQAReceiver):
                 return "SCANNING"
             if all([obsstate == "READY" for obsstate in obsstates]):
                 return "READY"
-            else:
-                return "NOT_SCANNING"
-            # TODO handle errors
+            return "NOT_SCANNING"
 
-        subarray_resource_state_selector = Selector[
-            TelescopeState, SubarrayScanningState
-        ](select_agg_subarray_config_state, *input_subarray_obsstates)
-
-        self._state_monitor.add_observer(
-            observe_function, subarray_resource_state_selector
+        subarray_resource_state_selector = Selector[TelescopeState, SubarrayScanningState](
+            select_agg_subarray_config_state, *input_subarray_obsstates
         )
+
+        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarrays_obsstate(
         self,
@@ -372,9 +334,7 @@ class TelescopeState(ObjectWithQAReceiver):
         :return: None
         """
         input_subarray_obsstates = [
-            self._generate_select_device_name_and_attr_state(
-                device, "obsstate"
-            )
+            self._generate_select_device_name_and_attr_state(device, "obsstate")
             for device in self._device_model.subarray_devices()
         ]
 
@@ -387,39 +347,21 @@ class TelescopeState(ObjectWithQAReceiver):
             :return: Obsstate of device
             """
             return {
-                obsstate.device_name: cast(
-                    SubarrayObsState, obsstate.device_state
-                )
+                obsstate.device_name: cast(SubarrayObsState, obsstate.device_state)
                 for obsstate in obsstates
             }
-            # TODO handle errors
 
-        subarray_resource_state_selector = Selector[
-            TelescopeState, dict[str, SubarrayObsState]
-        ](select_agg_subarray_state, *input_subarray_obsstates)
-
-        self._state_monitor.add_observer(
-            observe_function, subarray_resource_state_selector
+        subarray_resource_state_selector = Selector[TelescopeState, dict[str, SubarrayObsState]](
+            select_agg_subarray_state, *input_subarray_obsstates
         )
 
-    def subscribe_to_qa_metrics_spectrum(
-        self, observe_function: Callable[[Spectrum], None]
-    ):
-        """
-        Subscribe to qa metrics spectrum
-        :param observe_function: observe function
-        :return: None
-        """
-        if self.qa_receiver:
-            self.qa_receiver.subscribe_to_spectrum_updates(observe_function)
+        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def activate(self):
         """
         Activate the state monitor
         :return: None
         """
-        if self.qa_receiver:
-            self.qa_receiver.activate()
         self._state_monitor.start_subscriptions()
         self._state_monitor.start_listening()
 
@@ -528,31 +470,25 @@ class TelescopeState(ObjectWithQAReceiver):
 
 
 # run this after setting execution mode
-def get_tmc_telescope_state(
+def get_telescope_state(
     device_model: TelescopeDeviceModel,
-) -> TelescopeState:
+) -> TelescopeModel:
     """Get TMC mid telescope state"""
     tmc_devices_states = {
-        event_key(device, "state"): "UNKNOWN"
-        for device in device_model.tm_devices()
+        event_key(device, "state"): "UNKNOWN" for device in device_model.tm_devices()
     }
-    tmc_devices_states[
-        event_key("ska_mid/tm_central/central_node", "telescopestate")
-    ] = "UNKNOWN"
+    tmc_devices_states[event_key("ska_mid/tm_central/central_node", "telescopestate")] = "UNKNOWN"
 
     csp_device_states = {
-        event_key(device, "state"): "UNKNOWN"
-        for device in device_model.csp_devices()
+        event_key(device, "state"): "UNKNOWN" for device in device_model.csp_devices()
     }
 
     sdp_device_state = {
-        event_key(device, "state"): "UNKNOWN"
-        for device in device_model.sdp_devices()
+        event_key(device, "state"): "UNKNOWN" for device in device_model.sdp_devices()
     }
 
     subarray_device_obs_states = {
-        event_key(device, "obsstate"): "UNKNOWN"
-        for device in device_model.subarray_devices()
+        event_key(device, "obsstate"): "UNKNOWN" for device in device_model.subarray_devices()
     }
 
     init_state = TelescopeState(
@@ -564,8 +500,7 @@ def get_tmc_telescope_state(
                 **subarray_device_obs_states,
                 **sdp_device_state,
             },
-        )
+        ),
     )
     monitor_state = MonState(init_state)
-    return TelescopeState(monitor_state, device_model)
-
+    return TelescopeModel(monitor_state, device_model)
