@@ -59,6 +59,7 @@ nbmake = "^1.5.3"
 nbqa = "^1.8.5"
 fastjsonschema = "^2.19.1"
 python-build = "^0.2.13"
+assertpy = "^1.1"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.2.6"

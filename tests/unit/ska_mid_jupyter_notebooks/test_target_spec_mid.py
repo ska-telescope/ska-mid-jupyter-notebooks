@@ -10,14 +10,12 @@ from ska_tmc_cdm.schemas.central_node.assign_resources import (
 from ska_tmc_cdm.schemas.subarray_node.configure.core import (
     ConfigureRequestSchema,
 )
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
-from ska_jupyter_scripting.obsconfig.config import (  # noqa : E402
-    Observation,
+from ska_mid_jupyter_notebooks.obsconfig.config import (  # noqa : E402
     ObservationSB,
 )
-from ska_jupyter_scripting.obsconfig.types import (
-    ReceiverBand,
-    Target,
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import (
     TargetSpec,
 )
 
@@ -33,7 +31,7 @@ def test_validate_target_spec_add_configuration_for_mid_non_sb():
     Validates Target Spec AddConfiguration for Mid Non SB
     """
 
-    observation = Observation()
+    observation = ObservationSB()
     observation._channel_configurations = {}  # pylint: disable=W0212
     target_specs = OrderedDict(
         {

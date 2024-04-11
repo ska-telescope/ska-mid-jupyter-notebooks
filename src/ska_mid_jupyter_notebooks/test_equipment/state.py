@@ -36,7 +36,6 @@ class TestEquipmentModel:
     test_devices: list[TestDevice] = [
         "mid-itf/progattenuator/1",
         "mid-itf/siggen/1",
-        "mid-itf/skysimctl/0",
         "mid-itf/skysimctl/4",
     ]
 

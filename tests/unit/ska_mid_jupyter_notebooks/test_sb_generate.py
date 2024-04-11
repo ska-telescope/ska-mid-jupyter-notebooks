@@ -1,5 +1,6 @@
 import json
 import os
+from pprint import pprint
 
 import pytest
 from deepdiff import DeepDiff
@@ -78,6 +79,14 @@ VALID_SB_MID_JSON = """{
       "scan_type": "flux calibrator",
       "csp_configuration": "sbi-mvp01-20200325-00001-science_A",
       "target": "flux calibrator"
+    },
+    {
+      "scan_definition_id": "M87",
+      "scan_duration": 10000,
+      "dish_configuration": "dish config 123",
+      "scan_type": "M87",
+      "csp_configuration": "sbi-mvp01-20200325-00001-science_A",
+      "target": "M87"
     }
   ],
   "scan_sequence": [
@@ -95,6 +104,16 @@ VALID_SB_MID_JSON = """{
         }
       ],
       "scan_types": [
+        {
+          "scan_type_id": "M87",
+          "derive_from": ".default",
+          "beams": [
+            {
+              "beam_id": "vis0",
+              "field_id": "M83"
+            }
+          ]
+        },
         {
           "scan_type_id": ".default",
           "beams": [
@@ -173,7 +192,7 @@ VALID_SB_MID_JSON = """{
     },
     "resources": {
       "receptors": [
-        "SKA002",
+        "SKA036",
         "SKA001"
       ]
     },
@@ -251,7 +270,7 @@ VALID_SB_MID_JSON = """{
   ],
   "dish_allocations": {
     "receptor_ids": [
-      "SKA002",
+      "SKA036",
       "SKA001"
     ]
   },
@@ -324,6 +343,29 @@ VALID_SB_MID_JSON = """{
           "deg"
         ]
       }
+    },
+    {
+      "target_id": "M87",
+      "pointing_pattern": {
+        "active": "SinglePointParameters",
+        "parameters": [
+          {
+            "offset_x_arcsec": 0.0,
+            "offset_y_arcsec": 0.0,
+            "kind": "SinglePointParameters"
+          }
+        ]
+      },
+      "reference_coordinate": {
+        "kind": "equatorial",
+        "ra": "19:24:51.05 degrees",
+        "dec": "-29:14:30.12 degrees",
+        "reference_frame": "ICRS",
+        "unit": [
+          "hourangle",
+          "deg"
+        ]
+      }
     }
   ]
 }"""
@@ -334,14 +376,14 @@ VALID_ASSIGN_RESOURCE_MID_JSON_SB = """
   "subarray_id": 1,
   "dish": {
     "receptor_ids": [
-      "SKA002",
+      "SKA036",
       "SKA001"
     ]
   },
   "sdp": {
     "resources": {
       "receptors": [
-        "SKA002",
+        "SKA036",
         "SKA001"
       ]
     },
@@ -363,6 +405,15 @@ VALID_ASSIGN_RESOURCE_MID_JSON_SB = """
             }
           },
           "scan_type_id": ".default"
+        },
+        {
+          "beams": {
+            "vis0": {
+              "field_id": "M85"
+            }
+          },
+          "derive_from": ".default",
+          "scan_type_id": "M87"
         },
         {
           "beams": {
@@ -422,10 +473,54 @@ VALID_ASSIGN_RESOURCE_MID_JSON_SB = """
             "reference_time": "2023-10-03T19:45:07.997338+00:00",
             "reference_frame": "ICRF3"
           }
+        },
+        {
+          "field_id": "M87",
+          "phase_dir": {
+            "ra": [
+              19.41418
+            ],
+            "dec": [
+              -29.24170
+            ],
+            "reference_time": "2023-10-03T19:45:07.997338+00:00",
+            "reference_frame": "ICRF3"
+          }
         }
       ],
       "eb_id": "eb-test-20230825-35248",
       "channels": [
+        {
+          "spectral_windows": [
+            {
+              "stride": 2,
+              "start": 0,
+              "spectral_window_id": "fsp_1_channels",
+              "link_map": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  200,
+                  1
+                ],
+                [
+                  744,
+                  2
+                ],
+                [
+                  944,
+                  3
+                ]
+              ],
+              "count": 14880,
+              "freq_max": 368000000.0,
+              "freq_min": 350000000.0
+            }
+          ],
+          "channels_id": "vis_channels1"
+        },
         {
           "spectral_windows": [
             {
@@ -491,7 +586,7 @@ VALID_ASSIGN_RESOURCE_MID_JSON_SB = """
 
 DEFAULT_TARGET_SPECS = {
     "flux calibrator": TargetSpec(
-        dish_ids=["ska001", "ska036"],
+        dish_ids=["SKA001", "SKA036"],
         target_sb_detail={
             "co_ordinate_type": "Equatorial",
             "ra": "19:24:51.05 degrees",
@@ -529,6 +624,47 @@ DEFAULT_TARGET_SPECS = {
         channelisation="vis_channels10",
         polarisation="all",
         processing="test-receive-addresses",
+    ),
+    "M87": TargetSpec(
+        dish_ids=["SKA001", "SKA036"],
+        target_sb_detail={
+            "co_ordinate_type": "Equatorial",
+            "ra": "19:24:51.05 degrees",
+            "dec": "-29:14:30.12 degrees",
+            "reference_frame": "ICRS",
+            "unit": ("hourangle", "deg"),
+            "pointing_pattern_type": {
+                "single_pointing_parameters": SinglePointParameters(
+                    offset_x_arcsec=0.0, offset_y_arcsec=0.0
+                ),
+                "raster_parameters": RasterParameters(
+                    row_length_arcsec=0.0,
+                    row_offset_arcsec=0.0,
+                    n_rows=1,
+                    pa=0.0,
+                    unidirectional=False,
+                ),
+                "star_raster_parameters": StarRasterParameters(
+                    row_length_arcsec=0.0,
+                    n_rows=1,
+                    row_offset_angle=0.0,
+                    unidirectional=False,
+                ),
+                "five_point_parameters": FivePointParameters(
+                    offset_arcsec=0.0
+                ),
+                "cross_scan_parameters": CrossScanParameters(
+                    offset_arcsec=0.0
+                ),
+                "active_pointing_pattern_type": "single_pointing_parameters",
+            },
+        },
+        scan_type="M87",
+        band=ReceiverBand.BAND_2,
+        channelisation="vis_channels1",
+        polarisation="all",
+        processing="test-receive-addresses",
+        target=None,
     )
 }
 flux_calibrator_target = {
@@ -650,6 +786,7 @@ def test_sb_generation_validate():
     valid_dict = json.loads(valid_scheduling_block_pdm_json)
 
     diff = DeepDiff(sb_dict, valid_dict, ignore_order=True)
+    pprint(diff, indent=2)
     assert not diff, f"Dictionaries are not equal:{diff}"
 
 def test_sb_generation_validate_target_spec_configuration():
@@ -702,8 +839,8 @@ def test_sb_generation_validate_target_spec_configuration():
 
     assert sb_dict["dish_allocations"]["receptor_ids"] == [
         "SKA001",
-        "SKA002",
-    ] or ["SKA002", "SKA001"]
+        "SKA036",
+    ] or ["SKA036", "SKA001"]
 
     assert flux_calibrator_target in sb_dict["targets"]
 
@@ -751,6 +888,8 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     obsconfig_scheduling_block_pdm_object.dish_allocations.receptor_ids.remove(
         "SKA001"
     )
+    
+    print("obsconfig_scheduling_block_pdm_object", obsconfig_scheduling_block_pdm_object.targets)
     obsconfig_scheduling_block_pdm_object.targets = [
         target
         for target in obsconfig_scheduling_block_pdm_object.targets
@@ -778,6 +917,7 @@ def test_sb_generation_validate_target_spec_configuration_remove():
 
     assert "SKA001" not in sb_dict["dish_allocations"]["receptor_ids"]
 
+    print(flux_calibrator_target)
     assert flux_calibrator_target not in sb_dict["targets"]
 
 def test_sb_generation_validate_default_target_spec():
@@ -905,6 +1045,13 @@ def test_assign_resource_allocation_request_sb():
     ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         2
     ].phase_dir.reference_time
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.reference_time
+
+
 
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         0
@@ -980,6 +1127,32 @@ def test_assign_resource_allocation_request_sb():
         5,
     )
 
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.ra[
+        0
+    ] = round(
+        obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
+            3
+        ].phase_dir.ra[
+            0
+        ],
+        5,
+    )
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.dec[
+        0
+    ] = round(
+        obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
+            3
+        ].phase_dir.dec[
+            0
+        ],
+        5,
+    )
+
+
     valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         0
     ].phase_dir.ra[
@@ -1047,6 +1220,30 @@ def test_assign_resource_allocation_request_sb():
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             2
+        ].phase_dir.ra[
+            0
+        ],
+        5,
+    )
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.dec[
+        0
+    ] = round(
+        valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
+            3
+        ].phase_dir.dec[
+            0
+        ],
+        5,
+    )
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
+        3
+    ].phase_dir.ra[
+        0
+    ] = round(
+        valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
+            3
         ].phase_dir.ra[
             0
         ],
@@ -1064,4 +1261,5 @@ def test_assign_resource_allocation_request_sb():
     valid_dict = json.loads(valid_json)
 
     diff = DeepDiff(obsconfig_dict, valid_dict, ignore_order=True)
+    pprint(diff, indent=4)
     assert not diff, f"Dictionaries are not equal:{diff}"

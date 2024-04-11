@@ -5,7 +5,7 @@ from unittest import mock
 import pytest
 from assertpy import assert_that
 
-from ska_jupyter_scripting.helpers.statemonitoring import (
+from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     ActionProducer,
     DeviceAttribute,
     EventData,
@@ -61,7 +61,7 @@ def fxt_mock_provider() -> Provider:
 @pytest.fixture(name="mock_device")
 def fxt_mock_device(mock_provider: Provider):
     with mock.patch(
-        "ska_jupyter_scripting.helpers.statemonitoring.DeviceProxy"
+        "ska_mid_jupyter_notebooks.helpers.statemonitoring.DeviceProxy"
     ) as mock_device:
         mock_impl = mock_device.return_value
         mock_impl.subscribe_event.side_effect = mock_provider.add_subscriber

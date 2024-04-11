@@ -23,7 +23,6 @@ class TestEquipmentMonitorPlot(MonitorPlot[TestEquipmentLabels, DeviceDevState])
     test_device_mapping: dict[TestDevice, TestEquipmentLabels] = {
         "mid-itf/progattenuator/1": "Programmable Attenuator",
         "mid-itf/siggen/1": "Signal Generator",
-        "mid-itf/skysimctl/0": "SkySim Controller 0",
         "mid-itf/skysimctl/4": "SkySim Controller 4",
     }
 
@@ -31,7 +30,6 @@ class TestEquipmentMonitorPlot(MonitorPlot[TestEquipmentLabels, DeviceDevState])
         {
             "Programmable Attenuator": "UNKNOWN",
             "Signal Generator": "UNKNOWN",
-            "SkySim Controller 0": "UNKNOWN",
             "SkySim Controller 4": "UNKNOWN",
         }
     )

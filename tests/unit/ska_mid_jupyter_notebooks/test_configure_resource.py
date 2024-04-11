@@ -32,8 +32,8 @@ from ska_tmc_cdm.schemas.subarray_node.configure.tmc import (
 )
 from ska_tmc_cdm.utils import assert_json_is_equal
 
-from ska_jupyter_scripting.obsconfig.config import Observation, ObservationSB
-from ska_jupyter_scripting.obsconfig.target_spec import TargetSpec
+from ska_mid_jupyter_notebooks.obsconfig.config import Observation, ObservationSB
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
 VALID_CONFIGURE_RESOURCE_PI17_LOW_JSON = """{
   "interface": "https://schema.skao.int/ska-low-tmc-configure/3.0",

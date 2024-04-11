@@ -1,6 +1,6 @@
 from assertpy import assert_that
 
-from ska_jupyter_scripting.obsconfig import Channelization, ScanTypes, types
+from ska_mid_jupyter_notebooks.obsconfig import Channelization, ScanTypes, types
 
 
 def test_channelisation():

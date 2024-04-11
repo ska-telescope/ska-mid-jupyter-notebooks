@@ -11,15 +11,12 @@ from ska_tmc_cdm.schemas.central_node.assign_resources import (
 from ska_tmc_cdm.schemas.central_node.csp import CSPConfigurationSchema
 from ska_tmc_cdm.schemas.central_node.mccs import MCCSAllocateSchema
 from ska_tmc_cdm.schemas.central_node.sdp import SDPConfigurationSchema
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
-from ska_jupyter_scripting.obsconfig.config import (  # noqa : E402
-    Observation,
+from ska_mid_jupyter_notebooks.obsconfig.config import (  # noqa : E402
     ObservationSB,
 )
-from ska_jupyter_scripting.obsconfig.types import (
-    ReceiverBand,
-    SubarrayBeamTarget,
-    Target,
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import (
     TargetSpec,
 )
 
@@ -48,7 +45,7 @@ VALID_ASSIGN_RESOURCE_PI17_LOW_JSON = """{
     "resources": {
       "receptors": [
         "SKA001",
-        "SKA002"
+        "SKA036"
       ]
     },
     "execution_block": {
@@ -346,7 +343,7 @@ VALID_SDP_BLOCK_PI17_LOW_JSON = """{
     "resources": {
       "receptors": [
         "SKA001",
-        "SKA002"
+        "SKA036"
       ]
     },
     "execution_block": {
@@ -504,7 +501,7 @@ VALID_ASSIGN_RESOURCE_PI16_MID_JSON = """{
   "dish": {
     "receptor_ids": [
       "SKA001",
-      "SKA002"
+      "SKA036"
     ]
   },
   "sdp": {
@@ -657,7 +654,7 @@ VALID_ASSIGN_RESOURCE_PI16_MID_JSON = """{
     "resources": {
       "receptors": [
         "SKA001",
-        "SKA002"
+        "SKA036"
       ]
     }
   }
@@ -668,7 +665,7 @@ VALID_SDP_BLOCK_PI16_MID_JSON = """{
     "resources": {
       "receptors": [
         "SKA001",
-        "SKA002"
+        "SKA036"
       ]
     },
     "execution_block": {
@@ -839,6 +836,7 @@ def test_validate_sdp_configuration_object_using_observation_class():
     sdp_valid_dict = json.loads(sdp_valid_json)
 
     diff = DeepDiff(sdp_obsconfig_dict, sdp_valid_dict, ignore_order=True)
+    print(diff)
     assert not diff, f"Dictionaries are not equal:{diff}"
 
 

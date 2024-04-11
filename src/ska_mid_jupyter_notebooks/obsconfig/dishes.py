@@ -9,7 +9,7 @@ from ska_tmc_cdm.messages.subarray_node.configure.core import (
 
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
-ReceptorName = Literal["SKA001", "SKA002"]
+ReceptorName = Literal["SKA001", "SKA036", "SKA063", "SKA100"]
 
 
 class ResourceConfiguration(TypedDict):

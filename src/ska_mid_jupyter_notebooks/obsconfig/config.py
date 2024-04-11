@@ -1,7 +1,7 @@
 import json
 from typing import Any, cast
 
-from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition
+from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
 from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
 from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
@@ -48,6 +48,7 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         sdp_configuration = self.generate_sdp_assign_resources_sb_config().as_object
         sb_specs = SBDefinition(
             interface=SBD_SCHEMA_URI,
+            telescope=TelescopeType.MID,
             metadata=self.get_metadata().as_object,
             activities=self.get_activities(),
             sdp_configuration=sdp_configuration,
