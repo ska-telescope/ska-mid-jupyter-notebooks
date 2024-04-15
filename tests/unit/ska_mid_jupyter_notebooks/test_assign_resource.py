@@ -5,20 +5,14 @@ from collections import OrderedDict
 import pytest
 from deepdiff import DeepDiff
 from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.schemas.central_node.assign_resources import (
-    AssignResourcesRequestSchema,
-)
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
 from ska_tmc_cdm.schemas.central_node.csp import CSPConfigurationSchema
 from ska_tmc_cdm.schemas.central_node.mccs import MCCSAllocateSchema
 from ska_tmc_cdm.schemas.central_node.sdp import SDPConfigurationSchema
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
-from ska_mid_jupyter_notebooks.obsconfig.config import (  # noqa : E402
-    ObservationSB,
-)
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import (
-    TargetSpec,
-)
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB  # noqa : E402
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
 # pylint: disable=E1101
 
@@ -792,9 +786,7 @@ def test_validate_csp_configuration_object_using_observation_class():
     obsconfig_csp_configuration_object = (
         Observation().generate_csp_assign_resources_config_low().as_object
     )
-    valid_csp_configuration_object = CSPConfigurationSchema().loads(
-        VALID_CSP_BLOCK_PI17_LOW_JSON
-    )
+    valid_csp_configuration_object = CSPConfigurationSchema().loads(VALID_CSP_BLOCK_PI17_LOW_JSON)
 
     assert obsconfig_csp_configuration_object == valid_csp_configuration_object
 
@@ -811,26 +803,20 @@ def test_validate_sdp_configuration_object_using_observation_class():
     obsconfig_sdp_configuration_object = (
         Observation().generate_sdp_assign_resources_config().as_object
     )
-    valid_sdp_configuration_object = SDPConfigurationSchema().loads(
-        VALID_SDP_BLOCK_PI17_LOW_JSON
-    )
+    valid_sdp_configuration_object = SDPConfigurationSchema().loads(VALID_SDP_BLOCK_PI17_LOW_JSON)
 
-    valid_sdp_configuration_object.processing_blocks[
-        0
-    ].pb_id = obsconfig_sdp_configuration_object.processing_blocks[0].pb_id
+    valid_sdp_configuration_object.processing_blocks[0].pb_id = (
+        obsconfig_sdp_configuration_object.processing_blocks[0].pb_id
+    )
     valid_sdp_configuration_object.execution_block.eb_id = (
         obsconfig_sdp_configuration_object.execution_block.eb_id
     )
-    valid_sdp_configuration_object.processing_blocks[
-        0
-    ].sbi_ids = obsconfig_sdp_configuration_object.processing_blocks[0].sbi_ids
+    valid_sdp_configuration_object.processing_blocks[0].sbi_ids = (
+        obsconfig_sdp_configuration_object.processing_blocks[0].sbi_ids
+    )
 
-    sdp_obsconfig_json = SDPConfigurationSchema().dumps(
-        obsconfig_sdp_configuration_object
-    )
-    sdp_valid_json = SDPConfigurationSchema().dumps(
-        valid_sdp_configuration_object
-    )
+    sdp_obsconfig_json = SDPConfigurationSchema().dumps(obsconfig_sdp_configuration_object)
+    sdp_valid_json = SDPConfigurationSchema().dumps(valid_sdp_configuration_object)
 
     sdp_obsconfig_dict = json.loads(sdp_obsconfig_json)
     sdp_valid_dict = json.loads(sdp_valid_json)
@@ -852,26 +838,20 @@ def test_validate_sdp_configuration_object_using_mid_observation_class():
     obsconfig_sdp_configuration_object = (
         Observation().generate_sdp_assign_resources_config().as_object
     )
-    valid_sdp_configuration_object = SDPConfigurationSchema().loads(
-        VALID_SDP_BLOCK_PI16_MID_JSON
-    )
+    valid_sdp_configuration_object = SDPConfigurationSchema().loads(VALID_SDP_BLOCK_PI16_MID_JSON)
 
-    valid_sdp_configuration_object.processing_blocks[
-        0
-    ].pb_id = obsconfig_sdp_configuration_object.processing_blocks[0].pb_id
+    valid_sdp_configuration_object.processing_blocks[0].pb_id = (
+        obsconfig_sdp_configuration_object.processing_blocks[0].pb_id
+    )
     valid_sdp_configuration_object.execution_block.eb_id = (
         obsconfig_sdp_configuration_object.execution_block.eb_id
     )
-    valid_sdp_configuration_object.processing_blocks[
-        0
-    ].sbi_ids = obsconfig_sdp_configuration_object.processing_blocks[0].sbi_ids
+    valid_sdp_configuration_object.processing_blocks[0].sbi_ids = (
+        obsconfig_sdp_configuration_object.processing_blocks[0].sbi_ids
+    )
 
-    sdp_obsconfig_json = SDPConfigurationSchema().dumps(
-        obsconfig_sdp_configuration_object
-    )
-    sdp_valid_json = SDPConfigurationSchema().dumps(
-        valid_sdp_configuration_object
-    )
+    sdp_obsconfig_json = SDPConfigurationSchema().dumps(obsconfig_sdp_configuration_object)
+    sdp_valid_json = SDPConfigurationSchema().dumps(valid_sdp_configuration_object)
 
     sdp_obsconfig_dict = json.loads(sdp_obsconfig_json)
     sdp_valid_dict = json.loads(sdp_valid_json)
@@ -892,13 +872,9 @@ def test_validate_mccs_configuration_object_using_observation_class():
     obsconfig_mccs_configuration_object = (
         Observation().generate_mccs_assign_resources_config().as_object
     )
-    valid_mccs_configuration_object = MCCSAllocateSchema().loads(
-        VALID_MCCS_BLOCK_PI17_LOW_JSON
-    )
+    valid_mccs_configuration_object = MCCSAllocateSchema().loads(VALID_MCCS_BLOCK_PI17_LOW_JSON)
 
-    assert (
-        obsconfig_mccs_configuration_object == valid_mccs_configuration_object
-    )
+    assert obsconfig_mccs_configuration_object == valid_mccs_configuration_object
 
 
 @pytest.mark.skipif(
@@ -1001,38 +977,28 @@ def test_validate_assign_resource_configuration_object_using_observation_class()
                 {"vis0": {"vis0": {"field_id": "field_a"}}},
                 ".default",
             )
-            observation.add_channel_configuration(
-                target.channelisation, channel_configuration
-            )
+            observation.add_channel_configuration(target.channelisation, channel_configuration)
 
     obsconfig_assign_resource_configuration_object = (
         observation.generate_assign_resources_config_low().as_object
     )
 
-    valid_assign_resource_configuration_object = (
-        AssignResourcesRequestSchema().loads(
-            VALID_ASSIGN_RESOURCE_PI17_LOW_JSON
-        )
+    valid_assign_resource_configuration_object = AssignResourcesRequestSchema().loads(
+        VALID_ASSIGN_RESOURCE_PI17_LOW_JSON
     )
 
-    valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].pb_id = obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].pb_id
+    valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id = (
+        obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id
+    )
 
-    valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids = obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids
+    valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids = (
+        obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids
+    )
 
     obsconfig_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_object
     )
-    valid_json = AssignResourcesRequestSchema().dumps(
-        valid_assign_resource_configuration_object
-    )
+    valid_json = AssignResourcesRequestSchema().dumps(valid_assign_resource_configuration_object)
 
     obsconfig_dict = json.loads(obsconfig_json)
     valid_dict = json.loads(valid_json)
@@ -1088,40 +1054,30 @@ def test_validate_assign_resource_configuration_object_using_mid_observation_cla
                 {"vis0": {"vis0": {"field_id": "field_a"}}},
                 ".default",
             )
-            observation.add_channel_configuration(
-                target.channelisation, channel_configuration
-            )
+            observation.add_channel_configuration(target.channelisation, channel_configuration)
 
     obsconfig_assign_resource_configuration_object = (
         observation.generate_assign_resources_config().as_object
     )
 
-    valid_assign_resource_configuration_object = (
-        AssignResourcesRequestSchema().loads(
-            VALID_ASSIGN_RESOURCE_PI16_MID_JSON
-        )
+    valid_assign_resource_configuration_object = AssignResourcesRequestSchema().loads(
+        VALID_ASSIGN_RESOURCE_PI16_MID_JSON
     )
 
-    valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].pb_id = obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].pb_id
+    valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id = (
+        obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id
+    )
 
-    valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids = obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids
+    valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids = (
+        obsconfig_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids
+    )
     valid_assign_resource_configuration_object.sdp_config.execution_block.eb_id = (
         obsconfig_assign_resource_configuration_object.sdp_config.execution_block.eb_id
     )
     obsconfig_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_object
     )
-    valid_json = AssignResourcesRequestSchema().dumps(
-        valid_assign_resource_configuration_object
-    )
+    valid_json = AssignResourcesRequestSchema().dumps(valid_assign_resource_configuration_object)
 
     obsconfig_dict = json.loads(obsconfig_json)
     valid_dict = json.loads(valid_json)

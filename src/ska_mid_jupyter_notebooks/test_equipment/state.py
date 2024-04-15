@@ -1,6 +1,7 @@
 from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
+    DeviceAttrPoller,
     EventData,
     EventsReducer,
     MonState,
@@ -50,13 +51,14 @@ class TestEquipmentModel:
             devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
         )
         self._state_monitor: MonState[EquipmentState] = MonState(init_state)
-
+        poller = DeviceAttrPoller(self._dev_factory)
         reducers = [
             EventsReducer(
                 device,
                 "state",
                 self._reducer_set_device_attribute,
                 self._dev_factory,
+                poller=poller,
             )
             for device in test_equipment.devices
         ]

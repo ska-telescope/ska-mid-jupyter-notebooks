@@ -10,9 +10,7 @@ from ska_oso_pdm.entities.common.target import (
     StarRasterParameters,
 )
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_tmc_cdm.schemas.subarray_node.configure.core import (
-    ConfigureRequestSchema,
-)
+from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
 from ska_tmc_cdm.schemas.subarray_node.configure.csp import (
     CommonConfigurationSchema,
     CSPConfigurationSchema,
@@ -21,15 +19,9 @@ from ska_tmc_cdm.schemas.subarray_node.configure.csp import (
     StnBeamConfigurationSchema,
     SubarrayConfigurationSchema,
 )
-from ska_tmc_cdm.schemas.subarray_node.configure.mccs import (
-    MCCSConfigurationSchema,
-)
-from ska_tmc_cdm.schemas.subarray_node.configure.sdp import (
-    SDPConfigurationSchema,
-)
-from ska_tmc_cdm.schemas.subarray_node.configure.tmc import (
-    TMCConfigurationSchema,
-)
+from ska_tmc_cdm.schemas.subarray_node.configure.mccs import MCCSConfigurationSchema
+from ska_tmc_cdm.schemas.subarray_node.configure.sdp import SDPConfigurationSchema
+from ska_tmc_cdm.schemas.subarray_node.configure.tmc import TMCConfigurationSchema
 from ska_tmc_cdm.utils import assert_json_is_equal
 
 from ska_mid_jupyter_notebooks.obsconfig.config import Observation, ObservationSB
@@ -800,13 +792,8 @@ def test_validate_lowcbf_configuration_object_using_observation_class():
     obsconfig_lowcbf_configuration_object = (
         Observation().generate_lowcbf_configure_resource_config().as_object
     )
-    valid_lowcbf_configuration_object = LowCBFConfigurationSchema().loads(
-        VALID_CSP_LOWCBF_JSON
-    )
-    assert (
-        obsconfig_lowcbf_configuration_object
-        == valid_lowcbf_configuration_object
-    )
+    valid_lowcbf_configuration_object = LowCBFConfigurationSchema().loads(VALID_CSP_LOWCBF_JSON)
+    assert obsconfig_lowcbf_configuration_object == valid_lowcbf_configuration_object
 
 
 @pytest.mark.skipif(
@@ -818,16 +805,11 @@ def test_validate_station_configuration_object_using_observation_class():
     Validates Station config object returned using ObsConfig Observation class
     """
 
-    obsconfig_station_configuration_object = (
-        Observation().generate_station_config().as_object
-    )
+    obsconfig_station_configuration_object = Observation().generate_station_config().as_object
     valid_station_configuration_object = StationConfigurationSchema().loads(
         VALID_STATION_CONFIGURATION
     )
-    assert (
-        obsconfig_station_configuration_object
-        == valid_station_configuration_object
-    )
+    assert obsconfig_station_configuration_object == valid_station_configuration_object
 
 
 @pytest.mark.skipif(
@@ -842,13 +824,10 @@ def test_validate_station_beam_configuration_object_using_observation_class():
     obsconfig_station_beam_configuration_object = (
         Observation().generate_station_beam_config().as_object
     )
-    valid_station_beam_configuration_object = (
-        StnBeamConfigurationSchema().loads(VALID_STATION_BEAM_CONFIGURATION)
+    valid_station_beam_configuration_object = StnBeamConfigurationSchema().loads(
+        VALID_STATION_BEAM_CONFIGURATION
     )
-    assert (
-        obsconfig_station_beam_configuration_object
-        == valid_station_beam_configuration_object
-    )
+    assert obsconfig_station_beam_configuration_object == valid_station_beam_configuration_object
 
 
 @pytest.mark.skipif(
@@ -860,12 +839,8 @@ def test_validate_csp_configuration_object_using_observation_class():
     Validates that LOW CSP config object returned using ObsConfig Observation class
     """
 
-    obsconfig_csp_configuration_object = (
-        Observation().generate_csp_scan_config_low().as_object
-    )
-    valid_csp_configuration_object = CSPConfigurationSchema().loads(
-        VALID_CSP_BLOCK_PI17_LOW_JSON
-    )
+    obsconfig_csp_configuration_object = Observation().generate_csp_scan_config_low().as_object
+    valid_csp_configuration_object = CSPConfigurationSchema().loads(VALID_CSP_BLOCK_PI17_LOW_JSON)
     assert obsconfig_csp_configuration_object == valid_csp_configuration_object
 
 
@@ -887,16 +862,12 @@ def test_validate_mccs_configuration_object_using_observation_class():
     """
     Validates MCCS config object returned using ObsConfig Observation class
     """
-    obsconfig_mccs_configuration_object = (
-        Observation().generate_mccs_scan_config().as_object
-    )
+    obsconfig_mccs_configuration_object = Observation().generate_mccs_scan_config().as_object
     valid_mccs_configuration_object = MCCSConfigurationSchema().loads(
         VALID_MCCS_BLOCK_PI17_LOW_JSON
     )
 
-    assert (
-        obsconfig_mccs_configuration_object == valid_mccs_configuration_object
-    )
+    assert obsconfig_mccs_configuration_object == valid_mccs_configuration_object
 
 
 @pytest.mark.skipif(
@@ -908,12 +879,8 @@ def test_validate_tmc_configuration_object_using_observation_class():
     Validates that TMC config object returned using ObsConfig Observation class
     """
 
-    obsconfig_tmc_configuration_object = (
-        Observation().generate_tmc_scan_config(10)
-    )
-    valid_tmc_configuration_object = TMCConfigurationSchema().loads(
-        VALID_TMC_BLOCK_PI17_LOW_JSON
-    )
+    obsconfig_tmc_configuration_object = Observation().generate_tmc_scan_config(10)
+    valid_tmc_configuration_object = TMCConfigurationSchema().loads(VALID_TMC_BLOCK_PI17_LOW_JSON)
     assert obsconfig_tmc_configuration_object == valid_tmc_configuration_object
 
 
@@ -926,12 +893,8 @@ def test_validate_tmc_configuration_object_using_mid_observation_class():
     Validates that TMC config object returned using ObsConfig Observation class for Mid
     """
 
-    obsconfig_tmc_configuration_object = (
-        Observation().generate_tmc_scan_config(10)
-    )
-    valid_tmc_configuration_object = TMCConfigurationSchema().loads(
-        VALID_TMC_BLOCK_PI16_MID_JSON
-    )
+    obsconfig_tmc_configuration_object = Observation().generate_tmc_scan_config(10)
+    valid_tmc_configuration_object = TMCConfigurationSchema().loads(VALID_TMC_BLOCK_PI16_MID_JSON)
     assert obsconfig_tmc_configuration_object == valid_tmc_configuration_object
 
 
@@ -944,12 +907,8 @@ def test_validate_sdp_configuration_object_using_low_observation_class():
     Validates SDP config object returned using ObsConfig Observation class for low
     """
 
-    obsconfig_sdp_configuration_object = (
-        Observation().generate_sdp_scan_config().as_object
-    )
-    valid_sdp_configuration_object = SDPConfigurationSchema().loads(
-        VALID_SDP_BLOCK_PI17_LOW_JSON
-    )
+    obsconfig_sdp_configuration_object = Observation().generate_sdp_scan_config().as_object
+    valid_sdp_configuration_object = SDPConfigurationSchema().loads(VALID_SDP_BLOCK_PI17_LOW_JSON)
     assert obsconfig_sdp_configuration_object == valid_sdp_configuration_object
 
 
@@ -975,13 +934,10 @@ def test_validate_common_configuration_object_using_observation_class():
     obsconfig_common_configuration_object = (
         Observation().generate_common_configure_resource_config_low().as_object
     )
-    valid_common_resource_configuration_object = (
-        CommonConfigurationSchema().loads(VALID_COMMOM_BLOCK_PI17_LOW_JSON)
+    valid_common_resource_configuration_object = CommonConfigurationSchema().loads(
+        VALID_COMMOM_BLOCK_PI17_LOW_JSON
     )
-    assert (
-        obsconfig_common_configuration_object
-        == valid_common_resource_configuration_object
-    )
+    assert obsconfig_common_configuration_object == valid_common_resource_configuration_object
 
 
 @pytest.mark.skipif(
@@ -994,17 +950,12 @@ def test_validate_subarray_configuration_object_using_observation_class():
     """
 
     obsconfig_subarray_configuration_object = (
-        Observation()
-        .generate_subarray_configure_resource_config_low()
-        .as_object
+        Observation().generate_subarray_configure_resource_config_low().as_object
     )
-    valid_subarray_resource_configuration_object = (
-        SubarrayConfigurationSchema().loads(VALID_SUBARRAY_BLOCK_PI17_LOW_JSON)
+    valid_subarray_resource_configuration_object = SubarrayConfigurationSchema().loads(
+        VALID_SUBARRAY_BLOCK_PI17_LOW_JSON
     )
-    assert (
-        obsconfig_subarray_configuration_object
-        == valid_subarray_resource_configuration_object
-    )
+    assert obsconfig_subarray_configuration_object == valid_subarray_resource_configuration_object
 
 
 @pytest.mark.skipif(
@@ -1015,16 +966,11 @@ def test_configure_resource():
     """
     Validates that Configure request object returned using ObsConfig Observation class
     """
-    obs_configure_resource_request_JSON = (
-        Observation().generate_scan_config_low().as_object
+    obs_configure_resource_request_JSON = Observation().generate_scan_config_low().as_object
+    valid_configure_resource_configuration_object = ConfigureRequestSchema().loads(
+        VALID_CONFIGURE_RESOURCE_PI17_LOW_JSON
     )
-    valid_configure_resource_configuration_object = (
-        ConfigureRequestSchema().loads(VALID_CONFIGURE_RESOURCE_PI17_LOW_JSON)
-    )
-    assert (
-        obs_configure_resource_request_JSON
-        == valid_configure_resource_configuration_object
-    )
+    assert obs_configure_resource_request_JSON == valid_configure_resource_configuration_object
 
 
 @pytest.mark.skipif(
@@ -1069,12 +1015,8 @@ def test_configure_resource_sb():
                         row_offset_angle=0.0,
                         unidirectional=False,
                     ),
-                    "five_point_parameters": FivePointParameters(
-                        offset_arcsec=0.0
-                    ),
-                    "cross_scan_parameters": CrossScanParameters(
-                        offset_arcsec=0.0
-                    ),
+                    "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                    "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
                     "active_pointing_pattern_type": "single_pointing_parameters",
                 },
             },
@@ -1102,9 +1044,7 @@ def test_configure_resource_sb():
 
     observation.eb_id = "eb-test-20230825-35248"
 
-    pdm_allocation = observation.generate_pdm_object_for_sbd_save(
-        DEFAULT_TARGET_SPECS
-    )
+    pdm_allocation = observation.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
 
     configure_object = observation.generate_scan_config_sb(
         pdm_observation_request=pdm_allocation,
@@ -1125,9 +1065,7 @@ def test_fsp_add_check_for_configure_resource_mid_non_sb():
     """
     Validates functionality for  Adding FSP Configuration for MID configure resource non SB request
     """
-    from ska_tmc_cdm.messages.subarray_node.configure.csp import (
-        FSPFunctionMode,
-    )
+    from ska_tmc_cdm.messages.subarray_node.configure.csp import FSPFunctionMode
 
     DEFAULT_FSP_CONFIGURATION = {
         "fsp1": {
@@ -1162,8 +1100,6 @@ def test_fsp_add_check_for_configure_resource_mid_non_sb():
 
     # zoom_window_tuning value has been modified for fsp2 from 65000 to 25.
     assert (
-        obs_configure_resource_request_object.csp.cbf_config.fsp_configs[
-            1
-        ].zoom_window_tuning
+        obs_configure_resource_request_object.csp.cbf_config.fsp_configs[1].zoom_window_tuning
         == 25
     )

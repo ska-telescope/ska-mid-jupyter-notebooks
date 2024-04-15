@@ -19,9 +19,9 @@ def test_channelisation():
     dummy_windows = default_channel.spectral_windows
     channelisation.add_channel_configuration("dummy", dummy_windows)
     assert_that(channelisation.channel_configurations).contains("dummy")
-    assert_that(
-        channelisation.get_channel_configuration("dummy").spectral_windows
-    ).is_equal_to(dummy_windows)
+    assert_that(channelisation.get_channel_configuration("dummy").spectral_windows).is_equal_to(
+        dummy_windows
+    )
 
 
 def test_scan_types():
@@ -48,9 +48,7 @@ def test_scan_types():
     )
     assert_that(scan_type_config.scan_type_configurations).contains("dummy")
     beam_grouping_id = target_spec_beams.pop()
-    beam_configuration = scan_type_config.get_beam_configurations(
-        beam_grouping_id
-    )
+    beam_configuration = scan_type_config.get_beam_configurations(beam_grouping_id)
     scan_type_config.add_scan_type_configuration(
         "dummy2",
         (beam_grouping_id, list(beam_configuration.types.keys())[0]),
@@ -65,9 +63,7 @@ def test_scan_types():
     )
     assert_that(scan_type_config.scan_type_configurations).contains("dummy3")
     new_beam_types: dict[str, types.EBScanTypeBeam] = dict()
-    new_beam_types_keys = [
-        f"{key}_dummy" for key in beam_configuration.types.keys()
-    ]
+    new_beam_types_keys = [f"{key}_dummy" for key in beam_configuration.types.keys()]
     new_beam_type_values = list(beam_configuration.types.values())
     new_beam_types[new_beam_types_keys[0]] = new_beam_type_values[0]
     new_beam_types[new_beam_types_keys[1]] = new_beam_type_values[1]
@@ -76,18 +72,14 @@ def test_scan_types():
     required_entry2_key, required_entry2_val = list(new_beam_types.items())[1]
     required_entry1 = {required_entry1_key: required_entry1_val}
     required_entry2 = {required_entry2_key: required_entry2_val}
-    assert_that(
-        scan_type_config.get_beam_configurations(beam_grouping_id).types
-    ).contains_entry(required_entry1)
-    assert_that(
-        scan_type_config.get_beam_configurations(beam_grouping_id).types
-    ).contains_entry(required_entry2)
+    assert_that(scan_type_config.get_beam_configurations(beam_grouping_id).types).contains_entry(
+        required_entry1
+    )
+    assert_that(scan_type_config.get_beam_configurations(beam_grouping_id).types).contains_entry(
+        required_entry2
+    )
     new_config_name = f"{beam_configuration.id}dummy"
     scan_type_config.add_beam_configuration(new_config_name, "dummy")
-    assert_that(
-        scan_type_config.get_beam_configurations(new_config_name)
-    ).is_true()
+    assert_that(scan_type_config.get_beam_configurations(new_config_name)).is_true()
     new_config_name = f"{beam_configuration.id}dummy2"
-    scan_type_config.add_beam_configuration(
-        new_config_name, "dummy", beam_types=new_beam_types
-    )
+    scan_type_config.add_beam_configuration(new_config_name, "dummy", beam_types=new_beam_types)

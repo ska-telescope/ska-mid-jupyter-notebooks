@@ -18,38 +18,7 @@ from tango.time_val import TimeVal
 # pylint: disable=W0107,W0237
 
 
-class DeviceFactory:
-    @abc.abstractmethod
-    def get_device(self, device_name: str) -> DeviceProxy:  # type: ignore
-        """"""
-
-    @abc.abstractmethod
-    def get_attr_proxy(self, att_name: str) -> AttributeProxy:
-        """"""
-
-
-class LocalDeviceFactory(DeviceFactory):
-    def get_device(self, device_name: str) -> DeviceProxy:
-        """
-        Get Device
-        :param: device_name: name of the device
-        :return: Device Proxy
-        """
-        return DeviceProxy(device_name)
-
-    def get_attr_proxy(self, att_name: str) -> AttributeProxy:
-        """
-        Get Attribute Proxy
-        :param: att_name: name of the attribute
-        :return: Attribute Proxy
-        """
-        return AttributeProxy(att_name)
-
-
-_default_device_factory = LocalDeviceFactory()
-
-
-class RemoteDeviceFactory(DeviceFactory):
+class RemoteDeviceFactory:
     def __init__(self, db_host: str) -> None:
         """
         Initialises RemoteDeviceFactory class
@@ -385,7 +354,7 @@ class PolledAttribute:
         self,
         device_name: str,
         attr: str,
-        dev_factory: DeviceFactory = _default_device_factory,
+        dev_factory: RemoteDeviceFactory,
     ):
         """
         Initialises PolledAttribute class
@@ -511,25 +480,11 @@ class PollingState:
                 event_to_be_pushed.events_pusher.push_event(event)  # type: ignore
 
 
-_device_attr_poller = None
-
-
-def get_device_attr_poller():
-    """
-    Get device attr poller
-    :return: device attr poller
-    """
-    global _device_attr_poller  # pylint: disable=global-statement
-    if _device_attr_poller is None:
-        _device_attr_poller = DeviceAttrPoller()
-    return _device_attr_poller
-
-
 class DeviceAttrPoller:
     def __init__(
         self,
+        dev_factory: RemoteDeviceFactory,
         poll_rate: float = 2,
-        dev_factory: DeviceFactory = _default_device_factory,
     ) -> None:
         """
         Initialises DeviceAttrPoller class
@@ -555,7 +510,7 @@ class DeviceAttrPoller:
         device_name: str,
         attr: str,
         events_pusher: EventsPusher,
-        dev_factory: DeviceFactory | None = None,
+        dev_factory: RemoteDeviceFactory | None = None,
     ) -> SUB_ID:
         """
         Add subscription
@@ -664,7 +619,8 @@ class EventsSubscription(BaseSubscription):
         self,
         device_name: str,
         attr: str,
-        dev_factory: DeviceFactory = _default_device_factory,
+        dev_factory: RemoteDeviceFactory,
+        poller: DeviceAttrPoller,
     ) -> None:
         """Initialise the object.
 
@@ -675,6 +631,7 @@ class EventsSubscription(BaseSubscription):
         """
         self.attr = attr
         self.device_name = device_name
+        self._poller = poller
         self._sub_id: Union[None, int] = None
         self._dev_factory = dev_factory
         self._device_proxy = dev_factory.get_device(self.device_name)
@@ -687,9 +644,8 @@ class EventsSubscription(BaseSubscription):
         :return: None
         """
         if os.getenv("USE_POLLING"):
-            poller = get_device_attr_poller()
             try:
-                self._sub_id = poller.add_subscription(
+                self._sub_id = self._poller.add_subscription(
                     self.device_name, self.attr, observer, self._dev_factory
                 )
                 return
@@ -727,8 +683,7 @@ class EventsSubscription(BaseSubscription):
             self._sub_id
         ), "You can not stop a subscription that has not been started, did you call start()?."
         if os.getenv("USE_POLLING"):
-            poller = get_device_attr_poller()
-            poller.remove_subscription(self._sub_id)
+            self._poller.remove_subscription(self._sub_id)
             return
         self._device_proxy.unsubscribe_event(self._sub_id)
 
@@ -818,7 +773,8 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         device_name: str,
         attr_name: str,
         reduce_function: EventsReducerFunction[STATE],
-        dev_factory: DeviceFactory = _default_device_factory,
+        dev_factory: RemoteDeviceFactory,
+        poller: DeviceAttrPoller,
     ) -> None:
         """Initialise the object.
 
@@ -832,6 +788,7 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         self.device_name = device_name
         self._reduce_function = reduce_function
         self._dev_factory = dev_factory
+        self._poller = poller
 
     def reduce(self, state: STATE, event_or_action: GenericEvent) -> STATE:
         """Effects the reduction of the system by running the user provided reduce function.
@@ -848,7 +805,9 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         Generate a running subscription based on the inherent producer.
         :return: BaseSubscription
         """
-        return EventsSubscription(self.device_name, self.attr_name, self._dev_factory)
+        return EventsSubscription(
+            self.device_name, self.attr_name, self._dev_factory, self._poller
+        )
 
     @property
     def key(self):

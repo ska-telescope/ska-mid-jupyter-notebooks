@@ -27,9 +27,7 @@ def test_selector_call_memoized():
     def selector_function(x: str, y: str) -> str:
         return f"{x}/{y}"
 
-    selector_spy = cast(
-        Callable[[dict[str, str]], str], mock.Mock(wraps=selector_function)
-    )
+    selector_spy = cast(Callable[[dict[str, str]], str], mock.Mock(wraps=selector_function))
 
     selector = Selector(selector_spy, select_foo, select_bar)
 
@@ -101,29 +99,21 @@ def test_state_monitoring_of_events(
     init_state = {"foo": {"bar": "foo"}}
     monitor = MonState(init_state)
 
-    def reducer_set_foo_bar_to_value(
-        state: dict[str, dict[str, str]], event: EventData
-    ):
+    def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData):
         state["foo"]["bar"] = event.attr_value.value
         return state
 
     def select_foo_bar(state: dict[str, dict[str, str]]) -> str:
         return state["foo"]["bar"]
 
-    monitor.add_events_reducer(
-        "mock_device", "mock_attr", reducer_set_foo_bar_to_value
-    )
-    monitor.add_observer(
-        mock_observer.observe_function, Selector(select_foo_bar)
-    )
+    monitor.add_events_reducer("mock_device", "mock_attr", reducer_set_foo_bar_to_value)
+    monitor.add_observer(mock_observer.observe_function, Selector(select_foo_bar))
     monitor.start_subscriptions()
     try:
         monitor.start_listening()
         mock_provider.push_event(mock_event)
         monitor.block_until_empty()
-        assert_that(mock_observer.result).is_equal_to(
-            mock_event.attr_value.value
-        )
+        assert_that(mock_observer.result).is_equal_to(mock_event.attr_value.value)
     finally:
         monitor.stop_listening(10)
 
@@ -137,9 +127,7 @@ def test_state_monitoring_of_actions(mock_observer: Observer):
         ON = "ON"
         OFF = "OFF"
 
-    def reducer_set_foo_bar_to_input_action(
-        state: State, action: ControlActions
-    ):
+    def reducer_set_foo_bar_to_input_action(state: State, action: ControlActions):
         state["foo"]["bar"] = action.value
         return state
 
@@ -149,9 +137,7 @@ def test_state_monitoring_of_actions(mock_observer: Observer):
     controller = ActionProducer[ControlActions]()
 
     monitor.add_action_reducer(controller, reducer_set_foo_bar_to_input_action)
-    monitor.add_observer(
-        mock_observer.observe_function, Selector(select_foo_bar)
-    )
+    monitor.add_observer(mock_observer.observe_function, Selector(select_foo_bar))
     monitor.start_subscriptions()
     try:
         monitor.start_listening()

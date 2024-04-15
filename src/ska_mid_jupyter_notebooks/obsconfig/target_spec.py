@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from typing import List, Optional, Union
 
 from ska_oso_pdm.entities.common.target import (
@@ -93,7 +93,6 @@ class Scan:
         return {"id": self._instance_count}
 
 
-
 DEFAULT_TARGET_SPECS_SB = {
     "Polaris Australis": TargetSpec(
         dish_ids=["SKA001", "SKA036"],
@@ -170,6 +169,7 @@ DEFAULT_TARGET_SPECS_SB = {
         target=None,
     ),
 }
+
 
 class TargetSpecs(SchedulingBlock, Scan):
     def __init__(self, target_specs: dict[str, TargetSpec] = None) -> None:
@@ -263,4 +263,3 @@ class TargetSpecs(SchedulingBlock, Scan):
         :return: The next target id
         """
         return list(self.target_specs.keys())[0]
-

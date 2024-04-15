@@ -4,20 +4,12 @@ from collections import OrderedDict
 
 import pytest
 from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.schemas.central_node.assign_resources import (
-    AssignResourcesRequestSchema,
-)
-from ska_tmc_cdm.schemas.subarray_node.configure.core import (
-    ConfigureRequestSchema,
-)
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
+from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
 
-from ska_mid_jupyter_notebooks.obsconfig.config import (  # noqa : E402
-    ObservationSB,
-)
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import (
-    TargetSpec,
-)
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB  # noqa : E402
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
 # pylint: disable=E1101
 
@@ -70,13 +62,9 @@ def test_validate_target_spec_add_configuration_for_mid_non_sb():
                 {"vis0": {"vis0": {"field_id": "field_a"}}},
                 ".default",
             )
-            observation.add_channel_configuration(
-                target.channelisation, channel_configuration
-            )
+            observation.add_channel_configuration(target.channelisation, channel_configuration)
 
-    obsconfig_assign_resource_configuration_object = (
-        observation.generate_assign_resources_config().as_object
-    )
+    obsconfig_assign_resource_configuration_object = observation.gener().as_object
 
     obsconfig_assign_resource_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_object
@@ -90,28 +78,19 @@ def test_validate_target_spec_add_configuration_for_mid_non_sb():
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
     )
-    obsconfig_configure_resource_dict = json.loads(
-        obsconfig_configure_resource_json
-    )
+    obsconfig_configure_resource_dict = json.loads(obsconfig_configure_resource_json)
 
     assert any(
         channel["channels_id"] == "vis_channels7"
-        for channel in obsconfig_assign_resource_dict["sdp"][
-            "execution_block"
-        ]["channels"]
+        for channel in obsconfig_assign_resource_dict["sdp"]["execution_block"]["channels"]
     )
 
     assert any(
         scan_type["scan_type_id"] == "flux calibrator"
-        for scan_type in obsconfig_assign_resource_dict["sdp"][
-            "execution_block"
-        ]["scan_types"]
+        for scan_type in obsconfig_assign_resource_dict["sdp"]["execution_block"]["scan_types"]
     )
 
-    assert (
-        obsconfig_configure_resource_dict["sdp"]["scan_type"]
-        == "flux calibrator"
-    )
+    assert obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
 @pytest.mark.skipif(
@@ -163,9 +142,7 @@ def test_validate_target_spec_remove_configuration_for_mid_non_sb():
                 {"vis0": {"vis0": {"field_id": "field_a"}}},
                 ".default",
             )
-            observation.add_channel_configuration(
-                target.channelisation, channel_configuration
-            )
+            observation.add_channel_configuration(target.channelisation, channel_configuration)
 
     obsconfig_assign_resource_configuration_object = (
         observation.generate_assign_resources_config().as_object
@@ -194,28 +171,19 @@ def test_validate_target_spec_remove_configuration_for_mid_non_sb():
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
     )
-    obsconfig_configure_resource_dict = json.loads(
-        obsconfig_configure_resource_json
-    )
+    obsconfig_configure_resource_dict = json.loads(obsconfig_configure_resource_json)
 
     assert not any(
         channel["channels_id"] == "vis_channels6"
-        for channel in obsconfig_assign_resource_dict["sdp"][
-            "execution_block"
-        ]["channels"]
+        for channel in obsconfig_assign_resource_dict["sdp"]["execution_block"]["channels"]
     )
 
     assert not any(
         scan_type["scan_type_id"] == "flux calibrator"
-        for scan_type in obsconfig_assign_resource_dict["sdp"][
-            "execution_block"
-        ]["scan_types"]
+        for scan_type in obsconfig_assign_resource_dict["sdp"]["execution_block"]["scan_types"]
     )
 
-    assert (
-        not obsconfig_configure_resource_dict["sdp"]["scan_type"]
-        == "flux calibrator"
-    )
+    assert not obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
 @pytest.mark.skipif(
@@ -243,22 +211,16 @@ def test_validate_default_target_spec_configuration_for_mid_non_sb():
 
     obsconfig_assign_resource_dict = json.loads(obsconfig_assign_resource_json)
 
-    obsconfig_configure_resource_object = observation.generate_scan_config(
-        "target:a"
-    ).as_object
+    obsconfig_configure_resource_object = observation.generate_scan_config("target:a").as_object
 
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
     )
-    obsconfig_configure_resource_dict = json.loads(
-        obsconfig_configure_resource_json
-    )
+    obsconfig_configure_resource_dict = json.loads(obsconfig_configure_resource_json)
 
     assert any(
         scan_type["scan_type_id"] == "target:a"
-        for scan_type in obsconfig_assign_resource_dict["sdp"][
-            "execution_block"
-        ]["scan_types"]
+        for scan_type in obsconfig_assign_resource_dict["sdp"]["execution_block"]["scan_types"]
     )
 
     assert obsconfig_configure_resource_dict["sdp"]["scan_type"] == "target:a"

@@ -2,11 +2,14 @@ import os
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
+    DeviceAttrPoller,
     EventData,
     EventsReducer,
     MonState,
     Reducer,
+    RemoteDeviceFactory,
     Selector,
     event_key,
     explode_from_key,
@@ -71,9 +74,6 @@ class TelescopeDeviceModel:
             *[f"mid-csp/subarray/{index:0>2}" for index in range(1, self._subarray_count + 1)],
         ]
 
-    def low_csp_devices(self) -> List[str]:
-        return ["low-csp/control/0", "low-csp/subarray/01"]
-
     def sdp_devices(self) -> List[str]:
         return [
             "mid-sdp/control/0",
@@ -105,6 +105,7 @@ class TelescopeModel:
         self,
         state_monitor: MonState[TelescopeState],
         device_model: TelescopeDeviceModel,
+        cluster: TangoCluster,
     ) -> None:
         """Initialise the object
 
@@ -112,10 +113,13 @@ class TelescopeModel:
         """
         self._state_monitor = state_monitor
         self._device_model = device_model
+        self._cluster = cluster
         # add device state reducers
         keys = [key for key in state_monitor.state["devices_states"].keys()]
+        dev_factory = RemoteDeviceFactory(self._cluster.tango_host())
+        poller = DeviceAttrPoller(dev_factory)
         reducers = [
-            EventsReducer(device, attr, self._reducer_set_device_attribute)
+            EventsReducer(device, attr, self._reducer_set_device_attribute, dev_factory, poller)
             for device, attr in [explode_from_key(key) for key in keys]
         ]
         self._state_monitor.add_reducers(cast(list[Reducer[TelescopeState]], reducers))
@@ -152,14 +156,9 @@ class TelescopeModel:
         input_telescope_agg_state_selector = self._generate_select_all_devices_agg_state(
             self._device_model
         )
-        if os.environ.get("SKA_TELESCOPE") and os.environ["SKA_TELESCOPE"] == "SKA-low":
-            input_central_node_tel_state_selector = self._generate_select_device_attr(
-                "ska_low/tm_central/central_node", "telescopestate"
-            )
-        else:
-            input_central_node_tel_state_selector = self._generate_select_device_attr(
-                "ska_mid/tm_central/central_node", "telescopestate"
-            )
+        input_central_node_tel_state_selector = self._generate_select_device_attr(
+            "ska_mid/tm_central/central_node", "telescopestate"
+        )
 
         def select_telescope_state(
             agg_state: TelescopeAggState, cn_tel_state: Literal["ON", "ERROR"]
@@ -472,6 +471,7 @@ class TelescopeModel:
 # run this after setting execution mode
 def get_telescope_state(
     device_model: TelescopeDeviceModel,
+    cluster: TangoCluster,
 ) -> TelescopeModel:
     """Get TMC mid telescope state"""
     tmc_devices_states = {
@@ -503,4 +503,4 @@ def get_telescope_state(
         ),
     )
     monitor_state = MonState(init_state)
-    return TelescopeModel(monitor_state, device_model)
+    return TelescopeModel(monitor_state, device_model, cluster)

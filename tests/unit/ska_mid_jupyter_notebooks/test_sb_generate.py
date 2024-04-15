@@ -14,10 +14,8 @@ from ska_oso_pdm.entities.common.target import (
 )
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
 from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.schemas.central_node.assign_resources import (
-    AssignResourcesRequestSchema,
-)
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
+from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
@@ -610,12 +608,8 @@ DEFAULT_TARGET_SPECS = {
                     row_offset_angle=0.0,
                     unidirectional=False,
                 ),
-                "five_point_parameters": FivePointParameters(
-                    offset_arcsec=0.0
-                ),
-                "cross_scan_parameters": CrossScanParameters(
-                    offset_arcsec=0.0
-                ),
+                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
                 "active_pointing_pattern_type": "single_pointing_parameters",
             },
         },
@@ -650,12 +644,8 @@ DEFAULT_TARGET_SPECS = {
                     row_offset_angle=0.0,
                     unidirectional=False,
                 ),
-                "five_point_parameters": FivePointParameters(
-                    offset_arcsec=0.0
-                ),
-                "cross_scan_parameters": CrossScanParameters(
-                    offset_arcsec=0.0
-                ),
+                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
                 "active_pointing_pattern_type": "single_pointing_parameters",
             },
         },
@@ -665,7 +655,7 @@ DEFAULT_TARGET_SPECS = {
         polarisation="all",
         processing="test-receive-addresses",
         target=None,
-    )
+    ),
 }
 flux_calibrator_target = {
     "target_id": "flux calibrator",
@@ -739,24 +729,18 @@ def test_sb_generation_validate():
     observation1.add_scan_sequence(scan_sequence)
 
     observation1.eb_id = "eb-mvp01-20231010-82511"
-    obsconfig_scheduling_block_pdm_object = (
-        observation1.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+    obsconfig_scheduling_block_pdm_object = observation1.generate_pdm_object_for_sbd_save(
+        DEFAULT_TARGET_SPECS
     )
 
-    valid_scheduling_block_pdm_object = pdm_CODEC.loads(
-        SBDefinition, VALID_SB_MID_JSON
-    )
+    valid_scheduling_block_pdm_object = pdm_CODEC.loads(SBDefinition, VALID_SB_MID_JSON)
 
-    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].pb_id = valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].pb_id
-    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].sbi_ids = valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].sbi_ids
+    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].pb_id = (
+        valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].pb_id
+    )
+    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].sbi_ids = (
+        valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].sbi_ids
+    )
     obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.eb_id = (
         valid_scheduling_block_pdm_object.sdp_configuration.execution_block.eb_id
     )
@@ -767,20 +751,14 @@ def test_sb_generation_validate():
         valid_scheduling_block_pdm_object.metadata.last_modified_on
     )
 
-    obsconfig_scheduling_block_pdm_object.sbd_id = (
-        valid_scheduling_block_pdm_object.sbd_id
-    )
+    obsconfig_scheduling_block_pdm_object.sbd_id = valid_scheduling_block_pdm_object.sbd_id
 
     obsconfig_scheduling_block_pdm_object.scan_sequence = (
         valid_scheduling_block_pdm_object.scan_sequence
     )
-    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(
-        obsconfig_scheduling_block_pdm_object
-    )
+    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(obsconfig_scheduling_block_pdm_object)
 
-    valid_scheduling_block_pdm_json = pdm_CODEC.dumps(
-        valid_scheduling_block_pdm_object
-    )
+    valid_scheduling_block_pdm_json = pdm_CODEC.dumps(valid_scheduling_block_pdm_object)
 
     sb_dict = json.loads(obsconfig_scheduling_block_pdm_json)
     valid_dict = json.loads(valid_scheduling_block_pdm_json)
@@ -789,15 +767,14 @@ def test_sb_generation_validate():
     pprint(diff, indent=2)
     assert not diff, f"Dictionaries are not equal:{diff}"
 
+
 def test_sb_generation_validate_target_spec_configuration():
     """Test to validate if required target_spec gets added correctly"""
 
     observation2 = ObservationSB()
 
     for key, value in DEFAULT_TARGET_SPECS.items():
-        observation2.add_channel_configuration(
-            value.channelisation, channel_configuration
-        )
+        observation2.add_channel_configuration(value.channelisation, channel_configuration)
 
     observation2.add_target_specs(DEFAULT_TARGET_SPECS)
 
@@ -813,28 +790,22 @@ def test_sb_generation_validate_target_spec_configuration():
 
     observation2.eb_id = "eb-mvp01-20231010-82511"
 
-    obsconfig_scheduling_block_pdm_object = (
-        observation2.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+    obsconfig_scheduling_block_pdm_object = observation2.generate_pdm_object_for_sbd_save(
+        DEFAULT_TARGET_SPECS
     )
 
-    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(
-        obsconfig_scheduling_block_pdm_object
-    )
+    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(obsconfig_scheduling_block_pdm_object)
 
     sb_dict = json.loads(obsconfig_scheduling_block_pdm_json)
 
     assert any(
         channel["channels_id"] == "vis_channels10"
-        for channel in sb_dict["sdp_configuration"]["execution_block"][
-            "channels"
-        ]
+        for channel in sb_dict["sdp_configuration"]["execution_block"]["channels"]
     )
 
     assert any(
         scan_type["scan_type_id"] == "flux calibrator"
-        for scan_type in sb_dict["sdp_configuration"]["execution_block"][
-            "scan_types"
-        ]
+        for scan_type in sb_dict["sdp_configuration"]["execution_block"]["scan_types"]
     )
 
     assert sb_dict["dish_allocations"]["receptor_ids"] == [
@@ -853,9 +824,7 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     observation3.scan_sequence_data = []
 
     for key, value in DEFAULT_TARGET_SPECS.items():
-        observation3.add_channel_configuration(
-            value.channelisation, channel_configuration
-        )
+        observation3.add_channel_configuration(value.channelisation, channel_configuration)
 
     observation3.add_target_specs(DEFAULT_TARGET_SPECS)
 
@@ -871,8 +840,8 @@ def test_sb_generation_validate_target_spec_configuration_remove():
 
     observation3.eb_id = "eb-mvp01-20231010-82511"
 
-    obsconfig_scheduling_block_pdm_object = (
-        observation3.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+    obsconfig_scheduling_block_pdm_object = observation3.generate_pdm_object_for_sbd_save(
+        DEFAULT_TARGET_SPECS
     )
 
     obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.channels = [
@@ -885,34 +854,26 @@ def test_sb_generation_validate_target_spec_configuration_remove():
         for scan_type in obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.scan_types
         if scan_type.scan_type_id != "flux calibrator"
     ]
-    obsconfig_scheduling_block_pdm_object.dish_allocations.receptor_ids.remove(
-        "SKA001"
-    )
-    
+    obsconfig_scheduling_block_pdm_object.dish_allocations.receptor_ids.remove("SKA001")
+
     print("obsconfig_scheduling_block_pdm_object", obsconfig_scheduling_block_pdm_object.targets)
     obsconfig_scheduling_block_pdm_object.targets = [
         target
         for target in obsconfig_scheduling_block_pdm_object.targets
         if target.target_id != "flux calibrator"
     ]
-    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(
-        obsconfig_scheduling_block_pdm_object
-    )
+    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(obsconfig_scheduling_block_pdm_object)
 
     sb_dict = json.loads(obsconfig_scheduling_block_pdm_json)
 
     assert not any(
         channel["channels_id"] == "vis_channels10"
-        for channel in sb_dict["sdp_configuration"]["execution_block"][
-            "channels"
-        ]
+        for channel in sb_dict["sdp_configuration"]["execution_block"]["channels"]
     )
 
     assert not any(
         scan_type["scan_type_id"] == "flux calibrator"
-        for scan_type in sb_dict["sdp_configuration"]["execution_block"][
-            "scan_types"
-        ]
+        for scan_type in sb_dict["sdp_configuration"]["execution_block"]["scan_types"]
     )
 
     assert "SKA001" not in sb_dict["dish_allocations"]["receptor_ids"]
@@ -920,17 +881,14 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     print(flux_calibrator_target)
     assert flux_calibrator_target not in sb_dict["targets"]
 
+
 def test_sb_generation_validate_default_target_spec():
     """Test to check if no Target spec is provided than Default target spec should be present"""
     observation = ObservationSB()
     observation.eb_id = "eb-mvp01-20231010-82511"
-    obsconfig_scheduling_block_pdm_object = (
-        observation.generate_pdm_object_for_sbd_save()
-    )
+    obsconfig_scheduling_block_pdm_object = observation.generate_pdm_object_for_sbd_save()
 
-    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(
-        obsconfig_scheduling_block_pdm_object
-    )
+    obsconfig_scheduling_block_pdm_json = pdm_CODEC.dumps(obsconfig_scheduling_block_pdm_object)
     sb_dict = json.loads(obsconfig_scheduling_block_pdm_json)
 
     assert polaris_australis_target in sb_dict["targets"]
@@ -957,10 +915,7 @@ def test_sb_validate_activities_parameter():
     observation.add_activities_parameters(activities_params)
     modified_activities_parameters = observation.get_activities()
 
-    assert (
-        modified_activities_parameters["allocate"].path
-        == "git://scripts/new_allocate_path.py"
-    )
+    assert modified_activities_parameters["allocate"].path == "git://scripts/new_allocate_path.py"
 
 
 def test_sb_validate_invalid_activities_parameter():
@@ -991,9 +946,7 @@ def test_assign_resource_allocation_request_sb():
     observation._channel_configurations = {}  # pylint: disable=W0212
 
     for value in list(DEFAULT_TARGET_SPECS.values()):
-        observation.add_channel_configuration(
-            value.channelisation, channel_configuration
-        )
+        observation.add_channel_configuration(value.channelisation, channel_configuration)
 
     observation.add_target_specs(DEFAULT_TARGET_SPECS)
     for target_id in DEFAULT_TARGET_SPECS.keys():
@@ -1005,27 +958,21 @@ def test_assign_resource_allocation_request_sb():
 
     observation.add_scan_sequence(["calibrator scan"])
     observation.eb_id = "eb-test-20230825-35248"
-    pdm_allocation = observation.generate_pdm_object_for_sbd_save(
-        DEFAULT_TARGET_SPECS
-    )
+    pdm_allocation = observation.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
     pdm_allocation.sbd_id = "sbd-mvp01-20231106-00002"
-    obsconfig_assign_resource_configuration_sb_object = (
-        observation.generate_allocate_config_sb(pdm_allocation).as_object
-    )
-    valid_assign_resource_configuration_object = (
-        AssignResourcesRequestSchema().loads(VALID_ASSIGN_RESOURCE_MID_JSON_SB)
+    obsconfig_assign_resource_configuration_sb_object = observation.generate_allocate_config_sb(
+        pdm_allocation
+    ).as_object
+    valid_assign_resource_configuration_object = AssignResourcesRequestSchema().loads(
+        VALID_ASSIGN_RESOURCE_MID_JSON_SB
     )
 
-    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[
-        0
-    ].pb_id = valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].pb_id
-    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids = valid_assign_resource_configuration_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[0].pb_id = (
+        valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id
+    )
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[0].sbi_ids = (
+        valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids
+    )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.eb_id = (
         valid_assign_resource_configuration_object.sdp_config.execution_block.eb_id
     )
@@ -1051,211 +998,142 @@ def test_assign_resource_allocation_request_sb():
         3
     ].phase_dir.reference_time
 
-
-
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         0
-    ].phase_dir.ra[
-        0
-    ] = round(
+    ].phase_dir.ra[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             0
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         0
-    ].phase_dir.dec[
-        0
-    ] = round(
+    ].phase_dir.dec[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             0
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         1
-    ].phase_dir.ra[
-        0
-    ] = round(
+    ].phase_dir.ra[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             1
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         1
-    ].phase_dir.dec[
-        0
-    ] = round(
+    ].phase_dir.dec[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             1
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
 
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         2
-    ].phase_dir.ra[
-        0
-    ] = round(
+    ].phase_dir.ra[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             2
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         2
-    ].phase_dir.dec[
-        0
-    ] = round(
+    ].phase_dir.dec[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             2
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
 
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         3
-    ].phase_dir.ra[
-        0
-    ] = round(
+    ].phase_dir.ra[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             3
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         3
-    ].phase_dir.dec[
-        0
-    ] = round(
+    ].phase_dir.dec[0] = round(
         obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
             3
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
 
-
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        0
-    ].phase_dir.ra[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[0].phase_dir.ra[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             0
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        0
-    ].phase_dir.dec[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[0].phase_dir.dec[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             0
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        1
-    ].phase_dir.ra[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[1].phase_dir.ra[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             1
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        1
-    ].phase_dir.dec[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[1].phase_dir.dec[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             1
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        2
-    ].phase_dir.dec[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[2].phase_dir.dec[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             2
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        2
-    ].phase_dir.ra[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[2].phase_dir.ra[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             2
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        3
-    ].phase_dir.dec[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[3].phase_dir.dec[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             3
-        ].phase_dir.dec[
-            0
-        ],
+        ].phase_dir.dec[0],
         5,
     )
-    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
-        3
-    ].phase_dir.ra[
+    valid_assign_resource_configuration_object.sdp_config.execution_block.fields[3].phase_dir.ra[
         0
     ] = round(
         valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
             3
-        ].phase_dir.ra[
-            0
-        ],
+        ].phase_dir.ra[0],
         5,
     )
 
     obsconfig_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_sb_object
     )
-    valid_json = AssignResourcesRequestSchema().dumps(
-        valid_assign_resource_configuration_object
-    )
+    valid_json = AssignResourcesRequestSchema().dumps(valid_assign_resource_configuration_object)
 
     obsconfig_dict = json.loads(obsconfig_json)
     valid_dict = json.loads(valid_json)

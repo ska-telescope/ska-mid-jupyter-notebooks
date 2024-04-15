@@ -1,68 +1,74 @@
+import json
 import os
-from typing import Literal, TypedDict
+import time
+from typing import Any, Literal, TypedDict
 
 from tango import DeviceProxy
 
-
-class Env(TypedDict):
-    namespace: str
-    telescope: str | None
-    database_name: str
-    ingress_name: str
-    tango_host: str
-    cluster_domain: str
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
 
 
-env = Env(
-    namespace="",
-    telescope="",
-    database_name="",
-    ingress_name="",
-    tango_host="",
-    cluster_domain="",
-)
+class TangoSUTCluster(TangoCluster):
+    def __init__(
+        self,
+        branch_name: str,
+        dev_mode: bool,
+        database_name: str = "tango-databaseds",
+        cluster_domain: str = "miditf.internal.skao.int",
+        db_port: int = 10000,
+    ):
+        namespace = get_sut_namespace(branch_name, dev_mode)
+        super().__init__(namespace, database_name, cluster_domain, db_port)
+
+    def dp(self, name: str) -> Any:
+        return DeviceProxy(f"{self.tango_host()}/{name}")
+
+    def tmc_central_node_dp(self) -> Any:
+        return self.dp("ska_mid/tm_central/central_node")
+
+    def tmc_csp_master_leaf_node_dp(self) -> Any:
+        return self.dp("ska_mid/tm_leaf_node/csp_master")
+
+    def csp_subarray_dp(self) -> Any:
+        return self.dp("mid-csp/subarray/01")
+
+    def csp_controller_dp(self) -> Any:
+        return self.dp("mid-csp/control/0")
+
+    def turn_csp_on(self):
+        csp_controller = self.csp_controller_dp()
+        csp_controller.write_attribute("adminMode", 0)
+        time.sleep(
+            4
+        )  # we sleep for 4 seconds to ensure cbf is in sync (it has a polling based init that takes 4 s)
+
+    def reset_csp_subarray(self):
+        csp_subarray = self.csp_subarray_dp()
+        csp_subarray.Abort()
+        time.sleep(3)
+        csp_subarray.Restart()
+
+    def load_dish_cfg(self):
+        central_node_proxy = self.tmc_central_node_dp()
+        dish_cfg_json = json.dumps(
+            {
+                "interface": "https://schema.skao.int/ska-mid-cbf-initial-parameters/2.2",
+                "tm_data_sources": [
+                    "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
+                ],
+                "tm_data_filepath": "instrument/dishid_vcc_configuration/mid_cbf_parameters.json",
+            }
+        )
+        central_node_proxy.LoadDishCfg(dish_cfg_json)
+        csp_master_leaf_node = self.tmc_csp_master_leaf_node_dp()
+        print(csp_master_leaf_node.sourceDishVccConfig)
+        print(csp_master_leaf_node.dishVccConfig)
 
 
-def smoke_test_cluster() -> int:
-    """Smoke test cluster by pinging Database"""
-    return DeviceProxy("sys/database/2").ping()
-
-
-def set_cluster(
-    namespace: str = "staging",
-    telescope: str | None = "mid",
-    database_name: str = "tango-databaseds",
-    facility: Literal["stfc", "itf"] = "itf",
-    db_port: int | None = 10000,
-    polling: bool = False,
-) -> int:
-    """
-    Set the cluster environment variables
-    :param job_id: job id
-    :param namespace: namespace
-    :param telescope: telescope
-    :param database_name: database name
-    :param facility: facility
-    :param db_port: database port
-    :param polling: use polling
-    :return: result of smoke test
-    """
-    cluster_domain = {
-        "stfc": "cluster.local",
-        "itf": "miditf.internal.skao.int",
-    }.get(facility)
-    assert cluster_domain
-    ingress_name = f"k8s.{cluster_domain}"
-    env["database_name"] = database_name
-    env["namespace"] = namespace
-    env["telescope"] = telescope
-    env["cluster_domain"] = cluster_domain
-    env["ingress_name"] = ingress_name
-    env["tango_host"] = f"{database_name}.{namespace}.svc.{cluster_domain}:{db_port}"
-    os.environ["TANGO_HOST"] = env["tango_host"]
-    if polling:
-        os.environ["USE_POLLING"] = "True"
-    return smoke_test_cluster()
+def get_sut_namespace(branch_name: str, dev_mode: bool) -> str:
+    if dev_mode:
+        return "integration"
+    return f"ci-ska-mid-itf-{branch_name}"
 
 
 def disable_qa():
