@@ -502,5 +502,5 @@ def get_telescope_state(
             },
         ),
     )
-    monitor_state = MonState(init_state)
+    monitor_state = MonState(init_state, cluster)
     return TelescopeModel(monitor_state, device_model, cluster)

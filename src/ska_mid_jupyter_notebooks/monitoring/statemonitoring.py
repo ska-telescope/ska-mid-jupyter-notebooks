@@ -15,6 +15,8 @@ from typing import Any, Callable, Generic, Literal, NamedTuple, TypedDict, TypeV
 from tango import AttributeProxy, DevFailed, DeviceProxy, EventType
 from tango.time_val import TimeVal
 
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
+
 # pylint: disable=W0107,W0237
 
 
@@ -976,7 +978,7 @@ class MonState(EventsPusher, Generic[STATE]):
     a change in calculated value.
     """
 
-    def __init__(self, initState: STATE) -> None:
+    def __init__(self, initState: STATE, cluster: TangoCluster) -> None:
         """
         Initialise the object
         :return: None
@@ -988,6 +990,8 @@ class MonState(EventsPusher, Generic[STATE]):
         self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(lambda: [])
         self._daemon: Union[Thread, None] = None
         self._running: Event = Event()
+        self._dev_factory = RemoteDeviceFactory(cluster.tango_host())
+        self._poller = DeviceAttrPoller(self._dev_factory)
 
     def _add_generic_reducer(self, reducer: Reducer[STATE]):
         current_reducers = self._reducers[reducer.key]
@@ -1010,7 +1014,7 @@ class MonState(EventsPusher, Generic[STATE]):
         :param reduce_function: The function to update the state of the system when the attribute changes
         :return: None
         """
-        reducer = EventsReducer(device_name, attr_name, reduce_function)
+        reducer = EventsReducer(device_name, attr_name, reduce_function, self._dev_factory, self._poller)
         self._add_generic_reducer(reducer)
 
     def add_action_reducer(

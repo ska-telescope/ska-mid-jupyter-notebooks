@@ -1,13 +1,15 @@
 from assertpy import assert_that
 
-from ska_mid_jupyter_notebooks.obsconfig import Channelization, ScanTypes, types
+from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
+from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ScanTypes
+from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
 
 
 def test_channelisation():
     """
     Test to validate channelisation configuration
     """
-    channelisation = Channelization(sb_driven=False)
+    channelisation = Channelisation()
     channel_configurations = channelisation.channel_configurations
     assert_that(channel_configurations).is_type_of(list)
     target_spec_channels = channelisation.target_spec_channels
@@ -28,7 +30,7 @@ def test_scan_types():
     """
     Test to validate ScanTypes configuration
     """
-    scan_type_config = ScanTypes(sb_driven=False)
+    scan_type_config = ScanTypes()
     scan_type_configurations = scan_type_config.scan_type_configurations
     assert_that(scan_type_configurations).is_type_of(list)
     target_spec_scan_types = scan_type_config.target_spec_scan_types
@@ -49,20 +51,7 @@ def test_scan_types():
     assert_that(scan_type_config.scan_type_configurations).contains("dummy")
     beam_grouping_id = target_spec_beams.pop()
     beam_configuration = scan_type_config.get_beam_configurations(beam_grouping_id)
-    scan_type_config.add_scan_type_configuration(
-        "dummy2",
-        (beam_grouping_id, list(beam_configuration.types.keys())[0]),
-    )
-    assert_that(scan_type_config.scan_type_configurations).contains("dummy2")
-    scan_type_config.add_scan_type_configuration(
-        "dummy3",
-        [
-            (beam_grouping_id, list(beam_configuration.types.keys())[0]),
-            (beam_grouping_id, list(beam_configuration.types.keys())[1]),
-        ],
-    )
-    assert_that(scan_type_config.scan_type_configurations).contains("dummy3")
-    new_beam_types: dict[str, types.EBScanTypeBeam] = dict()
+    new_beam_types: dict[str, EBScanTypeBeam] = dict()
     new_beam_types_keys = [f"{key}_dummy" for key in beam_configuration.types.keys()]
     new_beam_type_values = list(beam_configuration.types.values())
     new_beam_types[new_beam_types_keys[0]] = new_beam_type_values[0]

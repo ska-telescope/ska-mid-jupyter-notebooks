@@ -61,14 +61,14 @@ class TangoSUTCluster(TangoCluster):
         )
         central_node_proxy.LoadDishCfg(dish_cfg_json)
         csp_master_leaf_node = self.tmc_csp_master_leaf_node_dp()
-        print(csp_master_leaf_node.sourceDishVccConfig)
-        print(csp_master_leaf_node.dishVccConfig)
+        print(f"TMC: sourceDishVccConfig={csp_master_leaf_node.sourceDishVccConfig}")
+        print(f"TMC: dishVccConfig={csp_master_leaf_node.dishVccConfig}")
 
 
 def get_sut_namespace(branch_name: str, dev_mode: bool) -> str:
     if dev_mode:
-        return "integration"
-    return f"ci-ska-mid-itf-{branch_name}"
+        return f"ci-ska-mid-itf-{branch_name}"
+    return "integration"
 
 
 def disable_qa():

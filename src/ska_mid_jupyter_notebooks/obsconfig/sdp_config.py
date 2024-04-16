@@ -1,21 +1,15 @@
-from typing import Any, NamedTuple, Tuple, Union
+from typing import Any, Dict, List, NamedTuple, Tuple, Union
 
 from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock
-from ska_oso_pdm.entities.sdp import ScanType as ScanTypeSB
+from ska_oso_pdm.entities.sdp import ScanType
 from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
 from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
 from ska_tmc_cdm.messages.central_node.sdp import (
     BeamConfiguration,
-    ChannelConfiguration,
     EBScanType,
     EBScanTypeBeam,
-    ExecutionBlockConfiguration,
-    FieldConfiguration,
-    PhaseDir,
     PolarisationConfiguration,
-    ProcessingBlockConfiguration,
     ScriptConfiguration,
-    SDPConfiguration,
 )
 
 from ska_mid_jupyter_notebooks.obsconfig.base import load_next_sb
@@ -64,30 +58,30 @@ DEFAULT_BEAMS_SB = {
 }
 
 
-def default_scan_types_sb(owner: "ScanTypes"):
+def default_scan_types_sb(owner: "ScanTypes") -> Dict[str, ScanType]:
     """
     Returns the default scan types
     :param owner: ScanTypes object
     :return: Default scan types dictionary for SB
     """
     scan_type_details = {  # list of beam mappiing
-        ".default": ScanTypeSB(
+        ".default": ScanType(
             scan_type_id=".default",
             beams=[
                 owner.get_beam_configurations("vis0").types["default_beam_type"],
             ],
         ),
-        "bandpass calibrator": ScanTypeSB(
+        "bandpass calibrator": ScanType(
             scan_type_id="bandpass calibrator",
             beams=[owner.get_beam_configurations("vis0").types["default_beam_type"]],
             derive_from=".default",
         ),
-        "Polaris Australis": ScanTypeSB(
+        "Polaris Australis": ScanType(
             scan_type_id="Polaris Australis",
             beams=[owner.get_beam_configurations("vis0").types["polaris_australis_beam_type"]],
             derive_from=".default",
         ),
-        "M85": ScanTypeSB(
+        "M85": ScanType(
             scan_type_id="M85",
             beams=[owner.get_beam_configurations("vis0").types["default_beam_type"]],
             derive_from=".default",
@@ -103,13 +97,13 @@ class ScanTypes(TargetSpecs):
     def __init__(
         self,
         additional_beam_groupings: Union[list[Beamgrouping], list[BeamgroupingSB]] | None = None,
-        additional_scan_types: Union[list[EBScanType], list[ScanTypeSB]] | None = None,
+        additional_scan_types: Union[list[EBScanType], list[ScanType]] | None = None,
         **kwargs: Any,
     ) -> None:
         """
         Initializes ScanTypes class
         :param additional_beam_groupings: list of Beamgrouping or BeamgroupingSB
-        :param additional_scan_types: list of EBScanType or ScanTypeSB
+        :param additional_scan_types: list of EBScanType or ScanType
         :param **kwargs: Any
         :return: None
         """
@@ -140,7 +134,7 @@ class ScanTypes(TargetSpecs):
         self,
         config_name: str,
         function: Union[str, BeamFunction],
-        beam_types: dict[str, Union[EBScanTypeBeam, ScanTypeSB]] | None = None,
+        beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] | None = None,
         search_beam_id: int | None = None,
         timing_beam_id: int | None = None,
         vlbi_beam_id: int | None = None,
@@ -179,7 +173,7 @@ class ScanTypes(TargetSpecs):
     def add_beam_types(
         self,
         grouping_id: str,
-        beam_types: dict[str, Union[EBScanTypeBeam, ScanTypeSB]],
+        beam_types: dict[str, Union[EBScanTypeBeam, ScanType]],
     ):
         """
         Add beam types
@@ -201,13 +195,9 @@ class ScanTypes(TargetSpecs):
     def add_scan_type_configuration(
         self,
         config_name: str,
-        beams: Union[
-            dict[str, dict[str, Union[EBScanTypeBeam, BeamMapping, str]]],
-            Tuple[str, str],
-            list[Tuple[str, str]],
-        ],
+        beams: dict[str, dict[str, BeamMapping]],
         derive_from: str | None = None,
-    ):
+    ):        
         """
         Add a scan type configuration
         :param config_name: name of scan_type configuration
@@ -215,7 +205,7 @@ class ScanTypes(TargetSpecs):
         :param derive_from: derive from
         :return: None
         """
-        agg_beam_types: dict[str, Union[EBScanTypeBeam, ScanTypeSB]] = dict()
+        agg_beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] = dict()
 
         def add_beam(grouping_id: str, beam_type_id: str):
             """
@@ -249,9 +239,10 @@ class ScanTypes(TargetSpecs):
                 scan_type_data = {"scan_type_id": config_name}
                 if derive_from:
                     scan_type_data["derive_from"] = derive_from
-
-                scan_type_data["beams"] = [BeamMapping(**beam_types)]
-                scan_type_obj = ScanTypeSB(**scan_type_data)
+                if isinstance(beam_types, BeamMapping):
+                    beam_types = [beam_types]
+                scan_type_data["beams"] = beam_types
+                scan_type_obj = ScanType(**scan_type_data)
 
             self._scan_type_configurations[config_name] = scan_type_obj
         else:
@@ -288,7 +279,7 @@ class ScanTypes(TargetSpecs):
         return {target.scan_type for target in self.target_specs.values()}
 
     @property
-    def scan_types(self):
+    def scan_types(self) -> List[ScanType]:
         """
         Get the scan types
         :return:  list of scan types
@@ -460,15 +451,6 @@ class ProcessingSpecs(TargetSpecs):
 
 
 class ProcessingBlockSpec(ProcessingSpecs):
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """
-        Initialize the processing block spec class
-        :param kwargs: keyword arguments
-        :param args: positional arguments
-        :return:  None
-        """
-        super().__init__(*args, **kwargs)
-        self.sb_driven = kwargs.get("sb_driven")
 
     @property
     def processing_blocks(self):

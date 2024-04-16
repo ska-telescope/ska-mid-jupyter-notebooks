@@ -19,6 +19,7 @@ from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesReq
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
+from ska_oso_pdm.entities.sdp import BeamMapping
 
 VALID_SB_MID_JSON = """{
   "sbd_id": "sbi-mvp01-20200325-00001",
@@ -721,7 +722,7 @@ def test_sb_generation_validate():
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation1.add_scan_type_configuration(
             config_name=target_id,
-            beams={"vis0": {"beam_id": "vis0", "field_id": "M83"}},
+            beams={"vis0": BeamMapping(beam_id="vis0", field_id="M83")},
             derive_from=".default",
         )
 
@@ -781,7 +782,7 @@ def test_sb_generation_validate_target_spec_configuration():
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation2.add_scan_type_configuration(
             config_name=target_id,
-            beams={"vis0": {"beam_id": "vis0", "field_id": "M83"}},
+            beams={"vis0": BeamMapping(beam_id="vis0", field_id="M83")},
             derive_from=".default",
         )
 
@@ -831,7 +832,7 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation3.add_scan_type_configuration(
             config_name=target_id,
-            beams={"vis0": {"beam_id": "vis0", "field_id": "M83"}},
+            beams={"vis0": BeamMapping(beam_id="vis0", field_id="M83")},
             derive_from=".default",
         )
 
@@ -856,7 +857,6 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     ]
     obsconfig_scheduling_block_pdm_object.dish_allocations.receptor_ids.remove("SKA001")
 
-    print("obsconfig_scheduling_block_pdm_object", obsconfig_scheduling_block_pdm_object.targets)
     obsconfig_scheduling_block_pdm_object.targets = [
         target
         for target in obsconfig_scheduling_block_pdm_object.targets
@@ -878,7 +878,6 @@ def test_sb_generation_validate_target_spec_configuration_remove():
 
     assert "SKA001" not in sb_dict["dish_allocations"]["receptor_ids"]
 
-    print(flux_calibrator_target)
     assert flux_calibrator_target not in sb_dict["targets"]
 
 
@@ -952,7 +951,7 @@ def test_assign_resource_allocation_request_sb():
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation.add_scan_type_configuration(
             config_name=target_id,
-            beams={"vis0": {"beam_id": "vis0", "field_id": "M85"}},
+            beams={"vis0": BeamMapping(beam_id="vis0", field_id="M85")},
             derive_from=".default",
         )
 

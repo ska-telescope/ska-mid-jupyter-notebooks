@@ -5,6 +5,7 @@ from unittest import mock
 import pytest
 from assertpy import assert_that
 
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     ActionProducer,
     DeviceAttribute,
@@ -59,7 +60,7 @@ def fxt_mock_provider() -> Provider:
 @pytest.fixture(name="mock_device")
 def fxt_mock_device(mock_provider: Provider):
     with mock.patch(
-        "ska_mid_jupyter_notebooks.helpers.statemonitoring.DeviceProxy"
+        "ska_mid_jupyter_notebooks.monitoring.statemonitoring.DeviceProxy"
     ) as mock_device:
         mock_impl = mock_device.return_value
         mock_impl.subscribe_event.side_effect = mock_provider.add_subscriber
@@ -97,7 +98,7 @@ def test_state_monitoring_of_events(
     mock_provider: Provider, mock_event: EventData, mock_observer: Observer
 ):
     init_state = {"foo": {"bar": "foo"}}
-    monitor = MonState(init_state)
+    monitor = MonState(init_state, TangoCluster("test"))
 
     def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData):
         state["foo"]["bar"] = event.attr_value.value
@@ -121,7 +122,7 @@ def test_state_monitoring_of_events(
 def test_state_monitoring_of_actions(mock_observer: Observer):
     State = dict[str, dict[str, str]]
     init_state: State = {"foo": {"bar": "foo"}}
-    monitor = MonState(init_state)
+    monitor = MonState(init_state, TangoCluster("test"))
 
     class ControlActions(Enum):
         ON = "ON"

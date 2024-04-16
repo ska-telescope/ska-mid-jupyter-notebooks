@@ -50,7 +50,7 @@ class TestEquipmentModel:
         init_state = EquipmentState(
             devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
         )
-        self._state_monitor: MonState[EquipmentState] = MonState(init_state)
+        self._state_monitor: MonState[EquipmentState] = MonState(init_state, test_equipment)
         poller = DeviceAttrPoller(self._dev_factory)
         reducers = [
             EventsReducer(
