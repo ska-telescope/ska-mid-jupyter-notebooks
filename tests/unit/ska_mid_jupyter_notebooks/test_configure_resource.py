@@ -9,6 +9,7 @@ from ska_oso_pdm.entities.common.target import (
     SinglePointParameters,
     StarRasterParameters,
 )
+from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
 from ska_tmc_cdm.schemas.subarray_node.configure.csp import (
@@ -23,7 +24,6 @@ from ska_tmc_cdm.schemas.subarray_node.configure.mccs import MCCSConfigurationSc
 from ska_tmc_cdm.schemas.subarray_node.configure.sdp import SDPConfigurationSchema
 from ska_tmc_cdm.schemas.subarray_node.configure.tmc import TMCConfigurationSchema
 from ska_tmc_cdm.utils import assert_json_is_equal
-from ska_oso_pdm.entities.sdp import BeamMapping
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
@@ -199,6 +199,7 @@ VALID_CONFIGURE_RESOURCE_MID_JSON = """{
   }
 }
 """
+
 
 def test_validate_csp_configuration_object_using_mid_observation_class():
     """

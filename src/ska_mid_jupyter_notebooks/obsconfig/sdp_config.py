@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, NamedTuple, Tuple, Union
 
-from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock
-from ska_oso_pdm.entities.sdp import ScanType
+from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
 from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
 from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
 from ska_tmc_cdm.messages.central_node.sdp import (
@@ -197,7 +196,7 @@ class ScanTypes(TargetSpecs):
         config_name: str,
         beams: dict[str, dict[str, BeamMapping]],
         derive_from: str | None = None,
-    ):        
+    ):
         """
         Add a scan type configuration
         :param config_name: name of scan_type configuration

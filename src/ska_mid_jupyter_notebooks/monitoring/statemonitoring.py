@@ -1014,7 +1014,9 @@ class MonState(EventsPusher, Generic[STATE]):
         :param reduce_function: The function to update the state of the system when the attribute changes
         :return: None
         """
-        reducer = EventsReducer(device_name, attr_name, reduce_function, self._dev_factory, self._poller)
+        reducer = EventsReducer(
+            device_name, attr_name, reduce_function, self._dev_factory, self._poller
+        )
         self._add_generic_reducer(reducer)
 
     def add_action_reducer(

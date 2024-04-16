@@ -19,6 +19,7 @@ class TangoSUTCluster(TangoCluster):
     ):
         namespace = get_sut_namespace(branch_name, dev_mode)
         super().__init__(namespace, database_name, cluster_domain, db_port)
+        os.environ["TANGO_HOST"] = self.tango_host()
 
     def dp(self, name: str) -> Any:
         return DeviceProxy(f"{self.tango_host()}/{name}")

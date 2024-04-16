@@ -12,6 +12,7 @@ from ska_oso_pdm.entities.common.target import (
     SinglePointParameters,
     StarRasterParameters,
 )
+from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
 from ska_tmc_cdm.messages.central_node.sdp import Channel
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
@@ -19,7 +20,6 @@ from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesReq
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
-from ska_oso_pdm.entities.sdp import BeamMapping
 
 VALID_SB_MID_JSON = """{
   "sbd_id": "sbi-mvp01-20200325-00001",

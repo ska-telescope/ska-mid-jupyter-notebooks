@@ -1,8 +1,8 @@
 from assertpy import assert_that
+from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
 
 from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ScanTypes
-from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
 
 
 def test_channelisation():

@@ -7,6 +7,7 @@ from assertpy import assert_that
 
 from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
+    STATE,
     ActionProducer,
     DeviceAttribute,
     EventData,
@@ -120,19 +121,18 @@ def test_state_monitoring_of_events(
 
 
 def test_state_monitoring_of_actions(mock_observer: Observer):
-    State = dict[str, dict[str, str]]
-    init_state: State = {"foo": {"bar": "foo"}}
+    init_state: STATE = {"foo": {"bar": "foo"}}
     monitor = MonState(init_state, TangoCluster("test"))
 
     class ControlActions(Enum):
         ON = "ON"
         OFF = "OFF"
 
-    def reducer_set_foo_bar_to_input_action(state: State, action: ControlActions):
+    def reducer_set_foo_bar_to_input_action(state: STATE, action: ControlActions):  # type: ignore
         state["foo"]["bar"] = action.value
         return state
 
-    def select_foo_bar(state: State) -> str:
+    def select_foo_bar(state: STATE) -> str:  # type: ignore
         return state["foo"]["bar"]
 
     controller = ActionProducer[ControlActions]()

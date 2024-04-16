@@ -3,14 +3,7 @@ import os
 from collections import OrderedDict
 
 import pytest
-from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
-from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
-from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
 from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
-
-from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB  # noqa : E402
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -19,6 +12,13 @@ from ska_oso_pdm.entities.common.target import (
     StarRasterParameters,
 )
 from ska_oso_pdm.entities.sdp import BeamMapping
+from ska_tmc_cdm.messages.central_node.sdp import Channel
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
+from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
+
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB  # noqa : E402
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
 # pylint: disable=E1101
 
@@ -46,7 +46,9 @@ def test_validate_target_spec_add_configuration_for_mid_sb():
 
     pdm_allocation = observation.generate_pdm_object_for_sbd_save(target_specs)
     pdm_allocation.sbd_id = "sbd-miditf-20240415-00006"
-    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(pdm_allocation).as_object
+    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(
+        pdm_allocation
+    ).as_object
 
     obsconfig_assign_resource_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_object
@@ -54,7 +56,9 @@ def test_validate_target_spec_add_configuration_for_mid_sb():
 
     obsconfig_assign_resource_dict = json.loads(obsconfig_assign_resource_json)
 
-    obsconfig_configure_resource_object = observation.generate_scan_config_sb(pdm_allocation, "flux calibrator").as_object
+    obsconfig_configure_resource_object = observation.generate_scan_config_sb(
+        pdm_allocation, "flux calibrator"
+    ).as_object
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
     )
@@ -101,7 +105,9 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
 
     pdm_allocation = observation.generate_pdm_object_for_sbd_save(target_specs)
     pdm_allocation.sbd_id = "sbd-miditf-20240415-00006"
-    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(pdm_allocation).as_object
+    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(
+        pdm_allocation
+    ).as_object
     obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels = [
         channel
         for channel in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels
@@ -119,7 +125,9 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
 
     obsconfig_assign_resource_dict = json.loads(obsconfig_assign_resource_json)
 
-    obsconfig_configure_resource_object = observation.generate_scan_config_sb(pdm_allocation, "flux calibrator").as_object
+    obsconfig_configure_resource_object = observation.generate_scan_config_sb(
+        pdm_allocation, "flux calibrator"
+    ).as_object
     obsconfig_configure_resource_object.sdp.scan_type = ""
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
@@ -165,15 +173,19 @@ def test_validate_target_spec_configuration_for_mid_sb():
 
     pdm_allocation = observation.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
     pdm_allocation.sbd_id = "sbd-miditf-20240415-00006"
-    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(pdm_allocation).as_object
- 
+    obsconfig_assign_resource_configuration_object = observation.generate_allocate_config_sb(
+        pdm_allocation
+    ).as_object
+
     obsconfig_assign_resource_json = AssignResourcesRequestSchema().dumps(
         obsconfig_assign_resource_configuration_object
     )
 
     obsconfig_assign_resource_dict = json.loads(obsconfig_assign_resource_json)
 
-    obsconfig_configure_resource_object = observation.generate_scan_config_sb(pdm_allocation, "flux calibrator").as_object
+    obsconfig_configure_resource_object = observation.generate_scan_config_sb(
+        pdm_allocation, "flux calibrator"
+    ).as_object
 
     obsconfig_configure_resource_json = ConfigureRequestSchema().dumps(
         obsconfig_configure_resource_object
@@ -186,6 +198,7 @@ def test_validate_target_spec_configuration_for_mid_sb():
     )
 
     assert obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
+
 
 DEFAULT_CHANNEL_CONFIGURATION = [
     Channel(
