@@ -105,7 +105,7 @@ html_theme = 'ska_ser_sphinx_theme'
 html_context = {
     'display_github': True,  # Integrate GitHub
     'github_user': 'ska-telescope',  # Username
-    'github_repo': 'ska_mid_jupyter_scripting',  # Repo name
+    'github_repo': 'ska_mid_jupyter_notebooks',  # Repo name
     'github_version': 'master',  # Version
 }
 
