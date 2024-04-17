@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Any
 
@@ -24,6 +25,11 @@ class TangoCluster:
         self._tango_host = f"{database_name}.{namespace}.svc.{cluster_domain}"
         self._tango_port = db_port
         self._devices_to_ignore: list[str] = []
+        self._cluster_domain = cluster_domain
+        self.logger = logging.getLogger(__name__)
+
+    def dp(self, name: str) -> Any:
+        return DeviceProxy(f"{self.tango_host()}/{name}")
 
     def ignore(self, device: str):
         """
@@ -90,7 +96,7 @@ class TangoCluster:
         devices = {self._replace(dev): dev for dev in self.devices}
         if attr in devices.keys():
             dev_name = devices[attr]
-            return DeviceProxy(f"tango://{self._tango_host}:{self._tango_port}/{dev_name}")
+            return self.dp(dev_name)
         try:
             return super().__getattribute__(attr)
         except AttributeError as exception:
@@ -104,4 +110,8 @@ class TangoCluster:
 
     def smoke_test(self) -> int:
         """Smoke test cluster by pinging tango Database"""
-        return DeviceProxy(f"tango://{self.tango_host()}/sys/database/2").ping()
+        return self.dp("sys/database/2").ping()
+
+    @property
+    def taranta_endpoint(self) -> str:
+        return f"https://k8s.{self._cluster_domain}/{self.namespace}/taranta/devices"
