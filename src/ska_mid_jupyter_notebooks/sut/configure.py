@@ -1,9 +1,7 @@
 import json
 import os
 import time
-from typing import Any, Literal, TypedDict
-
-from tango import DeviceProxy
+from typing import Any
 
 from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
 

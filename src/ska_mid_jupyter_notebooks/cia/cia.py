@@ -10,6 +10,7 @@ from ska_ser_config_inspector_client import (
 
 logger = logging.getLogger(__name__)
 
+
 def export_chart_configuration(
     namespace: str,
     output_dir: str,

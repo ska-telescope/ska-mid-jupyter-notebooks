@@ -1,7 +1,17 @@
 import logging
-import os
-from typing import Any
+import pathlib
+from dataclasses import dataclass
+from typing import Any, Dict, List
 
+from ska_ser_config_inspector_client import (
+    ApiClient,
+    ChartsAndReleaseDataApi,
+    Configuration,
+    ControlApi,
+    TangoDevicesAndTheirDeploymentStatusApi,
+)
+from ska_ser_config_inspector_client.models.device_response import DeviceResponse
+from ska_ser_config_inspector_client.models.release_response import ReleaseResponse
 from tango import Database, DeviceProxy
 
 
@@ -12,6 +22,8 @@ class TangoCluster:
         database_name: str = "tango-databaseds",
         cluster_domain: str = "miditf.internal.skao.int",
         db_port: int = 10000,
+        cia_svc_name: str = "config-inspector",
+        cia_port: str = "8765",
     ):
         """
         Initialises TangoCluster class
@@ -27,6 +39,13 @@ class TangoCluster:
         self._devices_to_ignore: list[str] = []
         self._cluster_domain = cluster_domain
         self.logger = logging.getLogger(__name__)
+        self.cia_url = f"http://{cia_svc_name}.{self.namespace}.svc.{cluster_domain}:{cia_port}"
+        config = Configuration(host=self.cia_url)
+        config.verify_ssl = False
+        self.cia_client = ApiClient(configuration=config)
+        self.chart_api = ChartsAndReleaseDataApi(self.cia_client)
+        self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
+        self._release = None
 
     def dp(self, name: str) -> Any:
         return DeviceProxy(f"{self.tango_host()}/{name}")
@@ -70,48 +89,49 @@ class TangoCluster:
         ]
         return filtered
 
-    @property
-    def devices_as_attrs(self) -> list[str]:
-        """
-        Get devices as attributes
-
-        :return: list of device as attributes
-        """
-        return [self._replace(dev) for dev in self.devices]
-
-    @staticmethod
-    def _replace(input_string: str) -> str:
-        """
-        Replace input string
-
-        :param input_string: input string
-        :return: replaced string
-        """
-        first = input_string.replace("/", "_")
-        return first.replace("-", "_")
-
-    def __getattr__(self, attr: str) -> Any:
-        if hasattr(super(), attr):
-            return super().__getattribute__(attr)
-        devices = {self._replace(dev): dev for dev in self.devices}
-        if attr in devices.keys():
-            dev_name = devices[attr]
-            return self.dp(dev_name)
-        try:
-            return super().__getattribute__(attr)
-        except AttributeError as exception:
-            raise AttributeError(
-                f"TangoTestEquipment object has no device '{attr}',\
-             avaliable devices are {list(devices.keys())}."
-            ) from exception
-
     def tango_host(self) -> str:
         return f"{self._tango_host}:{self._tango_port}"
 
     def smoke_test(self) -> int:
-        """Smoke test cluster by pinging tango Database"""
+        """Smoke test cluster by pinging CIA and Tango Database"""
+        control_api = ControlApi(self.cia_client)
+        ping_response = control_api.ping_server_and_get_current_time_on_server_ping_get()
+        self.logger.debug(
+            f"CIA PingResponse ({self.namespace}): {ping_response.model_dump_json()}"
+        )
+        assert ping_response.result == "ok", f"Failed to ping CIA at {self.cia_url}"
         return self.dp("sys/database/2").ping()
 
     @property
     def taranta_endpoint(self) -> str:
         return f"https://k8s.{self._cluster_domain}/{self.namespace}/taranta/devices"
+
+    @property
+    def release(self) -> ReleaseResponse:
+        if self._release:
+            return self._release
+        self._release = self.chart_api.get_release_get()
+        return self._release
+
+    def chart_devices(self, chart: str) -> List[DeviceResponse]:
+        return self.tango_api.search_sub_chart_for_devices_chart_name_search_devices_get(chart)
+
+    def export_chart_configuration(
+        self,
+        output_dir: str,
+    ):
+        self.logger.debug(f"Exporting configuration using {self.cia_url}")
+        response_json = self.release.model_dump_json(indent=4)
+        self.logger.debug(f"ReleaseResponse ({self.namespace}): {response_json}")
+        output_file = pathlib.Path(output_dir, f"config-{self.namespace}.json")
+        with open(output_file, mode="w", encoding="utf-8") as config_file:
+            config_file.write(response_json)
+        self.logger.debug(f"Exported chart from {self.namespace} configuration to {output_file}")
+
+    def print_full_diagnostics(self):
+        for chart in self.release.sub_charts:
+            devices = self.chart_devices(chart.chart)
+            for device in devices:
+                self.logger.debug(
+                    f"{self.namespace}: {chart.chart}: {device.name}:\n\n{device.model_dump_json(indent=4)}"
+                )
