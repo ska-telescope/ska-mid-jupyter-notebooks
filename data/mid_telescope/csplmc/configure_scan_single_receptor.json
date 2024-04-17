@@ -1,0 +1,31 @@
+{
+    "interface": "https://schema.skao.int/ska-csp-configure/2.3",
+    "subarray": {
+        "subarray_name": "Single receptor"
+    },
+    "common": {
+        "config_id": "1 receptor, band 1, 1 FSP, no options",
+        "frequency_band": "1",
+        "subarray_id": 1
+    },
+    "cbf": {
+        "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
+        "rfi_flagging_mask": {},
+        "fsp": [
+            {
+                "fsp_id": 1,
+                "function_mode": "CORR",
+                "frequency_slice_id": 1,
+                "zoom_factor": 1,
+                "zoom_window_tuning": 450000,
+                "integration_factor": 10,
+                "channel_offset": 0,
+                "output_link_map": [
+                    [0, 4]
+                ],
+                "output_host": [[0, "10.50.1.30"]],
+                "output_port": [[0, 21000, 1]]
+            }
+        ]
+    }
+}
