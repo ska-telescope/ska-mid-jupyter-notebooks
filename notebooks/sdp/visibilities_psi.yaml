@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cloud03-sdn-dynamic-vis
+  name: visibilities-emulator
   annotations:
-    k8s.v1.cni.cncf.io/networks: kube-system/cloud03-sdn
+    k8s.v1.cni.cncf.io/networks: kube-system/sdn
 spec:
   containers:
-    - name: cloud03-sdn-dynamic-vis
+    - name: visibilities-emulator
       image: artefact.skao.int/ska-mid-cbf-signal-verification-visibility-capture:0.2.16
       imagePullPolicy: IfNotPresent
       command: ["/bin/bash", "-c"]
