@@ -1,6 +1,3 @@
-import json
-from typing import Any, cast
-
 from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
 from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
 from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration

@@ -1,7 +1,5 @@
 import json
-import os
 
-import pytest
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -12,16 +10,6 @@ from ska_oso_pdm.entities.common.target import (
 from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
-from ska_tmc_cdm.schemas.subarray_node.configure.csp import (
-    CommonConfigurationSchema,
-    CSPConfigurationSchema,
-    LowCBFConfigurationSchema,
-    StationConfigurationSchema,
-    StnBeamConfigurationSchema,
-    SubarrayConfigurationSchema,
-)
-from ska_tmc_cdm.schemas.subarray_node.configure.mccs import MCCSConfigurationSchema
-from ska_tmc_cdm.schemas.subarray_node.configure.sdp import SDPConfigurationSchema
 from ska_tmc_cdm.schemas.subarray_node.configure.tmc import TMCConfigurationSchema
 from ska_tmc_cdm.utils import assert_json_is_equal
 

@@ -1,11 +1,15 @@
 import time
-from typing import Any
 
-from ska_control_model import HealthState
-from tango import DeviceProxy
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment, TangoDeviceProxy
+from ska_mid_jupyter_notebooks.dish.enum import (
+    DishMode,
+    DSOperatingMode,
+    PointingState,
+    PowerState,
+    SPFOperatingMode,
+    SPFRxOperatingMode,
+)
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeviceProxy, TangoDeployment
-from ska_mid_jupyter_notebooks.dish.enum import DSOperatingMode, DishMode, PointingState, PowerState, SPFOperatingMode, SPFRxOperatingMode
 
 class DishDeviceProxy(TangoDeviceProxy):
     def __init__(self, dish_deployment: "TangoDishDeployment", device_name: str):
@@ -28,6 +32,7 @@ class DishManager(DishDeviceProxy):
     def pointing_state(self) -> PointingState:
         return PointingState(self.pointingState)
 
+
 class SPFC(DishDeviceProxy):
     def __init__(self, dish_deployment: "TangoDishDeployment"):
         super().__init__(dish_deployment, "simulator-spfc")
@@ -35,6 +40,7 @@ class SPFC(DishDeviceProxy):
     @property
     def operating_mode(self) -> SPFOperatingMode:
         return SPFOperatingMode(self.operatingMode)
+
 
 class SPFRx(DishDeviceProxy):
     def __init__(self, dish_deployment: "TangoDishDeployment"):
@@ -44,6 +50,7 @@ class SPFRx(DishDeviceProxy):
     def operating_mode(self) -> SPFRxOperatingMode:
         return SPFRxOperatingMode(self.operatingMode)
 
+
 class DSManager(DishDeviceProxy):
     def __init__(self, dish_deployment: "TangoDishDeployment"):
         super().__init__(dish_deployment, "ds-manager")
@@ -51,6 +58,7 @@ class DSManager(DishDeviceProxy):
     @property
     def operating_mode(self) -> DSOperatingMode:
         return DSOperatingMode(self.operatingMode)
+
 
 class TangoDishDeployment(TangoDeployment):
     def __init__(
@@ -113,7 +121,9 @@ class TangoDishDeployment(TangoDeployment):
         spfrx = self.spfrx_simulator
         self.logger.debug(f"{self.dish_id}: SPFRx OperatingMode: {str(spfrx.operating_mode)}")
         ds_manager = self.ds_manager
-        self.logger.debug(f"{self.dish_id}: DS Manager OperatingMode: {str(ds_manager.operating_mode)}")
+        self.logger.debug(
+            f"{self.dish_id}: DS Manager OperatingMode: {str(ds_manager.operating_mode)}"
+        )
         self.logger.debug(
             f"{self.dish_id}: DS Manager IndexerPosition: {ds_manager.indexerPosition}"
         )

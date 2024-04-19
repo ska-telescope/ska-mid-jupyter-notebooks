@@ -500,7 +500,7 @@ class DeviceAttrPoller:
         self._thread = Thread(target=self._polling_thread, daemon=True)
         self._index = 0
         self._dev_factory = dev_factory
-        self._subscriptions: dict[SUB_ID, tuple[PolledAttribute, AttrEventsPusher]] = {}
+        self.subscriptions: dict[SUB_ID, tuple[PolledAttribute, AttrEventsPusher]] = {}
         self._device_attribute_pollings: dict[PolledAttribute, PollingState] = defaultdict(
             PollingState
         )
@@ -536,7 +536,7 @@ class DeviceAttrPoller:
         with self._lock:
             self._index += 1
             atr_events_pusher = AttrEventsPusher(self._index, events_pusher)
-            self._subscriptions[self._index] = (
+            self.subscriptions[self._index] = (
                 device_attribute,
                 atr_events_pusher,
             )
@@ -553,7 +553,7 @@ class DeviceAttrPoller:
         :return: None
         """
         with self._lock:
-            device_attribute, attr_events_pusher = self._subscriptions.pop(sub_id)
+            device_attribute, attr_events_pusher = self.subscriptions.pop(sub_id)
             self._device_attribute_pollings[device_attribute].remove(attr_events_pusher)
 
     def _get_attr_to_poll(self) -> list[tuple[PolledAttribute, PollingState]]:
@@ -985,7 +985,7 @@ class MonState(EventsPusher, Generic[STATE]):
         """
         super().__init__()
         self.state = initState
-        self._subscriptions: dict[str, BaseSubscription] = dict({})
+        self.subscriptions: dict[str, BaseSubscription] = dict({})
         self._publishers: list[Publisher[STATE, Any]] = []
         self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(lambda: [])
         self._daemon: Union[Thread, None] = None
@@ -998,7 +998,7 @@ class MonState(EventsPusher, Generic[STATE]):
         if current_reducers == []:
             # this means we have not yet created a subscription for this event
 
-            self._subscriptions[reducer.key] = reducer.generate_subscription()
+            self.subscriptions[reducer.key] = reducer.generate_subscription()
         self._reducers[reducer.key].append(reducer)
 
     def add_events_reducer(
@@ -1079,7 +1079,7 @@ class MonState(EventsPusher, Generic[STATE]):
         :return: None
         """
         items_to_pop: list[str] = []
-        for key, subscription in self._subscriptions.items():
+        for key, subscription in self.subscriptions.items():
             try:
                 subscription.start(self)
             except UnableToStartSubscription as exception:
@@ -1090,7 +1090,7 @@ class MonState(EventsPusher, Generic[STATE]):
                 )
                 items_to_pop.append(key)
         for key in items_to_pop:
-            self._subscriptions.pop(key)
+            self.subscriptions.pop(key)
             self._reducers.pop(key)
 
     def _listening_daemon(self):

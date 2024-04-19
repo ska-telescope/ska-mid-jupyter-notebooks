@@ -1,4 +1,4 @@
-from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
+from typing import Any, Callable, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     DeviceAttrPoller,
@@ -11,7 +11,7 @@ from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     event_key,
 )
 from ska_mid_jupyter_notebooks.test_equipment.base import DeviceDevState, TestDevice
-from ska_mid_jupyter_notebooks.test_equipment.configure import TangoTestEquipment
+from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEquipment
 
 
 class DeviceNameAndState(NamedTuple):
@@ -50,7 +50,7 @@ class TestEquipmentModel:
         init_state = EquipmentState(
             devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
         )
-        self._state_monitor: MonState[EquipmentState] = MonState(init_state, test_equipment)
+        self.state_monitor: MonState[EquipmentState] = MonState(init_state, test_equipment)
         poller = DeviceAttrPoller(self._dev_factory)
         reducers = [
             EventsReducer(
@@ -62,7 +62,7 @@ class TestEquipmentModel:
             )
             for device in test_equipment.devices
         ]
-        self._state_monitor.add_reducers(cast(list[Reducer[Any]], reducers))
+        self.state_monitor.add_reducers(cast(list[Reducer[Any]], reducers))
         self._active = False
 
     def get_last_poll_latency(self):
@@ -70,14 +70,14 @@ class TestEquipmentModel:
         Get last poll latency
         :return: last poll latency
         """
-        return self._state_monitor.get_last_poll_latency()
+        return self.state_monitor.get_last_poll_latency()
 
     def get_average_poll_latency(self):
         """
         Get average poll latency
         :return: average poll latency
         """
-        return self._state_monitor.get_last_poll_latency()
+        return self.state_monitor.get_last_poll_latency()
 
     @property
     def listening_state(self):
@@ -85,7 +85,7 @@ class TestEquipmentModel:
         Get listening state
         :return: listening state
         """
-        return self._state_monitor.listening_state
+        return self.state_monitor.listening_state
 
     @classmethod
     def _reducer_set_device_attribute(
@@ -150,7 +150,7 @@ class TestEquipmentModel:
             select_agg_dev_state, *input_test_equipment_states
         )
 
-        self._state_monitor.add_observer(observe_function, test_equipment_state_selector)
+        self.state_monitor.add_observer(observe_function, test_equipment_state_selector)
 
     @property
     def state(self) -> EquipmentState:
@@ -159,10 +159,10 @@ class TestEquipmentModel:
         :return: Equipment state
         """
         if not self._active:
-            self._state_monitor.start_subscriptions()
-            self._state_monitor.start_listening()
+            self.state_monitor.start_subscriptions()
+            self.state_monitor.start_listening()
             self._active = True
-        return self._state_monitor.state
+        return self.state_monitor.state
 
     def activate(self):
         """
@@ -170,6 +170,6 @@ class TestEquipmentModel:
         :return: None
         """
         if not self._active:
-            self._state_monitor.start_subscriptions()
-            self._state_monitor.start_listening()
+            self.state_monitor.start_subscriptions()
+            self.state_monitor.start_listening()
             self._active = True

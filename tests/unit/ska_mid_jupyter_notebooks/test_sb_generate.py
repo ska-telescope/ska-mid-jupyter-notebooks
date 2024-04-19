@@ -1,5 +1,4 @@
 import json
-import os
 from pprint import pprint
 
 import pytest
@@ -935,7 +934,7 @@ def test_sb_validate_invalid_activities_parameter():
         "observe_path": "new_observe_path.py",
         "observe_repo": "https://new-repository-url.com/ska-observe.git",
     }
-    with pytest.raises(AttributeError) as exc_info:
+    with pytest.raises(AttributeError):
         observation.add_activities_parameters(activities_params)
 
 

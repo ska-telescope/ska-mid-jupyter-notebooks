@@ -1,9 +1,5 @@
 import json
-import os
-from collections import OrderedDict
 
-import pytest
-from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -13,11 +9,11 @@ from ska_oso_pdm.entities.common.target import (
 )
 from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
 from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
 
-from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB  # noqa : E402
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
 # pylint: disable=E1101

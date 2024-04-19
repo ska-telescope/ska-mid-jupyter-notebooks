@@ -1,4 +1,3 @@
-import os
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
@@ -111,7 +110,7 @@ class TelescopeModel:
 
         :param state_monitor: The provided state monitor object.
         """
-        self._state_monitor = state_monitor
+        self.state_monitor = state_monitor
         self._device_model = device_model
         self._deployment = deployment
         # add device state reducers
@@ -122,27 +121,27 @@ class TelescopeModel:
             EventsReducer(device, attr, self._reducer_set_device_attribute, dev_factory, poller)
             for device, attr in [explode_from_key(key) for key in keys]
         ]
-        self._state_monitor.add_reducers(cast(list[Reducer[TelescopeState]], reducers))
+        self.state_monitor.add_reducers(cast(list[Reducer[TelescopeState]], reducers))
         self._tel_ready = Event()
         self.subscribe_to_on_off(self.monitor_ready)
 
     def get_last_poll_latency(self):
         """Get the last poll latency"""
-        return self._state_monitor.get_last_poll_latency()
+        return self.state_monitor.get_last_poll_latency()
 
     def get_average_poll_latency(self):
         """Get the average poll latency"""
-        return self._state_monitor.get_last_poll_latency()
+        return self.state_monitor.get_last_poll_latency()
 
     @property
     def listening_state(self):
         """Get the listening state"""
-        return self._state_monitor.listening_state
+        return self.state_monitor.listening_state
 
     @property
     def state(self) -> TelescopeState:
         """Get monitoring state"""
-        return self._state_monitor.state
+        return self.state_monitor.state
 
     def subscribe_to_on_off(
         self,
@@ -185,7 +184,7 @@ class TelescopeModel:
             input_central_node_tel_state_selector,
         )
 
-        self._state_monitor.add_observer(observe_function, telescope_state_selector)
+        self.state_monitor.add_observer(observe_function, telescope_state_selector)
 
     def monitor_ready(self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]):
         """
@@ -250,7 +249,7 @@ class TelescopeModel:
         subarray_resource_state_selector = Selector[TelescopeState, SubarrayResourceState](
             select_agg_subarray_resource_state, *input_subarray_obsstates
         )
-        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
+        self.state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarray_configurational_state(
         self,
@@ -287,7 +286,7 @@ class TelescopeModel:
             select_agg_subarray_config_state, *input_subarray_obsstates
         )
 
-        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
+        self.state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarray_scanning_state(
         self,
@@ -321,7 +320,7 @@ class TelescopeModel:
             select_agg_subarray_config_state, *input_subarray_obsstates
         )
 
-        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
+        self.state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def subscribe_to_subarrays_obsstate(
         self,
@@ -354,15 +353,15 @@ class TelescopeModel:
             select_agg_subarray_state, *input_subarray_obsstates
         )
 
-        self._state_monitor.add_observer(observe_function, subarray_resource_state_selector)
+        self.state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
     def activate(self):
         """
         Activate the state monitor
         :return: None
         """
-        self._state_monitor.start_subscriptions()
-        self._state_monitor.start_listening()
+        self.state_monitor.start_subscriptions()
+        self.state_monitor.start_listening()
 
         # reducers
 

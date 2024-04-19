@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, NamedTuple, Tuple, Union
+from typing import Any, Dict, List, NamedTuple, Union
 
 from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
 from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction

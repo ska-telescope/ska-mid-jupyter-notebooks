@@ -1,12 +1,11 @@
 import json
 import os
 import time
-from typing import Any
 
 from ska_control_model import HealthState
 
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment, TangoDeviceProxy
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeviceProxy, TangoDeployment
 
 class TMCCentralNode(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
@@ -16,37 +15,54 @@ class TMCCentralNode(TangoDeviceProxy):
     def telescope_health_state(self) -> HealthState:
         return HealthState(self._device_proxy.telescopeHealthState)
 
+
 class TMCSubarrayNode(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(tango_deployment.dp(f"ska_mid/tm_subarray_node/{tango_deployment.subarray_index}"))
+        super().__init__(
+            tango_deployment.dp(f"ska_mid/tm_subarray_node/{tango_deployment.subarray_index}")
+        )
+
 
 class TMCCSPMasterLeafNode(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
         super().__init__(tango_deployment.dp("ska_mid/tm_leaf_node/csp_master"))
 
+
 class CSPController(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
         super().__init__(tango_deployment.dp("mid-csp/control/0"))
 
+
 class CSPSubarray(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(tango_deployment.dp(f"mid-csp/subarray/0{tango_deployment.subarray_index}"))
+        super().__init__(
+            tango_deployment.dp(f"mid-csp/subarray/0{tango_deployment.subarray_index}")
+        )
+
 
 class SDPController(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
         super().__init__(tango_deployment.dp("mid-sdp/control/0"))
 
+
 class SDPSubarray(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(tango_deployment.dp(f"mid-sdp/subarray/0{tango_deployment.subarray_index}"))
+        super().__init__(
+            tango_deployment.dp(f"mid-sdp/subarray/0{tango_deployment.subarray_index}")
+        )
+
 
 class CBFController(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
         super().__init__(tango_deployment.dp("mid_csp_cbf/sub_elt/controller"))
 
+
 class CBFSubarray(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(tango_deployment.dp(f"mid_csp_cbf/sub_elt/subarray_0{tango_deployment.subarray_index}"))
+        super().__init__(
+            tango_deployment.dp(f"mid_csp_cbf/sub_elt/subarray_0{tango_deployment.subarray_index}")
+        )
+
 
 class TangoSUTDeployment(TangoDeployment):
     def __init__(
@@ -122,11 +138,13 @@ class TangoSUTDeployment(TangoDeployment):
             f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
         )
         self.logger.debug(
-            f"TMC Central Node: isDishVccConfigSet={central_node.isDishVccConfigSet}; dishvccvalidationstatus={central_node.dishvccvalidationstatus}"
+            f"TMC Central Node: isDishVccConfigSet={central_node.isDishVccConfigSet}; "
+            f"dishvccvalidationstatus={central_node.dishvccvalidationstatus}"
         )
         csp_master_leaf_node = self.tmc_csp_master_leaf_node
         self.logger.debug(
-            f"TMC CSP Master Leaf Node: sourceDishVccConfig={csp_master_leaf_node.sourceDishVccConfig}; dishVccConfig={csp_master_leaf_node.dishVccConfig}"
+            f"TMC CSP Master Leaf Node: sourceDishVccConfig={csp_master_leaf_node.sourceDishVccConfig}; "
+            f"dishVccConfig={csp_master_leaf_node.dishVccConfig}"
         )
 
     def turn_csp_on(self):
@@ -180,7 +198,9 @@ class TangoSUTDeployment(TangoDeployment):
         self.logger.debug(f"TMC Central Node state: {tmc.State()}")
         self.logger.debug(f"TMC Central Node adminMode: {str(tmc.admin_mode)}")
         self.logger.debug(f"TMC Central Node healthState: {str(tmc.health_state)}")
-        self.logger.debug(f"TMC Central Node telescopeHealthState: {str(tmc.telescope_health_state)}")
+        self.logger.debug(
+            f"TMC Central Node telescopeHealthState: {str(tmc.telescope_health_state)}"
+        )
         tmc_subarray = self.tmc_subarray
         self.logger.debug(f"TMC Subarray Node state: {tmc_subarray.State()}")
         self.logger.debug(f"TMC Subarray adminMode: {str(tmc_subarray.admin_mode)}")

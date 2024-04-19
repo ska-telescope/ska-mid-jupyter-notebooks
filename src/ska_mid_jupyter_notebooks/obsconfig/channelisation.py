@@ -1,4 +1,3 @@
-import os
 from typing import Any
 
 from ska_tmc_cdm.messages.central_node.sdp import Channel, ChannelConfiguration

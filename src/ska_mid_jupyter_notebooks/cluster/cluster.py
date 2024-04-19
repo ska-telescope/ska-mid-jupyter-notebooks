@@ -1,7 +1,6 @@
 import logging
 import pathlib
-from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any, List
 
 from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
 from ska_ser_config_inspector_client import (
@@ -14,6 +13,7 @@ from ska_ser_config_inspector_client import (
 from ska_ser_config_inspector_client.models.device_response import DeviceResponse
 from ska_ser_config_inspector_client.models.release_response import ReleaseResponse
 from tango import Database, DeviceProxy
+
 
 class TangoDeviceProxy:
     def __init__(self, device_proxy: Any):
@@ -42,6 +42,7 @@ class TangoDeviceProxy:
             return getattr(self._device_proxy, name)
         return self.__getattribute__(name)
 
+
 class TangoDeployment:
     def __init__(
         self,
@@ -63,7 +64,7 @@ class TangoDeployment:
         self.namespace = namespace
         self._tango_host = f"{database_name}.{namespace}.svc.{cluster_domain}"
         self._tango_port = db_port
-        self._devices_to_ignore: list[str] = []
+        self._devices_to_ignore: list[str] = ["dserver", "sys"]
         self._cluster_domain = cluster_domain
         self.logger = logging.getLogger(__name__)
         self.cia_url = f"http://{cia_svc_name}.{self.namespace}.svc.{cluster_domain}:{cia_port}"
@@ -73,7 +74,6 @@ class TangoDeployment:
         self.chart_api = ChartsAndReleaseDataApi(self.cia_client)
         self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
         self._release = None
-
 
     def tango_fqdn(self, name: str) -> str:
         return f"{self.tango_host()}/{name}"
