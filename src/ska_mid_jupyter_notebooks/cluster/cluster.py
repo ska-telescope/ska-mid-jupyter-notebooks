@@ -3,6 +3,7 @@ import pathlib
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
+from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
 from ska_ser_config_inspector_client import (
     ApiClient,
     ChartsAndReleaseDataApi,
@@ -14,8 +15,34 @@ from ska_ser_config_inspector_client.models.device_response import DeviceRespons
 from ska_ser_config_inspector_client.models.release_response import ReleaseResponse
 from tango import Database, DeviceProxy
 
+class TangoDeviceProxy:
+    def __init__(self, device_proxy: Any):
+        self._device_proxy = device_proxy
+        self._attributes = {attr for attr in self._device_proxy.get_attribute_list()}
+        self._commands = {cmd for cmd in self._device_proxy.get_command_list()}
 
-class TangoCluster:
+    @property
+    def health_state(self) -> HealthState:
+        return HealthState(self._device_proxy.healthState)
+
+    @property
+    def admin_mode(self) -> AdminMode:
+        return AdminMode(self._device_proxy.adminMode)
+
+    @property
+    def control_mode(self) -> ControlMode:
+        return ControlMode(self._device_proxy.control_mode)
+
+    @property
+    def obs_state(self) -> ObsState:
+        return ObsState(self._device_proxy.obsState)
+
+    def __getattr__(self, name: str):
+        if name in dir(self._device_proxy):
+            return getattr(self._device_proxy, name)
+        return self.__getattribute__(name)
+
+class TangoDeployment:
     def __init__(
         self,
         namespace: str,
@@ -26,7 +53,7 @@ class TangoCluster:
         cia_port: str = "8765",
     ):
         """
-        Initialises TangoCluster class
+        Initialises TangoDeployment class
         :param namespace: namespace
         :param database_name: database name
         :param cluster_domain: cluster_domain
@@ -47,8 +74,12 @@ class TangoCluster:
         self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
         self._release = None
 
+
+    def tango_fqdn(self, name: str) -> str:
+        return f"{self.tango_host()}/{name}"
+
     def dp(self, name: str) -> Any:
-        return DeviceProxy(f"{self.tango_host()}/{name}")
+        return DeviceProxy(self.tango_fqdn(name))
 
     def ignore(self, device: str):
         """
@@ -93,7 +124,7 @@ class TangoCluster:
         return f"{self._tango_host}:{self._tango_port}"
 
     def smoke_test(self) -> int:
-        """Smoke test cluster by pinging CIA and Tango Database"""
+        """Smoke test deployment by pinging CIA and Tango Database"""
         control_api = ControlApi(self.cia_client)
         ping_response = control_api.ping_server_and_get_current_time_on_server_ping_get()
         self.logger.debug(

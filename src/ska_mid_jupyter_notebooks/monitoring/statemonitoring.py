@@ -15,7 +15,7 @@ from typing import Any, Callable, Generic, Literal, NamedTuple, TypedDict, TypeV
 from tango import AttributeProxy, DevFailed, DeviceProxy, EventType
 from tango.time_val import TimeVal
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 
 # pylint: disable=W0107,W0237
 
@@ -978,7 +978,7 @@ class MonState(EventsPusher, Generic[STATE]):
     a change in calculated value.
     """
 
-    def __init__(self, initState: STATE, cluster: TangoCluster) -> None:
+    def __init__(self, initState: STATE, deployment: TangoDeployment) -> None:
         """
         Initialise the object
         :return: None
@@ -990,7 +990,7 @@ class MonState(EventsPusher, Generic[STATE]):
         self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(lambda: [])
         self._daemon: Union[Thread, None] = None
         self._running: Event = Event()
-        self._dev_factory = RemoteDeviceFactory(cluster.tango_host())
+        self._dev_factory = RemoteDeviceFactory(deployment.tango_host())
         self._poller = DeviceAttrPoller(self._dev_factory)
 
     def _add_generic_reducer(self, reducer: Reducer[STATE]):

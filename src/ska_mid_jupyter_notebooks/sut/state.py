@@ -2,7 +2,7 @@ import os
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     DeviceAttrPoller,
     EventData,
@@ -105,7 +105,7 @@ class TelescopeModel:
         self,
         state_monitor: MonState[TelescopeState],
         device_model: TelescopeDeviceModel,
-        cluster: TangoCluster,
+        deployment: TangoDeployment,
     ) -> None:
         """Initialise the object
 
@@ -113,10 +113,10 @@ class TelescopeModel:
         """
         self._state_monitor = state_monitor
         self._device_model = device_model
-        self._cluster = cluster
+        self._deployment = deployment
         # add device state reducers
         keys = [key for key in state_monitor.state["devices_states"].keys()]
-        dev_factory = RemoteDeviceFactory(self._cluster.tango_host())
+        dev_factory = RemoteDeviceFactory(self._deployment.tango_host())
         poller = DeviceAttrPoller(dev_factory)
         reducers = [
             EventsReducer(device, attr, self._reducer_set_device_attribute, dev_factory, poller)
@@ -471,7 +471,7 @@ class TelescopeModel:
 # run this after setting execution mode
 def get_telescope_state(
     device_model: TelescopeDeviceModel,
-    cluster: TangoCluster,
+    deployment: TangoDeployment,
 ) -> TelescopeModel:
     """Get TMC mid telescope state"""
     tmc_devices_states = {
@@ -502,5 +502,5 @@ def get_telescope_state(
             },
         ),
     )
-    monitor_state = MonState(init_state, cluster)
-    return TelescopeModel(monitor_state, device_model, cluster)
+    monitor_state = MonState(init_state, deployment)
+    return TelescopeModel(monitor_state, device_model, deployment)

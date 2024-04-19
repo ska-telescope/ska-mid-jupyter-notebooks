@@ -5,7 +5,7 @@ from unittest import mock
 import pytest
 from assertpy import assert_that
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     STATE,
     ActionProducer,
@@ -99,7 +99,7 @@ def test_state_monitoring_of_events(
     mock_provider: Provider, mock_event: EventData, mock_observer: Observer
 ):
     init_state = {"foo": {"bar": "foo"}}
-    monitor = MonState(init_state, TangoCluster("test"))
+    monitor = MonState(init_state, TangoDeployment("test"))
 
     def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData):
         state["foo"]["bar"] = event.attr_value.value
@@ -122,7 +122,7 @@ def test_state_monitoring_of_events(
 
 def test_state_monitoring_of_actions(mock_observer: Observer):
     init_state: STATE = {"foo": {"bar": "foo"}}
-    monitor = MonState(init_state, TangoCluster("test"))
+    monitor = MonState(init_state, TangoDeployment("test"))
 
     class ControlActions(Enum):
         ON = "ON"

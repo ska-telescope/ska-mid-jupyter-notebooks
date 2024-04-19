@@ -7037,4 +7037,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "9764605da34c61332aa113f62328dd1c7efddcf10fb7af893e8349917748b9a7"
+content-hash = "209445aa29282ccc8e44e09a2842541250b6a490947528677d5b853015423216"

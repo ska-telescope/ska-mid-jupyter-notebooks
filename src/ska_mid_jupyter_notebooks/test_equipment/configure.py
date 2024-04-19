@@ -1,7 +1,7 @@
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoCluster
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 
 
-class TangoTestEquipment(TangoCluster):
+class TangoTestEquipment(TangoDeployment):
     def __init__(
         self,
         namespace: str = "test-equipment",
