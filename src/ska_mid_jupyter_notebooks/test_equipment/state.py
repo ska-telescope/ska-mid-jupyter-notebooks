@@ -46,7 +46,7 @@ class TestEquipmentModel:
         :param test_equipment: TangoTestEquipment
         :return: None
         """
-        self._dev_factory = RemoteDeviceFactory(test_equipment.tango_host())
+        self._dev_factory = RemoteDeviceFactory(test_equipment.tango_host)
         init_state = EquipmentState(
             devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
         )
