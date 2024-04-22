@@ -1,4 +1,3 @@
-import logging
 import pathlib
 from typing import Any, List
 
@@ -66,17 +65,19 @@ class TangoDeployment:
         self._tango_port = db_port
         self._devices_to_ignore: list[str] = ["dserver", "sys"]
         self._cluster_domain = cluster_domain
-        self.logger = logging.getLogger(__name__)
         self.cia_url = f"http://{cia_svc_name}.{self.namespace}.svc.{cluster_domain}:{cia_port}"
         config = Configuration(host=self.cia_url)
         config.verify_ssl = False
         self.cia_client = ApiClient(configuration=config)
         self.chart_api = ChartsAndReleaseDataApi(self.cia_client)
         self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
-        self._release = None
+        self._release: ReleaseResponse = None
+
+    def __str__(self) -> str:
+        return f"namespace={self.namespace}; tango_host={self.tango_host}; cluster_domain={self._cluster_domain}; cia_url={self.cia_url}"
 
     def tango_fqdn(self, name: str) -> str:
-        return f"{self.tango_host()}/{name}"
+        return f"{self.tango_host}/{name}"
 
     def dp(self, name: str) -> Any:
         return DeviceProxy(self.tango_fqdn(name))
@@ -120,6 +121,7 @@ class TangoDeployment:
         ]
         return filtered
 
+    @property
     def tango_host(self) -> str:
         return f"{self._tango_host}:{self._tango_port}"
 
@@ -127,9 +129,7 @@ class TangoDeployment:
         """Smoke test deployment by pinging CIA and Tango Database"""
         control_api = ControlApi(self.cia_client)
         ping_response = control_api.ping_server_and_get_current_time_on_server_ping_get()
-        self.logger.debug(
-            f"CIA PingResponse ({self.namespace}): {ping_response.model_dump_json()}"
-        )
+        print(f"CIA PingResponse ({self.namespace}): {ping_response.model_dump_json()}")
         assert ping_response.result == "ok", f"Failed to ping CIA at {self.cia_url}"
         return self.dp("sys/database/2").ping()
 
@@ -151,18 +151,18 @@ class TangoDeployment:
         self,
         output_dir: str,
     ):
-        self.logger.debug(f"Exporting configuration using {self.cia_url}")
+        print(f"Exporting configuration using {self.cia_url}")
         response_json = self.release.model_dump_json(indent=4)
-        self.logger.debug(f"ReleaseResponse ({self.namespace}): {response_json}")
+        print(f"ReleaseResponse ({self.namespace}): {response_json}")
         output_file = pathlib.Path(output_dir, f"config-{self.namespace}.json")
         with open(output_file, mode="w", encoding="utf-8") as config_file:
             config_file.write(response_json)
-        self.logger.debug(f"Exported chart from {self.namespace} configuration to {output_file}")
+        print(f"Exported chart from {self.namespace} configuration to {output_file}")
 
     def print_full_diagnostics(self):
         for chart in self.release.sub_charts:
             devices = self.chart_devices(chart.chart)
             for device in devices:
-                self.logger.debug(
+                print(
                     f"{self.namespace}: {chart.chart}: {device.name}:\n\n{device.model_dump_json(indent=4)}"
                 )

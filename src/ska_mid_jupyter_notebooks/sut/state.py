@@ -115,7 +115,7 @@ class TelescopeModel:
         self._deployment = deployment
         # add device state reducers
         keys = [key for key in state_monitor.state["devices_states"].keys()]
-        dev_factory = RemoteDeviceFactory(self._deployment.tango_host())
+        dev_factory = RemoteDeviceFactory(self._deployment.tango_host)
         poller = DeviceAttrPoller(dev_factory)
         reducers = [
             EventsReducer(device, attr, self._reducer_set_device_attribute, dev_factory, poller)

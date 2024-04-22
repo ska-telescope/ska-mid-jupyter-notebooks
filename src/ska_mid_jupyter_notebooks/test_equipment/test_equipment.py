@@ -44,6 +44,9 @@ class TangoTestEquipment(TangoDeployment):
         """
         super().__init__(namespace, database_name, cluster_domain, db_port)
 
+    def __str__(self) -> str:
+        return f"TangoTestEquipment{{{super().__str__()}}}"
+
     @property
     def signal_generator(self):
         return SigGen(self)

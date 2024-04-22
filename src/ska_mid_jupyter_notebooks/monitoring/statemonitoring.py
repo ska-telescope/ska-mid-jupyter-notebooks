@@ -990,7 +990,7 @@ class MonState(EventsPusher, Generic[STATE]):
         self._reducers: dict[str, list[Reducer[STATE]]] = defaultdict(lambda: [])
         self._daemon: Union[Thread, None] = None
         self._running: Event = Event()
-        self._dev_factory = RemoteDeviceFactory(deployment.tango_host())
+        self._dev_factory = RemoteDeviceFactory(deployment.tango_host)
         self._poller = DeviceAttrPoller(self._dev_factory)
 
     def _add_generic_reducer(self, reducer: Reducer[STATE]):
