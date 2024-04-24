@@ -24,9 +24,61 @@
     },
     "cbf": {
       "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
+      "rfi_flagging_mask": {},
       "fsp": [
         {
           "fsp_id": 1,
+          "function_mode": "CORR",
+          "frequency_slice_id": 1,
+          "zoom_factor": 1,
+          "zoom_window_tuning": 450000,
+          "integration_factor": 10,
+          "channel_offset": 14880,
+          "output_link_map": [
+            [
+              0,
+              1
+            ]
+          ],
+          "output_host": [[0, "10.50.1.34"]],
+          "output_port": [[0, 21000, 1]]  
+        },
+        {
+          "fsp_id": 2,
+          "function_mode": "CORR",
+          "frequency_slice_id": 1,
+          "zoom_factor": 1,
+          "zoom_window_tuning": 450000,
+          "integration_factor": 10,
+          "channel_offset": 14880,
+          "output_link_map": [
+            [
+              0,
+              1
+            ]
+          ],
+          "output_host": [[0, "10.50.1.34"]],
+          "output_port": [[0, 21000, 1]]  
+        },
+        {
+          "fsp_id": 3,
+          "function_mode": "CORR",
+          "frequency_slice_id": 1,
+          "zoom_factor": 1,
+          "zoom_window_tuning": 450000,
+          "integration_factor": 10,
+          "channel_offset": 14880,
+          "output_link_map": [
+            [
+              0,
+              1
+            ]
+          ],
+          "output_host": [[0, "10.50.1.34"]],
+          "output_port": [[0, 21000, 1]]  
+        },
+        {
+          "fsp_id": 4,
           "function_mode": "CORR",
           "frequency_slice_id": 1,
           "zoom_factor": 1,
