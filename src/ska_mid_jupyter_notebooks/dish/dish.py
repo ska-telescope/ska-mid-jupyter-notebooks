@@ -76,7 +76,7 @@ class TangoDishDeployment(TangoDeployment):
         else:
             namespace = get_dish_namespace(self.dish_id, branch_name, dev_mode)
         super().__init__(namespace, database_name, cluster_domain, db_port)
-        self.spfrx_in_the_loop = f"{self.dish_id}/spfrxpu/controller" in self.devices
+        self.spfrx_in_the_loop = f"{self.dish_id}/spfrxpu/controller" in self.device_names
 
     def __str__(self) -> str:
         return f"TangoDishDeployment{{dish_id={self.dish_id}; spfrx_in_the_loop={self.spfrx_in_the_loop}; {super().__str__()}}}"

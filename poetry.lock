@@ -3391,6 +3391,30 @@ url = "https://artefact.skao.int/repository/pypi-all/simple"
 reference = "ska"
 
 [[package]]
+name = "nbsphinx"
+version = "0.9.3"
+description = "Jupyter Notebook Tools for Sphinx"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "nbsphinx-0.9.3-py3-none-any.whl", hash = "sha256:6e805e9627f4a358bd5720d5cbf8bf48853989c79af557afd91a5f22e163029f"},
+    {file = "nbsphinx-0.9.3.tar.gz", hash = "sha256:ec339c8691b688f8676104a367a4b8cf3ea01fd089dc28d24dec22d563b11562"},
+]
+
+[package.dependencies]
+docutils = "*"
+jinja2 = "*"
+nbconvert = "!=5.4"
+nbformat = "*"
+sphinx = ">=1.8"
+traitlets = ">=5"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
 name = "nest-asyncio"
 version = "1.6.0"
 description = "Patch asyncio to allow nested event loops"
@@ -4758,6 +4782,25 @@ url = "https://artefact.skao.int/repository/pypi-all/simple"
 reference = "ska"
 
 [[package]]
+name = "pytest-repeat"
+version = "0.9.3"
+description = "pytest plugin for repeating tests"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest_repeat-0.9.3-py3-none-any.whl", hash = "sha256:26ab2df18226af9d5ce441c858f273121e92ff55f5bb311d25755b8d7abdd8ed"},
+    {file = "pytest_repeat-0.9.3.tar.gz", hash = "sha256:ffd3836dfcd67bb270bec648b330e20be37d2966448c4148c4092d1e8aba8185"},
+]
+
+[package.dependencies]
+pytest = "*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
 name = "python-build"
 version = "0.2.13"
 description = "Tool to download and build python based upon pyenv."
@@ -5136,6 +5179,28 @@ urllib3 = ">=1.21.1,<3"
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
+name = "requests-mock"
+version = "1.12.1"
+description = "Mock out responses from the requests package"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "requests-mock-1.12.1.tar.gz", hash = "sha256:e9e12e333b525156e82a3c852f22016b9158220d2f47454de9cae8a77d371401"},
+    {file = "requests_mock-1.12.1-py2.py3-none-any.whl", hash = "sha256:b1e37054004cdd5e56c84454cc7df12b25f90f382159087f4b6915aaeef39563"},
+]
+
+[package.dependencies]
+requests = ">=2.22,<3"
+
+[package.extras]
+fixture = ["fixtures"]
 
 [package.source]
 type = "legacy"
@@ -5826,6 +5891,33 @@ pytango = ">=9.3.3,<10.0.0"
 ska-control-model = ">=0.3.1,<0.4.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 transitions = ">=0.9.0,<0.10.0"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
+name = "ska-tangoctl"
+version = "0.3.2"
+description = "Command line utility to query and test Tango devices"
+optional = false
+python-versions = ">=3.10,<3.11"
+files = [
+    {file = "ska_tangoctl-0.3.2-py3-none-any.whl", hash = "sha256:eef9671eb48e1896365cc31e7d516d23f154e8a652736ddbd2129fcd5fa753de"},
+    {file = "ska_tangoctl-0.3.2.tar.gz", hash = "sha256:d6ef675ee6777436ba145e04edfac425dc435a03069897d5c7189b97a49fb021"},
+]
+
+[package.dependencies]
+black = "24.3.0"
+kubernetes = ">=21.7.0,<22.0.0"
+nbqa = ">=1.7.1,<2.0.0"
+nbsphinx = ">=0.9.3,<0.10.0"
+pytango = ">=9.4.2,<10.0.0"
+pytest-json-report = ">=1.5.0,<2.0.0"
+pytest-repeat = ">=0.9.1,<0.10.0"
+pyyaml = ">=6.0.1,<7.0.0"
+requests-mock = ">=1.11.0,<2.0.0"
 
 [package.source]
 type = "legacy"
@@ -7037,4 +7129,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "209445aa29282ccc8e44e09a2842541250b6a490947528677d5b853015423216"
+content-hash = "e2533ebbc3c56ebee741c4f601729066df956ee0fae1a4c28c013a197d23d21e"

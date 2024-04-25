@@ -1,5 +1,6 @@
 import pathlib
 from typing import Any, List
+import logging
 
 from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
 from ska_ser_config_inspector_client import (
@@ -12,7 +13,7 @@ from ska_ser_config_inspector_client import (
 from ska_ser_config_inspector_client.models.device_response import DeviceResponse
 from ska_ser_config_inspector_client.models.release_response import ReleaseResponse
 from tango import Database, DeviceProxy
-
+from ska_tangoctl.tango_control.read_tango_device import TangoctlDevice
 
 class TangoDeviceProxy:
     def __init__(self, device_proxy: Any):
@@ -51,6 +52,7 @@ class TangoDeployment:
         db_port: int = 10000,
         cia_svc_name: str = "config-inspector",
         cia_port: str = "8765",
+        debug: bool = True,
     ):
         """
         Initialises TangoDeployment class
@@ -60,6 +62,8 @@ class TangoDeployment:
         :param db_port: database port
         :return: None
         """
+        self.logger = logging.getLogger(__name__)
+        self.debug = debug
         self.namespace = namespace
         self._tango_host = f"{database_name}.{namespace}.svc.{cluster_domain}"
         self._tango_port = db_port
@@ -72,6 +76,8 @@ class TangoDeployment:
         self.chart_api = ChartsAndReleaseDataApi(self.cia_client)
         self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
         self._release: ReleaseResponse = None
+        self._device_names: List[str] = None
+        self._devices: List[TangoctlDevice] = None
 
     def __str__(self) -> str:
         return f"namespace={self.namespace}; tango_host={self.tango_host}; cluster_domain={self._cluster_domain}; cia_url={self.cia_url}"
@@ -105,21 +111,42 @@ class TangoDeployment:
         return True
 
     @property
-    def devices(self) -> list[str]:
+    def device_names(self) -> List[str]:
+        if self._device_names:
+            return self._device_names
+        base: list[str] = [
+            dev for dev in Database(self._tango_host, self._tango_port).get_device_exported("*")
+        ]
+        self._device_names = [
+            item
+            for item in base
+            if all([self._not_in(item, pattern) for pattern in self._devices_to_ignore])
+        ]
+        return self._device_names
+
+
+    @property
+    def devices(self) -> List[TangoctlDevice]:
         """
         Get devices
 
         :return: list
         """
-        base: list[str] = [
-            dev for dev in Database(self._tango_host, self._tango_port).get_device_exported("*")
+        if self._devices:
+            return self._devices
+        self._devices = [
+            TangoctlDevice(
+                self.logger,
+                not self.debug,
+                item,
+                {},
+                None,
+                None,
+                None,
+            )
+            for item in self.device_names
         ]
-        filtered = [
-            item
-            for item in base
-            if all([self._not_in(item, pattern) for pattern in self._devices_to_ignore])
-        ]
-        return filtered
+        return self._devices
 
     @property
     def tango_host(self) -> str:
@@ -160,9 +187,5 @@ class TangoDeployment:
         print(f"Exported chart from {self.namespace} configuration to {output_file}")
 
     def print_full_diagnostics(self):
-        for chart in self.release.sub_charts:
-            devices = self.chart_devices(chart.chart)
-            for device in devices:
-                print(
-                    f"{self.namespace}: {chart.chart}: {device.name}:\n\n{device.model_dump_json(indent=4)}"
-                )
+        for dev in self.devices:
+            dev.print_list()

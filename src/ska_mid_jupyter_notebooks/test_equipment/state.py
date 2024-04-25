@@ -1,5 +1,6 @@
-from typing import Any, Callable, NamedTuple, TypedDict, cast
+from typing import Any, Callable, Dict, NamedTuple, TypedDict, cast
 
+from ska_tangoctl.tango_control.read_tango_device import TangoctlDevice
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     DeviceAttrPoller,
     EventData,
@@ -47,8 +48,13 @@ class TestEquipmentModel:
         :return: None
         """
         self._dev_factory = RemoteDeviceFactory(test_equipment.tango_host)
+        device: TangoctlDevice
+        devices_states: Dict[str, DeviceDevState]
+        for device in test_equipment.devices:
+            device.read_command_value(["State"])
+            devices_states[f"{device.dev_name}:state"] = device.commands.get("State", {"value", "UNKNOWN"}).get("value", "UNKNOWN")
         init_state = EquipmentState(
-            devices_states={f"{device}:state": "UNKNOWN" for device in test_equipment.devices}
+            devices_states=devices_states
         )
         self.state_monitor: MonState[EquipmentState] = MonState(init_state, test_equipment)
         poller = DeviceAttrPoller(self._dev_factory)
@@ -60,7 +66,7 @@ class TestEquipmentModel:
                 self._dev_factory,
                 poller=poller,
             )
-            for device in test_equipment.devices
+            for device in test_equipment.device_names
         ]
         self.state_monitor.add_reducers(cast(list[Reducer[Any]], reducers))
         self._active = False

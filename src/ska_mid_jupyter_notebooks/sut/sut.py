@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from typing import Callable
 
 from ska_control_model import HealthState
 
@@ -123,17 +124,13 @@ class TangoSUTDeployment(TangoDeployment):
         return SDPSubarray(self)
 
     def load_dish_vcc_config(self):
-        csp_controller = self.csp_controller
-        print(
-            f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
-        )
-        csp_controller.write_attribute("adminMode", 0)
-        # we sleep for 4 seconds to ensure cbf is in sync (it has a polling based init that takes 4 s)
-        time.sleep(10)
-        print(
-            f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
-        )
+        # wait for TMC isDishVccConfigSet
+        self.switch_csp_to_online()
         central_node = self.tmc_central_node
+        def is_dish_vcc_config_set(sleep_time: int) -> bool:
+            print(f"TMC Central Node isDishVccConfigSet={central_node.isDishVccConfigSet} after {sleep_time}s")
+            return bool(central_node.isDishVccConfigSet)
+        wait_for_state(is_dish_vcc_config_set, max_sleep=360)
         dish_cfg_json = json.dumps(
             {
                 "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
@@ -144,6 +141,7 @@ class TangoSUTDeployment(TangoDeployment):
             }
         )
         central_node.LoadDishCfg(dish_cfg_json)
+        csp_controller = self.csp_controller
         print(
             f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
         )
@@ -157,12 +155,19 @@ class TangoSUTDeployment(TangoDeployment):
             f"dishVccConfig={csp_master_leaf_node.dishVccConfig}"
         )
 
-    def turn_csp_on(self):
+    def switch_csp_to_online(self):
         csp_controller = self.csp_controller
+        print(
+            f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
+        )
         csp_controller.write_attribute("adminMode", 0)
         time.sleep(
             4
         )  # we sleep for 4 seconds to ensure cbf is in sync (it has a polling based init that takes 4 s)
+        print(
+            f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
+        )
+
 
     def reset_csp_subarray(self):
         csp_subarray = self.csp_subarray
@@ -207,6 +212,8 @@ class TangoSUTDeployment(TangoDeployment):
         print(f"TMC Central Node adminMode: {str(tmc.admin_mode)}")
         print(f"TMC Central Node healthState: {str(tmc.health_state)}")
         print(f"TMC Central Node telescopeHealthState: {str(tmc.telescope_health_state)}")
+        print(f"TMC Central Node isDishVccConfig: {str(tmc.isDishVccConfigSet)}")
+        print(f"TMC Central Node dishvccvalidationstatus: {str(tmc.dishvccvalidationstatus)}")
         tmc_subarray = self.tmc_subarray
         print(f"TMC Subarray Node state: {tmc_subarray.State()}")
         print(f"TMC Subarray adminMode: {str(tmc_subarray.admin_mode)}")
@@ -238,3 +245,26 @@ def disable_qa():
     :return: None
     """
     os.environ["DISABLE_QA"] = "True"
+
+def wait_for_state(is_ready: Callable[[int], bool], max_sleep=60):
+    """
+    Wait for the DeviceProxy to reach the expected state.
+
+    :param device_proxy: the DeviceProxy
+    :type device_proxy: AbstractDeviceProxy
+    :param state: the DevState to reach
+    :type state: str
+    :param max_sleep: the maximum time to sleep in seconds.
+    :type max_sleep: int
+    :raises TimeoutError: if the DeviceProxy does not reach the expected state
+    """
+    sleep_interval = 1
+    total_sleep = 0
+    while not is_ready(total_sleep):
+        time.sleep(sleep_interval)
+        total_sleep += sleep_interval
+        if total_sleep >= max_sleep:
+            raise TimeoutError(
+                f"Timed out waiting after {total_sleep} seconds"
+            )
+        sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
