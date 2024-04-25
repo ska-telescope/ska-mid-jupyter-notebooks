@@ -5,7 +5,11 @@ from typing import Callable
 
 from ska_control_model import HealthState
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment, TangoDeviceProxy
+from ska_mid_jupyter_notebooks.cluster.cluster import (
+    Environment,
+    TangoDeployment,
+    TangoDeviceProxy,
+)
 
 
 class TMCCentralNode(TangoDeviceProxy):
@@ -69,17 +73,18 @@ class TangoSUTDeployment(TangoDeployment):
     def __init__(
         self,
         branch_name: str,
-        dev_mode: bool,
+        environment: Environment,
         namespace_override: str = "",
         database_name: str = "tango-databaseds",
         cluster_domain: str = "miditf.internal.skao.int",
         db_port: int = 10000,
         subarray_index: int = 1,
     ):
+        self.environment = environment
         if namespace_override:
             namespace = namespace_override
         else:
-            namespace = get_sut_namespace(branch_name, dev_mode)
+            namespace = get_sut_namespace(self.environment, branch_name)
         self.subarray_index = subarray_index
         super().__init__(namespace, database_name, cluster_domain, db_port)
         os.environ["TANGO_HOST"] = self.tango_host
@@ -124,12 +129,15 @@ class TangoSUTDeployment(TangoDeployment):
         return SDPSubarray(self)
 
     def load_dish_vcc_config(self):
-        # wait for TMC isDishVccConfigSet
         self.switch_csp_to_online()
         central_node = self.tmc_central_node
+
         def is_dish_vcc_config_set(sleep_time: int) -> bool:
-            print(f"TMC Central Node isDishVccConfigSet={central_node.isDishVccConfigSet} after {sleep_time}s")
+            print(
+                f"TMC Central Node isDishVccConfigSet={central_node.isDishVccConfigSet} after {sleep_time}s"
+            )
             return bool(central_node.isDishVccConfigSet)
+
         wait_for_state(is_dish_vcc_config_set, max_sleep=360)
         dish_cfg_json = json.dumps(
             {
@@ -161,19 +169,17 @@ class TangoSUTDeployment(TangoDeployment):
             f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
         )
         csp_controller.write_attribute("adminMode", 0)
-        time.sleep(
-            4
-        )  # we sleep for 4 seconds to ensure cbf is in sync (it has a polling based init that takes 4 s)
+
+        def csp_off(total_sleep: int) -> bool:
+            print(
+                f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()} after {total_sleep}s."
+            )
+            return str(csp_controller.State()) == "OFF"
+
+        wait_for_state(csp_off, max_sleep=360)
         print(
             f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
         )
-
-
-    def reset_csp_subarray(self):
-        csp_subarray = self.csp_subarray
-        csp_subarray.Abort()
-        time.sleep(3)
-        csp_subarray.Restart()
 
     def print_sut_diagnostics(self):
         print("TMC Diagnostics")
@@ -233,10 +239,13 @@ class TangoSUTDeployment(TangoDeployment):
         return f"https://k8s.{self._cluster_domain}/{self.namespace}/signal/display/"
 
 
-def get_sut_namespace(branch_name: str, dev_mode: bool) -> str:
-    if dev_mode and branch_name != "main":
+def get_sut_namespace(environment: Environment, branch_name: str) -> str:
+    if environment == Environment.CI:
         return f"ci-ska-mid-itf-{branch_name}"
-    return "integration"
+    if environment == Environment.Staging:
+        return "staging"
+    if environment == Environment.Integration:
+        return "integration"
 
 
 def disable_qa():
@@ -245,6 +254,7 @@ def disable_qa():
     :return: None
     """
     os.environ["DISABLE_QA"] = "True"
+
 
 def wait_for_state(is_ready: Callable[[int], bool], max_sleep=60):
     """
@@ -264,7 +274,5 @@ def wait_for_state(is_ready: Callable[[int], bool], max_sleep=60):
         time.sleep(sleep_interval)
         total_sleep += sleep_interval
         if total_sleep >= max_sleep:
-            raise TimeoutError(
-                f"Timed out waiting after {total_sleep} seconds"
-            )
+            raise TimeoutError(f"Timed out waiting after {total_sleep} seconds")
         sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
