@@ -15,10 +15,10 @@
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/2.3",
     "subarray": {
-      "subarray_name": "4 receptors"
+      "subarray_name": "Single receptor"
     },
     "common": {
-      "config_id": "4 receptor, band 1, 1 FSP, no options",
+      "config_id": "1 receptor, band 1, 1 FSP, no options",
       "frequency_band": "1",
       "subarray_id": 1
     },
@@ -27,6 +27,7 @@
         {
           "fsp_id": 1,
           "function_mode": "CORR",
+          "receptors": ["SKA001"],
           "frequency_slice_id": 1,
           "zoom_factor": 1,
           "zoom_window_tuning": 450000,
