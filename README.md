@@ -15,5 +15,5 @@ This repository contains a VS Code development container configuration that can 
 This will setup a virtual environment on your host bound to the development container and install all python dependencies.
 4. In the top right corner of VS Code click on _Select Kernel_ > _Python Environments_ then select the following path: _.venv/bin/python_
 5. If your environment looks similar to the image below, you have performed all the steps correctly and can continue.
-![VS Code dev environment](https://gitlab.com/ska-telescope/ska-mid-jupyter-notebooks/-/blob/at-2042-add-jupyter-notebooks-dev-container/docs/img/vscode_dev_container_environment.jpg?ref_type=heads)
+![VS Code dev environment](docs/img/vscode_dev_container_environment.jpg)
 
