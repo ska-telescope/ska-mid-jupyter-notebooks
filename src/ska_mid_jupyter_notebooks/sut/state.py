@@ -64,7 +64,9 @@ class TelescopeDeviceModel:
                 f"ska_mid/tm_leaf_node/sdp_subarray{index:0>2}"
                 for index in range(1, self._subarray_count + 1)
             ],
-            *[f"ska_mid/tm_leaf_node/d0{id}" for id in self._dish_ids], # TMC dish leaf nodes have an extra 0 :/
+            *[
+                f"ska_mid/tm_leaf_node/d0{id}" for id in self._dish_ids
+            ],  # TMC dish leaf nodes have an extra 0 :/
         ]
 
     def csp_devices(self) -> List[str]:
