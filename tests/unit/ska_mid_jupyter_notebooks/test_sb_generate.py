@@ -18,7 +18,7 @@ from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec, get_default_target_specs_sb
 
 VALID_SB_MID_JSON = """{
   "sbd_id": "sbi-mvp01-20200325-00001",
@@ -582,9 +582,11 @@ VALID_ASSIGN_RESOURCE_MID_JSON_SB = """
 }
 """
 
+DEFAULT_DISH_IDS = ["SKA001", "SKA036"]
+
 DEFAULT_TARGET_SPECS = {
     "flux calibrator": TargetSpec(
-        dish_ids=["SKA001", "SKA036"],
+        dish_ids=DEFAULT_DISH_IDS,
         target_sb_detail={
             "co_ordinate_type": "Equatorial",
             "ra": "19:24:51.05 degrees",
@@ -620,7 +622,7 @@ DEFAULT_TARGET_SPECS = {
         processing="test-receive-addresses",
     ),
     "M87": TargetSpec(
-        dish_ids=["SKA001", "SKA036"],
+        dish_ids=DEFAULT_DISH_IDS,
         target_sb_detail={
             "co_ordinate_type": "Equatorial",
             "ra": "19:24:51.05 degrees",
@@ -714,7 +716,7 @@ def test_sb_generation_validate():
     """
     Test to validate SB generated using ObservationSB class
     """
-    observation1 = ObservationSB()
+    observation1 = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
 
     observation1.add_target_specs(DEFAULT_TARGET_SPECS)
 
@@ -807,11 +809,9 @@ def test_sb_generation_validate_target_spec_configuration():
         scan_type["scan_type_id"] == "flux calibrator"
         for scan_type in sb_dict["sdp_configuration"]["execution_block"]["scan_types"]
     )
-
-    assert sb_dict["dish_allocations"]["receptor_ids"] == [
-        "SKA001",
-        "SKA036",
-    ] or ["SKA036", "SKA001"]
+    receptor_ids = sb_dict["dish_allocations"]["receptor_ids"]
+    receptor_ids.sort()
+    assert receptor_ids == DEFAULT_DISH_IDS
 
     assert flux_calibrator_target in sb_dict["targets"]
 
@@ -882,7 +882,7 @@ def test_sb_generation_validate_target_spec_configuration_remove():
 
 def test_sb_generation_validate_default_target_spec():
     """Test to check if no Target spec is provided than Default target spec should be present"""
-    observation = ObservationSB()
+    observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation.eb_id = "eb-mvp01-20231010-82511"
     obsconfig_scheduling_block_pdm_object = observation.generate_pdm_object_for_sbd_save()
 
@@ -940,7 +940,7 @@ def test_sb_validate_invalid_activities_parameter():
 
 def test_assign_resource_allocation_request_sb():
     """Test to check Validate Assign Resource Request using Scheduling Block"""
-    observation = ObservationSB()
+    observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation._channel_configurations = {}  # pylint: disable=W0212
 
     for value in list(DEFAULT_TARGET_SPECS.values()):
