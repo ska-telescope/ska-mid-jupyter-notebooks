@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
@@ -92,82 +92,83 @@ class Scan:
         return {"id": self._instance_count}
 
 
-DEFAULT_TARGET_SPECS_SB = {
-    "Polaris Australis": TargetSpec(
-        dish_ids=["SKA001", "SKA036"],
-        target_sb_detail={
-            "co_ordinate_type": "Equatorial",
-            "ra": "21:08:47.92 degrees",
-            "dec": "-88:57:22.9 degrees",
-            "reference_frame": "ICRS",
-            "unit": ("hourangle", "deg"),
-            "pointing_pattern_type": {
-                "single_pointing_parameters": SinglePointParameters(
-                    offset_x_arcsec=0.0, offset_y_arcsec=0.0
-                ),
-                "raster_parameters": RasterParameters(
-                    row_length_arcsec=0.0,
-                    row_offset_arcsec=0.0,
-                    n_rows=1,
-                    pa=0.0,
-                    unidirectional=False,
-                ),
-                "star_raster_parameters": StarRasterParameters(
-                    row_length_arcsec=0.0,
-                    n_rows=1,
-                    row_offset_angle=0.0,
-                    unidirectional=False,
-                ),
-                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
-                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
-                "active_pointing_pattern_type": "single_pointing_parameters",
+def get_default_target_specs_sb(dish_ids: List[str]) -> Dict[str, TargetSpec]:
+    return {
+        "Polaris Australis": TargetSpec(
+            dish_ids=dish_ids,
+            target_sb_detail={
+                "co_ordinate_type": "Equatorial",
+                "ra": "21:08:47.92 degrees",
+                "dec": "-88:57:22.9 degrees",
+                "reference_frame": "ICRS",
+                "unit": ("hourangle", "deg"),
+                "pointing_pattern_type": {
+                    "single_pointing_parameters": SinglePointParameters(
+                        offset_x_arcsec=0.0, offset_y_arcsec=0.0
+                    ),
+                    "raster_parameters": RasterParameters(
+                        row_length_arcsec=0.0,
+                        row_offset_arcsec=0.0,
+                        n_rows=1,
+                        pa=0.0,
+                        unidirectional=False,
+                    ),
+                    "star_raster_parameters": StarRasterParameters(
+                        row_length_arcsec=0.0,
+                        n_rows=1,
+                        row_offset_angle=0.0,
+                        unidirectional=False,
+                    ),
+                    "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                    "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
+                    "active_pointing_pattern_type": "single_pointing_parameters",
+                },
             },
-        },
-        scan_type="Polaris Australis",
-        band=ReceiverBand.BAND_2,
-        channelisation="vis_channels",
-        polarisation="all",
-        processing="test-receive-addresses",
-        target=None,
-    ),
-    ".default": TargetSpec(
-        dish_ids=["SKA001", "SKA036"],
-        target_sb_detail={
-            "co_ordinate_type": "Equatorial",
-            "ra": "21:08:47.92 degrees",
-            "dec": "-88:57:22.9 degrees",
-            "reference_frame": "ICRS",
-            "unit": ("hourangle", "deg"),
-            "pointing_pattern_type": {
-                "single_pointing_parameters": SinglePointParameters(
-                    offset_x_arcsec=0.0, offset_y_arcsec=0.0
-                ),
-                "raster_parameters": RasterParameters(
-                    row_length_arcsec=0.0,
-                    row_offset_arcsec=0.0,
-                    n_rows=1,
-                    pa=0.0,
-                    unidirectional=False,
-                ),
-                "star_raster_parameters": StarRasterParameters(
-                    row_length_arcsec=0.0,
-                    n_rows=1,
-                    row_offset_angle=0.0,
-                    unidirectional=False,
-                ),
-                "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
-                "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
-                "active_pointing_pattern_type": "single_pointing_parameters",
+            scan_type="Polaris Australis",
+            band=ReceiverBand.BAND_2,
+            channelisation="vis_channels",
+            polarisation="all",
+            processing="test-receive-addresses",
+            target=None,
+        ),
+        ".default": TargetSpec(
+            dish_ids=dish_ids,
+            target_sb_detail={
+                "co_ordinate_type": "Equatorial",
+                "ra": "21:08:47.92 degrees",
+                "dec": "-88:57:22.9 degrees",
+                "reference_frame": "ICRS",
+                "unit": ("hourangle", "deg"),
+                "pointing_pattern_type": {
+                    "single_pointing_parameters": SinglePointParameters(
+                        offset_x_arcsec=0.0, offset_y_arcsec=0.0
+                    ),
+                    "raster_parameters": RasterParameters(
+                        row_length_arcsec=0.0,
+                        row_offset_arcsec=0.0,
+                        n_rows=1,
+                        pa=0.0,
+                        unidirectional=False,
+                    ),
+                    "star_raster_parameters": StarRasterParameters(
+                        row_length_arcsec=0.0,
+                        n_rows=1,
+                        row_offset_angle=0.0,
+                        unidirectional=False,
+                    ),
+                    "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                    "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
+                    "active_pointing_pattern_type": "single_pointing_parameters",
+                },
             },
-        },
-        scan_type=".default",
-        band=ReceiverBand.BAND_2,
-        channelisation="vis_channels",
-        polarisation="all",
-        processing="test-receive-addresses",
-        target=None,
-    ),
-}
+            scan_type=".default",
+            band=ReceiverBand.BAND_2,
+            channelisation="vis_channels",
+            polarisation="all",
+            processing="test-receive-addresses",
+            target=None,
+        ),
+    }
 
 
 class TargetSpecs(SchedulingBlock, Scan):
@@ -181,10 +182,9 @@ class TargetSpecs(SchedulingBlock, Scan):
         self._init_scan()
 
         self.targets = []
-        if target_specs is None:
-            target_specs = DEFAULT_TARGET_SPECS_SB
         self.target_specs: dict[str, TargetSpec] = {}
-        self.add_target_specs(target_specs)
+        if target_specs is not None:
+            self.add_target_specs(target_specs)
 
     def add_target_specs(self, target_specs: dict[str, TargetSpec]):
         """
