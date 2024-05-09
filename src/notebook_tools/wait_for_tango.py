@@ -29,7 +29,7 @@ def wait_for_state(device: DeviceProxy, desired_state: str, break_on_error=True)
     break_on_error -- If set to False, will keeping running when getting an error status.
     """
     if desired_state not in allowed_states:
-        raise Exception("desired_state provided is not an known state.")
+        raise TypeError("desired_state provided is not an known state.")
     spinL = 0
     poll = 1
     while desired_state not in str(device.obsState.name):
