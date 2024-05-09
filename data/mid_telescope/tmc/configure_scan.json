@@ -33,7 +33,7 @@
           "zoom_factor": 1,
           "zoom_window_tuning": 450000,
           "integration_factor": 10,
-          "channel_offset": 14880,
+          "channel_offset": 0,
           "output_link_map": [
             [
               0,
