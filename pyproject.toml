@@ -42,6 +42,7 @@ build = "0.10.0"
 ska-ser-logging = "^0.4.3"
 schema = "0.7.5"
 ska-control-model = "^0.3.4"
+nbformat = "^5.10.4"
 
 [tool.poetry.extras]
 localtango = ["pytango"]
@@ -67,6 +68,9 @@ sphinx = "^7.2.6"
 ska-ser-sphinx-theme = "^0.1.2"
 myst-parser = "^2.0.0"
 recommonmark = "^0.7.1"
+
+[tool.poetry.scripts]
+convertnb = "src.ska_mid_jupyter_notebooks.scripts.convert_nb:main"
 
 [tool.coverage.run]
 parallel = true
