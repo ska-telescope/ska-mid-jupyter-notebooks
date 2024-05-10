@@ -79,7 +79,7 @@ class SpectAna(TestEquipmentDeviceProxy):
         print(f"{self.name} marker_frequency: {self.marker_frequency}")
         print(f"{self.name} marker_power: {self.marker_power}")
         print(f"{self.name} rbw: {self.rbw}")
-        print(f"{self.name} reference_level: {self.reference_level}")
+        # print(f"{self.name} reference_level: {self.reference_level}")
         print(f"{self.name} sweep_points: {self.sweep_points}")
         print(f"{self.name} trace1: {self.trace1}")
 
