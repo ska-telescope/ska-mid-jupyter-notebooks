@@ -29,7 +29,7 @@ class DishManager(DishDeviceProxy):
     @property
     def dish_mode(self) -> DishMode:
         return DishMode(self._device_proxy.dishMode)
-    
+
     @dish_mode.setter
     def x(self, value):
         self._device_proxy.dishMode = value
@@ -94,7 +94,7 @@ class TangoDishDeployment(TangoDeployment):
         return f"{self.dish_id}/spfrxpu/controller" in self.devices
 
     def set_dish_operational(self):
-        dish_manager =  self.dish_manager
+        dish_manager = self.dish_manager
         print(f"{self.dish_id}: setting to operate mode")
         dish_manager.SetOperateMode()
 
