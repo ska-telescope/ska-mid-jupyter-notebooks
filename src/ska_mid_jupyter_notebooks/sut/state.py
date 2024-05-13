@@ -132,6 +132,10 @@ class TelescopeModel:
         self._tel_ready = Event()
         self.subscribe_to_on_off(self.monitor_ready)
 
+    def __repr__(self):
+        """Do the string thing."""
+        return f"Telescope:\n{self._device_model}\n{self._deployment}"
+
     def get_last_poll_latency(self):
         """Get the last poll latency"""
         return self.state_monitor.get_last_poll_latency()

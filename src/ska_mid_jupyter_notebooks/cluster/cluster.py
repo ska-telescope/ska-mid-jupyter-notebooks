@@ -77,7 +77,7 @@ class TangoDeployment:
         self._devices: List[str] = None
 
     def __str__(self) -> str:
-        return f"namespace={self.namespace}; tango_host={self.tango_host}; cluster_domain={self._cluster_domain}; cia_url={self.cia_url}"
+        return f"Deployment: namespace={self.namespace}; tango_host={self.tango_host}; cluster_domain={self._cluster_domain}; cia_url={self.cia_url}"
 
     def tango_fqdn(self, name: str) -> str:
         return f"{self.tango_host}/{name}"
