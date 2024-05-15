@@ -51,9 +51,14 @@ DISH_NAMESPACE_OVERRIDES: list[str] = ["", ""]
 SUBARRAY_ID: int = 1
 SUBARRAY_COUNT: int = 1
 DEVICE_MODEL: TelescopeDeviceModel = TelescopeDeviceModel(DISH_IDS, SUBARRAY_COUNT)
-
 EXECUTON_ENVIRONMENT: Environment = Environment.CI
-teq: TangoTestEquipment = TangoTestEquipment()
+TESTEQ_IN_THE_LOOP: bool = False
+if os.getenv("TESTEQ_IN_THE_LOOP", "False").lower() == "true":
+    TESTEQ_IN_THE_LOOP = True
+if TESTEQ_IN_THE_LOOP:
+    TESTEQ = TangoTestEquipment()
+else:
+    TESTEQ = None
 
 SYSTEM_UNDER_TEST: TangoSUTDeployment = TangoSUTDeployment(
     BRANCH_NAME,
@@ -73,7 +78,7 @@ def sut() -> TangoSUTDeployment:
 
     :return: handle for system under test
     """
-    caplog.info("SUT configured: %s", str(SYSTEM_UNDER_TEST))
+    caplog.debug("SUT configured: %s", str(SYSTEM_UNDER_TEST))
     return SYSTEM_UNDER_TEST
 
 
@@ -86,7 +91,7 @@ def telescope_state() -> TelescopeModel | None:
     """
     tel_state: TelescopeModel | None
     try:
-        caplog.info("Get telescope state for device model: %s", repr(DEVICE_MODEL))
+        caplog.debug("Get telescope state for device model: %s", repr(DEVICE_MODEL))
         tel_state = get_telescope_state(DEVICE_MODEL, SYSTEM_UNDER_TEST)
     except tango.DevFailed as terr:
         caplog.error(f"Tango error in telescope state: {terr.args[0].desc.strip()}")
@@ -114,9 +119,9 @@ def dish_deployments() -> List[TangoDishDeployment]:
                 environment=EXECUTON_ENVIRONMENT,
                 namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
             )
-            caplog.info("Dish %s configured: %s", d_d, dish)
+            caplog.debug("Dish %s configured: %s", d_d, dish)
             dishes.append(dish)
-    caplog.info("Configured %d dishes", len(dishes))
+    caplog.debug("Configured %d dishes", len(dishes))
     return dishes
 
 
@@ -132,29 +137,31 @@ def notebook_output_dir() -> pathlib.Path:
         project_root(),
         f"notebook-execution-data/configure_scan_for_commissioning/execution-{timestr}",
     )
-    caplog.info("Output directory is %s", nod)
+    caplog.debug("Output directory is %s", nod)
     return nod
 
 
 @pytest.fixture()
-def test_equipment_tango() -> TangoTestEquipment:
+def test_equipment() -> TangoTestEquipment | None:
     """
     Get handles for test equipment.
 
     :return: handles for test equipment
     """
-    caplog.info("Get test equipment")
-    return teq
+    caplog.debug("Get test equipment")
+    return TESTEQ
 
 
 @pytest.fixture()
-def test_equipment_state() -> TestEquipmentModel:
+def test_equipment_state() -> TestEquipmentModel | None:
     """
     Configure test equipment state.
 
     :param test_equipment: Tango devices for test equipment
     """
-    return get_equipment_model(teq)
+    if not TESTEQ_IN_THE_LOOP:
+        return None
+    return get_equipment_model(TESTEQ)
 
 
 @pytest.fixture()

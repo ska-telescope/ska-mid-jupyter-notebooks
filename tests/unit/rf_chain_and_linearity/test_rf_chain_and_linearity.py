@@ -63,7 +63,7 @@ def test_setup_global_variables_and_configuration(
 # 1.3 Test Connections to Namespaces
 def test_connections_to_namespaces(
     sut: TangoSUTDeployment,
-    test_equipment: TangoTestEquipment,
+    test_equipment: TangoTestEquipment | None,
     dish_deployments: List[TangoDishDeployment],
 ) -> None:
     """
@@ -80,14 +80,17 @@ def test_connections_to_namespaces(
         caplog.error("SUT error: %s", str(smerr))
         assert False
     caplog.info("System under test OK")
-    try:
-        test_equipment.smoke_test()
-    except tango.DevFailed as terr:
-        caplog.info(f"Tango error: {terr.args[0].desc.strip()}")
-    except Exception as smerr:
-        caplog.error("Test equipment error: %s", str(smerr))
-        assert False, str(smerr)
-    caplog.info("Test equipment OK")
+    if test_equipment is not None:
+        try:
+            test_equipment.smoke_test()
+        except tango.DevFailed as terr:
+            caplog.info(f"Tango error: {terr.args[0].desc.strip()}")
+        except Exception as smerr:
+            caplog.error("Test equipment error: %s", str(smerr))
+            assert False, str(smerr)
+        caplog.info("Test equipment OK")
+    else:
+        caplog.warning("Test equipment disabled")
     for dish_deployment in dish_deployments:
         try:
             dish_deployment.smoke_test()
@@ -113,9 +116,14 @@ def test_export_system_configuration(
     :param notebook_output_dir: output path for temporary files
     """
     deployment: TangoDeployment
-    for deployment in [sut, test_equipment, *dish_deployments]:
-        caplog.info("Configuration: %s", str(deployment))
-        deployment.export_chart_configuration(output_dir=notebook_output_dir)
+    if test_equipment is not None:
+        for deployment in [sut, test_equipment, *dish_deployments]:
+            caplog.info("Configuration: %s", str(deployment))
+            deployment.export_chart_configuration(output_dir=notebook_output_dir)
+    else:
+        for deployment in [sut, *dish_deployments]:
+            caplog.info("Configuration: %s", str(deployment))
+            deployment.export_chart_configuration(output_dir=notebook_output_dir)
     caplog.info("System configuration OK")
 
 
@@ -125,8 +133,10 @@ def test_test_equipment_state(test_equipment: TangoTestEquipment) -> None:
     Configure test equipment state.
 
     :param test_equipment: Tango devices for test equipment
-    :param test_equipment_state: state of the above
     """
+    if test_equipment is None:
+        caplog.warning("Test equipment disabled")
+        return
     caplog.info("Test equipment devices: %s", test_equipment.devices)
     assert len(test_equipment.devices) > 0, "No test equipment devices"
 
@@ -138,6 +148,10 @@ def test_signal_generator(test_equipment: TangoTestEquipment) -> None:
 
     :param test_equipment: Tango devices for test equipment
     """
+    if test_equipment is None:
+        caplog.warning("Test equipment disabled")
+        return
+
     siggen: TestEquipmentDeviceProxy = test_equipment.signal_generator
 
     caplog.info(f"{siggen.name} versionId: {siggen.versionId}")
@@ -162,7 +176,7 @@ def test_signal_generator(test_equipment: TangoTestEquipment) -> None:
 
 # 2.3 Create Test Equipment Plot
 def test_subscribe_to_test_equipment_state(
-    test_equipment_state: TestEquipmentModel,
+    test_equipment_state: TestEquipmentModel | None,
     monitor_plot: TestEquipmentMonitorPlot,
 ) -> None:
     """
@@ -171,6 +185,9 @@ def test_subscribe_to_test_equipment_state(
     :param test_equipment_state: states of Tango devices for test equipment
     :param monitor_plot: graphic for looging pretty
     """
+    if test_equipment_state is None:
+        caplog.warning("Test equipment disabled")
+        return
     try:
         caplog.info("Create test equipment plot")
         test_equipment_state.subscribe_to_test_equipment_state(
@@ -195,6 +212,9 @@ def test_devices_online(test_equipment: TangoTestEquipment) -> None:
 
     :param test_equipment: Tango devices for test equipment
     """
+    if test_equipment is None:
+        caplog.warning("Test equipment disabled")
+        return
     devc: int = 0
     dev_err: int = 0
     device_proxies = test_equipment.device_proxies
@@ -227,6 +247,9 @@ def test_signal_generator_frequency(test_equipment: TangoTestEquipment) -> None:
     :param test_equipment: Tango devices for test equipment
     :return:
     """
+    if test_equipment is None:
+        caplog.warning("Test equipment disabled")
+        return
     frequency_to_set: float = 880e6
     signal_generator: TestEquipmentDeviceProxy = test_equipment.signal_generator
     caplog.info(f"Current signal generator frequency: {signal_generator.frequency}")
@@ -414,7 +437,6 @@ def test_full_diagnostics(
 
     :param sut: system under test
     :param dish_deployments: list of handles for deployed dishes
-    :param test_equipment: Tango devices for test equipment
     :return:
     """
     device_json: str
@@ -514,6 +536,7 @@ def test_dish_vcc_configuration(sut: TangoSUTDeployment) -> None:
         caplog.info(f"Tango ERROR: {terr.args[0].desc.strip()}")
     except KeyboardInterrupt:
         caplog.info("Terminated")
+        assert False, "Terminated by user"
     except TimeoutError as tmer:
         caplog.info(f"Timeout ERROR: {tmer}")
     caplog.info("VCC config OK")
@@ -634,8 +657,11 @@ def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot
     :param telescope_monitor_plot: the monitor thing
     """
     for box_name in telescope_monitor_plot._labeled_blocks:
-        value = telescope_monitor_plot._labeled_block[box_name]
-        caplog.info("Monitor %s: %s", box_name, value)
+        try:
+            value = telescope_monitor_plot._labeled_block[box_name]
+            caplog.info("Monitor %s: %s", box_name, value)
+        except AttributeError:
+            caplog.warning("Could not read %s", box_name)
 
 
 # 3.7.4 Create Scheduling Block Definition(SBD) Instance and save it into the ODA
@@ -695,12 +721,13 @@ def test_assign_subarray_resources(
     except Exception as oerr:
         caplog.error("Running on empty: %s", oerr)
 
-    try:
-        for box_name in telescope_monitor_plot._labeled_blocks:
+    for box_name in telescope_monitor_plot._labeled_blocks:
+        try:
             value = telescope_monitor_plot._labeled_block[box_name]
             caplog.info("Monitor %s: %s", box_name, value)
-    except tango.DevFailed as terr:
-        caplog.error(f"ERROR: {terr.args[0].desc.strip()}")
+        except AttributeError:
+            caplog.warning("Could not read %s", box_name)
+
 
 
 # 3.9 Configure Scan
@@ -758,8 +785,11 @@ def test_run_scan(
     except tango.DevFailed as terr:
         caplog.error(f"ERROR: {terr.args[0].desc.strip()}")
     for box_name in telescope_monitor_plot._labeled_blocks:
-        value = telescope_monitor_plot._labeled_block[box_name]
-        caplog.info("Monitor %s: %s", box_name, value)
+        try:
+            value = telescope_monitor_plot._labeled_block[box_name]
+            caplog.info("Monitor %s: %s", box_name, value)
+        except AttributeError:
+            caplog.warning("Could not read %s", box_name)
 
 
 # 4.3 Display Dish LMC State
@@ -840,9 +870,12 @@ def test_clear_scan_configuration(
         telescope_monitor_plot.show()
     except tango.DevFailed as terr:
         caplog.error(f"ERROR: {terr.args[0].desc.strip()}")
-    for box_name in telescope_monitor_plot._labeled_blocks:
-        value = telescope_monitor_plot._labeled_block[box_name]
-        caplog.info("Monitor %s: %s", box_name, value)
+    # for box_name in telescope_monitor_plot._labeled_blocks:
+    #     try:
+    #         value = telescope_monitor_plot._labeled_block[box_name]
+    #         caplog.info("Monitor %s: %s", box_name, value)
+    #     except AttributeError:
+    #         caplog.warning("No value for %s", box_name)
 
 
 # 3.11.2 Release Subarray resources
@@ -861,7 +894,14 @@ def test_release_subarray_resources(
         sub.release()
         caplog.info("Subarray released")
     except tango.DevFailed as terr:
-        print(f"ERROR: {terr.args[0].desc.strip()}")
+        caplog.error(f"ERROR: {terr.args[0].desc.strip()}")
+        assert False, terr.args[0].desc.strip()
+    except AttributeError as aerr:
+        caplog.error("ERROR: %s", str(aerr))
+        assert False, str(aerr)
     for box_name in telescope_monitor_plot._labeled_blocks:
-        value = telescope_monitor_plot._labeled_block[box_name]
-        caplog.info("Monitor %s: %s", box_name, value)
+        try:
+            value = telescope_monitor_plot._labeled_block[box_name]
+            caplog.info("Monitor %s: %s", box_name, value)
+        except AttributeError:
+            caplog.warning("Could not read %s", box_name)
