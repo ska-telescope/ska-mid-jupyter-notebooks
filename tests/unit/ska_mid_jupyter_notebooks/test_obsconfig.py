@@ -3,13 +3,15 @@ from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
 
 from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ScanTypes
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import get_default_target_specs_sb
 
 
 def test_channelisation():
     """
     Test to validate channelisation configuration
     """
-    channelisation = Channelisation()
+    dish_ids = ["SKA001", "SKA036"]
+    channelisation = Channelisation(target_specs=get_default_target_specs_sb(dish_ids))
     channel_configurations = channelisation.channel_configurations
     assert_that(channel_configurations).is_type_of(list)
     target_spec_channels = channelisation.target_spec_channels
@@ -30,7 +32,8 @@ def test_scan_types():
     """
     Test to validate ScanTypes configuration
     """
-    scan_type_config = ScanTypes()
+    dish_ids = ["SKA001", "SKA036"]
+    scan_type_config = ScanTypes(target_specs=get_default_target_specs_sb(dish_ids))
     scan_type_configurations = scan_type_config.scan_type_configurations
     assert_that(scan_type_configurations).is_type_of(list)
     target_spec_scan_types = scan_type_config.target_spec_scan_types

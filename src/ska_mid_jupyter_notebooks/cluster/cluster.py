@@ -1,3 +1,5 @@
+import enum
+import logging
 import pathlib
 from typing import Any, List
 
@@ -72,6 +74,7 @@ class TangoDeployment:
         self.chart_api = ChartsAndReleaseDataApi(self.cia_client)
         self.tango_api = TangoDevicesAndTheirDeploymentStatusApi(self.cia_client)
         self._release: ReleaseResponse = None
+        self._devices: List[str] = None
 
     def __str__(self) -> str:
         return f"namespace={self.namespace}; tango_host={self.tango_host}; cluster_domain={self._cluster_domain}; cia_url={self.cia_url}"
@@ -105,21 +108,18 @@ class TangoDeployment:
         return True
 
     @property
-    def devices(self) -> list[str]:
-        """
-        Get devices
-
-        :return: list
-        """
+    def devices(self) -> List[str]:
+        if self._devices:
+            return self._devices
         base: list[str] = [
             dev for dev in Database(self._tango_host, self._tango_port).get_device_exported("*")
         ]
-        filtered = [
+        self._devices = [
             item
             for item in base
             if all([self._not_in(item, pattern) for pattern in self._devices_to_ignore])
         ]
-        return filtered
+        return self._devices
 
     @property
     def tango_host(self) -> str:
@@ -166,3 +166,9 @@ class TangoDeployment:
                 print(
                     f"{self.namespace}: {chart.chart}: {device.name}:\n\n{device.model_dump_json(indent=4)}"
                 )
+
+
+class Environment(enum.IntEnum):
+    CI = 0  # For on-demand deployments
+    Integration = 1
+    Staging = 2

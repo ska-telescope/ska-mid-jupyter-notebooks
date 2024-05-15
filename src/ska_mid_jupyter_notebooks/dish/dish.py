@@ -2,7 +2,11 @@ import time
 
 from tango import Database
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment, TangoDeviceProxy
+from ska_mid_jupyter_notebooks.cluster.cluster import (
+    Environment,
+    TangoDeployment,
+    TangoDeviceProxy,
+)
 from ska_mid_jupyter_notebooks.dish.enum import (
     DishMode,
     DSOperatingMode,
@@ -64,22 +68,26 @@ class TangoDishDeployment(TangoDeployment):
         self,
         dish_id: str,
         branch_name: str,
-        dev_mode: bool,
+        environment: Environment,
         namespace_override: str = "",
         database_name: str = "tango-databaseds",
         cluster_domain: str = "miditf.internal.skao.int",
         db_port: int = 10000,
     ):
         self.dish_id = dish_id
+        self.environment = environment
         if namespace_override:
             namespace = namespace_override
         else:
-            namespace = get_dish_namespace(self.dish_id, branch_name, dev_mode)
+            namespace = get_dish_namespace(self.dish_id, self.environment, branch_name)
         super().__init__(namespace, database_name, cluster_domain, db_port)
-        self.spfrx_in_the_loop = f"{self.dish_id}/spfrxpu/controller" in self.devices
 
     def __str__(self) -> str:
-        return f"TangoDishDeployment{{dish_id={self.dish_id}; spfrx_in_the_loop={self.spfrx_in_the_loop}; {super().__str__()}}}"
+        return f"TangoDishDeployment{{dish_id={self.dish_id}; {super().__str__()}}}"
+
+    @property
+    def spfrx_in_the_loop(self) -> bool:
+        return f"{self.dish_id}/spfrxpu/controller" in self.devices
 
     def reset_dish(self):
         dish_manager = self.dish_manager
@@ -89,7 +97,7 @@ class TangoDishDeployment(TangoDeployment):
             time.sleep(1)
         print(f"{self.dish_id}: stowing dish")
         dish_manager.SetStowMode()
-        while str(dish_manager.dish_mode) != "dishMode.STOW":
+        while dish_manager.dish_mode != DishMode.STOW:
             time.sleep(1)
         print(f"{self.dish_id}: setting standbyLP mode")
         dish_manager.SetStandbyLPMode()
@@ -133,7 +141,10 @@ class TangoDishDeployment(TangoDeployment):
         print(f"{self.dish_id}: DS Manager IndexerPosition: {ds_manager.indexerPosition}")
 
 
-def get_dish_namespace(dish_id: str, branch_name: str, dev_mode: bool) -> str:
-    if dev_mode and branch_name != "main":
+def get_dish_namespace(dish_id: str, environment: Environment, branch_name: str) -> str:
+    if environment == Environment.CI:
         return f"ci-dish-lmc-{dish_id}-{branch_name}"
-    return f"dish-lmc-{dish_id}"
+    if environment == Environment.Staging:
+        return f"staging-dish-lmc-{dish_id}"
+    if environment == Environment.Integration:
+        return f"integration-dish-lmc-{dish_id}"

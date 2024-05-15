@@ -262,11 +262,11 @@ class ScanTypes(TargetSpecs):
                     }
 
             if derive_from:
-                eb_scan_type = EBScanType(config_name, beams=agg_beam_types)
-            else:
                 eb_scan_type = EBScanType(
                     config_name, beams=agg_beam_types, derive_from=derive_from
                 )
+            else:
+                eb_scan_type = EBScanType(config_name, beams=agg_beam_types)
             self._scan_type_configurations[config_name] = eb_scan_type
 
     @property
