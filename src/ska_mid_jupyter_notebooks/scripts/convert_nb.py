@@ -7,7 +7,9 @@ from typing import cast
 import nbformat
 from nbformat.v4 import new_markdown_cell, new_notebook
 
-parser = argparse.ArgumentParser(description="Converts a csv spreadsheet into a notebook")
+parser = argparse.ArgumentParser(
+    description="Converts a csv spreadsheet into a notebook"
+)
 parser.add_argument(
     "source",
     nargs="?",
@@ -20,22 +22,31 @@ parser.add_argument(
     nargs="?",
     type=Path,
     default=sys.stdout,
-    help="the destination file (must be .ipynb type",
+    help="the destination file (must be .ipynb type)",
+)
+parser.add_argument(
+    "-d",
+    "--delimiter",
+    type=str,
+    default=",",
+    help="the delimiter which separates one column from another",
 )
 
 
-def _main(dest: Path, source: Path):
+def _main(dest: Path, source: Path, delimiter: str):
     with dest.open("w") as destination_file:
         nb = new_notebook()
         with source.open("r") as source_file:
-            for row in csv.DictReader(source_file):
+            for row in csv.DictReader(source_file, delimiter=delimiter):
                 assert (
                     "Action" in row.keys()
                 ), "Incorrect csv file: you need a column with heading Action"
                 assert (
                     "Expected Result" in row.keys()
                 ), "Incorrect csv file: you need a column with heading Expected Result"
-                assert "#" in row.keys(), "Incorrect csv file: you need a column with heading #"
+                assert (
+                    "#" in row.keys()
+                ), "Incorrect csv file: you need a column with heading #"
                 data = f"**Step {row['#']}:**\n\n{row['Action']}  \n\nExpected Result:  \n_{row['Expected Result']}_"
                 nb.cells.append(new_markdown_cell(data))
         nbformat.write(nb, destination_file)
@@ -45,7 +56,8 @@ def main():
     args = parser.parse_args()
     dest = cast(Path, args.dest)
     source = cast(Path, args.source)
-    _main(dest, source)
+    delimiter = cast(str, args.delimiter)
+    _main(dest, source, delimiter)
 
 
 if __name__ == "__main__":
