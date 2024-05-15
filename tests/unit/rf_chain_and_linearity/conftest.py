@@ -3,12 +3,12 @@
 import logging
 import os
 import pathlib
-import pytest
 import time
 from typing import List
 
+import pytest
 import tango
-
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition
 from ska_oso_pdm.entities.common.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -18,32 +18,32 @@ from ska_oso_pdm.entities.common.target import (
 )
 from ska_oso_scripting import oda_helper
 from ska_oso_scripting.objects import SubArray, Telescope
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
+
 from ska_mid_jupyter_notebooks.cluster.cluster import Environment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
 from ska_mid_jupyter_notebooks.helpers.path import project_root
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
+from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
 from ska_mid_jupyter_notebooks.sut.state import (
-    get_telescope_state,
     TelescopeDeviceModel,
     TelescopeModel,
+    get_telescope_state,
 )
 from ska_mid_jupyter_notebooks.sut.sut import TangoSUTDeployment
-from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
 from ska_mid_jupyter_notebooks.test_equipment.rendering import (
-    get_test_equipment_monitor_plot,
     TestEquipmentMonitorPlot,
+    get_test_equipment_monitor_plot,
 )
-from ska_mid_jupyter_notebooks.test_equipment.state import get_equipment_model, TestEquipmentModel
+from ska_mid_jupyter_notebooks.test_equipment.state import TestEquipmentModel, get_equipment_model
 from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEquipment
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)
 
-dishlmc_enabled: bool = True
+DISHLMC_ENABLED: bool = True
 DISH_IDS: list[str] = ["0001", "0036"]
 BRANCH_NAME: str = "at-1958-rf-chain-linearity-performance"
 SUT_NAMESPACE_OVERRIDE: str = ""
@@ -65,14 +65,25 @@ SUB: SubArray = SubArray(SUBARRAY_ID)
 TEL = Telescope()
 OBSERVATION = ObservationSB()
 
+
 @pytest.fixture()
 def sut() -> TangoSUTDeployment:
+    """
+    Get handle for system under test.
+
+    :return: handle for system under test
+    """
     caplog.info("SUT configured: %s", str(SYSTEM_UNDER_TEST))
     return SYSTEM_UNDER_TEST
 
 
 @pytest.fixture()
 def telescope_state() -> TelescopeModel | None:
+    """
+    Get handle for telescope state.
+
+    :return: handle for telescope state
+    """
     tel_state: TelescopeModel | None
     try:
         caplog.info("Get telescope state for device model: %s", repr(DEVICE_MODEL))
@@ -80,24 +91,30 @@ def telescope_state() -> TelescopeModel | None:
     except tango.DevFailed as terr:
         caplog.error(f"Tango error in telescope state: {terr.args[0].desc.strip()}")
         tel_state = None
+    # pylint: disable-next=broad-except
     except Exception as oerr:
-        caplog.error(f"Error in telescope state: %s", oerr)
+        caplog.error("Error in telescope state: %s", oerr)
         tel_state = None
     return tel_state
 
 
 @pytest.fixture()
 def dish_deployments() -> List[TangoDishDeployment]:
+    """
+    Get handles for dish deployment.
+
+    :return: handles for dish deployment
+    """
     dishes = []
-    if dishlmc_enabled:
-        for i, d in enumerate(DISH_IDS):
+    if DISHLMC_ENABLED:
+        for i_i, d_d in enumerate(DISH_IDS):
             dish = TangoDishDeployment(
-                f"ska{d[1:]}",
+                f"ska{d_d[1:]}",
                 branch_name=BRANCH_NAME,
                 environment=EXECUTON_ENVIRONMENT,
-                namespace_override=DISH_NAMESPACE_OVERRIDES[i],
+                namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
             )
-            caplog.info("Dish %s configured: %s", d, dish)
+            caplog.info("Dish %s configured: %s", d_d, dish)
             dishes.append(dish)
     caplog.info("Configured %d dishes", len(dishes))
     return dishes
@@ -105,24 +122,33 @@ def dish_deployments() -> List[TangoDishDeployment]:
 
 @pytest.fixture()
 def notebook_output_dir() -> pathlib.Path:
-    """Get output directory for notebook."""
+    """
+    Get output directory for notebook.
+
+    :return: output directory
+    """
     timestr = time.strftime("%Y%m%d-%H%M")
     nod = pathlib.Path(
         project_root(),
-        f"notebook-execution-data/configure_scan_for_commissioning/execution-{timestr}"
+        f"notebook-execution-data/configure_scan_for_commissioning/execution-{timestr}",
     )
     caplog.info("Output directory is %s", nod)
     return nod
 
 
 @pytest.fixture()
-def test_equipment() -> TangoTestEquipment:
+def test_equipment_tango() -> TangoTestEquipment:
+    """
+    Get handles for test equipment.
+
+    :return: handles for test equipment
+    """
     caplog.info("Get test equipment")
     return teq
 
 
 @pytest.fixture()
-def test_equipment_state(test_equipment: TangoTestEquipment) -> TestEquipmentModel:
+def test_equipment_state() -> TestEquipmentModel:
     """
     Configure test equipment state.
 
@@ -135,6 +161,7 @@ def test_equipment_state(test_equipment: TangoTestEquipment) -> TestEquipmentMod
 def monitor_plot() -> TestEquipmentMonitorPlot:
     """
     Get test equipment monitor plot
+
     :return: test equipment monitor plot
     """
     return get_test_equipment_monitor_plot()
@@ -162,6 +189,11 @@ def subarray_count() -> int:
 
 @pytest.fixture()
 def telescope_monitor_plot() -> TelescopeMononitorPlot:
+    """
+    Get handle for telescope monitoring.
+
+    :return: handle for telescope monitoring.
+    """
     return TelescopeMononitorPlot(plot_width=900, plot_height=200)
 
 
@@ -173,6 +205,7 @@ def eb_id() -> str | None:
     :return: the EB of the ODA thing
     """
     os.environ["ODA_URI"] = (
+        # pylint: disable-next=line-too-long
         "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
     )
     try:
@@ -183,19 +216,34 @@ def eb_id() -> str | None:
         ebid = None
     return ebid
 
+
 @pytest.fixture()
 def sub() -> SubArray | None:
+    """
+    Get handle for subarray.
+
+    :return: handle for subarray
+    """
     return SUB
 
 
 @pytest.fixture()
 def tel() -> Telescope | None:
+    """
+    Get handle for telescope.
+
+    :return: handle for telescope
+    """
     return TEL
 
 
 @pytest.fixture()
 def observation() -> ObservationSB | None:
-    """Make an observation."""
+    """
+    Make an observation.
+
+    :return: handle for observation
+    """
     return OBSERVATION
 
 
@@ -279,7 +327,13 @@ DEFAULT_TARGET_SPECS = {
 
 @pytest.fixture()
 def default_target_specs() -> dict:
+    """
+    Get default target specification.
+
+    :return: dictionary with specification
+    """
     return DEFAULT_TARGET_SPECS
+
 
 try:
     PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
@@ -290,4 +344,9 @@ except KeyError as kerr:
 
 @pytest.fixture()
 def pdm_allocation() -> SBDefinition | None:
+    """
+    Get the SB definition.
+
+    :return: SB definition
+    """
     return PDM_ALLOCATION

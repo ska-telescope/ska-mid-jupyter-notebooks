@@ -1,46 +1,27 @@
 """Do the tests."""
+
+# pylint: disable=broad-except,protected-access
+
 import logging
-import pytest
-from typing import List, Literal
-
-import sys
-
-import json
 import os
 import pathlib
 import time
+from typing import List, Literal
+
 import tango
-
 from ska_control_model import AdminMode
-
-import ska_ser_logging
-from bokeh.io import output_notebook
-from ska_oso_pdm.entities.common.target import (
-    CrossScanParameters,
-    FivePointParameters,
-    RasterParameters,
-    SinglePointParameters,
-    StarRasterParameters,
-)
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition
 from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_oso_scripting import oda_helper
-from ska_oso_scripting.functions.devicecontrol.resource_control import get_request_json
+from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutError
 from ska_oso_scripting.objects import SubArray, Telescope
-from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRequest
 from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 
-from ska_mid_jupyter_notebooks.cluster.cluster import Environment, TangoDeployment
+from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
-from ska_mid_jupyter_notebooks.helpers.path import project_root
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
-from ska_mid_jupyter_notebooks.sut.state import (
-    TelescopeDeviceModel,
-    TelescopeModel,
-)
+from ska_mid_jupyter_notebooks.sut.state import TelescopeModel
 from ska_mid_jupyter_notebooks.sut.sut import TangoSUTDeployment, disable_qa
 from ska_mid_jupyter_notebooks.test_equipment.rendering import TestEquipmentMonitorPlot
 from ska_mid_jupyter_notebooks.test_equipment.state import TestEquipmentModel
@@ -48,9 +29,6 @@ from ska_mid_jupyter_notebooks.test_equipment.test_equipment import (
     TangoTestEquipment,
     TestEquipmentDeviceProxy,
 )
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutError
-
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -75,7 +53,11 @@ def test_setup_global_variables_and_configuration(
     # we disable qa as it has not been properly verified
     disable_qa()
     caplog.info("Dish deployments: %s", dish_deployments)
-    assert (len(dish_deployments) == 2)
+    # pylint: disable-next=assert-on-tuple
+    assert (
+        len(dish_deployments) == 2,
+        f"There must be 2 dish deployments, not {len(dish_deployments)}",
+    )
 
 
 # 1.3 Test Connections to Namespaces
@@ -92,8 +74,8 @@ def test_connections_to_namespaces(
     :param dish_deployments: list of handles for deployed dishes
     """
     try:
-        st = sut.smoke_test()
-        caplog.info("SUT smoke test: %s", str(st))
+        st_smoke = sut.smoke_test()
+        caplog.info("SUT smoke test: %s", str(st_smoke))
     except Exception as smerr:
         caplog.error("SUT error: %s", str(smerr))
         assert False
@@ -104,14 +86,14 @@ def test_connections_to_namespaces(
         caplog.info(f"Tango error: {terr.args[0].desc.strip()}")
     except Exception as smerr:
         caplog.error("Test equipment error: %s", str(smerr))
-        assert False
+        assert False, str(smerr)
     caplog.info("Test equipment OK")
     for dish_deployment in dish_deployments:
         try:
             dish_deployment.smoke_test()
         except Exception as smerr:
             caplog.error("Dish error: %s", str(smerr))
-            assert False
+            assert False, str(smerr)
     caplog.info("Dishes OK")
 
 
@@ -138,10 +120,7 @@ def test_export_system_configuration(
 
 
 # 2.1 Configure Test Equipment State
-def test_test_equipment_state(
-    test_equipment: TangoTestEquipment,
-    test_equipment_state: TestEquipmentModel,
-) -> None:
+def test_test_equipment_state(test_equipment: TangoTestEquipment) -> None:
     """
     Configure test equipment state.
 
@@ -149,7 +128,7 @@ def test_test_equipment_state(
     :param test_equipment_state: state of the above
     """
     caplog.info("Test equipment devices: %s", test_equipment.devices)
-    assert(len(test_equipment.devices) > 0)
+    assert len(test_equipment.devices) > 0, "No test equipment devices"
 
 
 # 2.2 Print Test Equipment Diagnostics
@@ -178,7 +157,7 @@ def test_signal_generator(test_equipment: TangoTestEquipment) -> None:
     caplog.info(f"{siggen.name} execution_error: {siggen.execution_error}")
     caplog.info(f"{siggen.name} query_error: {siggen.query_error}")
 
-    assert (str(siggen.State()) == "ON")
+    assert str(siggen.State()) == "ON", f"Signal generator is {str(siggen.State())}"
 
 
 # 2.3 Create Test Equipment Plot
@@ -194,11 +173,13 @@ def test_subscribe_to_test_equipment_state(
     """
     try:
         caplog.info("Create test equipment plot")
-        test_equipment_state.subscribe_to_test_equipment_state(monitor_plot.handle_device_state_change)
+        test_equipment_state.subscribe_to_test_equipment_state(
+            monitor_plot.handle_device_state_change
+        )
         test_equipment_state.activate()
     except Exception as terr:
         caplog.error("Create plot error: %s", str(terr))
-        assert False
+        assert False, str(terr)
     caplog.info("Test equipment plot OK")
 
 
@@ -235,7 +216,7 @@ def test_devices_online(test_equipment: TangoTestEquipment) -> None:
         except Exception as terr:
             caplog.error("Could not set device %s online: %s", dev, terr)
             dev_err += 1
-    assert (dev_err == 0)
+    assert dev_err == 0, f"Found {dev_err} errors"
 
 
 # 2.6 Configure Signal Generator and set noise
@@ -262,7 +243,6 @@ def test_signal_generator_frequency(test_equipment: TangoTestEquipment) -> None:
 
 # 3.1.1 Configure Telescope Monitoring
 def test_monitoring(
-    sut: TangoSUTDeployment,
     telescope_state: TelescopeModel | None,
     subarray_count: int,
     dish_ids: list[str],
@@ -295,10 +275,10 @@ def test_monitoring(
         telescope_state.subscribe_to_subarray_scanning_state(
             telescope_monitor_plot.observe_subarray_scanning_state
         )
-        caplog.info(f"Monitoring OK")
+        caplog.info("Monitoring OK")
     except Exception as oerr:
         caplog.error("Telescope state error: %s", oerr)
-        assert False
+        assert False, str(oerr)
 
 
 # 3.1.2 Open the inline dashboard
@@ -405,6 +385,7 @@ def test_dish_lmc_diagnostics(dish_deployments: List[TangoDishDeployment]) -> No
     for dish_deployment in dish_deployments:
         caplog.info(f"Dish {dish_deployment.dish_id} - {dish_deployment.namespace}: Diagnostics")
         dish_id = dish_deployment.dish_id
+        # pylint: disable-next=invalid-name
         dm = dish_deployment.dish_manager
         caplog.info(f"{dish_id}: ComponentStates: {dm.GetComponentStates()}")
         caplog.info(f"{dish_id}: DishMode: {str(dm.dish_mode)}")
@@ -427,7 +408,6 @@ def test_dish_lmc_diagnostics(dish_deployments: List[TangoDishDeployment]) -> No
 def test_full_diagnostics(
     sut: TangoSUTDeployment,
     dish_deployments: List[TangoDishDeployment],
-    test_equipment: TangoTestEquipment,
 ) -> None:
     """
     Print full system diagnostics.
@@ -443,7 +423,6 @@ def test_full_diagnostics(
         devices = sut.chart_devices(chart.chart)
         for device in devices:
             device_json = device.model_dump_json(indent=4)
-            # caplog.info(f"SUT {sut.namespace}: {chart.chart}: {device.name}: size {len(device_json)}")
             caplog.info(
                 "Dish %s: %s: %s: size %d",
                 sut.namespace,
@@ -473,14 +452,25 @@ def test_full_diagnostics(
 
 
 # 3.3 Setup ODA
-def test_setup_ora(eb_id: str | None):
+def test_setup_oda(eb_id: str | None) -> None:
+    """
+    Set up the ODA.
+
+    :param eb_id: the ID of the EB
+    """
     assert eb_id is not None, "EB ID not set"
     caplog.info(f"Execution Block ID: {eb_id}")
 
 
 # 3.4 Initialise Telescope and Subarray
 # Create Subarray and Telescope instances.
-def test_Initialise(tel: Telescope | None, sub:SubArray | None) -> None:
+def test_initialise(tel: Telescope | None, sub: SubArray | None) -> None:
+    """
+    Create subarray and telescope instances.
+
+    :param tel: telescope instance
+    :param sub: subarray instance
+    """
     assert tel is not None, "Unknown telescope"
     assert sub is not None, "Unknown subarray"
 
@@ -490,6 +480,11 @@ def test_Initialise(tel: Telescope | None, sub:SubArray | None) -> None:
 
 # 3.5.1 Check Dish-VCC Configuration in TMC
 def test_observation_state(sut: TangoSUTDeployment) -> None:
+    """
+    Check the Dish-VCC configuration in TMC.
+
+    :param sut: system under test
+    """
     tmc_obs = sut.tmc_subarray.obs_state
     csp_obs = sut.csp_subarray.obs_state
     sdp_obs = sut.sdp_subarray.obs_state
@@ -504,6 +499,11 @@ def test_observation_state(sut: TangoSUTDeployment) -> None:
 
 # 3.5.2 Load Dish-VCC Configuration in TMC
 def test_dish_vcc_configuration(sut: TangoSUTDeployment) -> None:
+    """
+    Load Dish-VCC configuration in TMC.
+
+    :param sut:  system under test
+    """
     # This should only be executed for a fresh deployment (i.e. Telescope is OFF.
     # If you have restarted the subarray, you should not run this command
     caplog.info("Load VCC config")
@@ -550,11 +550,16 @@ def test_telescope_on(
 
 
 def test_test_telescope_on_off_state(telescope_monitor_plot: TelescopeMononitorPlot) -> None:
+    """
+    Check telescope state.
+
+    :param telescope_monitor_plot: telescope monitor instance
+    """
     caplog.info("Check telescope state")
     time.sleep(5)
     tstate: Literal["ON", "OFF", "OFFLINE"] = telescope_monitor_plot.on_off_state
     caplog.info("Telescope is %s", tstate)
-    assert (tstate == "ON"), f"Telescope is {tstate}"
+    assert tstate == "ON", f"Telescope is {tstate}"
 
 
 # 3.7.1 Define Resources to be used during Observation
@@ -575,7 +580,6 @@ def test_observation_resources(observation: ObservationSB) -> None:
 # 3.7.2 Create the high level observation specifications in terms of target specs
 def test_create_observation_specification(
     observation: ObservationSB,
-    dish_deployments: List[TangoDishDeployment],
     default_target_specs: dict,
 ) -> None:
     """
@@ -587,9 +591,6 @@ def test_create_observation_specification(
     """
     # Note :- Users may currently modify the values by replacing the example values as
     # given for each field within Target specification section.
-
-    dish_ids = [d.dish_id.upper() for d in dish_deployments]
-
     channel_configuration = [
         Channel(
             spectral_window_id="fsp_1_channels",
@@ -611,7 +612,7 @@ def test_create_observation_specification(
 
     observation.add_target_specs(default_target_specs)
 
-    for target_id, target in default_target_specs.items():
+    for target_id, _target in default_target_specs.items():
         caplog.info(f"Add scan configuration {target_id}")
         try:
             observation.add_scan_type_configuration(
@@ -641,7 +642,6 @@ def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot
 def test_scheduling_block_definition(
     observation: ObservationSB,
     eb_id: str | None,
-    default_target_specs: dict,
     pdm_allocation: SBDefinition | None,
 ) -> None:
     """
@@ -664,7 +664,7 @@ def test_scheduling_block_definition(
 def test_assign_subarray_resources(
     observation: ObservationSB,
     pdm_allocation: SBDefinition | None,
-    sub:SubArray | None,
+    sub: SubArray | None,
     telescope_monitor_plot: TelescopeMononitorPlot,
 ) -> None:
     """
@@ -704,7 +704,7 @@ def test_assign_subarray_resources(
 
 
 # 3.9 Configure Scan
-def test_Configure_Scan(
+def test_configure_scan(
     observation: ObservationSB,
     pdm_allocation: SBDefinition | None,
     sub: SubArray | None,
@@ -762,7 +762,7 @@ def test_run_scan(
         caplog.info("Monitor %s: %s", box_name, value)
 
 
- # 4.3 Display Dish LMC State
+# 4.3 Display Dish LMC State
 def test_dishes_debug(dish_deployments: List[TangoDishDeployment]) -> None:
     """
     Display Dish LMC State.
@@ -774,6 +774,7 @@ def test_dishes_debug(dish_deployments: List[TangoDishDeployment]) -> None:
         dish_id = dish.dish_id
         if dish_id in dishes_to_debug:
             dish.print_diagnostics()
+            # pylint: disable-next=invalid-name
             dm = dish.dish_manager
             print(f"{dish_id}: ComponentStates: {dm.GetComponentStates()}")
             print(f"{dish_id}: DishMode: {str(dm.dish_mode)}")
@@ -819,7 +820,8 @@ def test_reset(
 
 
 # 3.11 Post Observation teardown
-# If the observation executed successfully, you can use the following commands to reset the telescope.
+# If the observation executed successfully, you can use the following commands to reset
+# the telescope.
 
 
 # 3.11.1 Clear scan configuration

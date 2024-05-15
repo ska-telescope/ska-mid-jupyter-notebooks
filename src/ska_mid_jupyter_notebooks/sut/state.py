@@ -70,7 +70,8 @@ class TelescopeDeviceModel:
             # TODO note unwanted zero
             *[
                 # f"ska_mid/tm_leaf_node/d0{id}" for id in self._dish_ids
-                f"ska_mid/tm_leaf_node/d{int(id):04d}" for id in self._dish_ids
+                f"ska_mid/tm_leaf_node/d{int(id):04d}"
+                for id in self._dish_ids
             ],  # TMC dish leaf nodes have an extra 0 :/
         ]
 
