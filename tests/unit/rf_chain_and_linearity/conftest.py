@@ -44,31 +44,58 @@ logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)
 
 DISHLMC_ENABLED: bool = True
+
+# Dish IDs
+# --------
 DISH_IDS: list[str] = ["0001", "0036"]
+caplog.info("Dish IDs %s", DISH_IDS)
+
+
+@pytest.fixture()
+def dish_ids() -> list[str]:
+    """
+    Get IDs for dishes.
+
+    :return: list of dish IDs
+    """
+    return DISH_IDS
+
+
+# Subarray details
+SUBARRAY_ID: int = 1
+SUBARRAY_COUNT: int = 1
+caplog.info("Subarray ID %d (count %d)", SUBARRAY_ID, SUBARRAY_COUNT)
+
+
+@pytest.fixture()
+def subarray_count() -> int:
+    """
+    Get number of subarrays
+
+    :return: number of subarrays
+    """
+    return SUBARRAY_COUNT
+
+
+# Branch name and K8S namespaces
 BRANCH_NAME: str = "at-1958-rf-chain-linearity-performance"
 SUT_NAMESPACE_OVERRIDE: str = ""
 DISH_NAMESPACE_OVERRIDES: list[str] = ["", ""]
-SUBARRAY_ID: int = 1
-SUBARRAY_COUNT: int = 1
-DEVICE_MODEL: TelescopeDeviceModel = TelescopeDeviceModel(DISH_IDS, SUBARRAY_COUNT)
-EXECUTON_ENVIRONMENT: Environment = Environment.CI
-TESTEQ_IN_THE_LOOP: bool = False
-if os.getenv("TESTEQ_IN_THE_LOOP", "False").lower() == "true":
-    TESTEQ_IN_THE_LOOP = True
-if TESTEQ_IN_THE_LOOP:
-    TESTEQ = TangoTestEquipment()
-else:
-    TESTEQ = None
 
+# Execution environment
+EXECUTON_ENVIRONMENT: Environment = Environment.CI
+caplog.info("Created execution environment")
+
+
+# System under test
+# -----------------
 SYSTEM_UNDER_TEST: TangoSUTDeployment = TangoSUTDeployment(
     BRANCH_NAME,
     EXECUTON_ENVIRONMENT,
     namespace_override=SUT_NAMESPACE_OVERRIDE,
     subarray_index=SUBARRAY_ID,
 )
-SUB: SubArray = SubArray(SUBARRAY_ID)
-TEL = Telescope()
-OBSERVATION = ObservationSB()
+caplog.info("SUT configured: %s", str(SYSTEM_UNDER_TEST))
 
 
 @pytest.fixture()
@@ -78,8 +105,12 @@ def sut() -> TangoSUTDeployment:
 
     :return: handle for system under test
     """
-    caplog.debug("SUT configured: %s", str(SYSTEM_UNDER_TEST))
     return SYSTEM_UNDER_TEST
+
+
+# Device model
+# ------------
+DEVICE_MODEL: TelescopeDeviceModel = TelescopeDeviceModel(DISH_IDS, SUBARRAY_COUNT)
 
 
 @pytest.fixture()
@@ -103,6 +134,22 @@ def telescope_state() -> TelescopeModel | None:
     return tel_state
 
 
+# Dish deployments
+# ----------------
+DISH_DEPLOYMENTS = []
+if DISHLMC_ENABLED:
+    for i_i, d_d in enumerate(DISH_IDS):
+        dish = TangoDishDeployment(
+            f"ska{d_d[1:]}",
+            branch_name=BRANCH_NAME,
+            environment=EXECUTON_ENVIRONMENT,
+            namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
+        )
+        caplog.debug("Dish %s configured: %s", d_d, dish)
+        DISH_DEPLOYMENTS.append(dish)
+caplog.info("Configured %d dishes", len(DISH_DEPLOYMENTS))
+
+
 @pytest.fixture()
 def dish_deployments() -> List[TangoDishDeployment]:
     """
@@ -110,21 +157,11 @@ def dish_deployments() -> List[TangoDishDeployment]:
 
     :return: handles for dish deployment
     """
-    dishes = []
-    if DISHLMC_ENABLED:
-        for i_i, d_d in enumerate(DISH_IDS):
-            dish = TangoDishDeployment(
-                f"ska{d_d[1:]}",
-                branch_name=BRANCH_NAME,
-                environment=EXECUTON_ENVIRONMENT,
-                namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
-            )
-            caplog.debug("Dish %s configured: %s", d_d, dish)
-            dishes.append(dish)
-    caplog.debug("Configured %d dishes", len(dishes))
-    return dishes
+    return DISH_DEPLOYMENTS
 
 
+# Notebook output directory
+# -------------------------
 @pytest.fixture()
 def notebook_output_dir() -> pathlib.Path:
     """
@@ -141,6 +178,19 @@ def notebook_output_dir() -> pathlib.Path:
     return nod
 
 
+# Test equipment
+# --------------
+TESTEQ_IN_THE_LOOP: bool = False
+if os.getenv("TESTEQ_IN_THE_LOOP", "False").lower() == "true":
+    TESTEQ_IN_THE_LOOP = True
+if TESTEQ_IN_THE_LOOP:
+    TESTEQ = TangoTestEquipment()
+    caplog.info("Test equipment enabled")
+else:
+    caplog.warning("Test equipment disabled")
+    TESTEQ = None
+
+
 @pytest.fixture()
 def test_equipment() -> TangoTestEquipment | None:
     """
@@ -148,7 +198,6 @@ def test_equipment() -> TangoTestEquipment | None:
 
     :return: handles for test equipment
     """
-    caplog.debug("Get test equipment")
     return TESTEQ
 
 
@@ -157,7 +206,7 @@ def test_equipment_state() -> TestEquipmentModel | None:
     """
     Configure test equipment state.
 
-    :param test_equipment: Tango devices for test equipment
+    :return: test equipment state
     """
     if not TESTEQ_IN_THE_LOOP:
         return None
@@ -175,26 +224,6 @@ def monitor_plot() -> TestEquipmentMonitorPlot:
 
 
 @pytest.fixture()
-def dish_ids() -> list[str]:
-    """
-    Get IDs for dishes.
-
-    :return: list of dish IDs
-    """
-    return DISH_IDS
-
-
-@pytest.fixture()
-def subarray_count() -> int:
-    """
-    Get number of subarrays
-
-    :return: number of subarrays
-    """
-    return SUBARRAY_COUNT
-
-
-@pytest.fixture()
 def telescope_monitor_plot() -> TelescopeMononitorPlot:
     """
     Get handle for telescope monitoring.
@@ -204,6 +233,20 @@ def telescope_monitor_plot() -> TelescopeMononitorPlot:
     return TelescopeMononitorPlot(plot_width=900, plot_height=200)
 
 
+# the EB of the ODA thing
+os.environ["ODA_URI"] = (
+    # pylint: disable-next=line-too-long
+    "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
+)
+EBID: str | None
+try:
+    EBID = oda_helper.create_eb()
+    caplog.info(f"Execution block ID: {EBID}")
+except ConnectionError as cerr:
+    caplog.error("Could not create execution block ID: %s", cerr)
+    EBID = None
+
+
 @pytest.fixture()
 def eb_id() -> str | None:
     """
@@ -211,17 +254,13 @@ def eb_id() -> str | None:
 
     :return: the EB of the ODA thing
     """
-    os.environ["ODA_URI"] = (
-        # pylint: disable-next=line-too-long
-        "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
-    )
-    try:
-        ebid = oda_helper.create_eb()
-        print(f"Execution Block ID: {ebid}")
-    except ConnectionError as cerr:
-        caplog.error("Could not create EB: %s", cerr)
-        ebid = None
-    return ebid
+    return EBID
+
+
+# Subarray
+# --------
+SUB: SubArray = SubArray(SUBARRAY_ID)
+caplog.info(f"Subarray with ID {SUBARRAY_ID}")
 
 
 @pytest.fixture()
@@ -234,6 +273,12 @@ def sub() -> SubArray | None:
     return SUB
 
 
+# Telescope
+# ---------
+TEL = Telescope()
+caplog.info("Created telescope instance")
+
+
 @pytest.fixture()
 def tel() -> Telescope | None:
     """
@@ -242,6 +287,12 @@ def tel() -> Telescope | None:
     :return: handle for telescope
     """
     return TEL
+
+
+# Observation
+# -----------
+OBSERVATION = ObservationSB()
+caplog.info("Created observation instance")
 
 
 @pytest.fixture()
@@ -254,6 +305,8 @@ def observation() -> ObservationSB | None:
     return OBSERVATION
 
 
+# Default target specs
+# --------------------
 DEFAULT_TARGET_SPECS = {
     "flux calibrator": TargetSpec(
         target_sb_detail={
@@ -330,6 +383,7 @@ DEFAULT_TARGET_SPECS = {
         target=None,
     ),
 }
+caplog.info("Created default target specification")
 
 
 @pytest.fixture()
@@ -342,10 +396,16 @@ def default_target_specs() -> dict:
     return DEFAULT_TARGET_SPECS
 
 
+# PDM allocation
+# --------------
 try:
     PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+    caplog.info("Created PDM allocation")
 except KeyError as kerr:
-    caplog.error("Could not allocate PDM: %s", kerr)
+    caplog.error("Could not allocate PDM key: %s", kerr)
+    PDM_ALLOCATION = None
+except Exception as eerr:
+    caplog.error("Could not allocate PDM: %s", eerr)
     PDM_ALLOCATION = None
 
 
