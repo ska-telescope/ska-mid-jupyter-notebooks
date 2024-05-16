@@ -10,16 +10,10 @@ from typing import List, Literal
 
 import tango
 from ska_control_model import AdminMode
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_oso_scripting import oda_helper
-from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutError
 from ska_oso_scripting.objects import SubArray, Telescope
-from ska_tmc_cdm.messages.central_node.sdp import Channel
 
 from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
-from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
 from ska_mid_jupyter_notebooks.sut.state import TelescopeModel
 from ska_mid_jupyter_notebooks.sut.sut import TangoSUTDeployment, disable_qa
@@ -36,6 +30,7 @@ caplog = logging.getLogger(__name__)
 
 
 # 1.2 Set up Global Variables and Configuration
+# =============================================
 def test_setup_global_variables_and_configuration(
     sut: TangoSUTDeployment,
     dish_deployments: List[TangoDishDeployment],
@@ -61,6 +56,7 @@ def test_setup_global_variables_and_configuration(
 
 
 # 1.3 Test Connections to Namespaces
+# ==================================
 def test_connections_to_namespaces(
     sut: TangoSUTDeployment,
     test_equipment: TangoTestEquipment | None,
@@ -99,6 +95,7 @@ def test_connections_to_namespaces(
 
 
 # 1.4 Export System Configuration
+# ===============================
 def test_export_system_configuration(
     sut: TangoSUTDeployment,
     test_equipment: TangoTestEquipment,
@@ -126,6 +123,7 @@ def test_export_system_configuration(
 
 
 # 2.1 Configure Test Equipment State
+# ==================================
 def test_test_equipment_state(test_equipment: TangoTestEquipment) -> None:
     """
     Configure test equipment state.
@@ -140,6 +138,7 @@ def test_test_equipment_state(test_equipment: TangoTestEquipment) -> None:
 
 
 # 2.2 Print Test Equipment Diagnostics
+# ====================================
 def test_signal_generator(test_equipment: TangoTestEquipment) -> None:
     """
     Print test equipment diagnostics.
@@ -173,6 +172,7 @@ def test_signal_generator(test_equipment: TangoTestEquipment) -> None:
 
 
 # 2.3 Create Test Equipment Plot
+# ==============================
 def test_subscribe_to_test_equipment_state(
     test_equipment_state: TestEquipmentModel | None,
     monitor_plot: TestEquipmentMonitorPlot,
@@ -199,6 +199,7 @@ def test_subscribe_to_test_equipment_state(
 
 
 # 2.4 Turn offline Test Equipment devices ONLINE
+# ==============================================
 def test_devices_online(test_equipment: TangoTestEquipment) -> None:
     """
     Set all offline devices to online.
@@ -233,6 +234,7 @@ def test_devices_online(test_equipment: TangoTestEquipment) -> None:
 
 
 # 2.6 Configure Signal Generator and set noise
+# ============================================
 def test_signal_generator_frequency(test_equipment: TangoTestEquipment) -> None:
     """
     Configure signal generator.
@@ -255,9 +257,11 @@ def test_signal_generator_frequency(test_equipment: TangoTestEquipment) -> None:
 
 
 # 3.1 Setup Telescope Monitoring
+# ==============================
 
 
 # 3.1.1 Configure Telescope Monitoring
+# ------------------------------------
 def test_monitoring(
     telescope_state: TelescopeModel | None,
     subarray_count: int,
@@ -298,6 +302,7 @@ def test_monitoring(
 
 
 # 3.1.2 Open the inline dashboard
+# -------------------------------
 def test_inline_dashboard(telescope_state: TelescopeModel | None) -> None:
     """
     Open the inline dashboard.
@@ -316,9 +321,11 @@ def test_inline_dashboard(telescope_state: TelescopeModel | None) -> None:
 
 
 # 3.2 Print System Diagnostics
+# ============================
 
 
-# 3.2.1 Print TMC Diagnostics
+# 3.2.1 Print telescope monitor and control (TMC) Diagnostics
+# -----------------------------------------------------------
 def test_tmc_diagnostics(sut: TangoSUTDeployment) -> None:
     """
     Print TMC diagnostics.
@@ -338,7 +345,8 @@ def test_tmc_diagnostics(sut: TangoSUTDeployment) -> None:
     caplog.info(f"TMC Subarray Node obsState: {str(tmc_subarray.obs_state)}")
 
 
-# 3.2.2 Print CSP-LMC Diagnostics
+# 3.2.2 Print Central Signal Processor (CSP) local monitor and control (LMC) Diagnostics
+# --------------------------------------------------------------------------------------
 def test_csp_diagnostics(sut: TangoSUTDeployment) -> None:
     """
     Print CSP-LMC diagnostics.
@@ -357,7 +365,8 @@ def test_csp_diagnostics(sut: TangoSUTDeployment) -> None:
     caplog.info(f"CSP-LMC Subarray dishVccConfig: {subarray.dishVccConfig}")
 
 
-# 3.2.3 Print CBF Diagnostics
+# 3.2.3 Print correlator beam former (CBF) Diagnostics
+# ----------------------------------------------------
 def test_cbf_diagnostics(sut: TangoSUTDeployment) -> None:
     """
     Print CBF diagnostics.
@@ -373,7 +382,8 @@ def test_cbf_diagnostics(sut: TangoSUTDeployment) -> None:
     caplog.info(f"CBF Subarray obsState: {str(cbf_subarray.obs_state)}")
 
 
-# 3.2.4 Print SDP Diagnostics
+# 3.2.4 Print science data processor (SDP) Diagnostics
+# ----------------------------------------------------
 def test_sdp_diagnostics(sut: TangoSUTDeployment) -> None:
     """
     Print SDP diagnostics.
@@ -389,7 +399,8 @@ def test_sdp_diagnostics(sut: TangoSUTDeployment) -> None:
     caplog.info(f"SDP Subarray obsState: {str(sdp_subarray.obs_state)}")
 
 
-# 3.2.5 Print Dish-LMC Diagnostics
+# 3.2.5 Print Dish local monitor and control (LMC) Diagnostics
+# ------------------------------------------------------------
 def test_dish_lmc_diagnostics(dish_deployments: List[TangoDishDeployment]) -> None:
     """
     Print dish LMC diagnostics.
@@ -421,6 +432,7 @@ def test_dish_lmc_diagnostics(dish_deployments: List[TangoDishDeployment]) -> No
 
 
 # 3.2.6 Print Full System Diagnostics
+# -----------------------------------
 def test_full_diagnostics(
     sut: TangoSUTDeployment,
     dish_deployments: List[TangoDishDeployment],
@@ -467,6 +479,7 @@ def test_full_diagnostics(
 
 
 # 3.3 Setup ODA
+# =============
 def test_setup_oda(eb_id: str | None) -> None:
     """
     Set up the ODA.
@@ -478,7 +491,7 @@ def test_setup_oda(eb_id: str | None) -> None:
 
 
 # 3.4 Initialise Telescope and Subarray
-# Create Subarray and Telescope instances.
+# =====================================
 def test_initialise(tel: Telescope | None, sub: SubArray | None) -> None:
     """
     Create subarray and telescope instances.
@@ -491,9 +504,11 @@ def test_initialise(tel: Telescope | None, sub: SubArray | None) -> None:
 
 
 # 3.5 Dish-VCC Configuration in TMC
+# =================================
 
 
 # 3.5.1 Check Dish-VCC Configuration in TMC
+# -----------------------------------------
 def test_observation_state(sut: TangoSUTDeployment) -> None:
     """
     Check the Dish-VCC configuration in TMC.
@@ -512,7 +527,12 @@ def test_observation_state(sut: TangoSUTDeployment) -> None:
     assert sdp_obs != 4, "ERROR: SDP subarray is not ready"
 
 
-# 3.6 Turn telescope ON
+# 3.6 Start telescope
+# ===================
+
+
+# 3.6.1 Turn telescope ON
+# -----------------------
 def test_telescope_on(
     telescope_monitor_plot: TelescopeMononitorPlot,
     tel: Telescope,
@@ -542,6 +562,8 @@ def test_telescope_on(
         ), f"Cant continue with telescope in {telescope_monitor_plot.on_off_state}"
 
 
+# 3.6.2 Check telescope state
+# ---------------------------
 def test_test_telescope_on_off_state(telescope_monitor_plot: TelescopeMononitorPlot) -> None:
     """
     Check telescope state.

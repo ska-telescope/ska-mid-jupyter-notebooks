@@ -62,6 +62,7 @@ def dish_ids() -> list[str]:
 
 
 # Subarray details
+# ----------------
 SUBARRAY_ID: int = 1
 SUBARRAY_COUNT: int = 1
 caplog.info("Subarray ID %d (count %d)", SUBARRAY_ID, SUBARRAY_COUNT)
@@ -77,12 +78,32 @@ def subarray_count() -> int:
     return SUBARRAY_COUNT
 
 
-# Branch name and K8S namespaces
-BRANCH_NAME: str = "at-1958-rf-chain-linearity-performance"
-SUT_NAMESPACE_OVERRIDE: str = ""
-DISH_NAMESPACE_OVERRIDES: list[str] = ["", ""]
+# Branch name
+# -----------
+BRANCH_NAME: str
+branch: str | None = os.getenv("BRANCH_NAME", None)
+if branch is not None:
+    BRANCH_NAME = branch
+else:
+    BRANCH_NAME = "at-1958-rf-chain-linearity-performance"
+
+
+# K8S namespaces
+# --------------
+SUT_NAMESPACE_OVERRIDE: str
+DISH_NAMESPACE_OVERRIDES: list[str]
+k8s_ns: str | None = os.getenv("KUBE_NAMESPACE", None)
+if k8s_ns is not None:
+    SUT_NAMESPACE_OVERRIDE = k8s_ns
+    DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska001"))
+    DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska036"))
+else:
+    SUT_NAMESPACE_OVERRIDE = ""
+    DISH_NAMESPACE_OVERRIDES = ["", ""]
+
 
 # Execution environment
+# ---------------------
 EXECUTON_ENVIRONMENT: Environment = Environment.CI
 caplog.info("Created execution environment")
 
@@ -233,7 +254,7 @@ def telescope_monitor_plot() -> TelescopeMononitorPlot:
     return TelescopeMononitorPlot(plot_width=900, plot_height=200)
 
 
-# the EB of the ODA thing
+# Execution block (EB) of the Observatory Science Operations (OSO) Data Archive (ODA)
 os.environ["ODA_URI"] = (
     # pylint: disable-next=line-too-long
     "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
@@ -289,8 +310,8 @@ def tel() -> Telescope | None:
     return TEL
 
 
-# Observation
-# -----------
+# Observation scheduling block
+# ----------------------------
 OBSERVATION = ObservationSB()
 caplog.info("Created observation instance")
 
@@ -298,7 +319,7 @@ caplog.info("Created observation instance")
 @pytest.fixture()
 def observation() -> ObservationSB | None:
     """
-    Make an observation.
+    Make an observation scheduling block.
 
     :return: handle for observation
     """
@@ -396,8 +417,8 @@ def default_target_specs() -> dict:
     return DEFAULT_TARGET_SPECS
 
 
-# PDM allocation
-# --------------
+# Project Data Model (PDM) allocation
+# -----------------------------------
 try:
     PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
     caplog.info("Created PDM allocation")
@@ -412,7 +433,7 @@ except Exception as eerr:
 @pytest.fixture()
 def pdm_allocation() -> SBDefinition | None:
     """
-    Get the SB definition.
+    Get the scheduling block (SB) definition.
 
     :return: SB definition
     """

@@ -1,15 +1,12 @@
-"""Channelisation Performance Verification Tests."""
+"""RF Chain and Linearity Commissioning Test."""
 
 # pylint: disable=broad-except,protected-access
 
 import logging
-import os
-import pathlib
 import time
 from typing import List, Literal
 
 import tango
-from ska_control_model import AdminMode
 from ska_oso_pdm.entities.common.sb_definition import SBDefinition
 from ska_oso_pdm.entities.sdp import BeamMapping
 from ska_oso_scripting import oda_helper
@@ -17,18 +14,10 @@ from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutErro
 from ska_oso_scripting.objects import SubArray, Telescope
 from ska_tmc_cdm.messages.central_node.sdp import Channel
 
-from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
-from ska_mid_jupyter_notebooks.sut.state import TelescopeModel
-from ska_mid_jupyter_notebooks.sut.sut import TangoSUTDeployment, disable_qa
-from ska_mid_jupyter_notebooks.test_equipment.rendering import TestEquipmentMonitorPlot
-from ska_mid_jupyter_notebooks.test_equipment.state import TestEquipmentModel
-from ska_mid_jupyter_notebooks.test_equipment.test_equipment import (
-    TangoTestEquipment,
-    TestEquipmentDeviceProxy,
-)
+
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -36,6 +25,7 @@ caplog = logging.getLogger(__name__)
 
 
 # 3.7.1 Define Resources to be used during Observation
+# ----------------------------------------------------
 def test_observation_resources(observation: ObservationSB) -> None:
     """
     Generate Processing Block and Execution Block IDs using SKUID.
@@ -44,13 +34,14 @@ def test_observation_resources(observation: ObservationSB) -> None:
     :return:
     """
     # External IDs (this would typically come from a database like ODA)
-    # this is simulated by means of instantiate a new Observation object comping from the
-    # helper modules
+    # this is simulated by means of instantiate a new Observation object
+    # comping from the helper modules
     assert observation is not None, "Unknown observation"
     caplog.info("Observation is OK")
 
 
 # 3.7.2 Create the high level observation specifications in terms of target specs
+# -------------------------------------------------------------------------------
 def test_create_observation_specification(
     observation: ObservationSB,
     default_target_specs: dict,
@@ -62,8 +53,8 @@ def test_create_observation_specification(
     :param dish_deployments: list of handles for deployed dishes
     :return:
     """
-    # Note :- Users may currently modify the values by replacing the example values as
-    # given for each field within Target specification section.
+    # Note :- Users may currently modify the values by replacing the example values
+    # as given for each field within Target specification section.
     channel_configuration = [
         Channel(
             spectral_window_id="fsp_1_channels",
@@ -100,6 +91,7 @@ def test_create_observation_specification(
 
 
 # 3.7.3 Mid-configuration schema input used by observing commands
+# ---------------------------------------------------------------
 def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot) -> None:
     """
     Use this configuration schema as input for observing commands.
@@ -115,6 +107,7 @@ def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot
 
 
 # 3.7.4 Create Scheduling Block Definition(SBD) Instance and save it into the ODA
+# -------------------------------------------------------------------------------
 def test_scheduling_block_definition(
     observation: ObservationSB,
     eb_id: str | None,
@@ -137,6 +130,7 @@ def test_scheduling_block_definition(
 
 
 # 3.8 Assign Resources
+# ====================
 def test_assign_subarray_resources(
     observation: ObservationSB,
     pdm_allocation: SBDefinition | None,
@@ -180,6 +174,7 @@ def test_assign_subarray_resources(
 
 
 # 3.9 Configure Scan
+# ==================
 def test_configure_scan(
     observation: ObservationSB,
     pdm_allocation: SBDefinition | None,
@@ -218,6 +213,7 @@ def test_configure_scan(
 
 
 # 3.10 Run the Scan
+# =================
 def test_run_scan(
     sub: SubArray | None,
     telescope_monitor_plot: TelescopeMononitorPlot,
@@ -239,3 +235,35 @@ def test_run_scan(
             caplog.info("Monitor %s: %s", box_name, value)
         except AttributeError:
             caplog.warning("Could not read %s", box_name)
+
+
+# 4.3 Display Dish LMC State
+# ==========================
+def test_dishes_debug(dish_deployments: List[TangoDishDeployment]) -> None:
+    """
+    Display Dish LMC State.
+
+    :param dish_deployments:  list of handles for deployed dishes
+    """
+    dishes_to_debug = [d.dish_id for d in dish_deployments]
+    for dish in dish_deployments:
+        dish_id = dish.dish_id
+        if dish_id in dishes_to_debug:
+            dish.print_diagnostics()
+            # pylint: disable-next=invalid-name
+            dm = dish.dish_manager
+            print(f"{dish_id}: ComponentStates: {dm.GetComponentStates()}")
+            print(f"{dish_id}: DishMode: {str(dm.dish_mode)}")
+            print(f"{dish_id}: PowerState: {str(dm.power_state)}")
+            print(f"{dish_id}: HealthState: {str(dm.health_state)}")
+            print(f"{dish_id}: PointingState: {str(dm.pointing_state)}")
+            print(f"{dish_id}: K-Value: {dm.kValue}")
+            print(f"{dish_id}: Capturing: {dm.capturing}")
+            print(f"{dish_id}: SimulationMode: {dm.simulationMode}")
+            spfc = dish.spfc_simulator
+            print(f"{dish_id}: SPFC OperatingMode: {str(spfc.operating_mode)}")
+            spfrx = dish.spfrx
+            print(f"{dish_id}: SPFRx OperatingMode: {str(spfrx.operating_mode)}")
+            ds_manager = dish.ds_manager
+            print(f"{dish_id}: DS Manager OperatingMode: {str(ds_manager.operating_mode)}")
+            print(f"{dish_id}: DS Manager IndexerPosition: {ds_manager.indexerPosition}")
