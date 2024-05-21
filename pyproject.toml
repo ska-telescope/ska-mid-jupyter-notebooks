@@ -46,6 +46,7 @@ nbformat = "^5.10.4"
 mypy-extensions = "^1.0.0"
 pathspec = "^0.12.1"
 jupyter-server = "2.10.0"
+pydantic-core = "^2.18.2"
 
 [tool.poetry.extras]
 localtango = ["pytango"]
