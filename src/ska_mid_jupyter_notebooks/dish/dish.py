@@ -29,7 +29,7 @@ class DishManager(DishDeviceProxy):
     @property
     def dish_mode(self) -> DishMode:
         return DishMode(self._device_proxy.dishMode)
-    
+
     # @property
     # def achived_
 
