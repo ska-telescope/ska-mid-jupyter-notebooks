@@ -13,7 +13,7 @@
     "scan_type": "science"
   },
   "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configure/2.3",
+    "interface": "https://schema.skao.int/ska-csp-configure/2.4",
     "subarray": {
         "subarray_name": "Receptor(s)"
     },

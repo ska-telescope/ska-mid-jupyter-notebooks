@@ -106,19 +106,19 @@ class TangoTestEquipment(TangoDeployment):
         return f"TangoTestEquipment{{{super().__str__()}}}"
 
     @property
-    def signal_generator(self):
+    def signal_generator(self) -> TestEquipmentDeviceProxy:
         return SigGen(self)
 
     @property
-    def programmable_attenuator(self):
+    def programmable_attenuator(self) -> TestEquipmentDeviceProxy:
         return ProgAttenuator(self)
 
     @property
-    def spectrum_analyser(self):
+    def spectrum_analyser(self) -> TestEquipmentDeviceProxy:
         return SpectAna(self)
 
     @property
-    def sky_simulator_controller(self):
+    def sky_simulator_controller(self) -> TestEquipmentDeviceProxy:
         return SkySimCtl(self)
 
     @property

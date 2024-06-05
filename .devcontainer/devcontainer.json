@@ -1,0 +1,95 @@
+{
+    "name": "ska-mid-jupyter-notebooks",
+    "dockerFile": "Dockerfile",
+    "context": "..",
+    // Set *default* container specific settings.json values on container create.
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/usr/bin/bash",
+                        "env": {
+                            "DEBUG_ENTRYPOINT": "True",
+                            "DEBUG_ENTRYPOINT_EXTENDED": "True",
+                            "LIVE_LOGGING_EXTENDED": "True",
+                            "SHOW_STEP_FUNCTIONS": "True",
+                            "CAPTURE_LOGS": "True",
+                            "PYTEST_ADDOPTS": "-o log_cli=True --count=1 -x  --log-file='test_logs.log'",
+                            "USE_ONLY_POLLING": "True",
+                            "TEST_ENV": "BUILD_IN"
+                        }
+                    }
+                },
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "vs-kubernetes.kubeconfig": "/home/root/.kube/config",
+                "python.envFile": "${workspaceFolder}/.vscode/.env",
+                "terminal.integration.defaultProfile.linux": "bash",
+                "python.pythonPath": ".venv/bin/python",
+                "autoDocstring.docstringFormat": "sphinx",
+                "gitPrefix.pattern": "(\\w+-\\d+).*",
+                "gitPrefix.replacement": "p1.replace(/(\\w+)/, function(v) { return v.toUpperCase();})+\": \"",
+                "gitPrefix.replacementIsFunction": true,
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.formatOnSave": true
+                },
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
+                "python.testing.unittestEnabled": false,
+                "python.testing.pytestEnabled": true,
+                "python.formatting.provider": "none"
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "ms-python.python",
+                "trond-snekvik.simple-rst",
+                "davidanson.vscode-markdownlint",
+                "ryanluker.vscode-coverage-gutters",
+                "srmeyers.git-prefix",
+                "ms-python.vscode-pylance",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "donjayamanne.githistory",
+                "njpwerner.autodocstring",
+                "streetsidesoftware.code-spell-checker",
+                "bungcip.better-toml",
+                "freakypie.code-python-isort",
+                "srmeyers.git-prefix",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "ms-python.isort",
+                "tamasfe.even-better-toml",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "runArgs": [
+        // "--dns",
+        // "10.164.0.11"
+    ],
+    //this may break if you are attempting to do this from a non debian host
+    // therefore manually uncomment it in your branch if you want to use K8s
+    
+    "mounts": [
+        // "source=${localEnv:HOME}${localEnv:USERPROFILE}code/skampi-code2/ska-skampi,target=/workspaces/ska-mid-itf/build2/,type=bind,consistency=cached",
+        //"source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/root/host,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/root/.kube,type=bind,consistency=cached"
+    ],
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": "poetry config virtualenvs.in-project true"
+    // if you want to work with k8 and helm directly from this container:
+    /*
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": "1.0.9",
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+        "ghcr.io/mpriscella/features/helm-chart-testing:1": {},
+        "ghcr.io/eitsupi/devcontainer-features/jq-likes:1": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:2.3.0": {
+            "version": "latest",
+            "moby": true
+        }
+    },*/
+}
