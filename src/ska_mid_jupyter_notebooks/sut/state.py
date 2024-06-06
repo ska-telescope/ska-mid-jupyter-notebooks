@@ -50,6 +50,9 @@ class TelescopeDeviceModel:
         self._dish_ids = dish_ids
         self._subarray_count = subarray_count
 
+    def __repr__(self):
+        return f"Telecope Dish IDs {self._dish_ids}"
+
     def tm_devices(self) -> List[str]:
         return [
             "ska_mid/tm_central/central_node",
@@ -64,8 +67,11 @@ class TelescopeDeviceModel:
                 f"ska_mid/tm_leaf_node/sdp_subarray{index:0>2}"
                 for index in range(1, self._subarray_count + 1)
             ],
+            # TODO note unwanted zero
             *[
-                f"ska_mid/tm_leaf_node/d0{id}" for id in self._dish_ids
+                # f"ska_mid/tm_leaf_node/d0{id}" for id in self._dish_ids
+                f"ska_mid/tm_leaf_node/d{int(id):04d}"
+                for id in self._dish_ids
             ],  # TMC dish leaf nodes have an extra 0 :/
         ]
 
