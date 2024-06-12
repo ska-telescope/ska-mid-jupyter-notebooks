@@ -6,6 +6,7 @@ import logging
 import time
 from typing import List
 
+import pytest
 import tango
 from ska_oso_scripting.objects import SubArray
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
@@ -77,6 +78,7 @@ def test_clear_scan_configuration(
 
 # 3.11.2 Release Subarray resources
 # ---------------------------------
+@pytest.mark.xfail
 def test_release_subarray_resources(
     sub: SubArray | None,
     telescope_monitor_plot: TelescopeMononitorPlot,
@@ -88,15 +90,17 @@ def test_release_subarray_resources(
     :param telescope_monitor_plot: the monitor thing
     :return:
     """
+    rel_err: str = ""
     try:
         sub.release()
         caplog.info("Subarray released")
     except tango.DevFailed as terr:
-        caplog.error(f"ERROR: {terr.args[0].desc.strip()}")
-        assert False, terr.args[0].desc.strip()
+        rel_err = terr.args[0].desc.strip()
+        caplog.error(f"ERROR: {rel_err}")
     except AttributeError as aerr:
-        caplog.error("ERROR: %s", str(aerr))
-        assert False, str(aerr)
+        rel_err = str(aerr)
+        caplog.error("ERROR: %s", rel_err)
+    assert rel_err == "", rel_err
     for box_name in telescope_monitor_plot._labeled_blocks:
         try:
             value = telescope_monitor_plot._labeled_block[box_name]

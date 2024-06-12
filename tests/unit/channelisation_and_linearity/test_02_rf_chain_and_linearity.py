@@ -106,8 +106,9 @@ def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot
             caplog.warning("Could not read %s", box_name)
 
 
-# 3.7.4 Create Scheduling Block Definition(SBD) Instance and save it into the ODA
-# -------------------------------------------------------------------------------
+# 3.7.4 Create Scheduling Block Definition (SBD) Instance and save it into the
+# OSO (Observatory Science Operations) Data Archive (ODA)
+# ----------------------------------------------------------------------------
 def test_scheduling_block_definition(
     observation: ObservationSB,
     eb_id: str | None,
@@ -119,11 +120,11 @@ def test_scheduling_block_definition(
     :param observation: the SB of the observation
     :param eb_id: the ID of the EB
     :param default_target_specs: default target specification
-    :param pdm_allocation: allocation for PDM
+    :param pdm_allocation: allocation for Project Data Model (PDM)
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation[0] is not None, pdm_allocation[1]
     observation.eb_id = eb_id
-    sbd = oda_helper.save(pdm_allocation)
+    sbd = oda_helper.save(pdm_allocation[0])
     sbd_id = sbd.sbd_id
     pdm_allocation.sbd_id = sbd_id
     caplog.info(f"Saved Scheduling Block Definition Instance in ODA: SBD_ID={sbd_id}")
@@ -145,7 +146,7 @@ def test_assign_subarray_resources(
     :param sub: subarray handle
     :param telescope_monitor_plot: the monitor thing
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation is not None, "PDM not allocated"
     caplog.info("Assign request")
     assign_request = observation.generate_allocate_config_sb(pdm_allocation).as_object
     caplog.info(f"Got assign request {assign_request}")
@@ -189,7 +190,7 @@ def test_configure_scan(
     :param pdm_allocation:  allocation for PDM
     :param sub: subarray handle
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation is not None, "PDM not allocated"
     assert sub is not None, "Unknown subarray"
 
     scan_def_id = "flux calibrator"

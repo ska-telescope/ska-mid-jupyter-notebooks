@@ -18,6 +18,8 @@ from ska_mid_jupyter_notebooks.obsconfig.tmc_config import TMCConfig
 
 # pylint: disable=E1101
 
+import logging
+
 
 class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, ActivitiesSB):
     def __init__(self, **kwargs):
@@ -63,19 +65,26 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
 
         sb = SBDefinitionSchema().dumps(sb_specs)
         pdm_request: SBDefinition = pdm_CODEC.loads(SBDefinition, sb)
+        logging.info("Created PDM object")
         return pdm_request
 
-    def generate_pdm_object_for_sbd_save(self, DEFAULT_TARGET_SPECS: dict = None) -> SBDefinition:
+    def generate_pdm_object_for_sbd_save(
+        self, default_target_specs: dict = None
+    ) -> SBDefinition | None:
         """
-        Generates CSP, DISH,Scan Definition configuration based on the Target SPec data provided and creates an SBD
+        Generates CSP, DISH,Scan Definition configuration based on the Target SPec data provided
+        and creates an SBD.
+
         :param: DEFAULT_TARGET_SPECS : Target Spec details
         :return: Scheduling Block Definition
         """
         configure_request = []
-        if not DEFAULT_TARGET_SPECS:
+        if not default_target_specs:
             default_target_specs = self.target_specs
         else:
-            default_target_specs = DEFAULT_TARGET_SPECS
+            default_target_specs = default_target_specs
+
+        logging.info("Default target specs %s", default_target_specs)
 
         for key, value in default_target_specs.items():
             configure_request.append(
@@ -109,9 +118,14 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
 
             dish_configurations.append(self.get_dish_configuration_sb(data["target_id"]))
 
-        pdm_allocation = self.generate_pdm_object(
-            csp_configuration, scan_configuration, dish_configurations
-        )
+        try:
+            pdm_allocation = self.generate_pdm_object(
+                csp_configuration, scan_configuration, dish_configurations
+            )
+        except Exception as perr:
+            logging.error("Could not allocate PDM: %s", perr)
+            return None
+        logging.info("Allocated PDM")
         return pdm_allocation
 
     def convert_pdm_allocate_request_to_cdm(

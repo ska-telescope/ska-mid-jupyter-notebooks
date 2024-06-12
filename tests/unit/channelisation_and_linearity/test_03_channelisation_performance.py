@@ -119,7 +119,7 @@ def test_scheduling_block_definition(
     :param default_target_specs: default target specification
     :param pdm_allocation: allocation for PDM
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation is not None, "PDM not allocated"
     observation.eb_id = eb_id
     sbd = oda_helper.save(pdm_allocation)
     sbd_id = sbd.sbd_id
@@ -143,7 +143,7 @@ def test_assign_subarray_resources(
     :param sub: subarray handle
     :param telescope_monitor_plot: the monitor thing
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation is not None, "PDM not allocated"
     caplog.info("Assign request")
     assign_request = observation.generate_allocate_config_sb(pdm_allocation).as_object
     caplog.info(f"Got assign request {assign_request}")
@@ -187,7 +187,7 @@ def test_configure_scan(
     :param pdm_allocation:  allocation for PDM
     :param sub: subarray handle
     """
-    assert pdm_allocation is not None, "Unknown PDM allocation"
+    assert pdm_allocation is not None, "PDM not allocated"
     assert sub is not None, "Unknown subarray"
 
     scan_def_id = "flux calibrator"

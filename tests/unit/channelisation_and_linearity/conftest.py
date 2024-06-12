@@ -4,7 +4,7 @@ import logging
 import os
 import pathlib
 import time
-from typing import List
+from typing import List, Tuple
 
 import pytest
 import tango
@@ -105,18 +105,11 @@ else:
 # Execution environment
 # ---------------------
 EXECUTON_ENVIRONMENT: Environment = Environment.CI
-caplog.info("Created execution environment")
 
 
 # System under test
 # -----------------
-SYSTEM_UNDER_TEST: TangoSUTDeployment = TangoSUTDeployment(
-    BRANCH_NAME,
-    EXECUTON_ENVIRONMENT,
-    namespace_override=SUT_NAMESPACE_OVERRIDE,
-    subarray_index=SUBARRAY_ID,
-)
-caplog.info("SUT configured: %s", str(SYSTEM_UNDER_TEST))
+SYSTEM_UNDER_TEST: TangoSUTDeployment | None = None
 
 
 @pytest.fixture()
@@ -126,6 +119,16 @@ def sut() -> TangoSUTDeployment:
 
     :return: handle for system under test
     """
+    global SYSTEM_UNDER_TEST
+    if SYSTEM_UNDER_TEST is None:
+        caplog.info("Use execution environment %s", EXECUTON_ENVIRONMENT)
+        SYSTEM_UNDER_TEST = TangoSUTDeployment(
+            BRANCH_NAME,
+            EXECUTON_ENVIRONMENT,
+            namespace_override=SUT_NAMESPACE_OVERRIDE,
+            subarray_index=SUBARRAY_ID,
+        )
+        caplog.info("SUT configured: %s", str(SYSTEM_UNDER_TEST))
     return SYSTEM_UNDER_TEST
 
 
@@ -157,18 +160,7 @@ def telescope_state() -> TelescopeModel | None:
 
 # Dish deployments
 # ----------------
-DISH_DEPLOYMENTS = []
-if DISHLMC_ENABLED:
-    for i_i, d_d in enumerate(DISH_IDS):
-        dish = TangoDishDeployment(
-            f"ska{d_d[1:]}",
-            branch_name=BRANCH_NAME,
-            environment=EXECUTON_ENVIRONMENT,
-            namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
-        )
-        caplog.debug("Dish %s configured: %s", d_d, dish)
-        DISH_DEPLOYMENTS.append(dish)
-caplog.info("Configured %d dishes", len(DISH_DEPLOYMENTS))
+DISH_DEPLOYMENTS: List[TangoDishDeployment] = []
 
 
 @pytest.fixture()
@@ -178,6 +170,19 @@ def dish_deployments() -> List[TangoDishDeployment]:
 
     :return: handles for dish deployment
     """
+    global DISH_DEPLOYMENTS
+    if not DISH_DEPLOYMENTS:
+        if DISHLMC_ENABLED:
+            for i_i, d_d in enumerate(DISH_IDS):
+                dish = TangoDishDeployment(
+                    f"ska{d_d[1:]}",
+                    branch_name=BRANCH_NAME,
+                    environment=EXECUTON_ENVIRONMENT,
+                    namespace_override=DISH_NAMESPACE_OVERRIDES[i_i],
+                )
+                caplog.debug("Dish %s configured: %s", d_d, dish)
+                DISH_DEPLOYMENTS.append(dish)
+        caplog.info("Configured %d dishes", len(DISH_DEPLOYMENTS))
     return DISH_DEPLOYMENTS
 
 
@@ -201,15 +206,8 @@ def notebook_output_dir() -> pathlib.Path:
 
 # Test equipment
 # --------------
+TESTEQ: TangoTestEquipment | None = None
 TESTEQ_IN_THE_LOOP: bool = False
-if os.getenv("TESTEQ_IN_THE_LOOP", "False").lower() == "true":
-    TESTEQ_IN_THE_LOOP = True
-if TESTEQ_IN_THE_LOOP:
-    TESTEQ = TangoTestEquipment()
-    caplog.info("Test equipment enabled")
-else:
-    caplog.warning("Test equipment disabled")
-    TESTEQ = None
 
 
 @pytest.fixture()
@@ -219,6 +217,16 @@ def test_equipment() -> TangoTestEquipment | None:
 
     :return: handles for test equipment
     """
+    global TESTEQ, TESTEQ_IN_THE_LOOP
+    if TESTEQ is None:
+        if os.getenv("TESTEQ_IN_THE_LOOP", "False").lower() == "true":
+            TESTEQ_IN_THE_LOOP = True
+        if TESTEQ_IN_THE_LOOP:
+            TESTEQ = TangoTestEquipment()
+            caplog.info("Test equipment enabled")
+        else:
+            caplog.warning("Test equipment disabled")
+            TESTEQ = None
     return TESTEQ
 
 
@@ -259,13 +267,7 @@ os.environ["ODA_URI"] = (
     # pylint: disable-next=line-too-long
     "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
 )
-EBID: str | None
-try:
-    EBID = oda_helper.create_eb()
-    caplog.info(f"Execution block ID: {EBID}")
-except ConnectionError as cerr:
-    caplog.error("Could not create execution block ID: %s", cerr)
-    EBID = None
+EBID: str | None = None
 
 
 @pytest.fixture()
@@ -275,13 +277,20 @@ def eb_id() -> str | None:
 
     :return: the EB of the ODA thing
     """
+    global EBID
+    if EBID is None:
+        try:
+            EBID = oda_helper.create_eb()
+            caplog.info(f"Execution block ID: {EBID}")
+        except ConnectionError as cerr:
+            caplog.error("Could not create execution block ID: %s", cerr)
+            EBID = None
     return EBID
 
 
 # Subarray
 # --------
-SUB: SubArray = SubArray(SUBARRAY_ID)
-caplog.info(f"Subarray with ID {SUBARRAY_ID}")
+SUB: SubArray | None = None
 
 
 @pytest.fixture()
@@ -291,13 +300,16 @@ def sub() -> SubArray | None:
 
     :return: handle for subarray
     """
+    global SUB
+    if SUB is None:
+        SUB = SubArray(SUBARRAY_ID)
+        caplog.info(f"Subarray with ID {SUBARRAY_ID}")
     return SUB
 
 
 # Telescope
 # ---------
-TEL = Telescope()
-caplog.info("Created telescope instance")
+TEL: Telescope | None = None
 
 
 @pytest.fixture()
@@ -307,13 +319,16 @@ def tel() -> Telescope | None:
 
     :return: handle for telescope
     """
+    global TEL
+    if TEL is None:
+        TEL = Telescope()
+        caplog.info("Created telescope instance")
     return TEL
 
 
 # Observation scheduling block
 # ----------------------------
-OBSERVATION = ObservationSB()
-caplog.info("Created observation instance")
+OBSERVATION : ObservationSB | None = None
 
 
 @pytest.fixture()
@@ -323,6 +338,10 @@ def observation() -> ObservationSB | None:
 
     :return: handle for observation
     """
+    global OBSERVATION
+    if OBSERVATION is None:
+        OBSERVATION = ObservationSB()
+        caplog.info("Created observation instance")
     return OBSERVATION
 
 
@@ -404,7 +423,6 @@ DEFAULT_TARGET_SPECS = {
         target=None,
     ),
 }
-caplog.info("Created default target specification")
 
 
 @pytest.fixture()
@@ -419,22 +437,34 @@ def default_target_specs() -> dict:
 
 # Project Data Model (PDM) allocation
 # -----------------------------------
-try:
-    PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
-    caplog.info("Created PDM allocation")
-except KeyError as kerr:
-    caplog.error("Could not allocate PDM key: %s", kerr)
-    PDM_ALLOCATION = None
-except Exception as eerr:
-    caplog.error("Could not allocate PDM: %s", eerr)
-    PDM_ALLOCATION = None
+PDM_ALLOCATION: SBDefinition | None = None
 
 
 @pytest.fixture()
-def pdm_allocation() -> SBDefinition | None:
+def pdm_allocation() -> Tuple[SBDefinition | None, str]:
     """
-    Get the scheduling block (SB) definition.
+    Allocate a SKA Project Data Model (PDM).
+
+    The SKA Project Data Model (PDM) is the data model used for 'offline' observatory processes.
+    PDM entities such as observing proposals, observing programmes, scheduling blocks, etc.,
+    capture all the information required to describe and grade an observing proposal and any
+    associated scheduling blocks.
 
     :return: SB definition
     """
-    return PDM_ALLOCATION
+    global PDM_ALLOCATION
+    pdm_status: str = ""
+    if PDM_ALLOCATION is None:
+        try:
+            PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+            caplog.info("Created PDM allocation")
+            pdm_status = "OK"
+        except KeyError as kerr:
+            caplog.error("Could not allocate PDM key: %s", kerr)
+            PDM_ALLOCATION = None
+            pdm_status = str(kerr)
+        except Exception as eerr:
+            caplog.error("Could not allocate PDM: %s", eerr)
+            PDM_ALLOCATION = None
+            pdm_status = str(eerr)
+    return PDM_ALLOCATION, pdm_status
