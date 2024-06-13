@@ -18,7 +18,6 @@ from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
 
-
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)

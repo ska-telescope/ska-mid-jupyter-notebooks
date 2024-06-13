@@ -3,11 +3,13 @@
 import logging
 import os
 import pathlib
+import socket
 import time
 from typing import List, Tuple
 
 import pytest
 import ska_ser_logging  # type: ignore[import-untyped]
+import tango
 from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
 from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
@@ -107,7 +109,7 @@ def subarray_count() -> int:
 
 
 @pytest.fixture()
-def telescope_state() -> TelescopeModel:
+def telescope_state() -> TelescopeModel | None:
     """
     Get telescope state
 
@@ -270,7 +272,7 @@ def get_observation(get_deployments: list[TangoDishDeployment], get_specs: dict)
     return obs
 
 
-def get_pdm_allocation(obs: ObservationSB, get_specs: dict) -> SBDefinition:
+def get_pdm_allocation(obs: ObservationSB, get_specs: dict) -> SBDefinition | None:
     """
     Get PDM allocation.
 
@@ -278,7 +280,16 @@ def get_pdm_allocation(obs: ObservationSB, get_specs: dict) -> SBDefinition:
     :param get_specs: target specifications
     :return: PDM allocation
     """
-    pdm_alloc: SBDefinition = obs.generate_pdm_object_for_sbd_save(get_specs)
+    pdm_alloc: SBDefinition | None
+    try:
+        pdm_alloc = obs.generate_pdm_object_for_sbd_save(get_specs)
+    except socket.gaierror as serr:
+        pdm_alloc = None
+        caplog.error("Socket error: %s", serr)
+    # pylint: disable-next=broad-except
+    except Exception as eerr:
+        pdm_alloc = None
+        caplog.error("Error: %s", eerr)
     return pdm_alloc
 
 
@@ -348,7 +359,12 @@ DISH_DEPLOYMENTS: List[TangoDishDeployment] = get_dish_deployments(DISHLMC_ENABL
 TELESCOPE_MONITOR_PLOT = TelescopeMononitorPlot(plot_width=900, plot_height=200)
 
 DEVICE_MODEL: TelescopeDeviceModel = TelescopeDeviceModel(DISH_IDS, SUBARRAY_COUNT)
-TELESCOPE_STATE: TelescopeModel = get_telescope_state(DEVICE_MODEL, SYSTEM_UNDER_TEST)
+TELESCOPE_STATE: TelescopeModel | None
+try:
+    TELESCOPE_STATE = get_telescope_state(DEVICE_MODEL, SYSTEM_UNDER_TEST)
+except tango.ConnectionFailed:
+    TELESCOPE_STATE = None
+
 
 # 3.3 Setup ODA
 ODA_URI: str = "https://k8s.miditf.internal.skao.int/ska-db-oda/oda/api/v3"
@@ -441,4 +457,4 @@ TARGET_SPECS: dict = {
 
 OBSERVATION: ObservationSB = get_observation(DISH_DEPLOYMENTS, TARGET_SPECS)
 
-PDM_ALLOCATION: SBDefinition = get_pdm_allocation(OBSERVATION, TARGET_SPECS)
+PDM_ALLOCATION: SBDefinition | None = get_pdm_allocation(OBSERVATION, TARGET_SPECS)

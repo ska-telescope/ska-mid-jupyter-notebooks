@@ -1,3 +1,5 @@
+"""Test state monitoring."""
+
 from enum import Enum
 from typing import Any, Callable, cast
 from unittest import mock
@@ -17,7 +19,8 @@ from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
 )
 
 
-def test_selector_call_memoized():
+def test_selector_call_memoized() -> None:
+    """Test that selector call is memorized."""
     state = {"foo": "bar", "bar": "foo"}
 
     def select_foo(st: dict[str, str]):  # pylint: disable=W0613

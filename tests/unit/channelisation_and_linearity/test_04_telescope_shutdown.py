@@ -9,9 +9,9 @@ from typing import List
 import pytest
 import tango
 from ska_oso_scripting.objects import SubArray
+
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
-
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)

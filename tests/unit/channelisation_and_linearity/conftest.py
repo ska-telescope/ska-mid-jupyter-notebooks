@@ -328,7 +328,7 @@ def tel() -> Telescope | None:
 
 # Observation scheduling block
 # ----------------------------
-OBSERVATION : ObservationSB | None = None
+OBSERVATION: ObservationSB | None = None
 
 
 @pytest.fixture()
