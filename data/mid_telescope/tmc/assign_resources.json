@@ -13,7 +13,7 @@
             "receive_nodes": 1
          },
          "execution_block": {
-            "eb_id":"eb-test-20210630-00057",
+            "eb_id":"eb-test-20210630-00059",
             "context": {},
             "max_length":21600.0,
       
@@ -24,8 +24,8 @@
                    "count": 14880,
                    "start": 0,
                    "stride": 1,
-                   "freq_min": 0.300e9,
-                   "freq_max": 0.550e9,
+                   "freq_min": 0.296e9,
+                   "freq_max": 0.496e9,
                    "link_map": [ [0, 0], [200, 1], [744, 2], [944, 3] ]
                } ]
             }],
@@ -58,7 +58,6 @@
                "beam_id": "vis0",
                "function": "visibilities"
             } ],
-      
             "scan_types":[
                {
                   "scan_type_id": ".default",
@@ -87,7 +86,7 @@
          },
          "processing_blocks":[
             {
-               "pb_id":"pb-test-20211111-00057",
+               "pb_id":"pb-test-20211111-00059",
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
