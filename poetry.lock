@@ -3606,6 +3606,22 @@ url = "https://artefact.skao.int/repository/pypi-all/simple"
 reference = "ska"
 
 [[package]]
+name = "pathspec"
+version = "0.12.1"
+description = "Utility library for gitignore style pattern matching of file paths."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08"},
+    {file = "pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712"},
+]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
 name = "pexpect"
 version = "4.9.0"
 description = "Pexpect allows easy control of interactive console applications."
@@ -6615,4 +6631,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "9aadf8fdc7a5fc8d89913da22c436823bc9516270e2f8770b32e2173e0de4e51"
+content-hash = "052e49dbf5a7c54cfe49953fdd2b4a8423138201cfae597eb9a1f946e36bf12a"
