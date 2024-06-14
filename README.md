@@ -24,9 +24,9 @@ This will setup a virtual environment on your host bound to the development cont
 
 ### Importing Steps from Jama System Tests
 
-1. Copy the steps in the table in the _Steps_ section and save them as a CSV file:
+1. Copy the steps in the table in the _Steps_ section and save them as a CSV file. If the steps include commas internally, consider saving the file using a different delimiter such as a semicolon (;):
 ![Jama Test Case Export](static/images/jama_export.png)
 
-2. Run the `convert_nb.py` script: `poetry run convertnb $CSV_SOURCE_FILE $NB_DEST_FILE`
+2. Run the `convert_nb.py` script: `poetry run convertnb $CSV_SOURCE_FILE $NB_DEST_FILE`. Use the delimiter flag to specify an alternate delimiter if your CSV file does not use comma delimiters: `poetry run convertnb $CSV_SOURCE_FILE $NB_DEST_FILE -d ";"`
 
 This will convert each step listed in the Jama test case into a section in the Juypyter Notebook. The _Action_ and _Expected Result_ will be added as a description to that step.

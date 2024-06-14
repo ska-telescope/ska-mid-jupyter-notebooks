@@ -28,6 +28,9 @@ class DishManager(DishDeviceProxy):
     def dish_mode(self) -> DishMode:
         return DishMode(self._device_proxy.dishMode)
 
+    # @property
+    # def achived_
+
     @property
     def power_state(self) -> PowerState:
         return PowerState(self.powerState)
