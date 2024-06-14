@@ -68,21 +68,20 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         logging.info("Created PDM object")
         return pdm_request
 
-    def generate_pdm_object_for_sbd_save(
-        self, default_target_specs: dict = None
-    ) -> SBDefinition | None:
+    def generate_pdm_object_for_sbd_save(self, get_specs: dict = None) -> SBDefinition | None:
         """
         Generates CSP, DISH,Scan Definition configuration based on the Target SPec data provided
         and creates an SBD.
 
-        :param: DEFAULT_TARGET_SPECS : Target Spec details
+        :param: get_specs : Target Spec details
         :return: Scheduling Block Definition
         """
-        configure_request = []
-        if not default_target_specs:
+        default_target_specs: dict
+        configure_request: list = []
+        if not get_specs:
             default_target_specs = self.target_specs
         else:
-            default_target_specs = default_target_specs
+            default_target_specs = get_specs
 
         logging.info("Default target specs %s", default_target_specs)
 
@@ -122,6 +121,7 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
             pdm_allocation = self.generate_pdm_object(
                 csp_configuration, scan_configuration, dish_configurations
             )
+        # pylint: disable-next=broad-exception-caught
         except Exception as perr:
             logging.error("Could not allocate PDM: %s", perr)
             return None

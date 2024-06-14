@@ -1,5 +1,7 @@
 """This module contains test harness elements common to all unit tests."""
 
+# pylint: disable=global-statement,broad-exception-caught
+
 import logging
 import os
 import pathlib
@@ -152,7 +154,6 @@ def telescope_state() -> TelescopeModel | None:
     except tango.DevFailed as terr:
         caplog.error(f"Tango error in telescope state: {terr.args[0].desc.strip()}")
         tel_state = None
-    # pylint: disable-next=broad-except
     except Exception as oerr:
         caplog.error("Error in telescope state: %s", oerr)
         tel_state = None
@@ -171,7 +172,6 @@ def dish_deployments() -> List[TangoDishDeployment]:
 
     :return: handles for dish deployment
     """
-    global DISH_DEPLOYMENTS
     if not DISH_DEPLOYMENTS:
         if DISHLMC_ENABLED:
             for i_i, d_d in enumerate(DISH_IDS):
