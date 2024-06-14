@@ -95,6 +95,7 @@ DISH_NAMESPACE_OVERRIDES: list[str]
 k8s_ns: str | None = os.getenv("KUBE_NAMESPACE", None)
 if k8s_ns is not None:
     SUT_NAMESPACE_OVERRIDE = k8s_ns
+    DISH_NAMESPACE_OVERRIDES = []
     DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska001"))
     DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska036"))
 else:

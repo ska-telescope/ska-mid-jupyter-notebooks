@@ -47,12 +47,9 @@ def test_setup_global_variables_and_configuration(
     os.makedirs(notebook_output_dir)
     # we disable qa as it has not been properly verified
     disable_qa()
-    caplog.info("Dish deployments: %s", dish_deployments)
-    # pylint: disable-next=assert-on-tuple
-    assert (
-        len(dish_deployments) == 2,
-        f"There must be 2 dish deployments, not {len(dish_deployments)}",
-    )
+    n_dish: int = len(dish_deployments)
+    caplog.info("Set up %d dish deployments: %s", n_dish, dish_deployments)
+    assert n_dish == 2, f"There must be 2 dish deployments, not {n_dish}"
 
 
 # 1.3 Test Connections to Namespaces
