@@ -5,7 +5,7 @@ from typing import Any, Callable, cast
 from unittest import mock
 
 import pytest
-from assertpy import assert_that
+from assertpy import assert_that  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
@@ -23,10 +23,10 @@ def test_selector_call_memoized() -> None:
     """Test that selector call is memorized."""
     state = {"foo": "bar", "bar": "foo"}
 
-    def select_foo(st: dict[str, str]):  # pylint: disable=W0613
+    def select_foo(st: dict[str, str]) -> str:  # pylint: disable=W0613
         return state["foo"]
 
-    def select_bar(st: dict[str, str]):  # pylint: disable=W0613
+    def select_bar(st: dict[str, str]) -> str:  # pylint: disable=W0613
         return state["bar"]
 
     def selector_function(x: str, y: str) -> str:
@@ -48,10 +48,10 @@ class Provider:
     def __init__(self) -> None:
         self.subscribers: list[EventsPusher] = []
 
-    def add_subscriber(self, _: str, __: Any, pusher: EventsPusher):
+    def add_subscriber(self, _: str, __: Any, pusher: EventsPusher) -> None:
         self.subscribers.append(pusher)
 
-    def push_event(self, event: EventData):
+    def push_event(self, event: EventData) -> None:
         for subscriber in self.subscribers:
             subscriber.push_event(event)
 
@@ -62,11 +62,11 @@ def fxt_mock_provider() -> Provider:
 
 
 @pytest.fixture(name="mock_device")
-def fxt_mock_device(mock_provider: Provider):
+def fxt_mock_device(mock_provider: Provider) -> Any:
     with mock.patch(
         "ska_mid_jupyter_notebooks.monitoring.statemonitoring.DeviceProxy"
     ) as mock_device:
-        mock_impl = mock_device.return_value
+        mock_impl: Any = mock_device.return_value
         mock_impl.subscribe_event.side_effect = mock_provider.add_subscriber
         mock_impl.name.return_value = "mock_device"
         yield mock_impl
@@ -86,10 +86,10 @@ def fxt_mock_event(mock_device: mock.Mock) -> EventData:
 
 
 class Observer:
-    def __init__(self):
-        self.result = None
+    def __init__(self) -> None:
+        self.result: str | None = None
 
-    def observe_function(self, value: str):
+    def observe_function(self, value: str) -> None:
         self.result = value
 
 
@@ -100,11 +100,11 @@ def fxt_mock_observer() -> Observer:
 
 def test_state_monitoring_of_events(
     mock_provider: Provider, mock_event: EventData, mock_observer: Observer
-):
+) -> None:
     init_state = {"foo": {"bar": "foo"}}
     monitor = MonState(init_state, TangoDeployment("test"))
 
-    def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData):
+    def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData) -> dict:
         state["foo"]["bar"] = event.attr_value.value
         return state
 
@@ -123,7 +123,7 @@ def test_state_monitoring_of_events(
         monitor.stop_listening(10)
 
 
-def test_state_monitoring_of_actions(mock_observer: Observer):
+def test_state_monitoring_of_actions(mock_observer: Observer) -> None:
     init_state: STATE = {"foo": {"bar": "foo"}}
     monitor = MonState(init_state, TangoDeployment("test"))
 
@@ -131,11 +131,11 @@ def test_state_monitoring_of_actions(mock_observer: Observer):
         ON = "ON"
         OFF = "OFF"
 
-    def reducer_set_foo_bar_to_input_action(state: STATE, action: ControlActions):  # type: ignore
+    def reducer_set_foo_bar_to_input_action(state: STATE, action: ControlActions) -> str:
         state["foo"]["bar"] = action.value
         return state
 
-    def select_foo_bar(state: STATE) -> str:  # type: ignore
+    def select_foo_bar(state: STATE) -> str:
         return state["foo"]["bar"]
 
     controller = ActionProducer[ControlActions]()

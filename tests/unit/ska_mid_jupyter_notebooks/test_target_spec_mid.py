@@ -1,27 +1,39 @@
 """Test target specifications."""
 
+# pylint: disable=no-name-in-module
+
 import json
 
-from ska_oso_pdm.entities.common.target import (
+from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
-from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
+from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.subarray_node.configure.core import (
+    ReceiverBand,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.schemas.central_node.assign_resources import (
+    AssignResourcesRequestSchema,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.schemas.subarray_node.configure.core import (
+    ConfigureRequestSchema,  # type: ignore[import-untyped]
+)
 
-from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
-from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
+from ska_mid_jupyter_notebooks.obsconfig.config import (
+    ObservationSB,  # type: ignore[import-untyped]
+)
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import (
+    TargetSpec,  # type: ignore[import-untyped]
+)
 
 # pylint: disable=E1101
 
 
-def test_validate_target_spec_add_configuration_for_mid_sb():
+def test_validate_target_spec_add_configuration_for_mid_sb() -> None:
     """
     Validates Target Spec AddConfiguration for Mid Non SB
     """
@@ -75,7 +87,7 @@ def test_validate_target_spec_add_configuration_for_mid_sb():
     assert obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
-def test_validate_target_spec_remove_configuration_for_mid_sb():
+def test_validate_target_spec_remove_configuration_for_mid_sb() -> None:
     """
     Validates Target Spec Remove Configuration for Mid SB
     """
@@ -145,7 +157,7 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
     assert not obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
-def test_validate_target_spec_configuration_for_mid_sb():
+def test_validate_target_spec_configuration_for_mid_sb() -> None:
     """
     Validates Target Spec Configuration for Mid Non SB
     """

@@ -1,24 +1,30 @@
 """Test SB generation."""
 
+# pylint: disable=no-name-in-module
+
 # pylint: disable=too-many-lines
 import json
 from pprint import pprint
 
 import pytest
-from deepdiff import DeepDiff
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_pdm.entities.common.target import (
+from deepdiff import DeepDiff  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_oso_pdm.schemas import CODEC as pdm_CODEC
-from ska_tmc_cdm.messages.central_node.sdp import Channel
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
+from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_oso_pdm.schemas import CODEC as pdm_CODEC  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.subarray_node.configure.core import (
+    ReceiverBand,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.schemas.central_node.assign_resources import (
+    AssignResourcesRequestSchema,  # type: ignore[import-untyped]
+)
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec, get_default_target_specs_sb
@@ -715,7 +721,7 @@ channel_configuration = [
 ]
 
 
-def test_sb_generation_validate():
+def test_sb_generation_validate() -> None:
     """
     Test to validate SB generated using ObservationSB class
     """
@@ -774,7 +780,7 @@ def test_sb_generation_validate():
     assert not diff, f"Dictionaries are not equal:{diff}"
 
 
-def test_sb_generation_validate_target_spec_configuration():
+def test_sb_generation_validate_target_spec_configuration() -> None:
     """Test to validate if required target_spec gets added correctly"""
 
     observation2 = ObservationSB()
@@ -821,7 +827,7 @@ def test_sb_generation_validate_target_spec_configuration():
     assert flux_calibrator_target in sb_dict["targets"]
 
 
-def test_sb_generation_validate_target_spec_configuration_remove():
+def test_sb_generation_validate_target_spec_configuration_remove() -> None:
     """Test to check if Target Specs configurations are removed properly"""
 
     observation3 = ObservationSB()
@@ -886,7 +892,7 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     assert flux_calibrator_target not in sb_dict["targets"]
 
 
-def test_sb_generation_validate_default_target_spec():
+def test_sb_generation_validate_default_target_spec() -> None:
     """Test to check if no Target spec is provided than Default target spec should be present"""
     observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation.eb_id = "eb-mvp01-20231010-82511"
@@ -898,7 +904,7 @@ def test_sb_generation_validate_default_target_spec():
     assert polaris_australis_target in sb_dict["targets"]
 
 
-def test_sb_validate_activities_parameter():
+def test_sb_validate_activities_parameter() -> None:
     """Test to check if ActivitySB instance parameters are getting updated"""
 
     observation = ObservationSB()
@@ -922,7 +928,7 @@ def test_sb_validate_activities_parameter():
     assert modified_activities_parameters["allocate"].path == "git://scripts/new_allocate_path.py"
 
 
-def test_sb_validate_invalid_activities_parameter():
+def test_sb_validate_invalid_activities_parameter() -> None:
     """
     Test to check if Attribute error is raised.
 
@@ -948,7 +954,7 @@ def test_sb_validate_invalid_activities_parameter():
         observation.add_activities_parameters(activities_params)
 
 
-def test_assign_resource_allocation_request_sb():
+def test_assign_resource_allocation_request_sb() -> None:
     """Test to check Validate Assign Resource Request using Scheduling Block"""
     observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation._channel_configurations = {}  # pylint: disable=W0212

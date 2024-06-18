@@ -1,17 +1,25 @@
-import json
+"""Test configuration of resources."""
 
-from ska_oso_pdm.entities.common.target import (
+# pylint: disable=no-name-in-moduleimport json
+
+from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
-from ska_tmc_cdm.schemas.subarray_node.configure.tmc import TMCConfigurationSchema
-from ska_tmc_cdm.utils import assert_json_is_equal
+from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.subarray_node.configure.core import (
+    ReceiverBand,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.schemas.subarray_node.configure.core import (
+    ConfigureRequestSchema,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.schemas.subarray_node.configure.tmc import (
+    TMCConfigurationSchema,  # type: ignore[import-untyped]
+)
+from ska_tmc_cdm.utils import assert_json_is_equal  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
@@ -189,13 +197,13 @@ VALID_CONFIGURE_RESOURCE_MID_JSON = """{
 """
 
 
-def test_validate_csp_configuration_object_using_mid_observation_class():
+def test_validate_csp_configuration_object_using_mid_observation_class() -> None:
     """
     Validates that Mid CSP config object returned using ObsConfig Observation class
     """
 
 
-def test_validate_tmc_configuration_object_using_mid_observation_class():
+def test_validate_tmc_configuration_object_using_mid_observation_class() -> None:
     """
     Validates that TMC config object returned using ObsConfig Observation class for Mid
     """
@@ -205,13 +213,13 @@ def test_validate_tmc_configuration_object_using_mid_observation_class():
     assert obsconfig_tmc_configuration_object == valid_tmc_configuration_object
 
 
-def test_validate_sdp_configuration_object_using_mid_observation_class():
+def test_validate_sdp_configuration_object_using_mid_observation_class() -> None:
     """
     Validates SDP config object returned using ObsConfig Observation class for mid
     """
 
 
-def test_configure_resource_sb():
+def test_configure_resource_sb() -> None:
     """
     Validates that Configure request object returned using ObsConfig Observation class
     """

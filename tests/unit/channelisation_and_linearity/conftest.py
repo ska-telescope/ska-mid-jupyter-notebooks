@@ -10,17 +10,19 @@ from typing import List, Tuple
 
 import pytest
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_pdm.entities.common.target import (
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_scripting import oda_helper
-from ska_oso_scripting.objects import SubArray, Telescope
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
+from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
+from ska_oso_scripting.objects import SubArray, Telescope  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.subarray_node.configure.core import (
+    ReceiverBand,  # type: ignore[import-untyped]
+)
 
 from ska_mid_jupyter_notebooks.cluster.cluster import Environment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
@@ -456,16 +458,17 @@ def pdm_allocation() -> Tuple[SBDefinition | None, str]:
     global PDM_ALLOCATION
     pdm_status: str = ""
     if PDM_ALLOCATION is None:
-        try:
-            PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
-            caplog.info("Created PDM allocation")
-            pdm_status = "OK"
-        except KeyError as kerr:
-            caplog.error("Could not allocate PDM key: %s", kerr)
-            PDM_ALLOCATION = None
-            pdm_status = str(kerr)
-        except Exception as eerr:
-            caplog.error("Could not allocate PDM: %s", eerr)
-            PDM_ALLOCATION = None
-            pdm_status = str(eerr)
+        if OBSERVATION is not None:
+            try:
+                PDM_ALLOCATION = OBSERVATION.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+                caplog.info("Created PDM allocation")
+                pdm_status = "OK"
+            except KeyError as kerr:
+                caplog.error("Could not allocate PDM key: %s", kerr)
+                PDM_ALLOCATION = None
+                pdm_status = str(kerr)
+            except Exception as eerr:
+                caplog.error("Could not allocate PDM: %s", eerr)
+                PDM_ALLOCATION = None
+                pdm_status = str(eerr)
     return PDM_ALLOCATION, pdm_status

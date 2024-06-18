@@ -10,7 +10,7 @@ from typing import List, Literal
 
 import tango
 from ska_control_model import AdminMode
-from ska_oso_scripting.objects import SubArray, Telescope
+from ska_oso_scripting.objects import SubArray, Telescope  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment

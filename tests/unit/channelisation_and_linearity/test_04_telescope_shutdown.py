@@ -8,7 +8,7 @@ from typing import List
 
 import pytest
 import tango
-from ska_oso_scripting.objects import SubArray
+from ska_oso_scripting.objects import SubArray  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
@@ -30,6 +30,7 @@ def test_reset(
     :param sub: subarray handle
     :param dish_deployments: list of handles for deployed dishes
     """
+    assert sub is not None, "Subarray not loaded"
     # Set booleans to True to reset the system after a failed execution.
     do_reset_subarray = False
     do_reset_dish = False
@@ -63,6 +64,7 @@ def test_clear_scan_configuration(
     :param sub: subarray handle
     :param telescope_monitor_plot: the monitor thing
     """
+    assert sub is not None, "Subarray not loaded"
     try:
         sub.end()
         telescope_monitor_plot.show()
@@ -90,6 +92,7 @@ def test_release_subarray_resources(
     :param telescope_monitor_plot: the monitor thing
     :return:
     """
+    assert sub is not None, "Subarray not loaded"
     rel_err: str = ""
     try:
         sub.release()

@@ -7,14 +7,16 @@ import time
 from typing import List, Literal
 
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_oso_scripting import oda_helper
-from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutError
-from ska_oso_scripting.objects import SubArray, Telescope
-from ska_tmc_cdm.messages.central_node.sdp import Channel
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
+from ska_oso_scripting.functions.devicecontrol.exception import (
+    EventTimeoutError,  # type: ignore[import-untyped]
+)
+from ska_oso_scripting.objects import SubArray  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import-untyped]
 
-from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
+from ska_mid_jupyter_notebooks.dish.dish import SPFC, DishManager, SPFRx, TangoDishDeployment
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
 
@@ -121,6 +123,8 @@ def test_scheduling_block_definition(
     :param default_target_specs: default target specification
     :param pdm_allocation: allocation for Project Data Model (PDM)
     """
+    assert eb_id is not None, "No ID for execution block"
+    assert pdm_allocation is not None, "PDM allocation not done"
     assert pdm_allocation[0] is not None, pdm_allocation[1]
     observation.eb_id = eb_id
     sbd = oda_helper.save(pdm_allocation[0])
@@ -146,6 +150,7 @@ def test_assign_subarray_resources(
     :param telescope_monitor_plot: the monitor thing
     """
     assert pdm_allocation is not None, "PDM not allocated"
+    assert sub is not None, "Subarray not loaded"
     caplog.info("Assign request")
     assign_request = observation.generate_allocate_config_sb(pdm_allocation).as_object
     caplog.info(f"Got assign request {assign_request}")
@@ -225,6 +230,7 @@ def test_run_scan(
     :param telescope_monitor_plot: the monitor thing
     :return:
     """
+    assert sub is not None, "Subarray not loaded"
     try:
         sub.scan(timeout=120)
     except tango.DevFailed as terr:
@@ -245,13 +251,15 @@ def test_dishes_debug(dish_deployments: List[TangoDishDeployment]) -> None:
 
     :param dish_deployments:  list of handles for deployed dishes
     """
-    dishes_to_debug = [d.dish_id for d in dish_deployments]
+    assert dish_deployments, "No dish deployments"
+    dishes_to_debug: list = [d.dish_id for d in dish_deployments]
+    dish: TangoDishDeployment
     for dish in dish_deployments:
-        dish_id = dish.dish_id
+        dish_id: str = dish.dish_id
         if dish_id in dishes_to_debug:
             dish.print_diagnostics()
             # pylint: disable-next=invalid-name
-            dm = dish.dish_manager
+            dm: DishManager = dish.dish_manager
             print(f"{dish_id}: ComponentStates: {dm.GetComponentStates()}")
             print(f"{dish_id}: DishMode: {str(dm.dish_mode)}")
             print(f"{dish_id}: PowerState: {str(dm.power_state)}")
@@ -260,9 +268,9 @@ def test_dishes_debug(dish_deployments: List[TangoDishDeployment]) -> None:
             print(f"{dish_id}: K-Value: {dm.kValue}")
             print(f"{dish_id}: Capturing: {dm.capturing}")
             print(f"{dish_id}: SimulationMode: {dm.simulationMode}")
-            spfc = dish.spfc_simulator
+            spfc: SPFC = dish.spfc_simulator
             print(f"{dish_id}: SPFC OperatingMode: {str(spfc.operating_mode)}")
-            spfrx = dish.spfrx
+            spfrx: SPFRx = dish.spfrx
             print(f"{dish_id}: SPFRx OperatingMode: {str(spfrx.operating_mode)}")
             ds_manager = dish.ds_manager
             print(f"{dish_id}: DS Manager OperatingMode: {str(ds_manager.operating_mode)}")

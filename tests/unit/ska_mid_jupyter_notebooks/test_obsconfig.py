@@ -1,12 +1,12 @@
-from assertpy import assert_that
-from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
+from assertpy import assert_that  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ScanTypes
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import get_default_target_specs_sb
 
 
-def test_channelisation():
+def test_channelisation() -> None:
     """
     Test to validate channelisation configuration
     """
@@ -28,7 +28,7 @@ def test_channelisation():
     )
 
 
-def test_scan_types():
+def test_scan_types() -> None:
     """
     Test to validate ScanTypes configuration
     """

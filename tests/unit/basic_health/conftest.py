@@ -1,5 +1,7 @@
 """Basic health test."""
 
+# pylint: disable=no-name-in-module
+
 import logging
 import os
 import pathlib
@@ -219,7 +221,7 @@ def setup_oda(url: str) -> Tuple[str | None, str]:
     ebid: str | None
     ebid_status: str
     try:
-        ebid = oda_helper.create_eb()
+        ebid = oda_helper.create_eb(TEL)
         ebid_status = "OK"
     # pylint: disable-next=broad-except
     except Exception as eb_err:

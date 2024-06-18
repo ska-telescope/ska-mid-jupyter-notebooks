@@ -6,12 +6,14 @@ import logging
 import time
 
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition
-from ska_oso_pdm.entities.sdp import BeamMapping
-from ska_oso_scripting import oda_helper
-from ska_oso_scripting.functions.devicecontrol.exception import EventTimeoutError
-from ska_oso_scripting.objects import SubArray
-from ska_tmc_cdm.messages.central_node.sdp import Channel
+from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
+from ska_oso_scripting.functions.devicecontrol.exception import (
+    EventTimeoutError,  # type: ignore[import-untyped]
+)
+from ska_oso_scripting.objects import SubArray  # type: ignore[import-untyped]
+from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
@@ -23,7 +25,7 @@ caplog = logging.getLogger(__name__)
 
 # 3.7.1 Define Resources to be used during Observation
 # ----------------------------------------------------
-def test_observation_resources(observation: ObservationSB) -> None:
+def test_observation_resources(observation: ObservationSB | None) -> None:
     """
     Generate Processing Block and Execution Block IDs using SKUID.
 
@@ -118,6 +120,7 @@ def test_scheduling_block_definition(
     :param default_target_specs: default target specification
     :param pdm_allocation: allocation for PDM
     """
+    assert eb_id is not None, "No ID for execution block"
     assert pdm_allocation is not None, "PDM not allocated"
     observation.eb_id = eb_id
     sbd = oda_helper.save(pdm_allocation)
@@ -143,6 +146,7 @@ def test_assign_subarray_resources(
     :param telescope_monitor_plot: the monitor thing
     """
     assert pdm_allocation is not None, "PDM not allocated"
+    assert sub is not None, "Subarray not loaded"
     caplog.info("Assign request")
     assign_request = observation.generate_allocate_config_sb(pdm_allocation).as_object
     caplog.info(f"Got assign request {assign_request}")
@@ -221,6 +225,7 @@ def test_run_scan(
     :param sub: subarray handle
     :param telescope_monitor_plot: the monitor thing
     """
+    assert sub is not None, "Subarray not loaded"
     try:
         sub.scan(timeout=120)
     except tango.DevFailed as terr:
