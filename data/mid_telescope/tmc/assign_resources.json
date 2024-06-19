@@ -101,7 +101,7 @@
                              "shape": [],
                              "source": {
                                  "type": "KafkaConsumerSource",
-                                 "servers": "ska-sdp-kafka.ci-ska-mid-itf-at-2111-update-tmc.svc.miditf.internal.skao.int:9092",
+                                 "servers": "ska-sdp-kafka.ci-ska-mid-psi-1337899296-jaredmda.svc.cluster.local:9092",
                                  "topic": "metrics-receive_state-1",
                                  "encoding": "json"
                              },
