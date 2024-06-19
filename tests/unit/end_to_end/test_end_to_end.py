@@ -1,30 +1,24 @@
 """End-to-end testing in the MID ITF."""
 
-from astropy.time import Time  # type: ignore[import-untyped]
 import json
 import logging
-import urllib.request
-import urllib.error
 import socket
 import ssl
 import time
-from typing import Tuple
+import urllib.error
+import urllib.request
+from typing import Any, Tuple
 
 import tango
-from tango import DeviceProxy, DevFailed
-
-# from ska_tmc_centralnode.central_node_mid import CentralNodeMid  # type: ignore[import-untyped]
-# from ska_tmc_cspmasterleafnode.csp_master_leaf_node_mid import (  # type: ignore[import-untyped]
-#     CspMasterLeafNodeMid
-# )
-# from ska_tmc_subarraynode.subarray_node_mid import SubarrayNodeMid  # type: ignore[import-untyped]
-# from ska_csp_lmc_mid.mid_subarray_device import MidCspSubarray  # type: ignore[import-untyped]
+from astropy.time import Time  # type: ignore[import-untyped]
+from tango import CommunicationFailed, DevFailed, DeviceProxy
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)
 
 # Use unverified SSL
+# pylint: disable-next=protected-access
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
@@ -33,12 +27,12 @@ def check_web_link(web_uri: str) -> Tuple[int, str]:
     Check that URI is reachable.
 
     :param web_uri: URI to be checked
+    :return: status code and error message
     """
     caplog.info("Check URL %s", web_uri)
     try:
         with urllib.request.urlopen(web_uri):
             caplog.debug("Checked URL %s", web_uri)
-            pass
     except urllib.error.HTTPError as httpe:
         caplog.error("HTTP error: %s", httpe)
         return 1, str(httpe)
@@ -56,29 +50,44 @@ def get_tai_from_unix_s(unix_s: float) -> float:
     Calculate atomic time in seconds from unix time in seconds.
 
     :param unix_s: Unix time in seconds
-
     :return: atomic time (tai) in seconds
     """
     astropy_time_utc = Time(unix_s, format="unix")
     return astropy_time_utc.unix_tai
 
 
+# pylint: disable-next=c-extension-no-member
 def get_tango_dev_state(dev_state: tango._tango.DevState) -> str:
+    """
+    Get state of Tango device.
+
+    :param dev_state: numeric value
+    :return: string with state
+    """
     dst = int(dev_state)
+    # pylint: disable-next=c-extension-no-member,protected-access
     return tango._tango.DevState.values[dst]
 
 
 def test_csp_control_admin_mode(csp_control: DeviceProxy | None) -> None:
-    """Set device admin mode to ONLINE."""
+    """
+    Set device admin mode to ONLINE.
+
+    :param csp_control: CSP control
+    """
     caplog.info("Set CSP control to online")
     assert csp_control is not None, "CSP control not loaded"
     csp_control.adminMode = 0
     time.sleep(2)
     assert csp_control.adminMode == 0, "Could not set CSP control to online"
-    
+
 
 def test_csp_subarray_admin_mode(csp_subarray: DeviceProxy | None) -> None:
-    """Set device admin mode to ONLINE."""
+    """
+    Set device admin mode to ONLINE.
+
+    :param csp_subarray: CSP subarray
+    """
     caplog.info("Set CSP subarray to online")
     assert csp_subarray is not None, "CSP subarray not loaded"
     assert csp_subarray.info().dev_type == "MidCspSubarray"
@@ -90,7 +99,7 @@ def test_csp_subarray_admin_mode(csp_subarray: DeviceProxy | None) -> None:
 def test_sut_links(sut_namespace: str) -> None:
     """
     Check links for SUT Taranta and QA Display.
-    
+
     :param sut_namespace: sut namespace
     """
     sut_sig_disp = f"https://k8s.miditf.internal.skao.int/{sut_namespace}/signal/display/"
@@ -101,12 +110,12 @@ def test_sut_links(sut_namespace: str) -> None:
     trnt_chk = check_web_link(sut_trnt_devs)
     assert trnt_chk[0] == 0, trnt_chk[1]
     caplog.info("SUT Taranta dashboard is OK: %s", sut_trnt_devs)
-    
+
 
 def test_dish_links(ska001_namespace: str, ska036_namespace: str) -> None:
     """
     Check links for Dish LMC Taranta.
-    
+
     :param ska001_namespace: ska 1 namespace
     :param ska036_namespace: ska 36 namespace
     """
@@ -121,13 +130,13 @@ def test_dish_links(ska001_namespace: str, ska036_namespace: str) -> None:
 
 
 def load_dish_vcc_config(
-    dish_config_file: str, 
-    tmc_central_node: DeviceProxy | None, 
+    dish_config_file: str,
+    tmc_central_node: DeviceProxy | None,
     tmc_csp_master: DeviceProxy | None,
 ) -> Tuple[int, str]:
     """
     Load dish VCC configuration.
-    
+
     :param dish_config_file: dish config file
     :param tmc_central_node: tmc central node
     :param tmc_csp_master: tmc csp master
@@ -138,9 +147,10 @@ def load_dish_vcc_config(
     assert tmc_csp_master.info().dev_type == "CspMasterLeafNodeMid"
     with open(dish_config_file, encoding="utf-8") as f:
         dish_config_json = json.load(f)
-    dish_config_json["tm_data_sources"][0] = (
-        "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-    )
+    dish_config_json["tm_data_sources"][
+        0
+    ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+
     dish_config_json["tm_data_filepath"] = (
         "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     )
@@ -165,13 +175,13 @@ def load_dish_vcc_config(
 
 
 def test_load_dish_vcc_config(
-    dish_config_file: str, 
+    dish_config_file: str,
     tmc_central_node: DeviceProxy | None,
     tmc_csp_master: DeviceProxy | None,
 ) -> None:
     """
     Load the Dish VCC Configuration and Initialize System Parameters (run twice).
-    
+
     :param dish_config_file: dish config file
     :param tmc_central_node: tmc central node
     :param tmc_csp_master: tmc csp master
@@ -179,10 +189,12 @@ def test_load_dish_vcc_config(
     caplog.info("Load dish VCC part 1")
     assert tmc_central_node is not None, "TMC central node not loaded"
     assert tmc_csp_master is not None, "TMC CSP master not loaded"
-    caplog.info("Type of tmc_central_node is %s", type(tmc_central_node))
-    assert tmc_central_node.dev_type == "CentralNodeMid"
-    caplog.info("Type of tmc_csp_master is %s", type(tmc_csp_master))
-    assert tmc_csp_master.dev_type == "CspMasterLeafNodeMid"
+    tmc_central_node_t: str = tmc_central_node.info().dev_type
+    caplog.info("Type of tmc_central_node is %s", tmc_central_node_t)
+    assert tmc_central_node_t == "CentralNodeMid", f"TMC central node ype is {tmc_central_node_t}"
+    tmc_csp_master_t: str = tmc_csp_master.info().dev_type
+    caplog.info("Type of tmc_csp_master is %s", tmc_csp_master_t)
+    assert tmc_csp_master_t == "CspMasterLeafNodeMid", f"TMC CSP master type is {tmc_csp_master_t}"
     rc, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
     assert rc == 0, msg
     caplog.info("Load dish VCC part 2")
@@ -193,7 +205,7 @@ def test_load_dish_vcc_config(
 def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:
     """
     Turn on the telescope.
-    
+
     :param tmc_central_node: tmc central node
     """
     caplog.info("Run the Telescope On command")
@@ -218,8 +230,8 @@ def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:
         time.sleep(5)
     caplog.info("Telescope state is now %s", get_tango_dev_state(tmc_central_node.telescopeState))
     assert tmc_central_node.telescopeState == 0, "Telescope not on"
-    
-    
+
+
 def test_assign_resources(
     sdp_subarray: DeviceProxy | None,
     assign_resources_file: str,
@@ -229,7 +241,7 @@ def test_assign_resources(
 ) -> None:
     """
     Assign resources.
-    
+
     :param sdp_subarray: SDP subarray
     :param assign_resources_file: assign resources file
     :param receptors: dish receptors
@@ -237,41 +249,48 @@ def test_assign_resources(
     :param cbf_subarray: CBF subarray
     """
     caplog.info("Assign resources")
-    assert sdp_subarray is not None, "SDP subarray not loaded"
+    # TODO SDP subarray does not exist!
+    # assert sdp_subarray is not None, "SDP subarray not loaded"
     assert tmc_subarray is not None, "TMS subarray not loaded"
-    assert cbf_subarray is not None, "CBF subarray not loaded"
     assert tmc_subarray.info().dev_type == "SubarrayNodeMid"
-    caplog.info("SDP subarray state: %s", sdp_subarray.state())
+    assert cbf_subarray is not None, "CBF subarray not loaded"
+    assert cbf_subarray.info().dev_type == "CbfSubarray"
+    if sdp_subarray is not None:
+        caplog.info("SDP subarray state: %s", sdp_subarray.state())
+    else:
+        caplog.warning("SDP subarray not loaded")
 
     time.sleep(3)
-
-    caplog.info(
-        "Assign resources: subarray should go to Idle and receptor IDs should be assigned"
-    )
+    caplog.info("Subarray should go to idle and receptor IDs should be assigned")
 
     with open(assign_resources_file, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
         assign_resources_json["dish"]["receptor_ids"] = receptors
         assign_resources_json["sdp"]["resources"]["receptors"] = receptors
 
-    caplog.info("Assign resources JSON file contents:\n%s", assign_resources_json)
+    caplog.info(
+        "Assign resources JSON file contents:\n%s", json.dumps(assign_resources_json, indent=4)
+    )
 
+    tmc_sub_state = get_tango_dev_state(tmc_subarray.obsState)
+    caplog.info(f"TMC subarray observation state: {tmc_sub_state}")
+    err_msg: str = ""
     try:
         tmc_subarray.AssignResources(json.dumps(assign_resources_json))
     except DevFailed as t_err:
-        err_msg: str = t_err.args[0].desc.strip()
+        err_msg = t_err.args[0].desc.strip()
         caplog.error("Assign resources failed: %s", err_msg)
-        assert 0, err_msg
 
     time.sleep(2)
-    caplog.info(f"CBF Subarray Observation State: {tmc_subarray.obsState}")
-    caplog.info(f"CBF Subarray Receptors : {cbf_subarray.receptors}")
+    caplog.info(f"TMC subarray observation state: {tmc_subarray.obsState}")
+    caplog.info(f"CBF subarray receptors: {cbf_subarray.receptors}")
+    assert not err_msg, err_msg
 
 
 def test_dish_deployments(dish_deployments: list[str]) -> None:
     """
     Test dish deployments.
-    
+
     :param dish_deployments: list of dish deployments
     """
     caplog.info("Test dish deployments")
@@ -304,10 +323,9 @@ def test_dish_deployments(dish_deployments: list[str]) -> None:
             current_az + 5 * az_dir,
             current_el + 5 * el_dir,
         ]
-
         dish_manager_proxy.programTrackTable = track_table
-        
-        
+
+
 def test_configure_scan_hack(
     tmc_scan_config_file: str,
     sdp_subarray_leaf_node: DeviceProxy | None,
@@ -315,28 +333,33 @@ def test_configure_scan_hack(
 ) -> None:
     """
     TMC leaf node hack to get around TMC subarray stuck in configuring.
-    
+
     :param sdp_subarray_leaf_node: SDP subarray leaf node
     :param csp_subarray_leaf_node: CSP subarray leaf node
     """
     caplog.info("Configure scan from file %s", tmc_scan_config_file)
     assert sdp_subarray_leaf_node is not None, "SDP subarray leaf node not loaded"
     assert csp_subarray_leaf_node is not None, "CSP subarray leaf node not loaded"
-    
+
+    scan_cfg: Any
     with open(tmc_scan_config_file, "r", encoding="utf-8") as json_data:
-        d = json.load(json_data)
-        sdp_scan = d["sdp"]
-        caplog.info("SDP scan: %s", sdp_scan)
-        sdp_subarray_leaf_node.scan(json.dumps(sdp_scan))
+        scan_cfg = json.load(json_data)
+
+    caplog.info("TMC scan config:\n%s", json.dumps(scan_cfg, indent=4))
+
+    assert "sdp" in scan_cfg, "SDP data not found"
+    sdp_scan = scan_cfg["sdp"]
+
+    caplog.info("SDP scan: %s", sdp_scan)
+    sdp_subarray_leaf_node.scan(json.dumps(sdp_scan))
 
     time.sleep(10)
     caplog.info("sdp Subarray Obs State: %s", sdp_subarray_leaf_node.sdpSubarrayObsState)
 
-    with open(tmc_scan_config_file, "r", encoding="utf-8") as json_data:
-        d = json.load(json_data)
-        csp_scan = d["csp"]
-        caplog.info(csp_scan)
-        csp_subarray_leaf_node.scan(json.dumps(csp_scan))
+    assert "csp" in scan_cfg, "CSP data not found"
+    csp_scan = scan_cfg["csp"]
+    caplog.info(csp_scan)
+    csp_subarray_leaf_node.scan(json.dumps(csp_scan))
 
     time.sleep(2)
     caplog.info("CSP Subarray Observation State: %s", csp_subarray_leaf_node.cspSubarrayObsState)
@@ -348,7 +371,7 @@ def test_end_scan_hack(
 ) -> None:
     """
     TMC leaf node hack to get around TMC subarray stuck in configuring.
-    
+
     :param sdp_subarray_leaf_node: SDP subarray leaf node
     :param csp_subarray_leaf_node: CSP subarray leaf node
     """
@@ -365,15 +388,31 @@ def test_end_scan_hack(
         caplog.error("Could not end scan: %s", err_msg)
         assert 0, err_msg
 
-    caplog.info("CSP Subarray Observation State: %s", csp_subarray_leaf_node.cspSubarrayObsState)
-    caplog.info("SDP Subarray Observation State: %s", sdp_subarray_leaf_node.cspSubarrayObsState)
+    rr_msg: str
+    try:
+        caplog.info(
+            "CSP subarray observation state: %s", csp_subarray_leaf_node.cspSubarrayObsState
+        )
+    except AttributeError as t_err:
+        err_msg = str(t_err)
+        caplog.error("Could not read CSP observation state: %s", err_msg)
+        assert 0, err_msg
+    try:
+        caplog.info(
+            "SDP subarray observation state: %s", sdp_subarray_leaf_node.cspSubarrayObsState
+        )
+    except AttributeError as t_err:
+        err_msg = str(t_err)
+        caplog.error("Could not read SDP observation state: %s", err_msg)
+        assert 0, err_msg
+
     time.sleep(2)
     try:
         caplog.info("Rerun end scan command")
         csp_subarray_leaf_node.EndScan()
     except DevFailed:
         caplog.warning("Could not end scan again")
-        
+
     caplog.info("CSP Subarray Observation State: %s", csp_subarray_leaf_node.cspSubarrayObsState)
     caplog.info("SDP Subarray Observation State: %s", sdp_subarray_leaf_node.cspSubarrayObsState)
 
@@ -383,7 +422,7 @@ def test_release_resources_hack(
 ) -> None:
     """
     TMC leaf node hack to get around TMC subarray stuck in configuring.
-    
+
     :param sdp_subarray_leaf_node: SDP subarray leaf node
     :param csp_subarray_leaf_node: CSP subarray leaf node
     """
@@ -401,16 +440,16 @@ def test_release_resources_hack(
     time.sleep(2)
     caplog.info(f"SDP Subarray Observation State: {sdp_subarray_leaf_node.sdpSubarrayObsState}")
     caplog.info(f"CSP Subarray Observation State: {csp_subarray_leaf_node.cspSubarrayObsState}")
-    
+
 
 def test_turn_telescope_off(
-    tmc_central_node: DeviceProxy | None, 
-    csp_control: DeviceProxy | None, 
+    tmc_central_node: DeviceProxy | None,
+    csp_control: DeviceProxy | None,
     cbf_controller: DeviceProxy | None,
 ) -> None:
     """
     Turn off the telescope.
-    
+
     :param tmc_central_node: tmc central node
     :param csp_control: csp control
     :param cbf_controller: cbf controller
@@ -419,10 +458,17 @@ def test_turn_telescope_off(
 
     assert tmc_central_node is not None, "TMC central node not loaded"
     assert csp_control is not None, "CSP control not loaded"
+    assert csp_control.info().dev_type == "MidCspController"
     assert cbf_controller is not None, "CBF controller not loaded"
+    assert cbf_controller.info().dev_type == "CbfController"
 
-    caplog.info("Telescope state is %s", get_tango_dev_state(tmc_central_node.telescopeState))
-    tmc_central_node.TelescopeOff()
+    try:
+        caplog.info("Telescope state is %s", get_tango_dev_state(tmc_central_node.telescopeState))
+        tmc_central_node.TelescopeOff()
+    except CommunicationFailed as t_err:
+        err_msg: str = t_err.args[0].desc.strip()
+        caplog.error("Could not turn telescope off: %s", err_msg)
+        assert 0, err_msg
 
     time.sleep(5)
     caplog.info(f"TMC Central Node State: {tmc_central_node.State()}")

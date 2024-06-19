@@ -2,18 +2,9 @@
 
 import logging
 import os
+
 import pytest
-
-from tango import DeviceProxy, ConnectionFailed
-
-# from ska_tmc_centralnode.central_node_mid import CentralNodeMid  # type: ignore[import-untyped]
-# from ska_tmc_cspmasterleafnode.csp_master_leaf_node_mid import (  # type: ignore[import-untyped]
-#     CspMasterLeafNodeMid
-# )
-# from ska_tmc_subarraynode.subarray_node_mid import SubarrayNodeMid  # type: ignore[import-untyped]
-# from ska_tmc_dishleafnode_mid import DishLeafNode  # type: ignore[import-untyped]
-# from ska_csp_lmc_mid.mid_controller_device import MidCspController  # type: ignore[import-untyped]
-# from ska_csp_lmc_mid.mid_subarray_device import MidCspSubarray  # type: ignore[import-untyped]
+from tango import ConnectionFailed, DeviceProxy
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -90,6 +81,7 @@ def get_tango(device_name: str) -> DeviceProxy | None:
     except ConnectionFailed as t_err:
         caplog.error("Could not connect proxy %s: %s", device_name, t_err.args[0].desc.strip())
         tango_device = None
+    # pylint: disable-next=broad-except
     except Exception as eb_err:
         caplog.error("Could not create proxy %s: %s", device_name, eb_err)
         tango_device = None
@@ -123,33 +115,42 @@ TMC_SUBARRAY: DeviceProxy | None = get_tango("ska_mid/tm_subarray_node/1")
 
 @pytest.fixture()
 def tmc_central_node() -> DeviceProxy | None:
-    """Test fixture for Telescope Monitor and Control central node."""
-    # if TMC_CENTRAL_NODE is not None:
-    #     return typing.cast(CentralNodeMid, TMC_CENTRAL_NODE)
+    """
+    Test fixture for Telescope Monitor and Control central node.
+
+    Type is CentralNodeMid.
+    """
     return TMC_CENTRAL_NODE
 
 
 @pytest.fixture()
 def tmc_csp_master() -> DeviceProxy | None:
-    """Test fixture for Telescope Monitor and Control master node."""
-    # if TMC_CSP_MASTER is not None:
-    #     return typing.cast(CspMasterLeafNodeMid, TMC_CSP_MASTER)
+    """
+    Test fixture for Telescope Monitor and Control master node.
+
+    Type is CspMasterLeafNodeMid.
+    """
     return TMC_CSP_MASTER
 
 
 @pytest.fixture()
 def tmc_csp_subarray() -> DeviceProxy | None:
-    """Test fixture for Telescope Monitor and Control Central Signal Processor subarray."""
-    # TODO Should be class CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2) not found
+    """
+    Test fixture for Telescope Monitor and Control Central Signal Processor subarray.
+
+    Type is CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2).
+    """
+    # TODO not used
     return TMC_CSP_SUBARRAY
-    
+
 
 @pytest.fixture()
 def tmc_subarray() -> DeviceProxy | None:
-    """Test fixture for Telescope Monitor and Control subarray."""
-    # if TMC_SUBARRAY is not None:
-    #     # Cast to SubarrayNodeMid (ska-tmc-subarraynode v0.18.0)
-    #     return typing.cast(SubarrayNodeMid, TMC_SUBARRAY)
+    """
+    Test fixture for Telescope Monitor and Control subarray.
+
+    Type is SubarrayNodeMid (ska-tmc-subarraynode v0.18.0).
+    """
     return TMC_SUBARRAY
 
 
@@ -160,19 +161,21 @@ CSP_SUBARRAY: DeviceProxy | None = get_tango("mid-csp/subarray/01")
 
 @pytest.fixture()
 def csp_control() -> DeviceProxy | None:
-    """Test fixture for Central Signal Processor control."""
-    # if CSP_CONTROL is not None:
-    #     # Cast to MidCspController (ska_csp_lmc_mid v0.21.0)
-    #     return typing.cast(MidCspController, CSP_CONTROL)
+    """
+    Test fixture for Central Signal Processor control.
+
+    Type is MidCspController (ska_csp_lmc_mid v0.21.0).
+    """
     return CSP_CONTROL
 
 
 @pytest.fixture()
 def csp_subarray() -> DeviceProxy | None:
-    """Test fixture for Central Signal Processor subarray."""
-    # if CSP_SUBARRAY is not None:
-    #     # Cast to MidCspSubarray (ska-csp-lmc-common v0.22.1)
-    #     return typing.cast(MidCspSubarray, CSP_SUBARRAY)
+    """
+    Test fixture for Central Signal Processor subarray.
+
+    Type is MidCspSubarray (ska-csp-lmc-common v0.22.1).
+    """
     return CSP_SUBARRAY
 
 
@@ -183,15 +186,21 @@ CBF_SUBARRAY: DeviceProxy | None = get_tango("mid_csp_cbf/sub_elt/subarray_01")
 
 @pytest.fixture()
 def cbf_controller() -> DeviceProxy | None:
-    """Test fixture for Correlator Beam Former controller."""
-    # TODO Should be CbfController (ska_tango_base v0.21.0) not found
+    """
+    Test fixture for Correlator Beam Former controller.
+
+    Type is CbfController (ska_tango_base v0.21.0)
+    """
     return CBF_CONTROLLER
 
 
 @pytest.fixture()
 def cbf_subarray() -> DeviceProxy | None:
-    """Test fixture for Correlator Beam Former subarray."""
-    # TODO Should be CbfSubarray (ska_csp_lmc_mid v0.11.4) not found
+    """
+    Test fixture for Correlator Beam Former subarray.
+
+    Type is CbfSubarray (ska_csp_lmc_mid v0.11.4).
+    """
     return CBF_SUBARRAY
 
 
@@ -202,19 +211,23 @@ DISH_LEAF_NODE_SKA036: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/d003
 
 @pytest.fixture()
 def dish_leaf_node_ska001() -> DeviceProxy | None:
-    """Test fixture for dish leaf node 1."""
-    # if DISH_LEAF_NODE_SKA001 is not None:
-    #     # Cast to DishLeafNode (ska_tmc_dishleafnode v0.13.2)
-    #     return typing.cast(DishLeafNode, DISH_LEAF_NODE_SKA001)
+    """
+    Test fixture for dish leaf node 1.
+
+    Type is DishLeafNode (ska_tmc_dishleafnode v0.13.2).
+    """
+    # TODO not used
     return DISH_LEAF_NODE_SKA001
 
 
 @pytest.fixture()
 def dish_leaf_node_ska036() -> DeviceProxy | None:
-    """Test fixture for dish leaf node 36."""
-    # if DISH_LEAF_NODE_SKA036 is not None:
-    #     # Cast to DishLeafNode (ska_tmc_dishleafnode v0.13.2)
-    #     return typing.cast(DishLeafNode, DISH_LEAF_NODE_SKA036)
+    """
+    Test fixture for dish leaf node 36.
+
+    Type is DishLeafNode (ska_tmc_dishleafnode v0.13.2).
+    """
+    # TODO not used
     return DISH_LEAF_NODE_SKA036
 
 
@@ -230,35 +243,41 @@ def sdp_subarray() -> DeviceProxy | None:
 
 
 # Leaf Nodes
-CSP_SUBARRAY_LEAF_NODE : DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/csp_subarray01")
+CSP_SUBARRAY_LEAF_NODE: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/csp_subarray01")
 SDP_SUBARRAY_LEAF_NODE: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/sdp_subarray01")
 CSP_MASTER_LEAF_NODE: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/csp_master")
 
 
 @pytest.fixture()
 def csp_subarray_leaf_node() -> DeviceProxy | None:
-    """Test fixture for CSP subarray leaf node"""
-    # TODO should be CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2) not found
+    """
+    Test fixture for CSP subarray leaf node.
+
+    Type is CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2).
+    """
     return CSP_SUBARRAY_LEAF_NODE
 
 
 @pytest.fixture()
 def sdp_subarray_leaf_node() -> DeviceProxy | None:
-    """Test fixture for  leaf node"""
-    # TODO Should be SdpSubarrayLeafNode (ska_tmc_sdpsubarrayleafnode v0.15.1) not found
+    """
+    Test fixture for SDP subarray leaf node.
+
+    Type is SdpSubarrayLeafNode (ska_tmc_sdpsubarrayleafnode v0.15.1).
+    """
     return SDP_SUBARRAY_LEAF_NODE
 
 
 @pytest.fixture()
 def csp_master_leaf_node() -> DeviceProxy | None:
     """Test fixture for  leaf node"""
-    # TODO determine class, library and version
+    # TODO determine type/class, library and version
     return CSP_MASTER_LEAF_NODE
 
-                   
+
 mid_tld = "svc.miditf.internal.skao.int"
 DISH_DEPLOYMENTS: list[str] = [
-    f"tango://tango-databaseds.{SKA001_NAMESPACE}.{mid_tld}:10000/mid-dish/dish-manager/SKA001", 
+    f"tango://tango-databaseds.{SKA001_NAMESPACE}.{mid_tld}:10000/mid-dish/dish-manager/SKA001",
     f"tango://tango-databaseds.{SKA036_NAMESPACE}.{mid_tld}:10000/mid-dish/dish-manager/SKA036",
 ]
 
