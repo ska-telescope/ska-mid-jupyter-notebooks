@@ -1,12 +1,19 @@
-"""End to End testing in the MID ITF."""
+"""End-to-end testing in the MID ITF."""
 
 import logging
 import os
-from time import sleep
-import json
 import pytest
 
 from tango import DeviceProxy, ConnectionFailed
+
+# from ska_tmc_centralnode.central_node_mid import CentralNodeMid  # type: ignore[import-untyped]
+# from ska_tmc_cspmasterleafnode.csp_master_leaf_node_mid import (  # type: ignore[import-untyped]
+#     CspMasterLeafNodeMid
+# )
+# from ska_tmc_subarraynode.subarray_node_mid import SubarrayNodeMid  # type: ignore[import-untyped]
+# from ska_tmc_dishleafnode_mid import DishLeafNode  # type: ignore[import-untyped]
+# from ska_csp_lmc_mid.mid_controller_device import MidCspController  # type: ignore[import-untyped]
+# from ska_csp_lmc_mid.mid_subarray_device import MidCspSubarray  # type: ignore[import-untyped]
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -30,9 +37,6 @@ else:
 SKA001_NAMESPACE: str = f"ci-dish-lmc-ska001-{BRANCH_NAME}"
 SKA036_NAMESPACE: str = f"ci-dish-lmc-ska036-{BRANCH_NAME}"
 SUT_NAMESPACE: str = f"ci-ska-mid-itf-{BRANCH_NAME}"
-    
-# SUT_NAMESPACE: str = "ci-ska-mid-itf-at-2111-update-tmc"
-# SUT_NAMESPACE: str = os.getenv("KUBE_NAMESPACE", "ci-ska-mid-itf-at-1958-rf-chain-linearity-performance")
 
 TANGO_HOST: str = f"tango-databaseds.{SUT_NAMESPACE}.svc.miditf.internal.skao.int:10000"
 os.environ["TANGO_HOST"] = TANGO_HOST
@@ -63,6 +67,7 @@ def receptors() -> list[str]:
 # Config files set up
 HOME = os.getenv("HOME")
 # DATA_DIR = "../../../data"
+# TODO find a better way to do file paths
 DATA_DIR = f"{HOME}/.local/ska-mid-itf-data/"
 TMC_CONFIGS: str = f"{DATA_DIR}/mid_telescope/tmc"
 SCAN_FILE: str = f"{TMC_CONFIGS}/scan.json"
@@ -73,6 +78,8 @@ CONFIGURE_SCAN_FILE: str = f"{TMC_CONFIGS}/configure_scan.json"
 
 CBF_CONFIGS: str = f"{DATA_DIR}/mid_telescope/cbf"
 DISH_CONFIG_FILE: str = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
+
+TMC_SCAN_CONFIG_FILE: str = f"{DATA_DIR}/mid_telescope/tmc/scan.json"
 
 
 def get_tango(device_name: str) -> DeviceProxy | None:
@@ -90,9 +97,22 @@ def get_tango(device_name: str) -> DeviceProxy | None:
 
 
 @pytest.fixture()
+def tmc_scan_config_file() -> str:
+    """Get name of TMC scan configuration file."""
+    return TMC_SCAN_CONFIG_FILE
+
+
+@pytest.fixture()
+def assign_resources_file() -> str:
+    """Get name of dish configuration file."""
+    return ASSIGN_RESOURCES_FILE
+
+
+@pytest.fixture()
 def dish_config_file() -> str:
-    """Get name of dish conffiguration file."""
+    """Get name of dish configuration file."""
     return DISH_CONFIG_FILE
+
 
 # Telescope Monitor and Control (TMC) proxies
 TMC_CENTRAL_NODE: DeviceProxy | None = get_tango("ska_mid/tm_central/central_node")
@@ -104,25 +124,34 @@ TMC_SUBARRAY: DeviceProxy | None = get_tango("ska_mid/tm_subarray_node/1")
 @pytest.fixture()
 def tmc_central_node() -> DeviceProxy | None:
     """Test fixture for Telescope Monitor and Control central node."""
+    # if TMC_CENTRAL_NODE is not None:
+    #     return typing.cast(CentralNodeMid, TMC_CENTRAL_NODE)
     return TMC_CENTRAL_NODE
 
 
 @pytest.fixture()
 def tmc_csp_master() -> DeviceProxy | None:
     """Test fixture for Telescope Monitor and Control master node."""
+    # if TMC_CSP_MASTER is not None:
+    #     return typing.cast(CspMasterLeafNodeMid, TMC_CSP_MASTER)
     return TMC_CSP_MASTER
 
 
 @pytest.fixture()
 def tmc_csp_subarray() -> DeviceProxy | None:
     """Test fixture for Telescope Monitor and Control Central Signal Processor subarray."""
+    # TODO Should be class CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2) not found
     return TMC_CSP_SUBARRAY
     
 
 @pytest.fixture()
 def tmc_subarray() -> DeviceProxy | None:
     """Test fixture for Telescope Monitor and Control subarray."""
+    # if TMC_SUBARRAY is not None:
+    #     # Cast to SubarrayNodeMid (ska-tmc-subarraynode v0.18.0)
+    #     return typing.cast(SubarrayNodeMid, TMC_SUBARRAY)
     return TMC_SUBARRAY
+
 
 # Central Signal Processor (CSP) Local Monitor and Control (LMC) proxies
 CSP_CONTROL: DeviceProxy | None = get_tango("mid-csp/control/0")
@@ -132,12 +161,18 @@ CSP_SUBARRAY: DeviceProxy | None = get_tango("mid-csp/subarray/01")
 @pytest.fixture()
 def csp_control() -> DeviceProxy | None:
     """Test fixture for Central Signal Processor control."""
+    # if CSP_CONTROL is not None:
+    #     # Cast to MidCspController (ska_csp_lmc_mid v0.21.0)
+    #     return typing.cast(MidCspController, CSP_CONTROL)
     return CSP_CONTROL
 
 
 @pytest.fixture()
 def csp_subarray() -> DeviceProxy | None:
     """Test fixture for Central Signal Processor subarray."""
+    # if CSP_SUBARRAY is not None:
+    #     # Cast to MidCspSubarray (ska-csp-lmc-common v0.22.1)
+    #     return typing.cast(MidCspSubarray, CSP_SUBARRAY)
     return CSP_SUBARRAY
 
 
@@ -149,13 +184,16 @@ CBF_SUBARRAY: DeviceProxy | None = get_tango("mid_csp_cbf/sub_elt/subarray_01")
 @pytest.fixture()
 def cbf_controller() -> DeviceProxy | None:
     """Test fixture for Correlator Beam Former controller."""
+    # TODO Should be CbfController (ska_tango_base v0.21.0) not found
     return CBF_CONTROLLER
 
 
 @pytest.fixture()
 def cbf_subarray() -> DeviceProxy | None:
     """Test fixture for Correlator Beam Former subarray."""
+    # TODO Should be CbfSubarray (ska_csp_lmc_mid v0.11.4) not found
     return CBF_SUBARRAY
+
 
 # Dish Leaf Proxies
 DISH_LEAF_NODE_SKA001: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/d0001")
@@ -165,12 +203,18 @@ DISH_LEAF_NODE_SKA036: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/d003
 @pytest.fixture()
 def dish_leaf_node_ska001() -> DeviceProxy | None:
     """Test fixture for dish leaf node 1."""
+    # if DISH_LEAF_NODE_SKA001 is not None:
+    #     # Cast to DishLeafNode (ska_tmc_dishleafnode v0.13.2)
+    #     return typing.cast(DishLeafNode, DISH_LEAF_NODE_SKA001)
     return DISH_LEAF_NODE_SKA001
 
 
 @pytest.fixture()
 def dish_leaf_node_ska036() -> DeviceProxy | None:
     """Test fixture for dish leaf node 36."""
+    # if DISH_LEAF_NODE_SKA036 is not None:
+    #     # Cast to DishLeafNode (ska_tmc_dishleafnode v0.13.2)
+    #     return typing.cast(DishLeafNode, DISH_LEAF_NODE_SKA036)
     return DISH_LEAF_NODE_SKA036
 
 
@@ -181,7 +225,9 @@ SDP_SUBARRAY: DeviceProxy | None = get_tango("mid-sdp/subarray/01")
 @pytest.fixture()
 def sdp_subarray() -> DeviceProxy | None:
     """Test fixture for Science Data Processor subarray."""
+    # TODO no such Tango device!
     return SDP_SUBARRAY
+
 
 # Leaf Nodes
 CSP_SUBARRAY_LEAF_NODE : DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/csp_subarray01")
@@ -190,14 +236,23 @@ CSP_MASTER_LEAF_NODE: DeviceProxy | None = get_tango("ska_mid/tm_leaf_node/csp_m
 
 
 @pytest.fixture()
+def csp_subarray_leaf_node() -> DeviceProxy | None:
+    """Test fixture for CSP subarray leaf node"""
+    # TODO should be CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2) not found
+    return CSP_SUBARRAY_LEAF_NODE
+
+
+@pytest.fixture()
 def sdp_subarray_leaf_node() -> DeviceProxy | None:
     """Test fixture for  leaf node"""
+    # TODO Should be SdpSubarrayLeafNode (ska_tmc_sdpsubarrayleafnode v0.15.1) not found
     return SDP_SUBARRAY_LEAF_NODE
 
 
 @pytest.fixture()
 def csp_master_leaf_node() -> DeviceProxy | None:
     """Test fixture for  leaf node"""
+    # TODO determine class, library and version
     return CSP_MASTER_LEAF_NODE
 
                    
@@ -211,4 +266,3 @@ DISH_DEPLOYMENTS: list[str] = [
 @pytest.fixture()
 def dish_deployments() -> list[str]:
     return DISH_DEPLOYMENTS
-
