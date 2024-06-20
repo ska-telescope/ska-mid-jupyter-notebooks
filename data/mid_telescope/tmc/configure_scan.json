@@ -15,38 +15,42 @@
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/2.4",
     "subarray": {
-        "subarray_name": "Receptor(s)"
+      "subarray_name": "Single receptor"
     },
     "common": {
-        "config_id": "1 receptor, band 1, 2 FSP, no options",
-        "subarray_id": 1,
-        "frequency_band": "1"
+      "config_id": "1 receptor, band 1, 1 FSP, no options",
+      "frequency_band": "1",
+      "subarray_id": 1
     },
     "cbf": {
-        "fsp": [
-            {
-                "fsp_id": 1,
-                "function_mode": "CORR",
-                "frequency_slice_id": 1,
-                "zoom_factor": 0,
-                "integration_factor": 10,
-                "output_link_map": [
-                    [
-                        0,
-                        1
-                    ]
-                ],
-                "channel_offset": 0,
-                "zoom_window_tuning": 450000  
-            }
-        ]
+      "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray01/delayModel",
+      "rfi_flagging_mask": {},
+      "fsp": [
+        {
+          "fsp_id": 1,
+          "function_mode": "CORR",
+          "receptors": ["SKA001"],
+          "frequency_slice_id": 1,
+          "zoom_factor": 1,
+          "zoom_window_tuning": 450000,
+          "integration_factor": 10,
+          "channel_offset": 0,
+          "output_link_map": [
+            [
+              0,
+              1
+            ]
+          ],
+          "output_host": [[0, "10.50.1.34"]],
+          "output_port": [[0, 14000, 1]]  
+        }
+      ]
     }
-},
+  },
   "tmc": {
-    "scan_duration": 920.0
+    "scan_duration": 120
   },
   "dish": {
     "receiver_band": "1"
   }
 }
-
