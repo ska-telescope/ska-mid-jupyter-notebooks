@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/2.0",
+  "interface": "https://schema.skao.int/ska-tmc-configure/2.3",
   "pointing": {
     "target": {
       "reference_frame": "ICRS",
@@ -13,7 +13,7 @@
     "scan_type": "science"
   },
   "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configure/2.4",
+    "interface": "https://schema.skao.int/ska-csp-configure/2.5",
     "subarray": {
       "subarray_name": "Single receptor"
     },
@@ -23,13 +23,10 @@
       "subarray_id": 1
     },
     "cbf": {
-      "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray01/delayModel",
-      "rfi_flagging_mask": {},
       "fsp": [
         {
           "fsp_id": 1,
           "function_mode": "CORR",
-          "receptors": ["SKA001"],
           "frequency_slice_id": 1,
           "zoom_factor": 1,
           "zoom_window_tuning": 450000,
@@ -40,15 +37,13 @@
               0,
               1
             ]
-          ],
-          "output_host": [[0, "10.50.1.34"]],
-          "output_port": [[0, 14000, 1]]  
+          ]
         }
       ]
     }
   },
   "tmc": {
-    "scan_duration": 120
+    "scan_duration": 120.0
   },
   "dish": {
     "receiver_band": "1"
