@@ -28,7 +28,7 @@
           "fsp_id": 1,
           "function_mode": "CORR",
           "frequency_slice_id": 1,
-          "zoom_factor": 1,
+          "zoom_factor": 0,
           "zoom_window_tuning": 450000,
           "integration_factor": 10,
           "channel_offset": 0,
