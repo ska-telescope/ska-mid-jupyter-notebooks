@@ -128,19 +128,30 @@ class TangoDishDeployment(TangoDeployment):
     def print_diagnostics(self):
         dm = self.dish_manager
         print(f"{self.dish_id}: ComponentStates: {dm.GetComponentStates()}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: DishMode: {str(dm.dish_mode)}")
+        time.sleep(0.2.0)
         print(f"{self.dish_id}: PowerState: {str(dm.power_state)}")
+        time.sleep(0.2.0)
         print(f"{self.dish_id}: HealthState: {str(dm.health_state)}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: PointingState: {str(dm.pointing_state)}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: K-Value: {dm.kValue}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: Capturing: {dm.capturing}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: SimulationMode: {dm.simulationMode}")
+        time.sleep(0.2)
         spfc = self.spfc_simulator
         print(f"{self.dish_id}: SPFC OperatingMode: {str(spfc.operating_mode)}")
+        time.sleep(0.2)
         spfrx = self.spfrx
         print(f"{self.dish_id}: SPFRx OperatingMode: {str(spfrx.operating_mode)}")
+        time.sleep(0.2)
         ds_manager = self.ds_manager
         print(f"{self.dish_id}: DS Manager OperatingMode: {str(ds_manager.operating_mode)}")
+        time.sleep(0.2)
         print(f"{self.dish_id}: DS Manager IndexerPosition: {ds_manager.indexerPosition}")
 
 
