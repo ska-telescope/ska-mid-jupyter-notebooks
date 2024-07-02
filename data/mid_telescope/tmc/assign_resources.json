@@ -13,7 +13,7 @@
             "receive_nodes": 1
          },
          "execution_block": {
-            "eb_id":"eb-test-20210630-00059",
+            "eb_id":"eb-test-20210630-00061",
             "context": {},
             "max_length":21600.0,
       
@@ -86,7 +86,7 @@
          },
          "processing_blocks":[
             {
-               "pb_id":"pb-test-20211111-00059",
+               "pb_id":"pb-test-20211111-00061",
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
@@ -182,7 +182,8 @@
                     "receiver": {
                        "options": {
                            "reception": {
-                               "reset_time_indexing_after_each_scan": true
+                               "reset_time_indexing_after_each_scan": true,
+                               "stats_receiver_kafka_config": "ska-sdp-kafka.staging.svc.miditf.internal.skao.int:9092:json_workflow_state"
                           },
                           "telescope_model": {
                              "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
