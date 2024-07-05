@@ -11,6 +11,7 @@ from typing import List, Literal, Tuple
 
 import tango
 import urllib3  # type: ignore[import-untyped]
+
 from ska_control_model import ObsState
 from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
 from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
