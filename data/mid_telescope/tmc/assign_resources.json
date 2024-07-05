@@ -13,7 +13,7 @@
             "receive_nodes": 1
          },
          "execution_block": {
-            "eb_id":"eb-test-20210630-00061",
+            "eb_id":"eb-test-20240705-00002",
             "context": {},
             "max_length":21600.0,
       
@@ -86,7 +86,7 @@
          },
          "processing_blocks":[
             {
-               "pb_id":"pb-test-20211111-00061",
+               "pb_id":"pb-test-20240705-00002",
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
