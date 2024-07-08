@@ -37,7 +37,9 @@
                     ]
                 ],
                 "channel_offset": 0,
-                "zoom_window_tuning": 450000  
+                "zoom_window_tuning": 450000,
+                "output_host": [[0, "10.50.1.34"]],
+                "output_port": [[0, 21000, 1]]        
             }
         ]
     }
