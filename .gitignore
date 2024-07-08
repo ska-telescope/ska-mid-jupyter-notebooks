@@ -40,3 +40,4 @@ sut-config-*.json
 *.ms
 *.tar.gz
 notebook-execution-data
+PrivateRules.mk
