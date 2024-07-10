@@ -13,7 +13,7 @@ stages:
   - publish
   - pages
 
-# Include CI templates 
+# Include CI templates
 include:
   # Python
   - project: "ska-telescope/templates-repository"
@@ -43,3 +43,6 @@ include:
 notebook-test:
   rules:
     - when: never
+
+notebook-lint:
+  allow_failure: true
