@@ -1,3 +1,4 @@
+"""Base SUT on this."""
 from typing import Literal
 
 SubarrayResourceState = Literal["EMPTY", "RESOURCING", "COMPOSED"]

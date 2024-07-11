@@ -1,3 +1,4 @@
+"""Render test equipment data."""
 from typing import Literal, OrderedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.rendering import Colours, MonitorPlot
@@ -9,14 +10,6 @@ TestEquipmentLabels = Literal[
     "SkySim Controller 0",
     "SkySim Controller 4",
 ]
-
-
-def get_test_equipment_monitor_plot():
-    """
-    Get test equipment monitor plot
-    :return: test equipment monitor plot
-    """
-    return TestEquipmentMonitorPlot(plot_width=900, plot_height=200)
 
 
 class TestEquipmentMonitorPlot(MonitorPlot[TestEquipmentLabels, DeviceDevState]):
@@ -67,3 +60,12 @@ class TestEquipmentMonitorPlot(MonitorPlot[TestEquipmentLabels, DeviceDevState])
             key = cast(TestDevice, key)
             if label := self.test_device_mapping.get(key):
                 self._set_box(label, value)
+
+
+def get_test_equipment_monitor_plot() -> TestEquipmentMonitorPlot:
+    """
+    Get test equipment monitor plot
+    :return: test equipment monitor plot
+    """
+    return TestEquipmentMonitorPlot(plot_width=900, plot_height=200)
+

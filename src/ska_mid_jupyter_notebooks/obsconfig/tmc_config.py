@@ -1,10 +1,12 @@
+"""TMC scan configuration."""
 from datetime import timedelta
 
 from ska_tmc_cdm.messages.subarray_node.configure import TMCConfiguration
 
 
 class TMCConfig:
-    def generate_tmc_scan_config(self, scan_duration: float):
+    """Store the TMC scan configuration."""
+    def generate_tmc_scan_config(self, scan_duration: float) -> TMCConfiguration:
         """
         Generate tmc scan configuration for a given scan duration
         :param scan_duration: Scan Duration

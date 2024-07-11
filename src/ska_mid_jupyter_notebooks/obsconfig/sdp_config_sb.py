@@ -1,3 +1,4 @@
+"""Science data processor configuration stuff with added storage block goodness."""
 from typing import Any
 
 from ska_oso_pdm.entities.sdp.sdp_configuration import SDPConfiguration
@@ -9,16 +10,19 @@ from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ProcessingBlockSpec
 
 
 class SdpConfigSpecsSB(Dishes, ExecutionBlockSpecsSB, ProcessingBlockSpec):
+    """Store SDP config specs with SB"""
     def __init__(self, **kwargs: Any) -> None:
         """
-        Initializes SdpConfigSpecsSB class
+        Initialize SdpConfigSpecsSB class.
+
         :param kwargs: Keyword arguments
         """
         super().__init__(**kwargs)
 
-    def _generate_sdp_assign_resources_sb_config(self):
+    def _generate_sdp_assign_resources_sb_config(self) -> SDPConfiguration:
         """
-        Generates the sdp assign resources sb config
+        Generate the sdp assign resources sb config.
+
         :return: sdp assign resources sb config
         """
         return SDPConfiguration(
@@ -28,9 +32,10 @@ class SdpConfigSpecsSB(Dishes, ExecutionBlockSpecsSB, ProcessingBlockSpec):
         )
 
     @encoded
-    def generate_sdp_assign_resources_sb_config(self):
+    def generate_sdp_assign_resources_sb_config(self) -> SDPConfiguration:
         """
-        Generates the sdp assign resources sb config by calling _generate_sdp_assign_resources_sb_config
+        Generate the sdp assign resources sb config.
+
         :return: SDP assign resource object
         """
         return self._generate_sdp_assign_resources_sb_config()

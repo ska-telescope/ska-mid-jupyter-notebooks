@@ -1,3 +1,4 @@
+"""Control test equipment with Tango."""
 from typing import List
 
 from ska_control_model import AdminMode
@@ -6,16 +7,18 @@ from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment, TangoDevi
 
 
 class TestEquipmentDeviceProxy(TangoDeviceProxy):
+    """Tango device proxy for test equipment."""
     def __init__(self, te_deployment: "TangoTestEquipment", name: str, instance: int = 1):
         self.name = f"mid-itf/{name}/{instance}"
         super().__init__(te_deployment.dp(self.name))
 
 
 class SigGen(TestEquipmentDeviceProxy):
+    """Tango device proxy for signal generator."""
     def __init__(self, te_deployment: "TangoTestEquipment"):
         super().__init__(te_deployment, "siggen")
 
-    def print_diagnostics(self):
+    def print_diagnostics(self) -> None:
         print(f"{self.name} versionId: {self.versionId}")
         print(f"{self.name} adminMode: {self.admin_mode}")
         print(f"{self.name} State: {self.State()}")
@@ -35,10 +38,12 @@ class SigGen(TestEquipmentDeviceProxy):
 
 
 class ProgAttenuator(TestEquipmentDeviceProxy):
+    """Tango device proxy for programmable attenuator."""
     def __init__(self, te_deployment: "TangoTestEquipment"):
         super().__init__(te_deployment, "progattenuator")
 
-    def print_diagnostics(self):
+    def print_diagnostics(self) -> None:
+        """Print diagnostics."""
         print(f"{self.name} versionId: {self.versionId}")
         print(f"{self.name} model_name: {self.model_name}")
         print(f"{self.name} adminMode: {self.admin_mode}")
@@ -52,10 +57,12 @@ class ProgAttenuator(TestEquipmentDeviceProxy):
 
 
 class SkySimCtl(TestEquipmentDeviceProxy):
+    """Tango device proxy for sky simulator controller."""
     def __init__(self, te_deployment: "TangoTestEquipment"):
         super().__init__(te_deployment, "skysimctl", instance=4)
 
-    def print_diagnostics(self):
+    def print_diagnostics(self) -> None:
+        """Print diagnostics."""
         print(f"{self.name} State: {self.State()}")
         print(f"{self.name} Band: {self.Band}")
         print(f"{self.name} Correlated_Noise_Source: {self.Correlated_Noise_Source}")
@@ -67,10 +74,12 @@ class SkySimCtl(TestEquipmentDeviceProxy):
 
 
 class SpectAna(TestEquipmentDeviceProxy):
+    """Tango device proxy for spectrum analyser."""
     def __init__(self, te_deployment: "TangoTestEquipment"):
         super().__init__(te_deployment, "spectana")
 
-    def print_diagnostics(self):
+    def print_diagnostics(self) -> None:
+        """Print diagnostics."""
         print(f"{self.name} adminMode: {self.admin_mode}")
         print(f"{self.name} State: {self.State()}")
         print(f"{self.name} attenuation: {self.attenuation}")
@@ -85,6 +94,7 @@ class SpectAna(TestEquipmentDeviceProxy):
 
 
 class TangoTestEquipment(TangoDeployment):
+    """Deployment for test equipment."""
     def __init__(
         self,
         namespace: str = "test-equipment",
@@ -103,26 +113,56 @@ class TangoTestEquipment(TangoDeployment):
         super().__init__(namespace, database_name, cluster_domain, db_port)
 
     def __str__(self) -> str:
+        """
+        Do the string thing.
+
+        :return: string representation.
+        """
         return f"TangoTestEquipment{{{super().__str__()}}}"
 
     @property
     def signal_generator(self) -> TestEquipmentDeviceProxy:
+        """
+        Read device proxy for signal generator.
+
+        :return: Tango device proxy
+        """
         return SigGen(self)
 
     @property
     def programmable_attenuator(self) -> TestEquipmentDeviceProxy:
+        """
+        Read device proxy for programmable attenuator.
+
+        :return: Tango device proxy
+        """
         return ProgAttenuator(self)
 
     @property
     def spectrum_analyser(self) -> TestEquipmentDeviceProxy:
+        """
+        Read device proxy for spectrum analyser.
+
+        :return: Tango device proxy
+        """
         return SpectAna(self)
 
     @property
     def sky_simulator_controller(self) -> TestEquipmentDeviceProxy:
+        """
+        Read device proxy for sky simulator controller.
+
+        :return: Tango device proxy
+        """
         return SkySimCtl(self)
 
     @property
     def device_proxies(self) -> List[TestEquipmentDeviceProxy]:
+        """
+        Read device proxies for test equipment.
+
+        :return: list of device proxies
+        """
         return [
             self.signal_generator,
             self.programmable_attenuator,
@@ -130,7 +170,8 @@ class TangoTestEquipment(TangoDeployment):
             self.sky_simulator_controller,
         ]
 
-    def turn_online(self):
+    def turn_online(self) -> None:
+        """Set devices to online."""
         for dev in self.device_proxies:
             if hasattr(dev, "adminMode"):
                 if dev.adminMode != 0:
@@ -139,7 +180,8 @@ class TangoTestEquipment(TangoDeployment):
                 else:
                     print(f"set {dev.name} adminMode already ONLINE")
 
-    def print_diagnostics(self):
+    def print_diagnostics(self) -> None:
+        """Print diagnostics."""
         self.sky_simulator_controller.print_diagnostics()
         self.signal_generator.print_diagnostics()
         self.spectrum_analyser.print_diagnostics()
@@ -147,7 +189,9 @@ class TangoTestEquipment(TangoDeployment):
 
     def smoke_test(self) -> int:
         """Smoke test deployment by pinging CIA, Tango Database and TE DeviceProxies."""
-        super().smoke_test()
+        st: int = super().smoke_test()
         for d in self.device_proxies:
             d.ping()
             print(f"{d.name} is reachable")
+        # TODO what must be returned here?
+        return st

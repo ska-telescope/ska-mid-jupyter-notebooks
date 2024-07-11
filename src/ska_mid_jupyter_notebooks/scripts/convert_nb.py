@@ -31,7 +31,14 @@ parser.add_argument(
 )
 
 
-def _main(dest: Path, source: Path, delimiter: str):
+def _main(dest: Path, source: Path, delimiter: str) -> None:
+    """
+    Not the main peanut.
+
+    :param dest: destination path
+    :param source: source path
+    :param delimiter: delimiter for CSV
+    """
     with dest.open("w") as destination_file:
         nb = new_notebook()
         with source.open("r") as source_file:
@@ -50,7 +57,8 @@ def _main(dest: Path, source: Path, delimiter: str):
         nbformat.write(nb, destination_file)
 
 
-def main():
+def main() -> None:
+    """The main peanut."""
     args = parser.parse_args()
     dest = cast(Path, args.dest)
     source = cast(Path, args.source)

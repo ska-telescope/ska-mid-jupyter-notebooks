@@ -1,3 +1,4 @@
+"""This is the Central Signal Processor."""
 from ska_oso_pdm.entities.csp.csp_configuration import CSPConfiguration as CSPConfigurationPDM
 from ska_tmc_cdm.messages.central_node.csp import CommonConfiguration as CentralCommonConfiguration
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CentralCSPConfiguration
@@ -42,55 +43,63 @@ DEFAULT_FSP_CONFIGURATION = {
 
 
 class CommonConfig:
-    def _generate_common_assign_resource_config_low(self):
+    """Store common configuration here."""
+    def _generate_common_assign_resource_config_low(self) -> CentralCommonConfiguration:
         """
-        Generate common assign resource config
+        Generate common assign resource config.
+
         :return: CentralCommonConfiguration object
         """
         return CentralCommonConfiguration(subarray_id=1)
 
     @encoded
-    def generate_common_assign_resource_config_low(self):
+    def generate_common_assign_resource_config_low(self) -> CentralCommonConfiguration:
         """
-        Generate common assign resource config by calling _generate_common_assign_resource_config_low
+        Generate common assign resource config.
+
         :return:  CentralCommonConfiguration object
         """
         return self._generate_common_assign_resource_config_low()
 
-    def _generate_common_configure_resource_config_low(self):
+    def _generate_common_configure_resource_config_low(self) -> CommonConfiguration:
         """
-        Generate common configure resource config
+        Generate common configure resource config.
+
         :return: CommonConfiguration object
         """
         return CommonConfiguration(config_id="sbi-mvp01-20200325-00001-science_A")
 
     @encoded
-    def generate_common_configure_resource_config_low(self):
+    def generate_common_configure_resource_config_low(self) -> CommonConfiguration:
         """
-        Generate common configure resource config by calling _generate_common_configure_resource_config_low
+        Generate common configure resource config.
+
         :return: CommonConfiguration object
         """
         return self._generate_common_configure_resource_config_low()
 
 
 class SubarrayConfig:
-    def _generate_subarray_configure_resource_config_low(self):
+    """Store configuration for subarray."""
+    def _generate_subarray_configure_resource_config_low(self) -> SubarrayConfiguration:
         """
-        Generate subarray configure resource config
+        Generate subarray configure resource config.
+
         :return: SubarrayConfiguration object
         """
         return SubarrayConfiguration(subarray_name="science period 23")
 
     @encoded
-    def generate_subarray_configure_resource_config_low(self):
+    def generate_subarray_configure_resource_config_low(self) -> SubarrayConfiguration:
         """
-        Generate subarray configure resource config by calling _generate_subarray_configure_resource_config_low
+        Generate subarray configure resource config.
         :return: SubarrayConfiguration object
         """
         return self._generate_subarray_configure_resource_config_low()
 
 
 class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
+    """Store configuration for CSP."""
     csp_subarray_id = "dummy name"
     csp_scan_configure_schema = "https://schema.skao.int/ska-csp-configure/2.5"
     csp_subarray_id_low = "science period 23"
@@ -98,7 +107,8 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
 
     def __init__(self, **kwargs):
         """
-        Initialize CSP Configuration
+        Initialize CSP Configuration.
+
         :param kwargs: Keyword arguments
         :return: None
         """
@@ -109,8 +119,8 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         self,
         target_id: str | None = None,
         subarray_id: int = 1,
-        sb_target_flag=False,
-    ):
+        sb_target_flag: bool = False,
+    ) -> CSPConfiguration | CSPConfigurationPDM:
         """
         Generate CSP Scan Configuration
         :return: CSPConfiguration object
@@ -143,10 +153,11 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         self,
         target_id: str | None = None,
         subarray_id: int = 1,
-        sb_target_flag=False,
-    ):
+        sb_target_flag: bool = False,
+    ) -> CSPConfiguration:
         """
-        Generate CSP Scan Configuration by calling _generate_csp_scan_config
+        Generate CSP Scan Configuration.
+
         :param target_id: Target ID
         :param subarray_id: Subarray ID
         :param sb_target_flag: Subarray target flag
@@ -154,9 +165,9 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         """
         return self._generate_csp_scan_config(target_id, subarray_id, sb_target_flag)
 
-    def _generate_csp_assign_resources_config_low(self):
+    def _generate_csp_assign_resources_config_low(self) -> CentralCSPConfiguration:
         """
-        Generate common assign resource config
+        Generate common assign resource config.
         :return: CentralCSPConfiguration object
         """
         interface = "https://schema.skao.int/ska-low-csp-assignresources/2.0"
@@ -164,16 +175,18 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         return CentralCSPConfiguration(interface=interface, common=common)
 
     @encoded
-    def generate_csp_assign_resources_config_low(self):
+    def generate_csp_assign_resources_config_low(self) -> CentralCSPConfiguration:
         """
-        Generate common assign resource config by calling _generate_csp_assign_resources_config
+        Generate common assign resource config.
+
         :return: CentralCSPConfiguration object
         """
         return self._generate_csp_assign_resources_config_low()
 
-    def _generate_csp_scan_config_low(self):
+    def _generate_csp_scan_config_low(self) -> CSPConfiguration:
         """
-        Generate CSP Scan Configuration
+        Generate CSP Scan Configuration.
+
         :return: CSPConfiguration object
         """
         interface = "https://schema.skao.int/ska-csp-configure/2.5"
@@ -187,17 +200,18 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         )
 
     @encoded
-    def generate_csp_scan_config_low(self):
+    def generate_csp_scan_config_low(self) -> CSPConfiguration:
         """
-        Generate CSP Scan Configuration by calling _generate_csp_scan_config
+        Generate CSP Scan Configuration.
+
         :return: CSPConfiguration object
         """
         return self._generate_csp_scan_config_low()
 
-    def add_fsp_configuration(self, fsp_config):
+    def add_fsp_configuration(self, fsp_config: FSPConfiguration) -> None:
         """
-        Add FSP Configuration
+        Add FSP Configuration.
+
         :param fsp_config: FSP Configuration
-        :return: None
         """
         self.fsp_config = fsp_config

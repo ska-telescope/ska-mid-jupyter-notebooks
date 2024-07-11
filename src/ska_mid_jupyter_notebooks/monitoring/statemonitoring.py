@@ -1,4 +1,4 @@
-"""Helper classes and functions dealing with aggregation of state from tango dev."""
+"""Helper classes and functions dealing with aggregation of state from Tango device."""
 
 import abc
 import functools
@@ -21,17 +21,19 @@ from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 
 
 class RemoteDeviceFactory:
+    """Factory that produces remote devices."""
     def __init__(self, db_host: str) -> None:
         """
-        Initialises RemoteDeviceFactory class
+        Initialise RemoteDeviceFactory class.
+
         :param db_host: database host
-        :return:  None
         """
         self._db_host = db_host
 
     def get_device(self, device_name: str) -> DeviceProxy:
         """
-        Get Device
+        Get Device.
+
         :param: device_name: name of the device
         :return: Device Proxy
         """
@@ -48,7 +50,6 @@ class RemoteDeviceFactory:
 
 class DeviceAttribute(NamedTuple):
     """Alias object of the tango DeviceAttribute."""
-
     value: Any
     time: Any
     type: Any
@@ -57,7 +58,6 @@ class DeviceAttribute(NamedTuple):
 
 class EventData(NamedTuple):
     """Alias object of the tango EventData object."""
-
     attr_name: str
     attr_value: DeviceAttribute
     device: Any
@@ -80,24 +80,23 @@ ACTION = TypeVar("ACTION")
 
 
 class BaseAction(Generic[ACTION]):
-    """Base class objecting representing an producer publishing an action (effect)."""
+    """Base class objecting representing a producer publishing an action (effect)."""
 
     action_id = "base"
 
     def __init__(self, action_state: ACTION) -> None:
         """
         Initialise the object.
+
         :param action_state: The action state representing an "effect" on the system.
-        :return: None
         """
         self._action_state = action_state
         self.source: Union["ActionProducer[ACTION]", None] = None
 
-    def add_source(self, source: "ActionProducer[ACTION]"):
+    def add_source(self, source: "ActionProducer[ACTION]") -> None:
         """
         Add information as to the source producing the particular action in question.
         :param source: the source producing the particular action in question.
-        :return:  None
         """
         self.source = source
 
@@ -108,7 +107,6 @@ class BaseAction(Generic[ACTION]):
         This may be useful when storing the object in a dictionary.
 
         :return: the key (hash) uniquely identifying the object.
-
         """
         assert self.source
         return str(self.source.__hash__())
@@ -129,7 +127,7 @@ GenericEvent = Union[EventData, BaseAction[Any]]
 
 
 class EventsPusher:
-    """And controller object used to push new events onto the system."""
+    """A controller object used to push new events onto the system."""
 
     def __init__(self) -> None:
         """
@@ -140,7 +138,7 @@ class EventsPusher:
         init_list: list[float] = []
         self._polling_keep_alive_timestamps = deque(init_list, maxlen=100)
 
-    def push_event(self, event: GenericEvent):
+    def push_event(self, event: GenericEvent) -> None:
         """
         Push a new event onto the system.
 
@@ -148,7 +146,6 @@ class EventsPusher:
         or an action event produced by the application itself.
 
         :param event: The event that needs to be pushed.
-        :return: None
         """
         if hasattr(event, "event"):
             # then we know it is an tango event and convert to EventData
@@ -169,16 +166,18 @@ class EventsPusher:
             event_data = event
         self._events.put_nowait(event_data)
 
-    def cancel_get(self):
+    def cancel_get(self) -> None:
         """
-        Places a None event on the events queue signalling a cancellation.
+        Place a None event on the events queue signalling a cancellation.
+
         :return: None
         """
         self._events.put_nowait(None)
 
     def _get(self, timeout: Union[float, None] = None) -> GenericEvent:
         """
-        Get an event
+        Get an event.
+
         :param timeout: timeout in seconds
         :return: GenericEvent
         """
@@ -187,22 +186,20 @@ class EventsPusher:
             return event
         raise CancelledError
 
-    def _task_done(self):
-        """
-        Marking event as done
-        :return: None
-        """
+    def _task_done(self) -> None:
+        """Mark event as done."""
         self._events.task_done()
         self._polling_keep_alive_timestamps.append(datetime.now().timestamp())
 
-    def get_last_poll_latency(self):
+    def get_last_poll_latency(self) -> float:
         """
-        Get the last poll latency
+        Get the last poll latency.
+
         :return: last poll latency
         """
         return datetime.now().timestamp() - self._polling_keep_alive_timestamps[-1]
 
-    def get_average_poll_latency(self):
+    def get_average_poll_latency(self) -> float:
         """
         Get the average poll latency
         :return: average poll latency
@@ -216,16 +213,14 @@ class EventsPusher:
             self._polling_keep_alive_timestamps
         )
 
-    def block_until_empty(self):
-        """
-        Wait until all events have been handled.
-        :return: None
-        """
+    def block_until_empty(self) -> None:
+        """Wait until all events have been handled."""
         self._events.join()
 
 
 class ActionProducer(Generic[ACTION]):
-    """An object representing user defined actions (effects) occurring on the system.
+    """
+    An object representing user defined actions (effects) occurring on the system.
 
     Use this in an observer pattern e.g.:
 
@@ -233,14 +228,10 @@ class ActionProducer(Generic[ACTION]):
        action = ActionProducer()
        action.subscribe_action(my_observer)
        action.push_action # my_observer will be called
-
     """
 
     def __init__(self) -> None:
-        """
-        Initialise the object.
-        :return: None
-        """
+        """Initialise the object."""
         self._observers: dict[int, EventsPusher] = {}
         self._index = 0
 
@@ -248,15 +239,16 @@ class ActionProducer(Generic[ACTION]):
         """Add a new  observer to the list of observers.
 
         :param observer: the observer object to receive new action events.
-        :return: a subscription id to be used when unsubscribing.
+        :return: subscription id to be used when unsubscribing.
         """
         index = self._index
         self._observers[index] = observer
         self._index += 1
         return index
 
-    def push_action(self, action_state: ACTION):
-        """Push a new action onto the system.
+    def push_action(self, action_state: ACTION) -> None:
+        """
+        Push a new action onto the system.
 
         This will cause all subscribed observers to be called by their respective
         push_event methods.
@@ -269,12 +261,12 @@ class ActionProducer(Generic[ACTION]):
         for observer in self._observers.values():
             observer.push_event(action)
 
-    def unsubscribe_action(self, sub_id: int):
-        """Unsubscribe an observer (identified by it's subscription id).
+    def unsubscribe_action(self, sub_id: int) -> None:
+        """
+        Unsubscribe an observer (identified by subscription id).
 
         :param sub_id: the subscription id identifying the subscriber
         :type sub_id: int
-        :return: None
         """
         self._observers.pop(sub_id)
 
@@ -286,10 +278,10 @@ class BaseSubscription:
     """Abstract representation of a running subscription that can be started and stopped."""
 
     @abc.abstractmethod
-    def start(self, pusher: EventsPusher):
+    def start(self, pusher: EventsPusher) -> None:
         pass
 
-    def stop(self):
+    def stop(self) -> None:
         pass
 
 
@@ -305,19 +297,17 @@ class ActionSubscription(BaseSubscription, Generic[ACTION]):
         self.producer = producer
         self._sub_id = None
 
-    def start(self, observer: EventsPusher):
+    def start(self, observer: EventsPusher) -> None:
         """
         Start a subscription for a given subscriber.
         :param pusher: the observer to listen for events.
         :type pusher: EventsPusher
-        :return: None
         """
         self._sub_id = self.producer.subscribe_action(observer)
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Stop a running subscription.
-        :return: None
         """
         assert (
             self._sub_id
@@ -326,9 +316,11 @@ class ActionSubscription(BaseSubscription, Generic[ACTION]):
 
 
 class UnableToPollDevice(Exception):
+    """Device that is unable to poll."""
     def __init__(self, device_name: str, attr: str, *args: object) -> None:
         """
-        Initialises UnableToPollDevice class
+        Initialise UnableToPollDevice class.
+
         :param device_name: name of the device
         :param attr: name of the attribute
         :param args: args
@@ -340,9 +332,11 @@ class UnableToPollDevice(Exception):
 
 
 class UnableToFindDevice(Exception):
+    """Device that can not be found."""
     def __init__(self, device_name: str, *args: object) -> None:
         """
-        Initialises UnableToFindDevice class
+        Initialise UnableToFindDevice class.
+
         :param device_name: name of the device
         :param args: args
         :return: None
@@ -352,6 +346,7 @@ class UnableToFindDevice(Exception):
 
 
 class PolledAttribute:
+    """Attribute that is polled."""
     def __init__(
         self,
         device_name: str,
@@ -359,7 +354,8 @@ class PolledAttribute:
         dev_factory: RemoteDeviceFactory,
     ):
         """
-        Initialises PolledAttribute class
+        Initialise PolledAttribute class.
+
         :param device_name: name of the device
         :param attr: name of the attribute
         :param dev_factory: device factory
@@ -370,12 +366,18 @@ class PolledAttribute:
         self._dev_factory = dev_factory
 
     def __hash__(self) -> int:
+        """
+        Bash the hash.
+
+        :return: hash of device name
+        """
         return hash(f"{self.device_name}/{self.attr}")
 
-    def get_state(self):
+    def get_state(self) -> Any:
         """
-        Get the state of the attribute
-        :return: None
+        Get state of attribute.
+
+        :return: state of the attribute
         """
         try:
             dev = self._dev_factory.get_attr_proxy(self.name)
@@ -388,7 +390,8 @@ class PolledAttribute:
     @property
     def name(self) -> str:
         """
-        Get the name of the attribute
+        Get name of attribute.
+
         :return: name of the attribute
         """
         return f"{self.device_name}/{self.attr}"
@@ -411,21 +414,29 @@ SUB_ID = int
 
 
 class AttrEventsPusher(NamedTuple):
+    """Push attribute events."""
     sub_id: SUB_ID
     events_pusher: EventsPusher
 
     def __hash__(self) -> int:
+        """
+        Bash the hash.
+
+        :return: hash of subscriber ID.
+        """
         return hash(f"{self.sub_id}{self.events_pusher}")
 
 
 class HasValue:
+    """Store value and type here."""
     value: Any
     type: Any
 
 
-def _generate_event(name: str, new_value: DeviceAttribute, device: Any):  # type: ignore
+def _generate_event(name: str, new_value: DeviceAttribute, device: Any) -> EventData:  # type: ignore
     """
-    Generate event
+    Generate event.
+
     :param name: name of the attribute
     :param new_value:  Device Attributes
     :param device: Devices
@@ -443,36 +454,34 @@ def _generate_event(name: str, new_value: DeviceAttribute, device: Any):  # type
 
 
 class PollingState:
+    """State of polling."""
     def __init__(self) -> None:
-        """
-        Initialises PollingState class
-        :return: None
-        """
+        """Initialise PollingState class."""
         self._events_to_be_pushed: list[AttrEventsPusher] = []
         self._current_value = None
 
-    def remove(self, events_pushing: AttrEventsPusher):
+    def remove(self, events_pushing: AttrEventsPusher) -> None:
         """
-        Remove events pushing
+        Remove events pushing.
+
         :param events_pushing: attribute events pushing
-        :return: None
         """
         self._events_to_be_pushed.remove(events_pushing)
 
-    def append(self, events_pushing: AttrEventsPusher):
+    def append(self, events_pushing: AttrEventsPusher) -> None:
         """
-        Append events pushing
+        Append events pushing.
+
         :param events_pushing: attribute events pushing
-        :return: None
         """
         self._events_to_be_pushed.append(events_pushing)
 
-    def update_state(self, new_value: DeviceAttribute, device: DeviceProxy):  # type: ignore
+    def update_state(self, new_value: DeviceAttribute, device: DeviceProxy) -> None:
         """
-        Update state
+        Update state.
+
         :param new_value:  Device Attributes
         :param device: Devices
-        :return: None
         """
         value = new_value.value
         if self._current_value != value:
@@ -489,10 +498,10 @@ class DeviceAttrPoller:
         poll_rate: float = 2,
     ) -> None:
         """
-        Initialises DeviceAttrPoller class
+        Initialise DeviceAttrPoller class.
+
         :param poll_rate: poll rate
         :param dev_factory: device factory
-        :return: None
         """
 
         self._poll_rate = poll_rate
@@ -515,7 +524,8 @@ class DeviceAttrPoller:
         dev_factory: RemoteDeviceFactory | None = None,
     ) -> SUB_ID:
         """
-        Add subscription
+        Add subscription.
+
         :param device_name: device name
         :param attr: attribute
         :param events_pusher: events pusher
@@ -546,7 +556,7 @@ class DeviceAttrPoller:
             self._active.set()
         return self._index
 
-    def remove_subscription(self, sub_id: SUB_ID):
+    def remove_subscription(self, sub_id: SUB_ID) -> None:
         """
         Remove subscription
         :param sub_id: subscription id
@@ -564,7 +574,7 @@ class DeviceAttrPoller:
         with self._lock:
             return list(self._device_attribute_pollings.items())
 
-    def _update(self):
+    def _update(self) -> None:
         """
         Update State
         :return: None
@@ -573,38 +583,30 @@ class DeviceAttrPoller:
             result = device_attr.get_state()
             polling_state.update_state(result, device_attr.device)  # type: ignore
 
-    def start(self):
-        """
-        Start polling
-        :return: None
-        """
+    def start(self) -> None:
+        """Start polling."""
         self._active.set()
 
-    def stop(self):
-        """
-        Stop polling
-        :return: None
-        """
+    def stop(self) -> None:
+        """Stop polling."""
         self._active.clear()
 
-    def _polling_thread(self):
-        """
-        Polling Thread
-        :return: None
-        """
+    def _polling_thread(self) -> None:
+        """Thread the polling thing."""
         while self._active:
             self._update()
             time.sleep(self._poll_rate)
 
 
 class UnableToStartSubscription(Exception):
+    """Unable to start subscription."""
     def __init__(self, device_name: str, attr: str, *args: object) -> None:
         """
-        Initialises UnableToStartSubscription class
+        Initialises UnableToStartSubscription class.
+
         :param device_name: name of the device
         :param attr: attribute
         :param args: args
-        :return: None
         """
         super().__init__(*args)
         self.device_name = device_name
@@ -624,12 +626,13 @@ class EventsSubscription(BaseSubscription):
         dev_factory: RemoteDeviceFactory,
         poller: DeviceAttrPoller,
     ) -> None:
-        """Initialise the object.
+        """
+        Initialise the object.
 
         :param device_name: The tango device FQD name
-        :param attr: The attribute of that device to be subscribed to for change events.
-        :param dev_factory: The device factory to use
-        :return: None
+        :param attr: attribute of device to be subscribed to for change events.
+        :param dev_factory: device factory to use
+        :param poller: device attribute poller
         """
         self.attr = attr
         self.device_name = device_name
@@ -638,12 +641,11 @@ class EventsSubscription(BaseSubscription):
         self._dev_factory = dev_factory
         self._device_proxy = dev_factory.get_device(self.device_name)
 
-    def start(self, observer: EventsPusher):
-        """Start a subscription for a given subscriber on a tango device.
+    def start(self, observer: EventsPusher) -> None:
+        """
+        Start a subscription for a given subscriber on a tango device.
 
-        :param pusher: the observer to listen for events.
-        :type pusher: EventsPusher
-        :return: None
+        :param observer: the observer to listen for events.
         """
         if os.getenv("USE_POLLING"):
             try:
@@ -676,11 +678,8 @@ class EventsSubscription(BaseSubscription):
                     cast(Exception, exception).args,
                 ) from exception
 
-    def stop(self):
-        """
-        Stop a running subscription.
-        :return: None
-        """
+    def stop(self) -> None:
+        """Stop a running subscription."""
         assert (
             self._sub_id
         ), "You can not stop a subscription that has not been started, did you call start()?."
@@ -707,18 +706,30 @@ class Reducer(Generic[STATE]):
 
     @abc.abstractmethod
     def reduce(self, state: STATE, event_or_action: GenericEvent) -> STATE:
-        """Returns an updated state based on event or action."""
+        """
+        Returns an updated state based on event or action.
+
+        :return: updated state
+        """
         pass
 
     @abc.abstractmethod
     def generate_subscription(self) -> BaseSubscription:
-        """Generate a running subscription based on the inherent producer."""
+        """
+        Generate a running subscription based on the inherent producer.
+
+        :return: subscription
+        """
         pass
 
     @property
     @abc.abstractmethod
     def key(self) -> str:
-        """Generate a unique key to identify the reducer in a dictionary."""
+        """
+        Generate a unique key to identify the reducer in a dictionary.
+
+        :return: unique key
+        """
         pass
 
 
@@ -735,7 +746,6 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
 
         :param producer: the inherent producer responsible for generating events.
         :param reduce_function: the user provided reduce function.
-        :return: None
         """
         self.producer = producer
         self._reduce_function = reduce_function
@@ -744,9 +754,9 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
         """
         Effects the reduction of the system by running the user provided reduce function.
 
-        :param state: The current state of the system
-        :param event_or_action: The event to be used as input to the reduce function
-        :return: The updated state
+        :param state: current state of the system
+        :param event_or_action: event to be used as input to the reduce function
+        :return: updated state
         """
         action = cast(BaseAction[ACTION], event_or_action)
         return self._reduce_function(state, action.action_state)
@@ -754,7 +764,8 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
     def generate_subscription(self) -> BaseSubscription:
         """
         Generate a running subscription based on the inherent producer.
-        :return: the subscription
+
+        :return: subscription
         """
         return ActionSubscription(self.producer)
 
@@ -762,6 +773,7 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
     def key(self) -> str:
         """
         Generate a unique key to identify the reducer in a dictionary.
+
         :return: the key
         """
         return str(self.producer.__hash__())
@@ -778,7 +790,8 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         dev_factory: RemoteDeviceFactory,
         poller: DeviceAttrPoller,
     ) -> None:
-        """Initialise the object.
+        """
+        Initialise the object.
 
         :param device_name: The FQD name of the tango device
         :param attr_name: The attribute of the device to listen to for events
@@ -793,7 +806,8 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         self._poller = poller
 
     def reduce(self, state: STATE, event_or_action: GenericEvent) -> STATE:
-        """Effects the reduction of the system by running the user provided reduce function.
+        """
+        Effect the reduction of the system by running the user provided reduce function.
 
         :param state: The current state of the system
         :param event_or_action: The event to be used as input to the reduce function
@@ -805,6 +819,7 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
     def generate_subscription(self) -> BaseSubscription:
         """
         Generate a running subscription based on the inherent producer.
+
         :return: BaseSubscription
         """
         return EventsSubscription(
@@ -815,13 +830,15 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
     def key(self):
         """
         Generate a unique key to identify the reducer in a dictionary.
+
         :return: the key
         """
         return event_key(self.device_name, self.attr_name)
 
 
 def event_key(device_name: str, attr_name: str) -> str:
-    """generate an unique name (for use in dicts) based on a device's name and its attribute.
+    """
+    Generate a unique name (for use in dicts) based on a device's name and its attribute.
 
     Note the purpose of this function is to ensure a user can globally lookup an subscription based on
     only the provided device name and attr name as this same method will be used to internally create
@@ -835,7 +852,8 @@ def event_key(device_name: str, attr_name: str) -> str:
 
 
 def explode_from_key(key: str) -> list[str]:
-    """Do the inverse of generating a key (useful for printing out information of a given event.
+    """
+    Do the inverse of generating a key (useful for printing out information of a given event).
 
     :param key: The key identifying the event
     :return: A list containing [<device name>, <device attribute>]
@@ -844,7 +862,8 @@ def explode_from_key(key: str) -> list[str]:
 
 
 def get_event_key(event: Union[EventData, BaseAction[Any]]) -> str:
-    """_summary_
+    """
+    Get event key.
 
     :param event: The event (tango based or action based) in question
     :return: A unique key to identify the event with
@@ -855,26 +874,28 @@ def get_event_key(event: Union[EventData, BaseAction[Any]]) -> str:
         return str(event.__hash__())
 
 
-# type of user provided function that returns a particular value or interpretation from the given state
+# type of user provided function that returns value or interpretation from the given state
 SelectorFunction = Callable[[STATE], VALUE]
 
-# user provided function that does not return anything but simply just observes (e.g. logs or prints out or store)
-# the current state of the system
+# user provided function that does not return anything but simply just observes
+# (e.g. logs or prints out or store) the current state of the system
 ObserveFunction = Callable[[VALUE], None]
 
 
 class Selector(Generic[STATE, VALUE]):
-    """Object representing a user provided selection of state after it has been updated.
+    """
+    Object representing a user provided selection of state after it has been updated.
 
     There are two types of selector functions upon which this object will operate on:
-        1. A global selector function in which the input to the function is the entire state of the system
+        1. A global selector function in which the input to the function is the entire state of
+           the system
         2. A derived selector function using inputs from pre-existing selector functions.
 
     A global selector function implies no inputs need to be provided.
 
-    A derived selector function **does require** input selector functions. Derived selector functions will only be called
-    if the inputs are not the same as previous, otherwise the previous result will simply be returned.
-
+    A derived selector function **does require** input selector functions. Derived selector
+    functions will only be called if the inputs are not the same as previous, otherwise the
+    previous result will simply be returned.
     """
 
     def __init__(
@@ -882,7 +903,8 @@ class Selector(Generic[STATE, VALUE]):
         selector_function: Union[Callable[..., VALUE], Callable[[STATE], VALUE]],
         *inputs: Union["Selector[STATE, Any]", Callable[[STATE], Any]],
     ) -> None:
-        """Initialise the object.
+        """
+        Initialise the object.
 
         :param selector_function: The selector function upon which this object will operate on.
             There are two types of selector functions:
@@ -892,7 +914,6 @@ class Selector(Generic[STATE, VALUE]):
             function. Note the inputs selector function return types need to be of correct type and order.
             The selector function will return the previous result and not perform the actual calculation if the inputs are
             the same as previous.
-        :return: None
         """
         self._selector_function = selector_function
         self._inputs: list[Union[Selector[Any, Any], Selector[STATE, Any]]] = []
@@ -906,7 +927,8 @@ class Selector(Generic[STATE, VALUE]):
         self._previous_input_values = None
 
     def select(self, state: STATE) -> VALUE:
-        """Performs the selector function on the given state.
+        """
+        Performs the selector function on the given state.
 
         Note the selector function will return the previous result and not perform the actual
         calculation if the inputs are the same as previous.
@@ -925,14 +947,16 @@ class Selector(Generic[STATE, VALUE]):
 
 
 class Publisher(Generic[STATE, VALUE]):
-    """Object used to publish the results of selector functions to a given observe function.
+    """
+    Object used to publish the results of selector functions to a given observe function.
 
-    The object is basically just a wrapper over the Selector object with the difference that the,
+    The object is basically just a wrapper over the Selector object with the difference that the
     observer function will not be called with an value if the value did not change.
     """
 
     def __init__(self, selector: Selector[STATE, VALUE], observe: ObserveFunction[VALUE]) -> None:
-        """Initialise the object.
+        """
+        Initialise the object.
 
         :param selector: The selector (with user provided selector function)
         :param observe: the observe function to be called when the state have changed
@@ -943,14 +967,14 @@ class Publisher(Generic[STATE, VALUE]):
         self._observe = observe
         self._previous_result: VALUE | None = None
 
-    def publish(self, state: STATE):
-        """Publish a new selected value if the results are different from previous publish.
+    def publish(self, state: STATE) -> None:
+        """
+        Publish a new selected value if the results are different from previous publish.
 
-        By publish is meant the inherent observe function provided during initialisation will be called.
+        This is the inherent observe function provided during initialisation that will be called.
 
         :param state: _description_
         :type state: STATE
-        :return: None
         """
         result = self._selector.select(state)
         if result != self._previous_result:
@@ -960,28 +984,30 @@ class Publisher(Generic[STATE, VALUE]):
 
 class ReducerSpec(TypedDict):
     """Represents the reduce function to be operated on a given device attribute change event."""
-
     device_name: str
     attr_name: str
     reduce_function: ReduceFunction[Any]
 
 
 class MonState(EventsPusher, Generic[STATE]):
-    """A coordination object responsible for orchestrating the monitoring of events on a provided system.
+    """
+    Coordination object responsible for orchestrating monitoring of events on provided system.
 
-    The object is initialised with a provided system state (in initialised condition), then a set of
-    reducers are specified on the state (with subscriptions added if necessary to realise the reduction of
-    state). Following that a set of observe functions on a set of selector functions is added to enable "listening" to specific
-    changes in derived state of the system.
-    After that the object listening can be activated, causing incoming events from publishers to update
-    the state followed by the user provided observe functions to be called if their corresponding selector functions have
-    a change in calculated value.
+    The object is initialised with a provided system state (in initialised condition), then a
+    set of reducers are specified on the state (with subscriptions added if necessary to realise
+    the reduction of state). Following that a set of observe functions on a set of selector
+    functions is added to enable "listening" to specific changes in derived state of the system.
+    After that the object listening can be activated, causing incoming events from publishers to
+    update the state followed by the user provided observe functions to be called if their
+    corresponding selector functions have a change in calculated value.
     """
 
     def __init__(self, initState: STATE, deployment: TangoDeployment) -> None:
         """
         Initialise the object
-        :return: None
+
+        :param initState: initial state
+        :param deployment: Tango deployment
         """
         super().__init__()
         self.state = initState
@@ -993,11 +1019,15 @@ class MonState(EventsPusher, Generic[STATE]):
         self._dev_factory = RemoteDeviceFactory(deployment.tango_host)
         self._poller = DeviceAttrPoller(self._dev_factory)
 
-    def _add_generic_reducer(self, reducer: Reducer[STATE]):
-        current_reducers = self._reducers[reducer.key]
-        if current_reducers == []:
-            # this means we have not yet created a subscription for this event
+    def _add_generic_reducer(self, reducer: Reducer[STATE]) -> None:
+        """
+        Add generic reducer.
 
+        :param reducer: You know, the thing.
+        """
+        current_reducers = self._reducers[reducer.key]
+        if not current_reducers:
+            # this means we have not yet created a subscription for this event
             self.subscriptions[reducer.key] = reducer.generate_subscription()
         self._reducers[reducer.key].append(reducer)
 
@@ -1006,13 +1036,13 @@ class MonState(EventsPusher, Generic[STATE]):
         device_name: str,
         attr_name: str,
         reduce_function: EventsReducerFunction[STATE],
-    ):
-        """Add a reducer function operating on tango device attribute change events.
+    ) -> None:
+        """
+        Add a reducer function operating on tango device attribute change events.
 
         :param device_name: The FDQ device name
         :param attr_name: The device attribute
-        :param reduce_function: The function to update the state of the system when the attribute changes
-        :return: None
+        :param reduce_function: function to update state of system when attribute changes
         """
         reducer = EventsReducer(
             device_name, attr_name, reduce_function, self._dev_factory, self._poller
@@ -1023,22 +1053,24 @@ class MonState(EventsPusher, Generic[STATE]):
         self,
         producer: ActionProducer[ACTION],
         reduce_function: ActionReducerFunction[STATE, ACTION],
-    ):
-        """Add a reducer function operating on action events occurring on the application.
+    ) -> None:
+        """
+        Add a reducer function operating on action events occurring on the application.
 
-        :param producer: The action producer to be subscribed to for a particular event.
-        :param reduce_function: The reduce function to be called by the provided producer.
-        :return: None
+        :param producer: action producer to be subscribed to for a particular event.
+        :param reduce_function: reduce function to be called by the provided producer.
         """
         reducer = ActionsReducer(producer, reduce_function)
         self._add_generic_reducer(reducer)
 
-    def add_reducers(self, reducers: list[Reducer[STATE]]):
-        """Add a list of predefined reducers to the monitor.
-        This allows for separating the stage of creating reducers from initialising the monitoring object.
+    def add_reducers(self, reducers: list[Reducer[STATE]]) -> None:
+        """
+        Add list of predefined reducers to the monitor.
+
+        This allows for separating the stage of creating reducers from initialising the monitoring
+        object.
 
         :param reducers: The list of reducers to be added
-        :return: None
         """
         for reducer in reducers:
             self._add_generic_reducer(reducer)
@@ -1047,36 +1079,35 @@ class MonState(EventsPusher, Generic[STATE]):
         self,
         observe_function: ObserveFunction[VALUE],
         selector: Selector[STATE, VALUE],
-    ):
-        """Add an observe function to a provided selector function.
+    ) -> None:
+        """
+        Add an observe function to a provided selector function.
 
         This will cause the observe function to be called whenever the selector function calculates
         an updated value.
 
         :param observe_function: The function to be called when the selector function calculation changed.
         :param selector: The selector object to be used for calculating a new value
-        :return: None
         """
         self._publishers.append(Publisher(selector, observe_function))
 
-    def add_publishers(self, publishers: list[Publisher[STATE, Any]]):
-        """Add a list of publishers to th existing list of publishers.
+    def add_publishers(self, publishers: list[Publisher[STATE, Any]]) -> None:
+        """
+        Add a list of publishers to th existing list of publishers.
 
         This can help to separate the creation of observers on selector functions from
         initialising the object.
 
         :param publishers: The list of publishers
-        :return: None
         """
         self._publishers = [*self._publishers, *publishers]
 
-    def start_subscriptions(self):
+    def start_subscriptions(self) -> None:
         """
         Start the subscriptions by actively starting to produce events on subscribers.
 
-        Note an unsuccessful subscription that can not be started will cause the subscription and reducer to
-        be removed.
-        :return: None
+        Note an unsuccessful subscription that can not be started will cause the subscription and
+        reducer to be removed.
         """
         items_to_pop: list[str] = []
         for key, subscription in self.subscriptions.items():
@@ -1093,11 +1124,8 @@ class MonState(EventsPusher, Generic[STATE]):
             self.subscriptions.pop(key)
             self._reducers.pop(key)
 
-    def _listening_daemon(self):
-        """
-        The daemon that listens for events and publishes them
-        :return: None
-        """
+    def _listening_daemon(self) -> None:
+        """The daemon that listens for events and publishes them."""
         counter = 0
         try:
             while self._running.is_set():
@@ -1138,10 +1166,11 @@ class MonState(EventsPusher, Generic[STATE]):
             logging.warning("exiting monitoring loop due to an unknown exception")
             raise exception
 
-    def start_listening(self):
+    def start_listening(self) -> None:
         """
-        Active the monitoring of state by updating and publishing changes in state from incoming events.
-        :return: None
+        Active monitoring of state.
+
+        Updates and publishes changes in state from incoming events.
         """
         self._daemon = Thread(target=self._listening_daemon, daemon=True)
         self._running.set()
@@ -1150,7 +1179,8 @@ class MonState(EventsPusher, Generic[STATE]):
     @property
     def listening_state(self) -> Literal["Running", "Aborted", "Not Started"]:
         """
-        The state of the background thread
+        The state of the background thread.
+
         :return: The state of the background thread
         """
         if self._daemon:
@@ -1160,15 +1190,15 @@ class MonState(EventsPusher, Generic[STATE]):
                 return "Aborted"
         return "Not Started"
 
-    def stop_listening(self, timeout: Union[None, float] = None):
-        """Stop the background threads listening to events and updating the system state.
+    def stop_listening(self, timeout: Union[None, float] = None) -> None:
+        """
+        Stop the background threads listening to events and updating the system state.
 
         Note this will cause the program to wait until the thread has been gracefully stopped
-        and will timeout of the stopping failed to complete withing a given time if one
+        and will time out of the stopping failed to complete withing a given time if one
         is provided.
 
-        :param timeout: the maximum time to wait for thread to finish (unless None), defaults to None
-        :return: None
+        :param timeout: maximum time to wait for thread to finish (unless None), defaults to None
         """
         if self._daemon:
             self._running.clear()

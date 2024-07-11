@@ -17,49 +17,55 @@ class ResourceConfiguration(TypedDict):
 
 
 class Dishes(TargetSpecs):
+    """Store the dishes in this cupboard."""
     @property
     def dishes(self) -> list[ReceptorName]:
         """
-        Returns list of dishes
+        Returns list of dishes.
+
         :return: list of dishes
         """
         return list({dish for target in self.target_specs.values() for dish in target.dish_ids})
 
     @property
-    def dish_allocation(self):
+    def dish_allocation(self) -> DishAllocation:
         """
-        Returns dish allocation
+        Returns dish allocation.
+
         :return: dish allocation object
         """
         adapted_dishes = [dish + "" for dish in self.dishes]
         return DishAllocation(adapted_dishes)
 
     @property
-    def resource_configuration(self):
+    def resource_configuration(self) -> ResourceConfiguration:
         """
-        Returns resource configuration
+        Returns resource configuration.
+
         :return: resource configuration
         """
         adapted_receptors = [dish + "" for dish in self.dishes]
         return ResourceConfiguration(receptors=adapted_receptors)
 
-    def get_pointing_configuration(self, target_id: str | None = None):
+    def get_pointing_configuration(self, target_id: str | None = None) -> PointingConfiguration:
         """
-        Returns pointing configuration
+        Returns pointing configuration.
+
         :param target_id: target id
         :return: pointing configuration
         """
         return PointingConfiguration(self.get_target_spec(target_id).target)
 
-    def get_dish_configuration(self, target_id: str | None = None):
+    def get_dish_configuration(self, target_id: str | None = None) -> DishConfiguration:
         """
-        Returns dish configuration
+        Returns dish configuration.
+
         :param target_id: target id
         :return: dish configuration object
         """
         return DishConfiguration(self.get_target_spec(target_id).band)
 
-    def get_dish_configuration_sb(self, target_id: str | None = None):
+    def get_dish_configuration_sb(self, target_id: str | None = None) -> DishConfiguration:
         """
         Returns dish configuration
         :param target_id: target id

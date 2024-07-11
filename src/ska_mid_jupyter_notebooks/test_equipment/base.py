@@ -1,3 +1,4 @@
+"""Stuff used for test equipment."""
 from typing import Literal
 
 TestDevice = Literal[

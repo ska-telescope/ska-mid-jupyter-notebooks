@@ -1,5 +1,8 @@
-# Taken form https://gitlab.com/ska-telescope/ska-mid-dish-manager/-/blob/main/src/ska_mid_dish_manager/models/dish_enums.py
-# Unfortunately, due to version, incompatibilities we cannot pull this in directly.
+"""Stuff used for dish data."""
+
+# Taken from
+# https://gitlab.com/ska-telescope/ska-mid-dish-manager/-/blob/main/src/ska_mid_dish_manager/models/dish_enums.py
+# Unfortunately, due to version incompatibilities we cannot pull this in directly.
 import enum
 
 

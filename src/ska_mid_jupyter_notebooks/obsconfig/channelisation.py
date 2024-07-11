@@ -1,3 +1,4 @@
+"""Channelisation stuff goes here."""
 from typing import Any
 
 from ska_tmc_cdm.messages.central_node.sdp import Channel, ChannelConfiguration
@@ -45,12 +46,11 @@ class Channelisation(TargetSpecs):
                 },
             }
 
-    def add_channel_configuration(self, config_name: str, spectral_windows: list[Channel]):
+    def add_channel_configuration(self, config_name: str, spectral_windows: list[Channel]) -> None:
         """
         Add channel configuration
         :param config_name: name of the configuration
         :param spectral_windows: list of spectral windows
-        :return: None
         """
         assert (
             self._channel_configurations.get(config_name) is None
@@ -80,7 +80,7 @@ class Channelisation(TargetSpecs):
         return self._channel_configurations[config_name]
 
     @property
-    def target_spec_channels(self):
+    def target_spec_channels(self) -> dict:
         """
         Get the target spec channels
         :return: list of target spec channels
