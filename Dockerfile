@@ -2,7 +2,7 @@ FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0
 
 ARG USER=newuser
 ENV USER ${USER}
-ENV HOME /home/${USER}
+ENV HOME /${USER}
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
 RUN userdel tango
