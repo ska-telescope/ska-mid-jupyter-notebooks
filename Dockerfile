@@ -1,25 +1,26 @@
-FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2
 
-ARG USER=newuser
-ENV USER ${USER}
-ENV HOME /home/${USER}
-ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-RUN userdel tango
-RUN useradd --create-home --home-dir ${HOME} ${USER}
-RUN usermod -u 1000 -g 1000 ${USER}
+# ARG USER=newuser
+# ENV USER ${USER}
+# ENV HOME /home/${USER}
+# ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-USER ${USER}
+# RUN userdel tango
+# RUN useradd --create-home --home-dir ${HOME} ${USER}
+# RUN usermod -u 1000 -g 1000 ${USER}
 
-WORKDIR ${HOME}
+# USER ${USER}
 
-COPY --chown=${USER}:${USER} . ./
+# WORKDIR ${HOME}
 
-RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
-    sed -i '/pytango/d' poetry-requirements.txt && \
-    sed -i '/numpy/d' poetry-requirements.txt && \
-    pip install -r poetry-requirements.txt && \
-    rm poetry-requirements.txt
+# COPY --chown=${USER}:${USER} . ./
 
-ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
-ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
+# RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
+#     sed -i '/pytango/d' poetry-requirements.txt && \
+#     sed -i '/numpy/d' poetry-requirements.txt && \
+#     pip install -r poetry-requirements.txt && \
+#     rm poetry-requirements.txt
+
+# ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
+# ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
