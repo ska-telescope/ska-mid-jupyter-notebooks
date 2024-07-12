@@ -37,21 +37,41 @@ RECEPTORS: list[str] = ["SKA001", "SKA036"]
 
 @pytest.fixture()
 def sut_namespace() -> str:
+    """
+    Get K8S namespace for system under test.
+
+    :return: namespace
+    """
     return SUT_NAMESPACE
 
 
 @pytest.fixture()
 def ska001_namespace() -> str:
+    """
+    Get K8S namespace for dish 1.
+
+    :return: namespace
+    """
     return SKA001_NAMESPACE
 
 
 @pytest.fixture()
 def ska036_namespace() -> str:
+    """
+    Get K8S namespace for dish 36.
+
+    :return: namespace
+    """
     return SKA036_NAMESPACE
 
 
 @pytest.fixture()
 def receptors() -> list[str]:
+    """
+    Get receptor things.
+
+    :return: receptors
+    """
     return RECEPTORS
 
 
@@ -74,7 +94,12 @@ TMC_SCAN_CONFIG_FILE: str = f"{DATA_DIR}/mid_telescope/tmc/scan.json"
 
 
 def get_tango(device_name: str) -> DeviceProxy | None:
-    """Get proxy for Tango device."""
+    """
+    Get proxy for Tango device.
+
+    :param device_name: Tango device name
+    :return: device proxy instance
+    """
     tango_device: DeviceProxy | None
     try:
         tango_device = DeviceProxy(device_name)
@@ -90,19 +115,31 @@ def get_tango(device_name: str) -> DeviceProxy | None:
 
 @pytest.fixture()
 def tmc_scan_config_file() -> str:
-    """Get name of TMC scan configuration file."""
+    """
+    Get name of TMC scan configuration file.
+
+    :return: name of configuration file
+    """
     return TMC_SCAN_CONFIG_FILE
 
 
 @pytest.fixture()
 def assign_resources_file() -> str:
-    """Get name of dish configuration file."""
+    """
+    Get name of dish configuration file.
+
+    :return: name of configuration file
+    """
     return ASSIGN_RESOURCES_FILE
 
 
 @pytest.fixture()
 def dish_config_file() -> str:
-    """Get name of dish configuration file."""
+    """
+    Get name of dish configuration file.
+
+    :return: name of configuration file
+    """
     return DISH_CONFIG_FILE
 
 
@@ -119,6 +156,8 @@ def tmc_central_node() -> DeviceProxy | None:
     Test fixture for Telescope Monitor and Control central node.
 
     Type is CentralNodeMid.
+
+    :return: device proxy instance
     """
     return TMC_CENTRAL_NODE
 
@@ -129,6 +168,8 @@ def tmc_csp_master() -> DeviceProxy | None:
     Test fixture for Telescope Monitor and Control master node.
 
     Type is CspMasterLeafNodeMid.
+
+    :return: device proxy instance
     """
     return TMC_CSP_MASTER
 
@@ -139,6 +180,8 @@ def tmc_csp_subarray() -> DeviceProxy | None:
     Test fixture for Telescope Monitor and Control Central Signal Processor subarray.
 
     Type is CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2).
+
+    :return: device proxy instance
     """
     # TODO not used
     return TMC_CSP_SUBARRAY
@@ -150,6 +193,8 @@ def tmc_subarray() -> DeviceProxy | None:
     Test fixture for Telescope Monitor and Control subarray.
 
     Type is SubarrayNodeMid (ska-tmc-subarraynode v0.18.0).
+
+    :return: device proxy instance
     """
     return TMC_SUBARRAY
 
@@ -165,6 +210,8 @@ def csp_control() -> DeviceProxy | None:
     Test fixture for Central Signal Processor control.
 
     Type is MidCspController (ska_csp_lmc_mid v0.21.0).
+
+    :return: device proxy instance
     """
     return CSP_CONTROL
 
@@ -175,6 +222,8 @@ def csp_subarray() -> DeviceProxy | None:
     Test fixture for Central Signal Processor subarray.
 
     Type is MidCspSubarray (ska-csp-lmc-common v0.22.1).
+
+    :return: device proxy instance
     """
     return CSP_SUBARRAY
 
@@ -190,6 +239,8 @@ def cbf_controller() -> DeviceProxy | None:
     Test fixture for Correlator Beam Former controller.
 
     Type is CbfController (ska_tango_base v0.21.0)
+
+    :return: device proxy instance
     """
     return CBF_CONTROLLER
 
@@ -200,6 +251,8 @@ def cbf_subarray() -> DeviceProxy | None:
     Test fixture for Correlator Beam Former subarray.
 
     Type is CbfSubarray (ska_csp_lmc_mid v0.11.4).
+
+    :return: device proxy instance
     """
     return CBF_SUBARRAY
 
@@ -215,6 +268,8 @@ def dish_leaf_node_ska001() -> DeviceProxy | None:
     Test fixture for dish leaf node 1.
 
     Type is DishLeafNode (ska_tmc_dishleafnode v0.13.2).
+
+    :return: device proxy instance
     """
     # TODO not used
     return DISH_LEAF_NODE_SKA001
@@ -226,6 +281,8 @@ def dish_leaf_node_ska036() -> DeviceProxy | None:
     Test fixture for dish leaf node 36.
 
     Type is DishLeafNode (ska_tmc_dishleafnode v0.13.2).
+
+    :return: device proxy instance
     """
     # TODO not used
     return DISH_LEAF_NODE_SKA036
@@ -237,7 +294,11 @@ SDP_SUBARRAY: DeviceProxy | None = get_tango("mid-sdp/subarray/01")
 
 @pytest.fixture()
 def sdp_subarray() -> DeviceProxy | None:
-    """Test fixture for Science Data Processor subarray."""
+    """
+    Test fixture for Science Data Processor subarray.
+
+    :return: device proxy instance
+    """
     # TODO no such Tango device!
     return SDP_SUBARRAY
 
@@ -254,6 +315,8 @@ def csp_subarray_leaf_node() -> DeviceProxy | None:
     Test fixture for CSP subarray leaf node.
 
     Type is CspSubarrayLeafNodeMid (ska_tmc_cspmasterleafnode v0.16.2).
+
+    :return: device proxy instance
     """
     return CSP_SUBARRAY_LEAF_NODE
 
@@ -264,24 +327,35 @@ def sdp_subarray_leaf_node() -> DeviceProxy | None:
     Test fixture for SDP subarray leaf node.
 
     Type is SdpSubarrayLeafNode (ska_tmc_sdpsubarrayleafnode v0.15.1).
+
+    :return: device proxy instance
     """
     return SDP_SUBARRAY_LEAF_NODE
 
 
 @pytest.fixture()
 def csp_master_leaf_node() -> DeviceProxy | None:
-    """Test fixture for  leaf node"""
+    """
+    Test fixture for master leaf node.
+
+    :return: device proxy instance
+    """
     # TODO determine type/class, library and version
     return CSP_MASTER_LEAF_NODE
 
 
-mid_tld = "svc.miditf.internal.skao.int"
+MID_TLD = "svc.miditf.internal.skao.int"
 DISH_DEPLOYMENTS: list[str] = [
-    f"tango://tango-databaseds.{SKA001_NAMESPACE}.{mid_tld}:10000/mid-dish/dish-manager/SKA001",
-    f"tango://tango-databaseds.{SKA036_NAMESPACE}.{mid_tld}:10000/mid-dish/dish-manager/SKA036",
+    f"tango://tango-databaseds.{SKA001_NAMESPACE}.{MID_TLD}:10000/mid-dish/dish-manager/SKA001",
+    f"tango://tango-databaseds.{SKA036_NAMESPACE}.{MID_TLD}:10000/mid-dish/dish-manager/SKA036",
 ]
 
 
 @pytest.fixture()
 def dish_deployments() -> list[str]:
+    """
+    Test fixture for dish deployments.
+
+    :return: list of deployments
+    """
     return DISH_DEPLOYMENTS

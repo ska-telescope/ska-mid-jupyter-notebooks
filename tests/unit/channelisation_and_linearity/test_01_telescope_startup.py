@@ -111,11 +111,11 @@ def test_export_system_configuration(
     if test_equipment is not None:
         for deployment in [sut, test_equipment, *dish_deployments]:
             caplog.info("Configuration: %s", str(deployment))
-            deployment.export_chart_configuration(output_dir=notebook_output_dir)
+            deployment.export_chart_configuration(output_dir=str(notebook_output_dir))
     else:
         for deployment in [sut, *dish_deployments]:
             caplog.info("Configuration: %s", str(deployment))
-            deployment.export_chart_configuration(output_dir=notebook_output_dir)
+            deployment.export_chart_configuration(output_dir=str(notebook_output_dir))
     caplog.info("System configuration OK")
 
 

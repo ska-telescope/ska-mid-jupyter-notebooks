@@ -7,15 +7,16 @@ import ssl
 import time
 import urllib.error
 import urllib.request
-from typing import Any, Tuple
+from typing import Tuple
 
 import tango
-from astropy.time import Time  # type: ignore[import-untyped]
-from tango import CommunicationFailed, DevFailed, DeviceProxy
+from tango import DevFailed, DeviceProxy
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)
+
+# pylint: disable=duplicate-code
 
 # Use unverified SSL
 # pylint: disable-next=protected-access
@@ -118,6 +119,7 @@ def test_dish_links(ska001_namespace: str, ska036_namespace: str) -> None:
     caplog.info("Dish 036 Taranta dashboard is OK: %s", d001_trnt_devs)
 
 
+# pylint: disable-next=too-many-arguments
 def test_states_on(
     tmc_central_node: DeviceProxy | None,
     csp_control: DeviceProxy | None,
@@ -195,8 +197,8 @@ def load_dish_vcc_config(
     assert tmc_central_node is not None, "TMC central node not loaded"
     assert tmc_csp_master is not None, "TMC CSP master not loaded"
     assert tmc_csp_master.info().dev_type == "CspMasterLeafNodeMid"
-    with open(dish_config_file, encoding="utf-8") as f:
-        dish_config_json = json.load(f)
+    with open(dish_config_file, encoding="utf-8") as cfg_f:
+        dish_config_json = json.load(cfg_f)
     dish_config_json["tm_data_sources"][
         0
     ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
@@ -245,11 +247,11 @@ def test_load_dish_vcc_config(
     tmc_csp_master_t: str = tmc_csp_master.info().dev_type
     caplog.info("Type of tmc_csp_master is %s", tmc_csp_master_t)
     assert tmc_csp_master_t == "CspMasterLeafNodeMid", f"TMC CSP master type is {tmc_csp_master_t}"
-    rc, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
-    assert rc == 0, msg
+    rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
+    assert rval == 0, msg
     caplog.info("Load dish VCC part 2")
-    rc, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
-    assert rc == 0, msg
+    rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
+    assert rval == 0, msg
 
 
 def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:

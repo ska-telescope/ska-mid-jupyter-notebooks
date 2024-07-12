@@ -1,6 +1,6 @@
 """Basic health test."""
 
-# pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module,duplicate-code
 
 import logging
 import os

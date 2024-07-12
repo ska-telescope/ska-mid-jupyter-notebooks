@@ -1,5 +1,7 @@
 """Stuff used for dishes."""
 
+# pylint: disable=duplicate-code
+
 import time
 
 from ska_mid_jupyter_notebooks.cluster.cluster import (

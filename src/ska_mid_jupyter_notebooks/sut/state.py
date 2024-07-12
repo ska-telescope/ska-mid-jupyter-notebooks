@@ -1,5 +1,7 @@
 """Control state of system under test."""
 
+# pylint: disable=duplicate-code
+
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 

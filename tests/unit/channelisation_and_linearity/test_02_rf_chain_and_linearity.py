@@ -1,10 +1,10 @@
 """RF Chain and Linearity Commissioning Test."""
 
-# pylint: disable=broad-except,protected-access
+# pylint: disable=broad-except,protected-access,duplicate-code
 
 import logging
 import time
-from typing import List, Literal
+from typing import Any, List
 
 import tango
 from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
@@ -18,7 +18,10 @@ from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import
 
 from ska_mid_jupyter_notebooks.dish.dish import SPFC, DishManager, SPFRx, TangoDishDeployment
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
-from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
+
+# from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
+
+# mypy: disable-error-code="import-untyped"
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -93,7 +96,7 @@ def test_create_observation_specification(
 
 # 3.7.3 Mid-configuration schema input used by observing commands
 # ---------------------------------------------------------------
-def test_mid_configuration_schema(telescope_monitor_plot: TelescopeMononitorPlot) -> None:
+def test_mid_configuration_schema(telescope_monitor_plot: Any) -> None:
     """
     Use this configuration schema as input for observing commands.
 
@@ -139,7 +142,7 @@ def test_assign_subarray_resources(
     observation: ObservationSB,
     pdm_allocation: SBDefinition | None,
     sub: SubArray | None,
-    telescope_monitor_plot: TelescopeMononitorPlot,
+    telescope_monitor_plot: Any,
 ) -> None:
     """
     Assign the requested resources to a subarray.
@@ -221,7 +224,7 @@ def test_configure_scan(
 # =================
 def test_run_scan(
     sub: SubArray | None,
-    telescope_monitor_plot: TelescopeMononitorPlot,
+    telescope_monitor_plot: Any,
 ) -> None:
     """
     Run the scan.

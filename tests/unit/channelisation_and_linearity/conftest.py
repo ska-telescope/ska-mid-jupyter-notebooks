@@ -1,6 +1,6 @@
 """This module contains test harness elements common to all unit tests."""
 
-# pylint: disable=global-statement,broad-exception-caught
+# pylint: disable=global-statement,broad-except,duplicate-code
 
 import logging
 import os
@@ -42,6 +42,8 @@ from ska_mid_jupyter_notebooks.test_equipment.rendering import (
 )
 from ska_mid_jupyter_notebooks.test_equipment.state import TestEquipmentModel, get_equipment_model
 from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEquipment
+
+# mypy: disable-error-code="import-untyped"
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
@@ -150,6 +152,8 @@ def telescope_state() -> TelescopeModel | None:
     :return: handle for telescope state
     """
     tel_state: TelescopeModel | None
+    if SYSTEM_UNDER_TEST is None:
+        return None
     try:
         caplog.debug("Get telescope state for device model: %s", repr(DEVICE_MODEL))
         tel_state = get_telescope_state(DEVICE_MODEL, SYSTEM_UNDER_TEST)
@@ -241,6 +245,8 @@ def test_equipment_state() -> TestEquipmentModel | None:
     :return: test equipment state
     """
     if not TESTEQ_IN_THE_LOOP:
+        return None
+    if TESTEQ is None:
         return None
     return get_equipment_model(TESTEQ)
 

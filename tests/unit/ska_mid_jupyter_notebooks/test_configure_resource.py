@@ -1,3 +1,7 @@
+"""Test the configuration of resources."""
+
+# pylint: disable=duplicate-code
+
 import json
 
 from ska_oso_pdm.entities.common.target import (
@@ -15,6 +19,8 @@ from ska_tmc_cdm.utils import assert_json_is_equal
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
+
+# mypy: disable-error-code="import-untyped"
 
 VALID_CONFIGURE_RESOURCE_PI16_MID_JSON = """{
   "interface": "https://schema.skao.int/ska-tmc-configure/2.1",
@@ -189,32 +195,25 @@ VALID_CONFIGURE_RESOURCE_MID_JSON = """{
 """
 
 
-def test_validate_csp_configuration_object_using_mid_observation_class():
-    """
-    Validates that Mid CSP config object returned using ObsConfig Observation class
-    """
+def test_validate_csp_configuration_object_using_mid_observation_class() -> None:
+    """Validate that Mid CSP config object returned using ObsConfig Observation class."""
+    return
 
 
-def test_validate_tmc_configuration_object_using_mid_observation_class():
-    """
-    Validates that TMC config object returned using ObsConfig Observation class for Mid
-    """
-
+def test_validate_tmc_configuration_object_using_mid_observation_class() -> None:
+    """Validates that TMC config object returned using ObsConfig Observation class for Mid."""
     obsconfig_tmc_configuration_object = ObservationSB().generate_tmc_scan_config(10)
     valid_tmc_configuration_object = TMCConfigurationSchema().loads(VALID_TMC_BLOCK_PI16_MID_JSON)
     assert obsconfig_tmc_configuration_object == valid_tmc_configuration_object
 
 
-def test_validate_sdp_configuration_object_using_mid_observation_class():
-    """
-    Validates SDP config object returned using ObsConfig Observation class for mid
-    """
+def test_validate_sdp_configuration_object_using_mid_observation_class() -> None:
+    """Validates SDP config object returned using ObsConfig Observation class for mid."""
+    return
 
 
-def test_configure_resource_sb():
-    """
-    Validates that Configure request object returned using ObsConfig Observation class
-    """
+def test_configure_resource_sb() -> None:
+    """Validate that Configure request object returned using ObsConfig Observation class."""
     # Given
     configure_data = dict(json.loads(VALID_CONFIGURE_RESOURCE_MID_JSON))
 
@@ -222,9 +221,9 @@ def test_configure_resource_sb():
     configure_data["csp"]["subarray"]["subarray_name"] = "dummy name"
     configure_data["dish"]["receiver_band"] = "2"
     configure_data.update({"transaction_id": "txn-....-00001"})
-    VALID_CONFIGURE_RESOURCE_MID_JSON_SB = json.dumps(configure_data)
+    valid_configure_resource_mid_json_sb = json.dumps(configure_data)
 
-    DEFAULT_TARGET_SPECS = {
+    default_target_specs = {
         "M87": TargetSpec(
             target_sb_detail={
                 "co_ordinate_type": "Equatorial",
@@ -265,8 +264,9 @@ def test_configure_resource_sb():
     }
 
     observation = ObservationSB()
-    observation.add_target_specs(DEFAULT_TARGET_SPECS)
-    for target_id in DEFAULT_TARGET_SPECS.keys():
+    observation.add_target_specs(default_target_specs)
+    # pylint: disable-next=consider-iterating-dictionary
+    for target_id in default_target_specs.keys():
         observation.add_scan_type_configuration(
             config_name=target_id,
             beams={"vis0": BeamMapping(beam_id="vis0", field_id="M85")},
@@ -278,7 +278,7 @@ def test_configure_resource_sb():
 
     observation.eb_id = "eb-test-20230825-35248"
 
-    pdm_allocation = observation.generate_pdm_object_for_sbd_save(DEFAULT_TARGET_SPECS)
+    pdm_allocation = observation.generate_pdm_object_for_sbd_save(default_target_specs)
 
     configure_object = observation.generate_scan_config_sb(
         pdm_observation_request=pdm_allocation,
@@ -288,4 +288,4 @@ def test_configure_resource_sb():
 
     configure_json = ConfigureRequestSchema().dumps(configure_object)
 
-    assert_json_is_equal(configure_json, VALID_CONFIGURE_RESOURCE_MID_JSON_SB)
+    assert_json_is_equal(configure_json, valid_configure_resource_mid_json_sb)

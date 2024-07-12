@@ -4,7 +4,7 @@
 
 import logging
 import time
-from typing import List
+from typing import Any, List
 
 import pytest
 import tango
@@ -83,7 +83,7 @@ def test_clear_scan_configuration(
 @pytest.mark.xfail
 def test_release_subarray_resources(
     sub: SubArray | None,
-    telescope_monitor_plot: TelescopeMononitorPlot,
+    telescope_monitor_plot: Any,
 ) -> None:
     """
     Release the subarray resources.

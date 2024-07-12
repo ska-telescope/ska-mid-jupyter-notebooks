@@ -1,7 +1,7 @@
-"""Test state monitoring."""
+"""Test monitoring of states."""
 
 from enum import Enum
-from typing import Any, Callable, cast
+from typing import Any, Callable, Generator, cast
 from unittest import mock
 
 import pytest
@@ -18,16 +18,18 @@ from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     Selector,
 )
 
+# mypy: disable-error-code="import-untyped"
 
-def test_selector_call_memoized():
+
+def test_selector_call_memorised() -> None:
     """Test memorised selector call."""
     state = {"foo": "bar", "bar": "foo"}
 
-    def select_foo(_st: dict[str, str]):  # pylint: disable=W0613
+    def select_foo(_st: dict[str, str]) -> Any:  # pylint: disable=W0613
         """Test foo."""
         return state["foo"]
 
-    def select_bar(_st: dict[str, str]):  # pylint: disable=W0613
+    def select_bar(_st: dict[str, str]) -> Any:  # pylint: disable=W0613
         """Test bar."""
         return state["bar"]
 
@@ -37,7 +39,7 @@ def test_selector_call_memoized():
 
     selector_spy = cast(Callable[[dict[str, str]], str], mock.Mock(wraps=selector_function))
 
-    selector = Selector(selector_spy, select_foo, select_bar)
+    selector: Selector = Selector(selector_spy, select_foo, select_bar)
 
     result = selector.select(state)
     assert_that(result).is_equal_to("bar/foo")
@@ -78,7 +80,7 @@ def fxt_mock_provider() -> Provider:
 
 
 @pytest.fixture(name="mock_device")
-def fxt_mock_device(mock_provider: Provider):
+def fxt_mock_device(mock_provider: Provider) -> Generator:
     """
     Get a fixture for a mock device.
 
@@ -96,6 +98,12 @@ def fxt_mock_device(mock_provider: Provider):
 
 @pytest.fixture(name="mock_event")
 def fxt_mock_event(mock_device: mock.Mock) -> EventData:
+    """
+    Test fixture for mock event.
+
+    :param mock_device: mock device
+    :return: event data
+    """
     return EventData(
         "mock_attr",
         DeviceAttribute("value", "time", "type", "mock_attr"),
@@ -107,30 +115,64 @@ def fxt_mock_event(mock_device: mock.Mock) -> EventData:
     )
 
 
+# pylint: disable-next=too-few-public-methods
 class Observer:
-    def __init__(self):
-        self.result = None
+    """Make observations of stuff."""
 
-    def observe_function(self, value: str):
+    def __init__(self) -> None:
+        """Rock and roll."""
+        self.result: str | None = None
+
+    def observe_function(self, value: str) -> None:
+        """
+        Observe that the function still functios.
+
+        :param value: value to observe
+        """
         self.result = value
 
 
 @pytest.fixture(name="mock_observer")
 def fxt_mock_observer() -> Observer:
+    """
+    Test fixture for mock observer.
+
+    :return: observation
+    """
     return Observer()
 
 
 def test_state_monitoring_of_events(
     mock_provider: Provider, mock_event: EventData, mock_observer: Observer
-):
+) -> None:
+    """
+    Test state monitoring of events.
+
+    :param mock_provider:  mock provider
+    :param mock_event: mock event
+    :param mock_observer: mock observer
+    """
     init_state = {"foo": {"bar": "foo"}}
     monitor = MonState(init_state, TangoDeployment("test"))
 
-    def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData):
+    def reducer_set_foo_bar_to_value(state: dict[str, dict[str, str]], event: EventData) -> dict:
+        """
+        Set reducer value.
+
+        :param state: state of affairs
+        :param event: eventual thing
+        :return: dictionary of events
+        """
         state["foo"]["bar"] = event.attr_value.value
         return state
 
     def select_foo_bar(state: dict[str, dict[str, str]]) -> str:
+        """
+        Set things up.
+
+        :param state: state of affairs
+        :return:  dictionary of states
+        """
         return state["foo"]["bar"]
 
     monitor.add_events_reducer("mock_device", "mock_attr", reducer_set_foo_bar_to_value)
@@ -145,20 +187,39 @@ def test_state_monitoring_of_events(
         monitor.stop_listening(10)
 
 
-def test_state_monitoring_of_actions(mock_observer: Observer):
-    init_state: STATE = {"foo": {"bar": "foo"}}
+def test_state_monitoring_of_actions(mock_observer: Observer) -> None:
+    """
+    Test state monitoring of actions.
+    :param mock_observer: mock observer
+    :return:
+    """
+    init_state: STATE = {"foo": {"bar": "foo"}}  # type: ignore[valid-type]
     monitor = MonState(init_state, TangoDeployment("test"))
 
     class ControlActions(Enum):
+        """Store control actions."""
+
         ON = "ON"
         OFF = "OFF"
 
-    def reducer_set_foo_bar_to_input_action(state: STATE, action: ControlActions):  # type: ignore
-        state["foo"]["bar"] = action.value
+    def reducer_set_foo_bar_to_input_action(state: STATE, action: ControlActions) -> STATE:
+        """
+        Set reducer action.
+
+        :param state: state of affairs
+        :param action: control actions
+        """
+        state["foo"]["bar"] = action.value  # type: ignore[index]
         return state
 
     def select_foo_bar(state: STATE) -> str:  # type: ignore
-        return state["foo"]["bar"]
+        """
+        Set things up.
+
+        :param state: state of affairs
+        :return:  dictionary of states
+        """
+        return state["foo"]["bar"]  # type: ignore[index]
 
     controller = ActionProducer[ControlActions]()
 

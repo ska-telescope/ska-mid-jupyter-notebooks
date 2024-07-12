@@ -3,13 +3,16 @@
 import json
 import logging
 import time
+from typing import Any
 
 from astropy.time import Time  # type: ignore[import-untyped]
-from tango import CommunicationFailed, DevFailed, DeviceProxy
+from tango import DevFailed, DeviceProxy
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)
 caplog = logging.getLogger(__name__)
+
+# pylint: disable=duplicate-code
 
 
 def get_tai_from_unix_s(unix_s: float) -> float:
@@ -97,8 +100,8 @@ def test_assign_resources(
     time.sleep(3)
     caplog.info("Subarray should go to idle and receptor IDs should be assigned")
 
-    with open(assign_resources_file, encoding="utf-8") as f:
-        assign_resources_json = json.load(f)
+    with open(assign_resources_file, encoding="utf-8") as res_f:
+        assign_resources_json = json.load(res_f)
         assign_resources_json["dish"]["receptor_ids"] = receptors
         assign_resources_json["sdp"]["resources"]["receptors"] = receptors
 
@@ -214,12 +217,16 @@ def test_configure_obs_state(
     """
     err_count: int = 0
     # TMC subarray
+    assert tmc_subarray is not None, "TMC subarray not loaded"
     try:
-        caplog.info(f"TMC subarray observation state: %s", str(tmc_subarray.obsState))
+        caplog.info("TMC subarray observation state: %s", str(tmc_subarray.obsState))
     except AttributeError as a_err:
         err_count += 1
-        caplog.error("Could not read observation state of TMC Subarray (%s)", tmc_subarray.name())
+        caplog.error(
+            "Could not read observation state of TMC Subarray (%s): %s", tmc_subarray.name(), a_err
+        )
     # CSP Subarray leaf node
+    assert csp_subarray_leaf_node is not None, "CSP Subarray leaf node not loaded"
     try:
         caplog.info(
             "CSP Subarray Observation State: %s", str(csp_subarray_leaf_node.cspSubarrayObsState)
@@ -227,9 +234,12 @@ def test_configure_obs_state(
     except AttributeError as a_err:
         err_count += 1
         caplog.error(
-            "Could not read observation state of SDP Subarray (%s)", csp_subarray_leaf_node.name()
+            "Could not read observation state of SDP Subarray (%s): %s",
+            csp_subarray_leaf_node.name(),
+            str(a_err),
         )
     # SDP Subarray leaf node
+    assert sdp_subarray_leaf_node is not None, "SDP Subarray leaf node not loaded"
     try:
         caplog.info(
             "SDP Subarray Observation State: %s", str(sdp_subarray_leaf_node.cspSubarrayObsState)
@@ -237,6 +247,8 @@ def test_configure_obs_state(
     except AttributeError as a_err:
         err_count += 1
         caplog.error(
-            "Could not read observation state of SDP Subarray (%s)", sdp_subarray_leaf_node.name()
+            "Could not read observation state of SDP Subarray (%s): %s",
+            sdp_subarray_leaf_node.name(),
+            str(a_err),
         )
     assert err_count == 0, f"Could not read {err_count} observation state(s)"

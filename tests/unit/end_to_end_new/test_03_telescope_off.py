@@ -66,6 +66,8 @@ def test_end_scan_hack(
     assert sdp_subarray_leaf_node is not None, "SDP subarray leaf node not loaded"
     assert csp_subarray_leaf_node is not None, "CSP subarray leaf node not loaded"
     caplog.info("CSP Subarray Observation State: %s", csp_subarray_leaf_node.cspSubarrayObsState)
+
+    err_msg: str
     try:
         caplog.info(
             "SDP Subarray Observation State: %s", sdp_subarray_leaf_node.cspSubarrayObsState
@@ -76,11 +78,10 @@ def test_end_scan_hack(
     try:
         sdp_subarray_leaf_node.EndScan()
     except DevFailed as t_err:
-        err_msg: str = t_err.args[0].desc.strip()
+        err_msg = t_err.args[0].desc.strip()
         caplog.error("Could not end scan: %s", err_msg)
         assert 0, err_msg
 
-    rr_msg: str
     try:
         caplog.info(
             "CSP subarray observation state: %s", csp_subarray_leaf_node.cspSubarrayObsState

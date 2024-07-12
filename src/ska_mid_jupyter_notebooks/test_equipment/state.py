@@ -1,5 +1,7 @@
 """Read and write states of test equipment."""
 
+# pylint: disable=duplicate-code
+
 from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (

@@ -1,5 +1,7 @@
 """Implement system under test."""
 
+# pylint: disable=duplicate-code
+
 import json
 import os
 import time

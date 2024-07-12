@@ -1,3 +1,5 @@
+"""Test the configuration of observations."""
+
 from assertpy import assert_that
 from ska_tmc_cdm.messages.central_node.sdp import EBScanTypeBeam
 
@@ -5,10 +7,12 @@ from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ScanTypes
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import get_default_target_specs_sb
 
+# mypy: disable-error-code="import-untyped"
 
-def test_channelisation():
+
+def test_channelisation() -> None:
     """
-    Test to validate channelisation configuration
+    Test to validate channelisation configuration.
     """
     dish_ids = ["SKA001", "SKA036"]
     channelisation = Channelisation(target_specs=get_default_target_specs_sb(dish_ids))
@@ -28,7 +32,8 @@ def test_channelisation():
     )
 
 
-def test_scan_types():
+# pylint: disable-next=too-many-locals
+def test_scan_types() -> None:
     """
     Test to validate ScanTypes configuration
     """
@@ -54,7 +59,7 @@ def test_scan_types():
     assert_that(scan_type_config.scan_type_configurations).contains("dummy")
     beam_grouping_id = target_spec_beams.pop()
     beam_configuration = scan_type_config.get_beam_configurations(beam_grouping_id)
-    new_beam_types: dict[str, EBScanTypeBeam] = dict()
+    new_beam_types: dict[str, EBScanTypeBeam] = {}
     new_beam_types_keys = [f"{key}_dummy" for key in beam_configuration.types.keys()]
     new_beam_type_values = list(beam_configuration.types.values())
     new_beam_types[new_beam_types_keys[0]] = new_beam_type_values[0]
