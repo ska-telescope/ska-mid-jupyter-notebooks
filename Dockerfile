@@ -11,7 +11,7 @@ COPY --chown=${USER}:${USER} . ./
 RUN rm /usr/local/bin/poetry
 USER ${USER}
 ENV POETRY_HOME ${HOME}/.local 
-RUN curl -sSL https://install.python-poetry.org | python3 - # && \
+RUN curl -sSL https://install.python-poetry.org | python3 - && \
     poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
     sed -i '/numpy/d' poetry-requirements.txt && \
