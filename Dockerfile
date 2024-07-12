@@ -10,7 +10,8 @@ WORKDIR ${HOME}
 COPY --chown=${USER}:${USER} . ./
 RUN rm /usr/local/bin/poetry
 USER ${USER}
-RUN pipx install poetry && poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
+RUN pipx install poetry 
+RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
     sed -i '/numpy/d' poetry-requirements.txt && \
     pip install -r poetry-requirements.txt && \
