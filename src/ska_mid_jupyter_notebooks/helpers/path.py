@@ -1,4 +1,5 @@
-"""This is where project data is stored."""
+"""Store the project path."""
+
 import os
 import pathlib
 

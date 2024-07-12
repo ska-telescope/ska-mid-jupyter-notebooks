@@ -1,11 +1,17 @@
 """TMC scan configuration."""
+
 from datetime import timedelta
 
-from ska_tmc_cdm.messages.subarray_node.configure import TMCConfiguration
+from ska_tmc_cdm.messages.subarray_node.configure import (  # type: ignore[import-untyped]
+    TMCConfiguration,
+)
 
 
+# pylint: disable-next=too-few-public-methods
 class TMCConfig:
     """Store the TMC scan configuration."""
+
+    # pylint: disable-next=no-self-use
     def generate_tmc_scan_config(self, scan_duration: float) -> TMCConfiguration:
         """
         Generate tmc scan configuration for a given scan duration

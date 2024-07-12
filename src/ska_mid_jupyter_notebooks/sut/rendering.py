@@ -1,4 +1,5 @@
 """Rendering of system under test."""
+
 from typing import Literal, OrderedDict
 
 from ska_mid_jupyter_notebooks.monitoring.rendering import (
@@ -16,6 +17,7 @@ from ska_mid_jupyter_notebooks.sut.state import (
 
 class TelescopeMononitorPlot(MonitorPlot[BoxLabels, ItemStates]):
     """Monitor telescope plot."""
+
     _items = OrderedDict[BoxLabels, ItemStates](
         {
             "On/Off": "DISABLED",
@@ -34,7 +36,7 @@ class TelescopeMononitorPlot(MonitorPlot[BoxLabels, ItemStates]):
 
     def __init__(self, plot_width: int, plot_height: int) -> None:
         """
-        Initialises TelescopeMononitorPlot class.
+        Initialise TelescopeMononitorPlot class.
 
         :param plot_width: width of the plot
         :param plot_height: height of the plot

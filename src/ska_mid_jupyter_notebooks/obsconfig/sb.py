@@ -1,12 +1,19 @@
 """Storage block stuff."""
+
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from ska_oso_pdm.entities.common.procedures import FilesystemScript, GitScript, PythonArguments
-from ska_oso_pdm.entities.common.sb_definition import MetaData
-from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
-from ska_oso_pdm.entities.sdp.execution_block import ExecutionBlock
-from ska_oso_pdm.entities.sdp.scan_type import BeamMapping
+from ska_oso_pdm.entities.common.procedures import (  # type: ignore[import-untyped]
+    FilesystemScript,
+    GitScript,
+    PythonArguments,
+)
+from ska_oso_pdm.entities.common.sb_definition import MetaData  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.common.scan_definition import (  # type: ignore[import-untyped]
+    ScanDefinition,
+)
+from ska_oso_pdm.entities.sdp.execution_block import ExecutionBlock  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.sdp.scan_type import BeamMapping  # type: ignore[import-untyped]
 
 from ska_mid_jupyter_notebooks.obsconfig.base import encoded, load_next_sb
 from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation
@@ -64,8 +71,11 @@ DEFAULT_SCAN_TYPE = [
 DEFAULT_SCAN_SEQUENCE_LIST = ["Polaris Australis"]
 
 
+# pylint: disable-next=too-few-public-methods
 class ScanDefinitionSB:
-    """Definition of scan."""
+    """Definition of scan storage block."""
+
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         scan_definition_id: str = "Polaris Australis",
@@ -93,7 +103,7 @@ class ScanDefinitionSB:
         self.scan_type_id = scan_type_id
         self.csp_configuration_id = csp_configuration_id
 
-    def get_scan_definition(self):
+    def get_scan_definition(self) -> ScanDefinition:
         """
         Generate Scan Definition Block.
 
@@ -109,8 +119,10 @@ class ScanDefinitionSB:
         )
 
 
+# pylint: disable-next=too-few-public-methods
 class BeamMappingSB:
     """Storage block for beam mapping."""
+
     def __init__(self, beams: Any) -> None:
         """
         Initialize a new instance of the BeamMappingSB class.
@@ -147,17 +159,20 @@ class BeamMappingSB:
 
 
 class MetaDataSB(TargetSpecs):
+    """Metadata for storage block."""
+
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         version: int = 1,
         created_on: datetime = datetime.now(timezone.utc),
         created_by: str = "test_user",
         last_modified_on: datetime = datetime.now(timezone.utc),
-        last_modified_by: str ="test_user",
+        last_modified_by: str = "test_user",
         **kwargs: Any,
     ) -> None:
         """
-        Initialize a new instance of the MetaDataSB class.
+        Initialise a new instance of the MetaDataSB class.
 
         :param version: The version of the metadata.
         :param created_on: The date and time when the metadata was created.
@@ -198,6 +213,8 @@ class MetaDataSB(TargetSpecs):
 
 class ExecutionBlockSpecsSB(ScanTypes, Channelisation, Polarisations):
     """Execution block specs for SB."""
+
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         context: dict[Any, Any] | None = None,
@@ -231,7 +248,7 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelisation, Polarisations):
             context = {}
         self._context = context
         self._max_length = max_length
-        self.eb_id = eb_id
+        self.eb_id: str = str(eb_id)
 
     @property
     def execution_block_sb(self) -> ExecutionBlock:
@@ -246,9 +263,9 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelisation, Polarisations):
 
         channels = self.channels
         polarisations = self.get_polarisations_from_target_specs()
-        sb = load_next_sb()
+        next_sb = load_next_sb()
         return ExecutionBlock(
-            eb_id=sb.eb,
+            eb_id=next_sb.eb,
             context=context,
             max_length=max_length,
             beams=beams,
@@ -258,22 +275,25 @@ class ExecutionBlockSpecsSB(ScanTypes, Channelisation, Polarisations):
         )
 
 
+# pylint: disable-next=too-many-instance-attributes
 class ActivitiesSB:
     """Storage block for activities."""
+
+    # pylint: disable-next=dangerous-default-value,too-many-arguments
     def __init__(
         self,
-        allocate_path="git://scripts/allocate_from_file_mid_sb.py",
-        allocate_repo="https://gitlab.com/ska-telescope/oso/ska-oso-scripting.git",
-        allocate_branch="nak-710-jupyter-scripts",
-        allocate_function_args_init=None,
-        allocate_function_args_main=None,
-        allocate_commit=None,
-        observe_path="git://scripts/observe_mid_sb.py",
-        observe_repo="https://gitlab.com/ska-telescope/oso/ska-oso-scripting.git",
-        observe_branch="nak-710-jupyter-scripts",
-        observe_commit=None,
-        observe_function_args_init=None,
-        observe_function_args_main=None,
+        allocate_path: str = "git://scripts/allocate_from_file_mid_sb.py",
+        allocate_repo: str = "https://gitlab.com/ska-telescope/oso/ska-oso-scripting.git",
+        allocate_branch: str = "nak-710-jupyter-scripts",
+        allocate_function_args_init: dict = {},
+        allocate_function_args_main: dict = {},
+        allocate_commit: Any = None,
+        observe_path: str = "git://scripts/observe_mid_sb.py",
+        observe_repo: str = "https://gitlab.com/ska-telescope/oso/ska-oso-scripting.git",
+        observe_branch: str = "nak-710-jupyter-scripts",
+        observe_commit: Any = None,
+        observe_function_args_init: dict = {},
+        observe_function_args_main: dict = {},
     ) -> None:
         """
         Initialize a new instance of the ActivitiesSB class.
@@ -291,44 +311,44 @@ class ActivitiesSB:
         :param observe_function_args_init: Initialization arguments for the observation script.
         :param observe_function_args_main: Main function arguments for the observation script.
         """
-        default_arguments_init = {
+        default_arguments_init: dict = {
             "args": [],
             "kwargs": {"subarray_id": 1},
         }
 
-        default_arguments_main = {
+        default_arguments_main: dict = {
             "args": [],
             "kwargs": {},
         }
-        self.allocate_function_args_init = (
+        self.allocate_function_args_init: dict = (
             default_arguments_init
             if not allocate_function_args_init
             else allocate_function_args_init
         )
-        self.allocate_function_args_main = (
+        self.allocate_function_args_main: dict = (
             default_arguments_main
             if not allocate_function_args_main
             else allocate_function_args_main
         )
-        self.observe_function_args_init = (
+        self.observe_function_args_init: dict = (
             default_arguments_init
             if not observe_function_args_init
             else observe_function_args_init
         )
-        self.observe_function_args_main = (
+        self.observe_function_args_main: dict = (
             default_arguments_main
             if not observe_function_args_main
             else observe_function_args_main
         )
 
-        self.allocate_path = allocate_path
-        self.allocate_repo = allocate_repo
-        self.allocate_branch = allocate_branch
-        self.allocate_commit = allocate_commit
-        self.observe_path = observe_path
-        self.observe_repo = observe_repo
-        self.observe_branch = observe_branch
-        self.observe_commit = observe_commit
+        self.allocate_path: str = allocate_path
+        self.allocate_repo: str = allocate_repo
+        self.allocate_branch: str = allocate_branch
+        self.allocate_commit: Any = allocate_commit
+        self.observe_path: str = observe_path
+        self.observe_repo: str = observe_repo
+        self.observe_branch: str = observe_branch
+        self.observe_commit: Any = observe_commit
 
     def add_activities_parameters(self, activities_params: dict) -> None:
         """
@@ -342,7 +362,7 @@ class ActivitiesSB:
             else:
                 raise AttributeError(f"'ActivitiesSB' object has no attribute '{key}'")
 
-    def get_activities(self) -> list:
+    def get_activities(self) -> dict:
         """
         Get the allocation and observation activities.
 

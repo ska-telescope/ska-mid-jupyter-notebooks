@@ -1,3 +1,5 @@
+"""Do the dishes."""
+
 from typing import Literal, TypedDict
 
 from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration as sb_dish_configuration
@@ -9,15 +11,20 @@ from ska_tmc_cdm.messages.subarray_node.configure.core import (
 
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
+# mypy: disable-error-code="import-untyped"
+
 ReceptorName = Literal["SKA001", "SKA036", "SKA063", "SKA100"]
 
 
 class ResourceConfiguration(TypedDict):
+    """Store configuration of resources."""
+
     receptors: list[ReceptorName]
 
 
 class Dishes(TargetSpecs):
     """Store the dishes in this cupboard."""
+
     @property
     def dishes(self) -> list[ReceptorName]:
         """
@@ -25,7 +32,14 @@ class Dishes(TargetSpecs):
 
         :return: list of dishes
         """
-        return list({dish for target in self.target_specs.values() for dish in target.dish_ids})
+        # TODO fix the typing
+        return list(
+            {
+                dish  # type: ignore[misc]
+                for target in self.target_specs.values()
+                for dish in target.dish_ids
+            }
+        )
 
     @property
     def dish_allocation(self) -> DishAllocation:
@@ -45,7 +59,8 @@ class Dishes(TargetSpecs):
         :return: resource configuration
         """
         adapted_receptors = [dish + "" for dish in self.dishes]
-        return ResourceConfiguration(receptors=adapted_receptors)
+        # TODO fix the types
+        return ResourceConfiguration(receptors=adapted_receptors)  # type: ignore[typeddict-item]
 
     def get_pointing_configuration(self, target_id: str | None = None) -> PointingConfiguration:
         """

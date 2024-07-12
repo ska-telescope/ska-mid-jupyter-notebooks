@@ -1,10 +1,18 @@
 """Science data processor configuration stuff."""
+
 from typing import Any, Dict, List, NamedTuple, Union
 
-from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
-from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
-from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
-from ska_tmc_cdm.messages.central_node.sdp import (
+from ska_oso_pdm.entities.sdp import (  # type: ignore[import-untyped]
+    BeamMapping,
+    ProcessingBlock,
+    ScanType,
+)
+from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction  # type: ignore[import-untyped]
+from ska_oso_pdm.entities.sdp.processing_block import (  # type: ignore[import-untyped]
+    Script,
+    ScriptKind,
+)
+from ska_tmc_cdm.messages.central_node.sdp import (  # type: ignore[import-untyped]
     BeamConfiguration,
     EBScanType,
     EBScanTypeBeam,
@@ -18,6 +26,7 @@ from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
 class Beamgrouping(NamedTuple):
     """Store beam grouping data."""
+
     id: str
     configuration: BeamConfiguration
     types: dict[str, EBScanTypeBeam]
@@ -25,6 +34,7 @@ class Beamgrouping(NamedTuple):
 
 class BeamgroupingSB(NamedTuple):
     """Store beam grouping SB data."""
+
     id: str
     configuration: Beam
     types: dict[str, BeamMapping]
@@ -98,6 +108,7 @@ DEFAULT_SCAN_SEQUENCE_LIST = ["Polaris Australis"]
 
 class ScanTypes(TargetSpecs):
     """Store scan types here."""
+
     def __init__(
         self,
         additional_beam_groupings: Union[list[Beamgrouping], list[BeamgroupingSB]] | None = None,
@@ -114,8 +125,8 @@ class ScanTypes(TargetSpecs):
         """
         super().__init__(**kwargs)
 
-        self._beam_configurations = DEFAULT_BEAMS_SB
-        self._scan_type_configurations = default_scan_types_sb(self)
+        self._beam_configurations: Any = DEFAULT_BEAMS_SB
+        self._scan_type_configurations: dict[str, ScanType] = default_scan_types_sb(self)
 
         self.scan_sequence_data = DEFAULT_SCAN_SEQUENCE_LIST
 
@@ -135,11 +146,13 @@ class ScanTypes(TargetSpecs):
 
         self._pending_scan_type = None
 
+    # pylint: disable-next=dangerous-default-value,too-many-arguments
     def add_beam_configuration(
         self,
         config_name: str,
         function: Union[str, BeamFunction],
-        beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] | None = None,
+        # beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] | None = None,
+        beam_types: dict[str, Any | Any] = {},
         search_beam_id: int | None = None,
         timing_beam_id: int | None = None,
         vlbi_beam_id: int | None = None,
@@ -152,7 +165,6 @@ class ScanTypes(TargetSpecs):
         :param search_beam_id: search beam id
         :param timing_beam_id: timing beam id
         :param vlbi_beam_id: vlbi beam id
-        :return: None
         """
         assert (
             self._beam_configurations.get(config_name) is None
@@ -210,14 +222,14 @@ class ScanTypes(TargetSpecs):
         :param beams: beams
         :param derive_from: derive from
         """
-        agg_beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] = dict()
+        agg_beam_types: dict[str, Union[EBScanTypeBeam, ScanType]] = {}
 
-        def add_beam(grouping_id: str, beam_type_id: str) -> None:
+        def add_beam(grouping_id: str, beam_type_id: str) -> dict:
             """
             Add a beam
             :param grouping_id: grouping id
             :param beam_type_id: beam type id
-            :return: None
+            :return: dictionary
             """
             beam_configuration = self.get_beam_configurations(grouping_id)
             assert beam_configuration, (
@@ -235,11 +247,14 @@ class ScanTypes(TargetSpecs):
             self._scan_type_configurations.get(config_name) is None
         ), f"configuration {config_name} already exists."
         if isinstance(beams, dict):
+            # TODO this is evil genius stuff
+            beam_types: list | dict
             for beam_grouping_id, beam_types in beams.items():
                 beam_grouping = self._beam_configurations.get(beam_grouping_id)
                 assert beam_grouping, (
                     f"beam configuration {beam_grouping_id} does not exist,"
-                    "you first need to create a beam configuration by calling `add_beam_configuration'"
+                    "you first need to create a beam configuration by calling"
+                    " cat `add_beam_configuration'"
                 )
                 scan_type_data = {"scan_type_id": config_name}
                 if derive_from:
@@ -276,7 +291,7 @@ class ScanTypes(TargetSpecs):
             self._scan_type_configurations[config_name] = eb_scan_type
 
     @property
-    def target_spec_scan_types(self) -> dict:
+    def target_spec_scan_types(self) -> set:
         """
         Get the target spec scan types.
 
@@ -303,8 +318,8 @@ class ScanTypes(TargetSpecs):
         """
         beams = []
         for scan_type in self.scan_types:
-            for beam_X in scan_type.beams:
-                beams.append(beam_X.beam_id)
+            for beam_x in scan_type.beams:
+                beams.append(beam_x.beam_id)
         return set(beams)
 
     @property
@@ -330,12 +345,13 @@ class ScanTypes(TargetSpecs):
         """
         return list(self._scan_type_configurations.keys())
 
-    def get_scan_type_configuration(self, config_name: str) -> ScanTypeConfiguration:
+    def get_scan_type_configuration(self, config_name: str) -> Any:
         """
         Get the scan type configuration.
 
         :return: ScanTypeConfiguration object
         """
+        # TODO where is ScanTypeConfiguration defined?
         assert (
             self._scan_type_configurations.get(config_name) is not None
         ), f"configuration {config_name} does not exist."
@@ -363,13 +379,14 @@ class ScanTypes(TargetSpecs):
     @property
     def pending_scan_type_id(self) -> Any:
         """
-        Get the pending scan type
+        Get the pending scan type.
+
         :return: ScanTypeConfiguration object
         """
         # TODO where is ScanTypeConfiguration defined?
         return self._pending_scan_type
 
-    def add_scan_sequence(self, scan_sequence) -> None:
+    def add_scan_sequence(self, scan_sequence: Any) -> None:
         """
         Add a scan sequence
         :return: None
@@ -379,10 +396,11 @@ class ScanTypes(TargetSpecs):
 
 class ProcessingSpec(NamedTuple):
     """Store processing specification."""
+
     script: ScriptConfiguration
     parameters: dict[Any, Any] = {}
 
-    def __hash__(self) -> hash:
+    def __hash__(self) -> int:
         """
         Do a hash bash.
 
@@ -398,6 +416,7 @@ DEFAULT_SCRIPT_SB_PDM = Script(
 
 class ProcessingSpecs(TargetSpecs):
     """Store processing specification for target."""
+
     def __init__(
         self,
         additional_processing_specs: list[ProcessingSpec] | None = None,
@@ -423,7 +442,7 @@ class ProcessingSpecs(TargetSpecs):
             }
 
     @property
-    def target_processings(self) -> dict:
+    def target_processings(self) -> set:
         """
         Get the target processings.
 
@@ -441,6 +460,7 @@ class ProcessingSpecs(TargetSpecs):
         unique_keys = self.target_processings
         return [self._processing_specs[key] for key in unique_keys]
 
+    # pylint: disable-next=too-many-arguments
     def add_processing_specs(
         self,
         spec_name: str,
@@ -482,9 +502,9 @@ class ProcessingBlockSpec(ProcessingSpecs):
 
         :return: list of processing blocks
         """
-        sb = load_next_sb()
-        self.eb_id = sb.eb
-        self.pb_id = sb.pb
+        next_sb = load_next_sb()
+        self.eb_id = next_sb.eb
+        self.pb_id = next_sb.pb
 
         return [
             ProcessingBlock(
@@ -504,6 +524,7 @@ DEFAULT_POLARISATIONS = {
 
 class Polarisations(TargetSpecs):
     """Store polarisations here."""
+
     def __init__(
         self,
         additional_polarizations: list[PolarisationConfiguration] | None = None,
@@ -533,5 +554,5 @@ class Polarisations(TargetSpecs):
 
         :return: list of polarisations
         """
-        unique_keys = {target.polarisation for target in self.target_specs.values()}
+        unique_keys: set = {target.polarisation for target in self.target_specs.values()}
         return [self.polarizations[key] for key in unique_keys]

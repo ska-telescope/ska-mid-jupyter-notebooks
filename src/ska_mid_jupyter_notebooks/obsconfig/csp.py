@@ -1,4 +1,7 @@
 """This is the Central Signal Processor."""
+
+from typing import Any
+
 from ska_oso_pdm.entities.csp.csp_configuration import CSPConfiguration as CSPConfigurationPDM
 from ska_tmc_cdm.messages.central_node.csp import CommonConfiguration as CentralCommonConfiguration
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CentralCSPConfiguration
@@ -14,6 +17,7 @@ from ska_tmc_cdm.messages.subarray_node.configure.csp import (
 from ska_mid_jupyter_notebooks.obsconfig.base import encoded
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
+# mypy: disable-error-code="import-untyped"
 # pylint: disable=E1101
 
 DEFAULT_FSP_CONFIGURATION = {
@@ -44,6 +48,8 @@ DEFAULT_FSP_CONFIGURATION = {
 
 class CommonConfig:
     """Store common configuration here."""
+
+    # pylint: disable-next=no-self-use
     def _generate_common_assign_resource_config_low(self) -> CentralCommonConfiguration:
         """
         Generate common assign resource config.
@@ -61,6 +67,7 @@ class CommonConfig:
         """
         return self._generate_common_assign_resource_config_low()
 
+    # pylint: disable-next=no-self-use
     def _generate_common_configure_resource_config_low(self) -> CommonConfiguration:
         """
         Generate common configure resource config.
@@ -79,8 +86,11 @@ class CommonConfig:
         return self._generate_common_configure_resource_config_low()
 
 
+# pylint: disable-next=too-few-public-methods
 class SubarrayConfig:
     """Store configuration for subarray."""
+
+    # pylint: disable-next=no-self-use
     def _generate_subarray_configure_resource_config_low(self) -> SubarrayConfiguration:
         """
         Generate subarray configure resource config.
@@ -100,12 +110,13 @@ class SubarrayConfig:
 
 class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
     """Store configuration for CSP."""
+
     csp_subarray_id = "dummy name"
     csp_scan_configure_schema = "https://schema.skao.int/ska-csp-configure/2.5"
     csp_subarray_id_low = "science period 23"
     config_id = "sbi-mvp01-20200325-00001-science_A"
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any):
         """
         Initialize CSP Configuration.
 
@@ -120,7 +131,7 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         target_id: str | None = None,
         subarray_id: int = 1,
         sb_target_flag: bool = False,
-    ) -> CSPConfiguration | CSPConfigurationPDM:
+    ) -> CSPConfigurationPDM | CSPConfiguration:
         """
         Generate CSP Scan Configuration
         :return: CSPConfiguration object
@@ -128,8 +139,8 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
         fsp_config_obj = []
         spec = self.get_target_spec(target_id)
 
-        for k, v in self.fsp_config.items():
-            fsp_config_obj.append(FSPConfiguration(**v))
+        for _key, val in self.fsp_config.items():
+            fsp_config_obj.append(FSPConfiguration(**val))
         band = spec.band
         if not sb_target_flag:
             return CSPConfiguration(
@@ -138,15 +149,14 @@ class CSPconfig(TargetSpecs, CommonConfig, SubarrayConfig):
                 CommonConfiguration(self.eb_id, band, subarray_id),
                 CBFConfiguration(fsp_config_obj),
             )
-        else:
-            return CSPConfigurationPDM(
-                config_id=self.config_id,
-                subarray_config=SubarrayConfiguration(self.csp_subarray_id),
-                common_config=CommonConfiguration(self.eb_id, band, subarray_id),
-                cbf_config=CBFConfiguration(fsp_config_obj),
-                pst_config=None,
-                pss_config=None,
-            )
+        return CSPConfigurationPDM(
+            config_id=self.config_id,
+            subarray_config=SubarrayConfiguration(self.csp_subarray_id),
+            common_config=CommonConfiguration(self.eb_id, band, subarray_id),
+            cbf_config=CBFConfiguration(fsp_config_obj),
+            pst_config=None,
+            pss_config=None,
+        )
 
     @encoded
     def generate_csp_scan_config(

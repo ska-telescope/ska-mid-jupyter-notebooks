@@ -1,4 +1,5 @@
 """Render the monitor e.a."""
+
 from typing import Generic, Literal, OrderedDict, TypeVar
 
 from bokeh.io import push_notebook, show
@@ -39,8 +40,10 @@ T = TypeVar("T", bound=str)
 C = TypeVar("C", bound=str)
 
 
+# pylint: disable-next=too-few-public-methods
 class LabeledBlock(Generic[T, C]):
     """Labels for blocks."""
+
     def __init__(self, text: T, colour: C) -> None:
         """
         Initialises LabeledBlock class
@@ -51,8 +54,10 @@ class LabeledBlock(Generic[T, C]):
         self.colour = colour
 
 
+# pylint: disable-next=too-few-public-methods
 class LabeledBoxesData(Generic[T, C]):
     """Labels for boxes full of data."""
+
     def __init__(
         self,
         x_position: list[float],
@@ -118,8 +123,7 @@ def _sample(start: float, end: float, number: int) -> list[float]:
             *[calc_pos(index) for index in range(1, number - 1)],
             end,
         ]
-    else:
-        return [start, end]
+    return [start, end]
 
 
 MonitoringItems = OrderedDict[Name, Value]
@@ -127,6 +131,7 @@ MonitoringItems = OrderedDict[Name, Value]
 
 class MonitorPlot(Generic[Name, Value]):
     """Monitor the thickening plot."""
+
     def __init__(
         self,
         plot_width: int,

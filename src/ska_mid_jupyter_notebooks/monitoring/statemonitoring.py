@@ -1,5 +1,7 @@
 """Helper classes and functions dealing with aggregation of state from Tango device."""
 
+# pylint: disable=too-many-lines
+
 import abc
 import functools
 import logging
@@ -22,6 +24,7 @@ from ska_mid_jupyter_notebooks.cluster.cluster import TangoDeployment
 
 class RemoteDeviceFactory:
     """Factory that produces remote devices."""
+
     def __init__(self, db_host: str) -> None:
         """
         Initialise RemoteDeviceFactory class.
@@ -34,22 +37,23 @@ class RemoteDeviceFactory:
         """
         Get Device.
 
-        :param: device_name: name of the device
-        :return: Device Proxy
+        :param: device_name: device name
+        :return: device proxy
         """
         return DeviceProxy(f"tango://{self._db_host}/{device_name}")
 
     def get_attr_proxy(self, att_name: str) -> AttributeProxy:
         """
         Get Attribute Proxy
-        :param: att_name: name of the attribute
-        :return: Attribute Proxy
+        :param: att_name: attribute name
+        :return: attribute proxy
         """
         return AttributeProxy(f"tango://{self._db_host}/{att_name}")
 
 
 class DeviceAttribute(NamedTuple):
     """Alias object of the tango DeviceAttribute."""
+
     value: Any
     time: Any
     type: Any
@@ -58,6 +62,7 @@ class DeviceAttribute(NamedTuple):
 
 class EventData(NamedTuple):
     """Alias object of the tango EventData object."""
+
     attr_name: str
     attr_value: DeviceAttribute
     device: Any
@@ -69,7 +74,8 @@ class EventData(NamedTuple):
     @property
     def key(self) -> str:
         """
-        Get event key
+        Get event key.
+
         :return: event key
         """
         return event_key(self.device.name(), self.attr_name)
@@ -148,7 +154,7 @@ class EventsPusher:
         :param event: The event that needs to be pushed.
         """
         if hasattr(event, "event"):
-            # then we know it is an tango event and convert to EventData
+            # we know it is a Tango event - convert to EventData
             event = cast(EventData, event)
             if event.attr_value:
                 event_data = EventData(
@@ -163,7 +169,7 @@ class EventsPusher:
             else:  # TODO handle way to recognize error events  # pylint: disable=W0511
                 return
         else:
-            event_data = event
+            event_data = event  # type: ignore[assignment]
         self._events.put_nowait(event_data)
 
     def cancel_get(self) -> None:
@@ -270,7 +276,8 @@ class ActionProducer(Generic[ACTION]):
         """
         self._observers.pop(sub_id)
 
-    def __hash__(self) -> int:  # pylint: disable=W0246
+    # pylint: disable-next=bad-option-value,useless-super-delegation
+    def __hash__(self) -> int:
         return super().__hash__()
 
 
@@ -279,9 +286,11 @@ class BaseSubscription:
 
     @abc.abstractmethod
     def start(self, pusher: EventsPusher) -> None:
+        """Start the show."""
         pass
 
     def stop(self) -> None:
+        """Stop the show."""
         pass
 
 
@@ -295,13 +304,13 @@ class ActionSubscription(BaseSubscription, Generic[ACTION]):
         :return: None
         """
         self.producer = producer
-        self._sub_id = None
+        self._sub_id: int | None = None
 
     def start(self, observer: EventsPusher) -> None:
         """
         Start a subscription for a given subscriber.
-        :param pusher: the observer to listen for events.
-        :type pusher: EventsPusher
+
+        :param observer: the observer to listen for events.
         """
         self._sub_id = self.producer.subscribe_action(observer)
 
@@ -317,6 +326,7 @@ class ActionSubscription(BaseSubscription, Generic[ACTION]):
 
 class UnableToPollDevice(Exception):
     """Device that is unable to poll."""
+
     def __init__(self, device_name: str, attr: str, *args: object) -> None:
         """
         Initialise UnableToPollDevice class.
@@ -333,13 +343,13 @@ class UnableToPollDevice(Exception):
 
 class UnableToFindDevice(Exception):
     """Device that can not be found."""
+
     def __init__(self, device_name: str, *args: object) -> None:
         """
         Initialise UnableToFindDevice class.
 
         :param device_name: name of the device
         :param args: args
-        :return: None
         """
         super().__init__(*args)
         self.device_name = device_name
@@ -347,6 +357,7 @@ class UnableToFindDevice(Exception):
 
 class PolledAttribute:
     """Attribute that is polled."""
+
     def __init__(
         self,
         device_name: str,
@@ -399,7 +410,8 @@ class PolledAttribute:
     @property
     def device(self) -> DeviceProxy:  # type: ignore
         """
-        Get the device
+        Get the device.
+
         :return: device
         """
         try:
@@ -410,11 +422,13 @@ class PolledAttribute:
             ) from exception
 
 
+# pylint: disable-next=invalid-name
 SUB_ID = int
 
 
 class AttrEventsPusher(NamedTuple):
     """Push attribute events."""
+
     sub_id: SUB_ID
     events_pusher: EventsPusher
 
@@ -427,13 +441,17 @@ class AttrEventsPusher(NamedTuple):
         return hash(f"{self.sub_id}{self.events_pusher}")
 
 
+# pylint: disable-next=too-few-public-methods
 class HasValue:
     """Store value and type here."""
+
     value: Any
     type: Any
 
 
-def _generate_event(name: str, new_value: DeviceAttribute, device: Any) -> EventData:  # type: ignore
+def _generate_event(
+    name: str, new_value: DeviceAttribute, device: Any
+) -> EventData:  # type: ignore
     """
     Generate event.
 
@@ -455,6 +473,7 @@ def _generate_event(name: str, new_value: DeviceAttribute, device: Any) -> Event
 
 class PollingState:
     """State of polling."""
+
     def __init__(self) -> None:
         """Initialise PollingState class."""
         self._events_to_be_pushed: list[AttrEventsPusher] = []
@@ -491,7 +510,10 @@ class PollingState:
                 event_to_be_pushed.events_pusher.push_event(event)  # type: ignore
 
 
+# pylint: disable-next=too-many-instance-attributes
 class DeviceAttrPoller:
+    """Poll device attributes."""
+
     def __init__(
         self,
         dev_factory: RemoteDeviceFactory,
@@ -558,7 +580,8 @@ class DeviceAttrPoller:
 
     def remove_subscription(self, sub_id: SUB_ID) -> None:
         """
-        Remove subscription
+        Remove subscription.
+
         :param sub_id: subscription id
         :return: None
         """
@@ -600,6 +623,7 @@ class DeviceAttrPoller:
 
 class UnableToStartSubscription(Exception):
     """Unable to start subscription."""
+
     def __init__(self, device_name: str, attr: str, *args: object) -> None:
         """
         Initialises UnableToStartSubscription class.
@@ -693,7 +717,7 @@ STATE = TypeVar("STATE")  # STATE defines the current state of the entity being 
 VALUE = TypeVar("VALUE")  # VALUE is the particular derived value obtained from querying the state
 
 
-# user defined function that updates (returns) the given state based on an given action
+# user defined function that updates (returns) the given state based on a given action
 ActionReducerFunction = Callable[[STATE, ACTION], STATE]
 # user defined function that updates (returns) the given state based on given EventData
 EventsReducerFunction = Callable[[STATE, EventData], STATE]
@@ -782,6 +806,7 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
 class EventsReducer(Reducer[STATE], Generic[STATE]):
     """Concrete implementation of a Reducer for Tango Device change events."""
 
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         device_name: str,
@@ -827,7 +852,7 @@ class EventsReducer(Reducer[STATE], Generic[STATE]):
         )
 
     @property
-    def key(self):
+    def key(self) -> str:
         """
         Generate a unique key to identify the reducer in a dictionary.
 
@@ -840,9 +865,9 @@ def event_key(device_name: str, attr_name: str) -> str:
     """
     Generate a unique name (for use in dicts) based on a device's name and its attribute.
 
-    Note the purpose of this function is to ensure a user can globally lookup an subscription based on
-    only the provided device name and attr name as this same method will be used to internally create
-    ids within the module.
+    Note the purpose of this function is to ensure a user can globally look up a subscription
+    based on only the provided device name and attr name as this same method will be used to
+    internally create ids within the module.
 
     :param device_name: The FDQ device name
     :param attr_name: The device attribute
@@ -870,8 +895,7 @@ def get_event_key(event: Union[EventData, BaseAction[Any]]) -> str:
     """
     if isinstance(event, EventData):
         return event_key(event.device.name(), event.attr_name)
-    else:
-        return str(event.__hash__())
+    return str(event.__hash__())
 
 
 # type of user provided function that returns value or interpretation from the given state
@@ -882,6 +906,7 @@ SelectorFunction = Callable[[STATE], VALUE]
 ObserveFunction = Callable[[VALUE], None]
 
 
+# pylint: disable-next=too-few-public-methods
 class Selector(Generic[STATE, VALUE]):
     """
     Object representing a user provided selection of state after it has been updated.
@@ -906,15 +931,21 @@ class Selector(Generic[STATE, VALUE]):
         """
         Initialise the object.
 
-        :param selector_function: The selector function upon which this object will operate on.
-            There are two types of selector functions:
-                1. A global selector function in which the input to the function is the entire state of the system
-                2. A derived selector function using inputs from pre-existing selector functions.
-        :param inputs: input selector functions (if of type 2) that will provide the input args to the selector
-            function. Note the inputs selector function return types need to be of correct type and order.
-            The selector function will return the previous result and not perform the actual calculation if the inputs are
-            the same as previous.
+        There are two types of selector functions:
+            1. A global selector function in which the input to the function is the entire
+               state of the system
+            2. A derived selector function using inputs from pre-existing selector functions.
+
+        The input selector functions (if of type 2) will provide the input args to the selector
+        function. Note the inputs selector function return types need to be of correct type and
+        order. The selector function will return the previous result and not perform the actual
+        calculation if the inputs are the same as previous.
+
+        :param selector_function: selector function upon which this object will operate
+        :param inputs: input selector functions
         """
+        self._previous_result: VALUE
+
         self._selector_function = selector_function
         self._inputs: list[Union[Selector[Any, Any], Selector[STATE, Any]]] = []
         for input_args in inputs:
@@ -923,21 +954,20 @@ class Selector(Generic[STATE, VALUE]):
                 self._inputs.append(Selector(input_args))
             else:
                 self._inputs.append(input_args)
-        self._previous_result = None
-        self._previous_input_values = None
+        self._previous_input_values: list = []
 
     def select(self, state: STATE) -> VALUE:
         """
-        Performs the selector function on the given state.
+        Perform the selector function on the given state.
 
-        Note the selector function will return the previous result and not perform the actual
+        Note that the selector function will return the previous result and not perform the actual
         calculation if the inputs are the same as previous.
 
         :param state: The input state.
-        :return: The derived or selected value. (this will be the same as previous if no inputs changed)
+        :return: derived or selected value (will be the same as previous if no inputs changed)
         """
         if self._inputs:
-            input_values = [input.select(state) for input in self._inputs]
+            input_values = [input_val.select(state) for input_val in self._inputs]
             if input_values != self._previous_input_values:
                 self._previous_input_values = input_values
                 self._previous_result = self._selector_function(*input_values)
@@ -946,12 +976,13 @@ class Selector(Generic[STATE, VALUE]):
         return self._selector_function(state)
 
 
+# pylint: disable-next=too-few-public-methods
 class Publisher(Generic[STATE, VALUE]):
     """
     Object used to publish the results of selector functions to a given observe function.
 
     The object is basically just a wrapper over the Selector object with the difference that the
-    observer function will not be called with an value if the value did not change.
+    observer function will not be called with a value if the value did not change.
     """
 
     def __init__(self, selector: Selector[STATE, VALUE], observe: ObserveFunction[VALUE]) -> None:
@@ -984,11 +1015,13 @@ class Publisher(Generic[STATE, VALUE]):
 
 class ReducerSpec(TypedDict):
     """Represents the reduce function to be operated on a given device attribute change event."""
+
     device_name: str
     attr_name: str
     reduce_function: ReduceFunction[Any]
 
 
+# pylint: disable-next=too-many-instance-attributes
 class MonState(EventsPusher, Generic[STATE]):
     """
     Coordination object responsible for orchestrating monitoring of events on provided system.
@@ -1086,8 +1119,8 @@ class MonState(EventsPusher, Generic[STATE]):
         This will cause the observe function to be called whenever the selector function calculates
         an updated value.
 
-        :param observe_function: The function to be called when the selector function calculation changed.
-        :param selector: The selector object to be used for calculating a new value
+        :param observe_function: function to be called when selector function calculation change
+        :param selector: selector object to be used for calculating a new value
         """
         self._publishers.append(Publisher(selector, observe_function))
 
@@ -1134,24 +1167,26 @@ class MonState(EventsPusher, Generic[STATE]):
                 except CancelledError:
                     return
                 state = self.state
-                # first we reduce the state but we make it "unbreakable" since the thread must always run
+                # reduce the state, but we make it "unbreakable" since the thread must always run
                 event_key_input = event.key
                 reducers_to_remove: list[int] = []
                 if reducers := self._reducers.get(event_key_input):
                     for index, reducer in enumerate(reducers):
                         try:
                             state = reducer.reduce(state, event)
-                        except Exception as exception:  # pylint: disable=broad-exception-caught
+                        # pylint: disable-next=broad-except
+                        except Exception as exception:
                             logging.exception(exception.args)
                             reducers_to_remove.append(index)
                     for index in reducers_to_remove:
                         reducers.pop(index)
-                # then whe publish results but we make it "unbreakable" since the thread must always run
+                # we publish results, but we make it "unbreakable" since the thread must always run
                 publishers_to_remove: list[int] = []
                 for index, publisher in enumerate(self._publishers):
                     try:
                         publisher.publish(state)
-                    except Exception as exception:  # pylint: disable=broad-exception-caught
+                    # pylint: disable-next=broad-except
+                    except Exception as exception:
                         logging.exception(exception.args)
                         publishers_to_remove.append(index)
                 for index in publishers_to_remove:

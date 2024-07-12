@@ -1,3 +1,5 @@
+"""Test state monitoring."""
+
 from enum import Enum
 from typing import Any, Callable, cast
 from unittest import mock
@@ -18,16 +20,20 @@ from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
 
 
 def test_selector_call_memoized():
+    """Test memorised selector call."""
     state = {"foo": "bar", "bar": "foo"}
 
-    def select_foo(st: dict[str, str]):  # pylint: disable=W0613
+    def select_foo(_st: dict[str, str]):  # pylint: disable=W0613
+        """Test foo."""
         return state["foo"]
 
-    def select_bar(st: dict[str, str]):  # pylint: disable=W0613
+    def select_bar(_st: dict[str, str]):  # pylint: disable=W0613
+        """Test bar."""
         return state["bar"]
 
-    def selector_function(x: str, y: str) -> str:
-        return f"{x}/{y}"
+    def selector_function(f_x: str, f_y: str) -> str:
+        """Select the thing."""
+        return f"{f_x}/{f_y}"
 
     selector_spy = cast(Callable[[dict[str, str]], str], mock.Mock(wraps=selector_function))
 
@@ -42,24 +48,43 @@ def test_selector_call_memoized():
 
 
 class Provider:
+    """Provide the provisions."""
+
     def __init__(self) -> None:
         self.subscribers: list[EventsPusher] = []
 
-    def add_subscriber(self, _: str, __: Any, pusher: EventsPusher):
+    def add_subscriber(self, _: str, __: Any, pusher: EventsPusher) -> None:
+        """Add a subscriber."""
         self.subscribers.append(pusher)
 
-    def push_event(self, event: EventData):
+    def push_event(self, event: EventData) -> None:
+        """
+        Push an event.
+
+        :param event: event to be pushed
+        """
         for subscriber in self.subscribers:
             subscriber.push_event(event)
 
 
 @pytest.fixture(name="mock_provider")
 def fxt_mock_provider() -> Provider:
+    """
+    Get a fixture for a mock provider.
+
+    :return: provider fixture
+    """
     return Provider()
 
 
 @pytest.fixture(name="mock_device")
 def fxt_mock_device(mock_provider: Provider):
+    """
+    Get a fixture for a mock device.
+
+    :param mock_provider: mock provider
+    :return: fixture for provider
+    """
     with mock.patch(
         "ska_mid_jupyter_notebooks.monitoring.statemonitoring.DeviceProxy"
     ) as mock_device:

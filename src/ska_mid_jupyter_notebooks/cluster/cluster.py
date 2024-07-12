@@ -1,6 +1,8 @@
 """Stuff used for cluster."""
+
 import enum
 import pathlib
+import re
 from typing import Any, List
 
 from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
@@ -18,9 +20,12 @@ from tango import Database, DeviceProxy
 
 class TangoDeviceProxy:
     """Yet another wrapper for Tango device proxies."""
+
     def __init__(self, device_proxy: Any):
         self._device_proxy = device_proxy
+        # pylint: disable-next=unnecessary-comprehension
         self._attributes = {attr for attr in self._device_proxy.get_attribute_list()}
+        # pylint: disable-next=unnecessary-comprehension
         self._commands = {cmd for cmd in self._device_proxy.get_command_list()}
 
     @property
@@ -71,8 +76,11 @@ class TangoDeviceProxy:
         return self.__getattribute__(name)
 
 
+# pylint: disable-next=too-many-instance-attributes
 class TangoDeployment:
-    """Deply Tango devices."""
+    """Deploy Tango devices."""
+
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         namespace: str,
@@ -124,6 +132,7 @@ class TangoDeployment:
         """
         return f"{self.tango_host}/{name}"
 
+    # pylint: disable-next=invalid-name
     def dp(self, name: str) -> Any:
         """
         Get device proxy.
@@ -150,8 +159,6 @@ class TangoDeployment:
         :param pattern: pattern
         :return: bool
         """
-        import re
-
         if re.findall(pattern, value):
             return False
         return True
@@ -165,12 +172,14 @@ class TangoDeployment:
         """
         if self._devices:
             return self._devices
+        # pylint: disable-next=unnecessary-comprehension
         base: list[str] = [
             dev for dev in Database(self._tango_host, self._tango_port).get_device_exported("*")
         ]
         self._devices = [
             item
             for item in base
+            # pylint: disable-next=use-a-generator
             if all([self._not_in(item, pattern) for pattern in self._devices_to_ignore])
         ]
         return self._devices
@@ -256,6 +265,10 @@ class TangoDeployment:
 
 class Environment(enum.IntEnum):
     """Set environment for on-demand deployments, integration or staging"""
-    CI = 0  # For on-demand deployments
+
+    # For on-demand deployments
+    CI = 0
+    # pylint: disable-next=invalid-name
     Integration = 1
+    # pylint: disable-next=invalid-name
     Staging = 2

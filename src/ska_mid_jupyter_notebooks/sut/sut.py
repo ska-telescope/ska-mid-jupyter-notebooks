@@ -1,4 +1,5 @@
 """Implement system under test."""
+
 import json
 import os
 import time
@@ -15,6 +16,7 @@ from ska_mid_jupyter_notebooks.cluster.cluster import (
 
 class TMCCentralNode(TangoDeviceProxy):
     """Implement Telescope monitor and control central node."""
+
     def __init__(self, tango_deployment: TangoDeployment):
         """
         Rock and roll.
@@ -35,6 +37,7 @@ class TMCCentralNode(TangoDeviceProxy):
 
 class TMCSubarrayNode(TangoDeviceProxy):
     """Implement Telescope monitor and control subarray node."""
+
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
         """
         Rock and roll.
@@ -48,6 +51,7 @@ class TMCSubarrayNode(TangoDeviceProxy):
 
 class TMCCSPMasterLeafNode(TangoDeviceProxy):
     """Implement Telescope monitor and control master leaf node."""
+
     def __init__(self, tango_deployment: TangoDeployment):
         """
         Rock and roll.
@@ -59,6 +63,7 @@ class TMCCSPMasterLeafNode(TangoDeviceProxy):
 
 class CSPController(TangoDeviceProxy):
     """Implement CSP controller."""
+
     def __init__(self, tango_deployment: TangoDeployment):
         """
         Rock and roll.
@@ -70,6 +75,7 @@ class CSPController(TangoDeviceProxy):
 
 class CSPSubarray(TangoDeviceProxy):
     """Implement CSP subarray."""
+
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
         """
         Rock and roll.
@@ -83,6 +89,7 @@ class CSPSubarray(TangoDeviceProxy):
 
 class SDPController(TangoDeviceProxy):
     """Implement science data processor controller."""
+
     def __init__(self, tango_deployment: TangoDeployment):
         """
         Rock and roll.
@@ -94,6 +101,7 @@ class SDPController(TangoDeviceProxy):
 
 class SDPSubarray(TangoDeviceProxy):
     """Implement science data processor subarray."""
+
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
         """
         Rock and roll.
@@ -107,6 +115,7 @@ class SDPSubarray(TangoDeviceProxy):
 
 class CBFController(TangoDeviceProxy):
     """Implement correlator beam former controller."""
+
     def __init__(self, tango_deployment: TangoDeployment):
         """
         Rock and roll.
@@ -118,6 +127,7 @@ class CBFController(TangoDeviceProxy):
 
 class CBFSubarray(TangoDeviceProxy):
     """Implement correlator beam former subarray."""
+
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
         """
         Rock and roll.

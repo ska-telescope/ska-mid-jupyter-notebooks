@@ -1,4 +1,5 @@
 """Read and write states of test equipment."""
+
 from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
@@ -17,12 +18,14 @@ from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEqu
 
 class DeviceNameAndState(NamedTuple):
     """Store device name and state."""
+
     device_name: str
     device_state: DeviceDevState
 
 
 class EquipmentState(TypedDict):
     """Store states of test equipment."""
+
     devices_states: dict[str, DeviceDevState]
 
 
@@ -114,8 +117,8 @@ class TestEquipmentModel:
         def _select_device_attr(state: EquipmentState) -> DeviceNameAndState:
             """
             Select device attributes
-            :param state: Equipment state
-            :return: DeviceNameAndState
+            :param state: equipment state
+            :return: device name and state
             """
             state_val = state["devices_states"][event_key(device_name, attr)]
             return DeviceNameAndState(device_name, state_val)
@@ -129,7 +132,6 @@ class TestEquipmentModel:
         Subscribe to test equipment state.
 
         :param observe_function: Observe function
-        :return: None
         """
         input_test_equipment_states = [
             self._generate_select_device_name_and_attr_state(device, "state")
@@ -156,6 +158,7 @@ class TestEquipmentModel:
     def state(self) -> EquipmentState:
         """
         Get state.
+
         :return: Equipment state
         """
         if not self._active:
@@ -165,10 +168,7 @@ class TestEquipmentModel:
         return self.state_monitor.state
 
     def activate(self) -> None:
-        """
-        Activate monitor.
-        :return: None
-        """
+        """Activate monitor."""
         if not self._active:
             self.state_monitor.start_subscriptions()
             self.state_monitor.start_listening()

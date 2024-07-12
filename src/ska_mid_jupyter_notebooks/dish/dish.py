@@ -1,4 +1,5 @@
 """Stuff used for dishes."""
+
 import time
 
 from ska_mid_jupyter_notebooks.cluster.cluster import (
@@ -18,7 +19,8 @@ from ska_mid_jupyter_notebooks.dish.enum import (
 
 class DishDeviceProxy(TangoDeviceProxy):
     """Tango device proxy for dish."""
-    def __init__(self, dish_deployment: "TangoDishDeployment", device_name: str):
+
+    def __init__(self, dish_deployment: "TangoDishDeployment", device_name: str) -> None:
         """
         Rock and roll.
 
@@ -29,7 +31,8 @@ class DishDeviceProxy(TangoDeviceProxy):
 
 class DishManager(DishDeviceProxy):
     """Manager for dish proxies."""
-    def __init__(self, dish_deployment: "TangoDishDeployment"):
+
+    def __init__(self, dish_deployment: "TangoDishDeployment") -> None:
         super().__init__(dish_deployment, "dish-manager")
 
     @property
@@ -65,7 +68,8 @@ class DishManager(DishDeviceProxy):
 
 class SPFC(DishDeviceProxy):
     """Device proxy for SPFC."""
-    def __init__(self, dish_deployment: "TangoDishDeployment"):
+
+    def __init__(self, dish_deployment: "TangoDishDeployment") -> None:
         """
         Rock and roll.
 
@@ -84,6 +88,8 @@ class SPFC(DishDeviceProxy):
 
 
 class SPFRx(TangoDeviceProxy):
+    """Implement Tango device for SPF receiver."""
+
     @property
     def operating_mode(self) -> SPFRxOperatingMode:
         """
@@ -95,7 +101,9 @@ class SPFRx(TangoDeviceProxy):
 
 
 class DSManager(DishDeviceProxy):
-    def __init__(self, dish_deployment: "TangoDishDeployment"):
+    """Manage the dishes."""
+
+    def __init__(self, dish_deployment: "TangoDishDeployment") -> None:
         """
         Rock and roll.
 
@@ -105,10 +113,18 @@ class DSManager(DishDeviceProxy):
 
     @property
     def operating_mode(self) -> DSOperatingMode:
+        """
+        Read operating mode.
+
+        :return: operating mode
+        """
         return DSOperatingMode(self.operatingMode)
 
 
 class TangoDishDeployment(TangoDeployment):
+    """Deploy the Tango dishes."""
+
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         dish_id: str,
@@ -118,7 +134,7 @@ class TangoDishDeployment(TangoDeployment):
         database_name: str = "tango-databaseds",
         cluster_domain: str = "miditf.internal.skao.int",
         db_port: int = 10000,
-    ):
+    ) -> None:
         """
         Rock and roll.
 
@@ -211,16 +227,16 @@ class TangoDishDeployment(TangoDeployment):
 
     def print_diagnostics(self, verbose: bool = True) -> None:
         """Print diagnostics."""
-        dm = self.dish_manager
+        dmgr = self.dish_manager
         if verbose:
-            print(f"{self.dish_id}: ComponentStates: {dm.GetComponentStates()}")
-        print(f"{self.dish_id}: DishMode: {str(dm.dish_mode)}")
-        print(f"{self.dish_id}: PowerState: {str(dm.power_state)}")
-        print(f"{self.dish_id}: HealthState: {str(dm.health_state)}")
-        print(f"{self.dish_id}: PointingState: {str(dm.pointing_state)}")
-        print(f"{self.dish_id}: K-Value: {dm.kValue}")
-        print(f"{self.dish_id}: Capturing: {dm.capturing}")
-        print(f"{self.dish_id}: SimulationMode: {dm.simulationMode}")
+            print(f"{self.dish_id}: ComponentStates: {dmgr.GetComponentStates()}")
+        print(f"{self.dish_id}: DishMode: {str(dmgr.dish_mode)}")
+        print(f"{self.dish_id}: PowerState: {str(dmgr.power_state)}")
+        print(f"{self.dish_id}: HealthState: {str(dmgr.health_state)}")
+        print(f"{self.dish_id}: PointingState: {str(dmgr.pointing_state)}")
+        print(f"{self.dish_id}: K-Value: {dmgr.kValue}")
+        print(f"{self.dish_id}: Capturing: {dmgr.capturing}")
+        print(f"{self.dish_id}: SimulationMode: {dmgr.simulationMode}")
         spfc = self.spfc_simulator
         print(f"{self.dish_id}: SPFC OperatingMode: {str(spfc.operating_mode)}")
         spfrx = self.spfrx
@@ -231,7 +247,13 @@ class TangoDishDeployment(TangoDeployment):
 
 
 def get_dish_namespace(dish_id: str, environment: Environment, branch_name: str) -> str:
-    """Get Kubernetes namespace."""
+    """
+    Get Kubernetes namespace.
+
+    :param dish_id: dish identifier
+    :param environment: environmental stuff
+    :param branch_name: git branch
+    """
     if environment == Environment.CI:
         return f"ci-dish-lmc-{dish_id}-{branch_name}"
     if environment == Environment.Staging:

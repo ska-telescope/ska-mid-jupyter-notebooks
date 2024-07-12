@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-from ska_oso_pdm.entities.common.target import (
+from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
     EquatorialCoordinates,
     EquatorialCoordinatesReferenceFrame,
@@ -15,14 +15,19 @@ from ska_oso_pdm.entities.common.target import (
     StarRasterParameters,
 )
 from ska_oso_pdm.entities.common.target import Target as PDMTarget
-from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
+from ska_tmc_cdm.messages.subarray_node.configure.core import (  # type: ignore[import-untyped]
+    ReceiverBand,
+    Target,
+)
 
 from ska_mid_jupyter_notebooks.obsconfig.base import SchedulingBlock
 
 
 @dataclass
+# pylint: disable-next=too-many-instance-attributes
 class TargetSpec:
     """Default attribute provision."""
+
     # since dishes and band parameters are not required for low imaging scenario,
     # we have kept default attribute provision
 
@@ -40,6 +45,8 @@ class TargetSpec:
 
 
 class Scan:
+    """Do the scan."""
+
     def __init__(self) -> None:
         """
         Initialise the scan instance.
@@ -190,7 +197,10 @@ def get_default_target_specs_sb(dish_ids: List[str]) -> Dict[str, TargetSpec]:
 
 
 class TargetSpecs(SchedulingBlock, Scan):
-    def __init__(self, target_specs: dict[str, TargetSpec] = None) -> None:
+    """Specify the target."""
+
+    # pylint: disable-next=dangerous-default-value
+    def __init__(self, target_specs: dict[str, TargetSpec] = {}) -> None:
         """
         Initialize a new instance of the TargetSpecs class.
 
@@ -202,7 +212,7 @@ class TargetSpecs(SchedulingBlock, Scan):
 
         self.targets: list = []
         self.target_specs: dict[str, TargetSpec] = {}
-        if target_specs is not None:
+        if target_specs:
             self.add_target_specs(target_specs)
 
     def add_target_specs(self, target_specs: dict[str, TargetSpec]) -> None:
@@ -265,7 +275,7 @@ class TargetSpecs(SchedulingBlock, Scan):
                     else:
                         self.targets.append(pdm_target)
 
-    def get_target_spec(self, target_id: str | None = None) -> list:
+    def get_target_spec(self, target_id: str | None = None) -> TargetSpec:
         """
         Get the target spec.
 

@@ -3,6 +3,7 @@
 import json
 import logging
 import time
+
 from astropy.time import Time  # type: ignore[import-untyped]
 from tango import CommunicationFailed, DevFailed, DeviceProxy
 
@@ -202,7 +203,7 @@ def test_configure_scan_hack(
 def test_configure_obs_state(
     tmc_subarray: DeviceProxy | None,
     csp_subarray_leaf_node: DeviceProxy | None,
-    sdp_subarray_leaf_node: DeviceProxy | None
+    sdp_subarray_leaf_node: DeviceProxy | None,
 ) -> None:
     """
     Read observation states of Tango devices.

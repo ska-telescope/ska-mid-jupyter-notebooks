@@ -1,3 +1,5 @@
+"""Notebook conversion stuff."""
+
 import argparse
 import csv
 import sys
@@ -40,7 +42,7 @@ def _main(dest: Path, source: Path, delimiter: str) -> None:
     :param delimiter: delimiter for CSV
     """
     with dest.open("w") as destination_file:
-        nb = new_notebook()
+        new_nb = new_notebook()
         with source.open("r") as source_file:
             for row in csv.DictReader(source_file, delimiter=delimiter):
                 assert (
@@ -52,9 +54,12 @@ def _main(dest: Path, source: Path, delimiter: str) -> None:
                 assert (
                     "#" in row.keys()
                 ), "Incorrect csv file or delimiter: you need a column with heading #"
-                data = f"**Step {row['#']}:**\n\n{row['Action']}  \n\nExpected Result:  \n_{row['Expected Result']}_"
-                nb.cells.append(new_markdown_cell(data))
-        nbformat.write(nb, destination_file)
+                data = (
+                    f"**Step {row['#']}:**\n\n{row['Action']}\n\n"
+                    f"Expected Result:  \n_{row['Expected Result']}_"
+                )
+                new_nb.cells.append(new_markdown_cell(data))
+        nbformat.write(new_nb, destination_file)
 
 
 def main() -> None:

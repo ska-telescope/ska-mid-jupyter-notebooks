@@ -1,7 +1,11 @@
 """Channelisation stuff goes here."""
+
 from typing import Any
 
-from ska_tmc_cdm.messages.central_node.sdp import Channel, ChannelConfiguration
+from ska_tmc_cdm.messages.central_node.sdp import (  # type: ignore[import-untyped]
+    Channel,
+    ChannelConfiguration,
+)
 
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpecs
 
@@ -24,13 +28,16 @@ DEFAULT_CHANNELS = {
 
 
 class Channelisation(TargetSpecs):
+    """Channel your inner thoughts."""
+
     def __init__(
         self,
         additional_channels: list[ChannelConfiguration] | None = None,
         **kwargs: Any,
     ) -> None:
         """
-        Initializes Channelization class
+        Initialize Channelization class.
+
         :param additional_channels: additional channels to be added
         :param kwargs: keyword arguments
         :return: None
@@ -48,7 +55,8 @@ class Channelisation(TargetSpecs):
 
     def add_channel_configuration(self, config_name: str, spectral_windows: list[Channel]) -> None:
         """
-        Add channel configuration
+        Add channel configuration.
+
         :param config_name: name of the configuration
         :param spectral_windows: list of spectral windows
         """
@@ -63,14 +71,16 @@ class Channelisation(TargetSpecs):
     @property
     def channel_configurations(self) -> list[str]:
         """
-        Get the channel configurations
+        Get the channel configurations.
+
         :return: list of channel configurations
         """
         return list(self._channel_configurations.keys())
 
     def get_channel_configuration(self, config_name: str) -> ChannelConfiguration:
         """
-        Get the channel configuration
+        Get the channel configuration.
+
         :param config_name: channel name for getting the configuration
         :return: ChannelConfiguration object
         """
@@ -80,9 +90,10 @@ class Channelisation(TargetSpecs):
         return self._channel_configurations[config_name]
 
     @property
-    def target_spec_channels(self) -> dict:
+    def target_spec_channels(self) -> set:
         """
-        Get the target spec channels
+        Get the target spec channels.
+
         :return: list of target spec channels
         """
         return {target.channelisation for target in self.target_specs.values()}
@@ -90,7 +101,8 @@ class Channelisation(TargetSpecs):
     @property
     def channels(self) -> list[ChannelConfiguration]:
         """
-        Get the channels
+        Get the channels.
+
         :return: list of channels
         """
         unique_keys = self.target_spec_channels

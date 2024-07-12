@@ -1,4 +1,5 @@
 """Control state of system under test."""
+
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
@@ -26,6 +27,7 @@ DeviceState = Union[DeviceDevState, "SubarrayObsState"]
 
 class TelescopeState(TypedDict):
     """Store state of telescope."""
+
     devices_states: dict[str, DeviceState]
 
 
@@ -48,6 +50,7 @@ obsstate_mapping = dict[SubarrayInputObsState, SubarrayObsState](
 
 class TelescopeDeviceModel:
     """Implement telescope device."""
+
     _dish_ids: List[str]
     _subarray_count: int
 
@@ -133,6 +136,7 @@ TelescopeAggState = Literal["ON", "ERROR", "OFFLINE", "OFF", "UNKNOWN"]
 
 class DeviceNameAndState(NamedTuple):
     """Tuple with device name and state."""
+
     device_name: str
     device_state: DeviceState
 
@@ -355,7 +359,7 @@ class TelescopeModel:
     def subscribe_to_subarray_scanning_state(
         self,
         observe_function: Callable[[SubarrayScanningState], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray scanning state have changed.
 
@@ -389,7 +393,7 @@ class TelescopeModel:
     def subscribe_to_subarrays_obsstate(
         self,
         observe_function: Callable[[dict[str, SubarrayObsState]], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray scanning state have changed.
         :param observe_function: observe function

@@ -1,7 +1,10 @@
 """Science data processor configuration stuff with added storage block goodness."""
+
 from typing import Any
 
-from ska_oso_pdm.entities.sdp.sdp_configuration import SDPConfiguration
+from ska_oso_pdm.entities.sdp.sdp_configuration import (  # type: ignore[import-untyped]
+    SDPConfiguration,
+)
 
 from ska_mid_jupyter_notebooks.obsconfig.base import encoded
 from ska_mid_jupyter_notebooks.obsconfig.dishes import Dishes
@@ -9,8 +12,10 @@ from ska_mid_jupyter_notebooks.obsconfig.sb import ExecutionBlockSpecsSB
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config import ProcessingBlockSpec
 
 
+# pylint: disable-next=too-many-ancestors
 class SdpConfigSpecsSB(Dishes, ExecutionBlockSpecsSB, ProcessingBlockSpec):
     """Store SDP config specs with SB"""
+
     def __init__(self, **kwargs: Any) -> None:
         """
         Initialize SdpConfigSpecsSB class.

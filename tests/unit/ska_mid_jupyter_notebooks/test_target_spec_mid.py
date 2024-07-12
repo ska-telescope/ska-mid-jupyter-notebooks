@@ -1,3 +1,5 @@
+"""Test target specification."""
+
 import json
 
 from ska_oso_pdm.entities.common.target import (
@@ -106,12 +108,14 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
     ).as_object
     obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels = [
         channel
-        for channel in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels
+        for channel
+        in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels
         if channel.channels_id != "vis_channels6"
     ]
     obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types = [
         scan_type
-        for scan_type in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types
+        for scan_type
+        in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types
         if scan_type.scan_type_id != "flux calibrator"
     ]
 

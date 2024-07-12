@@ -12,7 +12,6 @@ from typing import List, Tuple
 import pytest
 import ska_ser_logging  # type: ignore[import-untyped]
 import tango
-
 from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
 from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
     CrossScanParameters,
