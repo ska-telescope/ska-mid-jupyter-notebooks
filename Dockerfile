@@ -8,7 +8,7 @@ RUN useradd --create-home --home-dir ${HOME} ${USER}
 RUN usermod -u 1000 -g 1000 ${USER}
 WORKDIR ${HOME}
 COPY --chown=${USER}:${USER} . ./
-RUN rm cp /root/.local/pipx/venvs/poetry/bin/poetry /usr/local/bin/poetry && chmod a+x /usr/local/bin/poetry
+RUN rm /usr/local/bin/poetry && cp /root/.local/pipx/venvs/poetry/bin/poetry /usr/local/bin/poetry && chmod a+x /usr/local/bin/poetry
 USER ${USER}
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
