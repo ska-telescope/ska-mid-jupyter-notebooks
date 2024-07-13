@@ -5,8 +5,8 @@ ENV USER ${USER}
 ENV HOME /${USER}
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-RUN useradd --create-home --home-dir ${HOME} ${USER}
-RUN usermod -u 1000 -g 1000 ${USER}
+#RUN useradd --create-home --home-dir ${HOME} ${USER}
+#RUN usermod -u 1000 -g 1000 ${USER}
 
 USER ${USER}
 
