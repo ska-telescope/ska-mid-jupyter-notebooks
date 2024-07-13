@@ -120,7 +120,6 @@ class TelescopeDeviceModel:
         """
         return [*self.tm_devices(), *self.csp_devices()]
 
-    # pylint: disable-next=no-self-use
     def subarray_devices(self) -> List[str]:
         """
         Compile list of subarray device names.

@@ -50,7 +50,7 @@ def _main(dest: Path, source: Path, delimiter: str) -> None:
                 ), "Incorrect csv file or delimiter: you need a column with heading Action"
                 assert (
                     "Expected Result" in row.keys()
-                ), "Incorrect csv file or delimiter: you need a column with heading Expected Result"
+                ), "Incorrect csv file or delimiter: no column with heading Expected Result"
                 assert (
                     "#" in row.keys()
                 ), "Incorrect csv file or delimiter: you need a column with heading #"

@@ -115,6 +115,7 @@ class BaseAction(Generic[ACTION]):
         :return: the key (hash) uniquely identifying the object.
         """
         assert self.source
+        # pylint: disable-next=unnecessary-dunder-call
         return str(self.source.__hash__())
 
     @property
@@ -800,6 +801,7 @@ class ActionsReducer(Reducer[STATE], Generic[STATE, ACTION]):
 
         :return: the key
         """
+        # pylint: disable-next=unnecessary-dunder-call
         return str(self.producer.__hash__())
 
 
@@ -895,6 +897,7 @@ def get_event_key(event: Union[EventData, BaseAction[Any]]) -> str:
     """
     if isinstance(event, EventData):
         return event_key(event.device.name(), event.attr_name)
+    # pylint: disable-next=unnecessary-dunder-call
     return str(event.__hash__())
 
 

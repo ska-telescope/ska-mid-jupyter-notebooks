@@ -127,7 +127,6 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         )
         return pdm_allocation
 
-    # pylint: disable-next=no-self-use
     def convert_pdm_allocate_request_to_cdm(
         self, pdm_request: SBDefinition, cdm_request: AssignResourcesRequest
     ) -> AssignResourcesRequest:

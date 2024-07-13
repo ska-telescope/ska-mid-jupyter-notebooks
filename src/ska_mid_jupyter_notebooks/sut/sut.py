@@ -290,7 +290,8 @@ class TangoSUTDeployment(TangoDeployment):
         central_node.LoadDishCfg(dish_cfg_json)
         csp_controller = self.csp_controller
         print(
-            f"CSP Controller: adminMode={csp_controller.admin_mode}; State={csp_controller.State()}"
+            f"CSP Controller: adminMode={csp_controller.admin_mode};"
+            f" State={csp_controller.State()}"
         )
         print(
             f"TMC Central Node: isDishVccConfigSet={central_node.isDishVccConfigSet}; "

@@ -25,9 +25,10 @@ DEFAULT_FSP_CONFIGURATION = {
         "fsp_id": 1,
         "function_mode": FSPFunctionMode.CORR,
         "frequency_slice_id": 1,
-        "integration_factor": 10,  # cannot use 1: see https://jira.skatelescope.org/browse/CIP-1708
+        # cannot use 1: see https://jira.skatelescope.org/browse/CIP-1708
+        "integration_factor": 10,
         "zoom_factor": 0,
-        # "channel_averaging_map": [(0, 2), (744, 0)], channel averaging is not supported by CBF yet
+        # "channel_averaging_map": [(0, 2), (744, 0)], channel averaging not supported by CBF yet
         "output_link_map": [(0, 0), (200, 1)],
         "channel_offset": 0,
     },
@@ -35,10 +36,11 @@ DEFAULT_FSP_CONFIGURATION = {
         "fsp_id": 2,
         "function_mode": FSPFunctionMode.CORR,
         "frequency_slice_id": 1,
-        "integration_factor": 10,  # cannot use 1: see https://jira.skatelescope.org/browse/CIP-1708
+        # cannot use 1: see https://jira.skatelescope.org/browse/CIP-1708
+        "integration_factor": 10,
         # "zoom_factor": 1, # zoom is not supported by cbf yet
         "zoom_factor": 0,
-        # "channel_averaging_map": [(0, 2), (744, 0)], channel averaging is not supported by CBF yet
+        # "channel_averaging_map": [(0, 2), (744, 0)], channel averaging not supported by CBF yet
         "output_link_map": [(0, 4), (200, 5)],
         "channel_offset": 744,
         # "zoom_window_tuning": 1050000,
@@ -49,7 +51,6 @@ DEFAULT_FSP_CONFIGURATION = {
 class CommonConfig:
     """Store common configuration here."""
 
-    # pylint: disable-next=no-self-use
     def _generate_common_assign_resource_config_low(self) -> CentralCommonConfiguration:
         """
         Generate common assign resource config.
@@ -67,7 +68,6 @@ class CommonConfig:
         """
         return self._generate_common_assign_resource_config_low()
 
-    # pylint: disable-next=no-self-use
     def _generate_common_configure_resource_config_low(self) -> CommonConfiguration:
         """
         Generate common configure resource config.
@@ -90,7 +90,6 @@ class CommonConfig:
 class SubarrayConfig:
     """Store configuration for subarray."""
 
-    # pylint: disable-next=no-self-use
     def _generate_subarray_configure_resource_config_low(self) -> SubarrayConfiguration:
         """
         Generate subarray configure resource config.
