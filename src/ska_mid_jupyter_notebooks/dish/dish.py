@@ -228,6 +228,7 @@ class TangoDishDeployment(TangoDeployment):
         return DSManager(self)
 
     def print_diagnostics(self):
+        """Print diagnostics."""
         dm = self.dish_manager
         print(f"{self.dish_id}: ComponentStates: {dm.GetComponentStates()}")
         time.sleep(0.2)
