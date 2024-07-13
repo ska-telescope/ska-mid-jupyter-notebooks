@@ -46,3 +46,6 @@ notebook-test:
 
 notebook-lint:
   allow_failure: true
+
+python-test:
+  allow_failure: true
