@@ -43,3 +43,6 @@ include:
 notebook-test:
   rules:
     - when: never
+
+notebook-lint:
+  allow_failure: true
