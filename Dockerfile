@@ -1,8 +1,8 @@
 FROM artefact.skao.int/ska-mid-itf-engineering-tools:0.9.2
 
-ARG USER=root
+ARG USER=newuser
 ENV USER ${USER}
-ENV HOME /${USER}
+ENV HOME /app
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
 RUN useradd --create-home --home-dir ${HOME} ${USER}
