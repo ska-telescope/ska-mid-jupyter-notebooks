@@ -26,4 +26,4 @@ ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-pack
 #ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
 #ENV PATH=/app/.venv/bin/:$PATH
 
-CMD ["bash"]
+ENTRYPOINT ["bash"]
