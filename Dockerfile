@@ -5,15 +5,13 @@ ENV HOME /app
 WORKDIR ${HOME}
 
 
-RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
-    sed -i '/pytango/d' poetry-requirements.txt && \
-    sed -i '/numpy/d' poetry-requirements.txt && \
-    pip install -r poetry-requirements.txt && \
-    rm poetry-requirements.txt
-
-COPY . ${HOME}
+#RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
+#    sed -i '/pytango/d' poetry-requirements.txt && \
+#    sed -i '/numpy/d' poetry-requirements.txt && \
+#    pip install -r poetry-requirements.txt && \
+#    rm poetry-requirements.txt
     
-RUN poetry install
+#RUN poetry install
     
 USER root
     
