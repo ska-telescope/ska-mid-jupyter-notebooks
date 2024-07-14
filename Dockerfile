@@ -6,11 +6,11 @@ ENV HOME /app
 ENV PATH=/app/.venv/bin/:${PATH}
 #ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-RUN userdel tango
-RUN useradd --create-home --home-dir ${HOME} ${USER}
-RUN usermod -u 1000 -g 1000 ${USER}
+#RUN userdel tango
+#RUN useradd --create-home --home-dir ${HOME} ${USER}
+#RUN usermod -u 1000 -g 1000 ${USER}
 
-USER ${USER}
+#USER ${USER}
 
 WORKDIR ${HOME}
 
