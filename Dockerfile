@@ -22,6 +22,11 @@ RUN poetry export --format requirements.txt --output poetry-requirements.txt --w
     pip install -r poetry-requirements.txt && \
     rm poetry-requirements.txt
 
-ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
-#ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
-ENV PATH=/app/.venv/bin/:${PATH}
+FROM base
+COPY . ${HOME}
+    
+RUN poetry install
+    
+USER root
+    
+ENV PATH=${HOME}:/app/.venv/bin/:$PATH
