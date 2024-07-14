@@ -14,16 +14,14 @@ WORKDIR ${HOME}
 
 COPY --chown=${USER}:${USER} . ./
 
-RUN pwd && ls -all
-
 #RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
 #    sed -i '/pytango/d' poetry-requirements.txt && \
 #    sed -i '/numpy/d' poetry-requirements.txt && \
 #    pip install -r poetry-requirements.txt && \
 #    rm poetry-requirements.txt
 
-ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
+#ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
 #ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
 #ENV PATH=/app/.venv/bin/:$PATH
 
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["bash", "pwd"]
