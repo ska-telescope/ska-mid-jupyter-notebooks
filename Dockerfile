@@ -22,7 +22,6 @@ RUN poetry export --format requirements.txt --output poetry-requirements.txt --w
     pip install -r poetry-requirements.txt && \
     rm poetry-requirements.txt
 
-FROM base
 COPY . ${HOME}
     
 RUN poetry install
