@@ -12,7 +12,9 @@ USER ${USER}
 
 WORKDIR ${HOME}
 
-#COPY --chown=${USER}:${USER} . ./
+COPY --chown=${USER}:${USER} . ./
+
+RUN pwd && ls -all
 
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
