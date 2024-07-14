@@ -24,6 +24,6 @@ RUN pwd && ls -all
 
 ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
 #ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
-ENV PATH=/app/.venv/bin/:$PATH
+#ENV PATH=/app/.venv/bin/:$PATH
 
 CMD ["bash"]
