@@ -8,11 +8,11 @@ ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 #RUN useradd --create-home --home-dir ${HOME} ${USER}
 #RUN usermod -u 1000 -g 1000 ${USER}
 
-USER ${USER}
+#USER ${USER}
 
-WORKDIR ${HOME}
+#WORKDIR ${HOME}
 
-COPY --chown=${USER}:${USER} . ./
+#COPY --chown=${USER}:${USER} . ./
 
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
@@ -20,6 +20,12 @@ RUN poetry export --format requirements.txt --output poetry-requirements.txt --w
     pip install -r poetry-requirements.txt && \
     rm poetry-requirements.txt
 
-ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
-ENV PATH="${PYTHONPATH}/bin:${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
+#ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
+#ENV PATH="${PYTHONPATH}/bin:${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
 #ENV PATH=/app/.venv/bin/:$PATH
+
+USER root
+
+ENV PATH=/app/.venv/bin/:$PATH
+
+CMD ["bash"]
