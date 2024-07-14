@@ -3,7 +3,7 @@ FROM artefact.skao.int/ska-mid-itf-engineering-tools:0.9.2
 #ARG USER=newuser
 #ENV USER ${USER}
 ENV HOME /app
-ENV PATH=/app/.venv/bin/:${PATH}
+
 #ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
 #RUN userdel tango
@@ -14,7 +14,7 @@ ENV PATH=/app/.venv/bin/:${PATH}
 
 WORKDIR ${HOME}
 
-COPY --chown=${USER}:${USER} . ./
+#COPY --chown=${USER}:${USER} . ./
 
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
@@ -23,4 +23,5 @@ RUN poetry export --format requirements.txt --output poetry-requirements.txt --w
     rm poetry-requirements.txt
 
 ENV PYTHONPATH="${PYTHONPATH}:${HOME}/src:${HOME}/.venv/lib/python3.10/site-packages"
-ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
+#ENV PATH="${HOME}/bin:${HOME}/.venv/bin:/root/.local/bin:${PATH}"
+ENV PATH=/app/.venv/bin/:${PATH}
