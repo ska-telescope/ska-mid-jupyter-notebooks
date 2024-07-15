@@ -5,7 +5,7 @@
                 {
                     "talon": "1",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 119,
+                    "sample_rate_k" : 100,
                     "bite_config_id": "basic gaussian noise 1",
                     "bite_initial_timestamp_time_offset": 60.0
                 }
@@ -16,7 +16,7 @@
                 {
                     "talon": "2",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 1127,
+                    "sample_rate_k" : 618,
                     "bite_config_id": "basic gaussian noise 2",
                     "bite_initial_timestamp_time_offset": 60.0
                 }
