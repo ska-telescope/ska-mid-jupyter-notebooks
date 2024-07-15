@@ -7,7 +7,7 @@ ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
 #RUN userdel tango
 RUN useradd --create-home --home-dir ${HOME} ${USER}
-RUN usermod -u 1000 -g 1000 ${USER}
+#RUN usermod -u 1000 -g 1000 ${USER}
 
 USER ${USER}
 
