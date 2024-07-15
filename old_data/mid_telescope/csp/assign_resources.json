@@ -1,0 +1,7 @@
+{
+    "interface": "https://schema.skao.int/ska-csp-assignresources/2.2",
+    "subarray_id": 1,
+    "dish": {
+        "receptor_ids": ["SKA001"]
+    }
+}
