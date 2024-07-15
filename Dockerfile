@@ -1,4 +1,4 @@
-FROM artefact.skao.int/ska-mid-itf-engineering-tools:0.9.2
+FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0
 
 ENV HOME /app
 
