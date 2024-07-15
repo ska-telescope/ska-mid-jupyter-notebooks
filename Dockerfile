@@ -1,11 +1,11 @@
-FROM artefact.skao.int/ska-mid-itf-engineering-tools:0.9.2
+FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0
 
 ARG USER=newuser
 ENV USER ${USER}
 ENV HOME /home/${USER}
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-RUN userdel root
+#RUN userdel tango
 RUN useradd --create-home --home-dir ${HOME} ${USER}
 RUN usermod -u 1000 -g 1000 ${USER}
 
