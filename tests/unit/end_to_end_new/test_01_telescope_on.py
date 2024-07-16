@@ -262,7 +262,12 @@ def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:
     """
     caplog.info("Run the Telescope On command")
     assert tmc_central_node is not None, "TMC central node not loaded"
-    tel_state: str = get_tango_dev_state(tmc_central_node.telescopeState)
+    try:
+        tel_state: str = get_tango_dev_state(tmc_central_node.telescopeState)
+    except tango.DevFailedDevFailed as t_err:
+        err_msg: str = t_err.args[0].desc.strip()
+        caplog.error("Could not get telescope state: %s", err_msg)
+        assert  0, err_msg
     caplog.info("Telescope state is '%s'", tel_state)
     if tel_state == "ON":
         caplog.warning("Telescope is already on")

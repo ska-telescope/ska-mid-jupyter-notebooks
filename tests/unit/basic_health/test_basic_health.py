@@ -53,7 +53,8 @@ def test_dish_smoke(dish_deployments: List[TangoDishDeployment]) -> None:
     """
     for dish in dish_deployments:
         caplog.info("Test dish: %s", str(dish))
-        dish.smoke_test()
+        ping_time = dish.smoke_test()
+        assert ping_time < 10e6, f"Could not ping SUT {str(dish)}"
 
 
 def test_export_system_configuration(

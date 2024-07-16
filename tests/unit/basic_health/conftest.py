@@ -2,6 +2,7 @@
 
 # pylint: disable=no-name-in-module,duplicate-code
 
+import git
 import logging
 import os
 import pathlib
@@ -316,7 +317,7 @@ branch: str | None = os.getenv("BRANCH_NAME", None)
 if branch is not None:
     BRANCH_NAME = branch
 else:
-    BRANCH_NAME = "at-1958-rf-chain-linearity-performance"
+    BRANCH_NAME = str(git.Repo(os.getcwd()).active_branch)
 
 # K8S namespaces
 # --------------
@@ -331,8 +332,10 @@ if k8s_ns is not None:
     DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska001"))
     DISH_NAMESPACE_OVERRIDES.append(k8s_ns.replace("ci-ska-mid-itf", "ci-dish-lmc-ska036"))
 else:
-    SUT_NAMESPACE_OVERRIDE = ""
-    DISH_NAMESPACE_OVERRIDES = ["", ""]
+    SUT_NAMESPACE_OVERRIDE = f"ci-ska-mid-itf-{BRANCH_NAME}"
+    DISH_NAMESPACE_OVERRIDES = [
+        f"ci-dish-lmc-ska001-{BRANCH_NAME}", f"ci-dish-lmc-ska036-{BRANCH_NAME}"
+    ]
 
 # Subarray details
 # ----------------

@@ -1,7 +1,9 @@
 """End-to-end testing in the MID ITF."""
 
+import git
 import logging
 import os
+
 
 import pytest
 from tango import ConnectionFailed, DeviceProxy
@@ -13,12 +15,14 @@ caplog = logging.getLogger(__name__)
 # Branch name
 # -----------
 # Set this if you are using an on-demand deployment (i.e. Environment.CI)
+
 BRANCH_NAME: str | None = None
 branch: str | None = os.getenv("BRANCH_NAME", None)
 if branch is not None:
     BRANCH_NAME = branch
 else:
-    BRANCH_NAME = "at-1958-rf-chain-linearity-performance"
+    # BRANCH_NAME = "at-1958-rf-chain-linearity-performance"
+    BRANCH_NAME = str(git.Repo(os.getcwd()).active_branch)
 
 # Set up parameters
 # SKA001_NAMESPACE: str = "ci-dish-lmc-ska001-at-1958-rf-chain-linearity-performance"
