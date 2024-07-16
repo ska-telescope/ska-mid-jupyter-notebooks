@@ -13,3 +13,5 @@ include .make/python.mk
 include .make/base.mk
 
 include PrivateRules.mk
+
+NOTEBOOK_LINT_TARGET=./notebooks || true
