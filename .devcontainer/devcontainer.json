@@ -79,7 +79,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "poetry config virtualenvs.in-project true"
+    "postCreateCommand": "poetry config virtualenvs.in-project true",
     // if you want to work with k8 and helm directly from this container:
     /*
     "features": {
@@ -92,4 +92,5 @@
             "moby": true
         }
     },*/
+    "remoteUser": "tango"
 }
