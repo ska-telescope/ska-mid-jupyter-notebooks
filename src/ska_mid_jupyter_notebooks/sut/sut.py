@@ -27,6 +27,16 @@ class TMCSubarrayNode(TangoDeviceProxy):
             tango_deployment.dp(f"ska_mid/tm_subarray_node/{tango_deployment.subarray_index}")
         )
 
+class DishLeafNode001(TangoDeviceProxy):
+    def __init__(self, tango_deployment: "TangoSUTDeployment"):
+        super().__init__(
+            tango_deployment.dp(f"ska_mid/tm_leaf_node/d0001")
+        )
+class DishLeafNode036(TangoDeviceProxy):
+    def __init__(self, tango_deployment: "TangoSUTDeployment"):
+        super().__init__(
+            tango_deployment.dp(f"ska_mid/tm_leaf_node/d0036")
+        )
 
 class TMCCSPMasterLeafNode(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
@@ -99,6 +109,14 @@ class TangoSUTDeployment(TangoDeployment):
     @property
     def tmc_subarray(self) -> TMCSubarrayNode:
         return TMCSubarrayNode(self)
+
+    @property
+    def tmc_dish_leafnode_001(self) -> DishLeafNode001:
+        return DishLeafNode001(self)
+
+    @property
+    def tmc_dish_leafnode_036(self) -> DishLeafNode036:
+        return DishLeafNode036(self)
 
     @property
     def tmc_csp_master_leaf_node(self) -> TMCCSPMasterLeafNode:
@@ -224,7 +242,13 @@ class TangoSUTDeployment(TangoDeployment):
         print(f"TMC Subarray Node state: {tmc_subarray.State()}")
         print(f"TMC Subarray adminMode: {str(tmc_subarray.admin_mode)}")
         print(f"TMC Subarray Node obsState: {str(tmc_subarray.obs_state)}")
-
+        tmc_dish_leafnode_001 = self.tmc_dish_leafnode_001
+        print(f"TMC Dish Leaf Node 001 mode: {str(tmc_dish_leafnode_001.dishMode)}")
+        print(f"TMC Dish Leaf Node 001 pointing state: {str(tmc_dish_leafnode_001.pointingState)}")
+        tmc_dish_leafnode_036 = self.tmc_dish_leafnode_036
+        print(f"TMC Dish Leaf Node 036 mode: {str(tmc_dish_leafnode_036.dishMode)}")
+        print(f"TMC Dish Leaf Node 036 pointing state: {str(tmc_dish_leafnode_036.pointingState)}")
+      
     def print_sdp_diagnostics(self):
         sdp_controller = self.sdp_controller
         print(f"SDP Controller state: {sdp_controller.State()}")
