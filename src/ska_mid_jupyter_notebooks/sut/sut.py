@@ -27,16 +27,16 @@ class TMCSubarrayNode(TangoDeviceProxy):
             tango_deployment.dp(f"ska_mid/tm_subarray_node/{tango_deployment.subarray_index}")
         )
 
+
 class DishLeafNode001(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(
-            tango_deployment.dp(f"ska_mid/tm_leaf_node/d0001")
-        )
+        super().__init__(tango_deployment.dp("ska_mid/tm_leaf_node/d0001"))
+
+
 class DishLeafNode036(TangoDeviceProxy):
     def __init__(self, tango_deployment: "TangoSUTDeployment"):
-        super().__init__(
-            tango_deployment.dp(f"ska_mid/tm_leaf_node/d0036")
-        )
+        super().__init__(tango_deployment.dp("ska_mid/tm_leaf_node/d0036"))
+
 
 class TMCCSPMasterLeafNode(TangoDeviceProxy):
     def __init__(self, tango_deployment: TangoDeployment):
@@ -248,7 +248,7 @@ class TangoSUTDeployment(TangoDeployment):
         tmc_dish_leafnode_036 = self.tmc_dish_leafnode_036
         print(f"TMC Dish Leaf Node 036 mode: {str(tmc_dish_leafnode_036.dishMode)}")
         print(f"TMC Dish Leaf Node 036 pointing state: {str(tmc_dish_leafnode_036.pointingState)}")
-      
+
     def print_sdp_diagnostics(self):
         sdp_controller = self.sdp_controller
         print(f"SDP Controller state: {sdp_controller.State()}")

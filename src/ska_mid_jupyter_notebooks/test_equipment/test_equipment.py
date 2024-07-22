@@ -142,7 +142,7 @@ class TangoTestEquipment(TangoDeployment):
     def print_diagnostics(self):
         self.sky_simulator_controller.print_diagnostics()
         self.signal_generator.print_diagnostics()
-        #self.spectrum_analyser.print_diagnostics()
+        # self.spectrum_analyser.print_diagnostics()
         self.programmable_attenuator.print_diagnostics()
 
     def smoke_test(self) -> int:
