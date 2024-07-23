@@ -264,7 +264,7 @@ def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:
     assert tmc_central_node is not None, "TMC central node not loaded"
     try:
         tel_state: str = get_tango_dev_state(tmc_central_node.telescopeState)
-    except tango.DevFailedDevFailed as t_err:
+    except tango.DevFailed as t_err:
         err_msg: str = t_err.args[0].desc.strip()
         caplog.error("Could not get telescope state: %s", err_msg)
         assert 0, err_msg
