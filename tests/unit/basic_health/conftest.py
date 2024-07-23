@@ -335,7 +335,7 @@ else:
     SUT_NAMESPACE_OVERRIDE = f"ci-ska-mid-itf-{BRANCH_NAME}"
     DISH_NAMESPACE_OVERRIDES = [
         f"ci-dish-lmc-ska001-{BRANCH_NAME}",
-        f"ci-dish-lmc-ska036-{BRANCH_NAME}"
+        f"ci-dish-lmc-ska036-{BRANCH_NAME}",
     ]
 
 # Subarray details
