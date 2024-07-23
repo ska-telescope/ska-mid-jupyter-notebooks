@@ -2,7 +2,6 @@
 
 # pylint: disable=no-name-in-module,duplicate-code
 
-import git
 import logging
 import os
 import pathlib
@@ -10,6 +9,7 @@ import socket
 import time
 from typing import List, Tuple
 
+import git
 import pytest
 import ska_ser_logging  # type: ignore[import-untyped]
 import tango

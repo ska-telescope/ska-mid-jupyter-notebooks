@@ -1,10 +1,9 @@
 """End-to-end testing in the MID ITF."""
 
-import git
 import logging
 import os
 
-
+import git
 import pytest
 from tango import ConnectionFailed, DeviceProxy
 
