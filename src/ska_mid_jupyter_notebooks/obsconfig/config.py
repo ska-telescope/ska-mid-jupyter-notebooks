@@ -1,6 +1,7 @@
 from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
 from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
 from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
+from ska_oso_pdm.sb_definition import PointingCorrection as pdm_PointingCorrection
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
 from ska_oso_pdm.schemas.common.sb_definition import SBDefinitionSchema
 from ska_oso_scripting.functions import pdm_transforms
@@ -209,7 +210,11 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         scan_definition = scan_definitions[scan_definition]
         target = targets[scan_definition.target_id]
 
-        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target)
+        # Added the line below because of to correct the E1120 linting error.
+        # When the correction parameter is not specified, it will default to MAINTAIN mode
+        # Please see the comment in dish.py line 84
+        correction = pdm_PointingCorrection.MAINTAIN
+        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target, correction)
 
         dish_configuration = dish_configurations[scan_definition.dish_configuration_id]
         cdm_config.dish = pdm_transforms.convert_dishconfiguration(dish_configuration)
