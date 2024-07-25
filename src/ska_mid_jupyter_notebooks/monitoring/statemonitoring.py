@@ -278,7 +278,8 @@ class ActionProducer(Generic[ACTION]):
         """
         self._observers.pop(sub_id)
 
-    def __hash__(self) -> int:  # pylint: disable=W0246
+    # pylint: disable-next=bad-option-value,useless-super-delegation
+    def __hash__(self) -> int:
         return super().__hash__()
 
 
@@ -1106,29 +1107,31 @@ class MonState(EventsPusher, Generic[STATE]):
                 except CancelledError:
                     return
                 state = self.state
-                # first we reduce the state but we make it "unbreakable" since the thread must always run
+                # First reduce the state but make it "unbreakable" since the thread must always run
                 event_key_input = event.key
                 reducers_to_remove: list[int] = []
                 if reducers := self._reducers.get(event_key_input):
                     for index, reducer in enumerate(reducers):
                         try:
                             state = reducer.reduce(state, event)
-                        except Exception as exception:  # pylint: disable=broad-exception-caught
+                        # pylint: disable-next=broad-except
+                        except Exception as exception:
                             logging.exception(exception.args)
                             reducers_to_remove.append(index)
                     for index in reducers_to_remove:
                         reducers.pop(index)
-                # then whe publish results but we make it "unbreakable" since the thread must always run
+                # Publish results but make it "unbreakable" since the thread must always run
                 publishers_to_remove: list[int] = []
                 for index, publisher in enumerate(self._publishers):
                     try:
                         publisher.publish(state)
-                    except Exception as exception:  # pylint: disable=broad-exception-caught
+                    # pylint: disable-next=broad-except
+                    except Exception as exception:
                         logging.exception(exception.args)
                         publishers_to_remove.append(index)
                 for index in publishers_to_remove:
                     self._publishers.pop(index)
-                # then we save the state
+                # Save the state
                 self.state = state
                 self._task_done()
                 time.sleep(0.5)

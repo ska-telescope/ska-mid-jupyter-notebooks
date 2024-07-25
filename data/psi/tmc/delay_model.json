@@ -1,0 +1,15 @@
+{
+    "interface": "https://schema.skao.int/ska-csp-delaymodel/3.0",
+    "start_validity_sec": 1.0,
+    "cadence_sec": 400.0,
+    "validity_period_sec": 400.0,
+    "config_id": "sbi-mvp01-20200325-00001-science_A",
+    "subarray": 1,
+    "receptor_delays": [
+        {
+            "receptor": "SKA001",
+            "xypol_coeffs_ns": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            "ypol_offset_ns": 0.0
+        }
+    ]
+}

@@ -13,7 +13,7 @@
             "receive_nodes": 1
          },
          "execution_block": {
-            "eb_id":"eb-test-20210630-00054",
+            "eb_id":"eb-test-20240717-00003",
             "context": {},
             "max_length":21600.0,
       
@@ -21,11 +21,11 @@
                "channels_id": "vis_channels",
                "spectral_windows": [ {
                    "spectral_window_id": "fsp_1_channels",
-                   "count": 14880,
+                   "count": 59520,
                    "start": 0,
                    "stride": 1,
-                   "freq_min": 0.300e9,
-                   "freq_max": 0.550e9,
+                   "freq_min": 0.2964e9,
+                   "freq_max": 1.0909e9,
                    "link_map": [ [0, 0], [200, 1], [744, 2], [944, 3] ]
                } ]
             }],
@@ -58,7 +58,6 @@
                "beam_id": "vis0",
                "function": "visibilities"
             } ],
-      
             "scan_types":[
                {
                   "scan_type_id": ".default",
@@ -87,7 +86,7 @@
          },
          "processing_blocks":[
             {
-               "pb_id":"pb-test-20211111-00054",
+               "pb_id":"pb-test-20240717-00003",
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
@@ -102,7 +101,7 @@
                              "shape": [],
                              "source": {
                                  "type": "KafkaConsumerSource",
-                                 "servers": "ska-sdp-kafka.ci-ska-mid-itf-map-79-digital-e2e-test.svc.miditf.internal.skao.int:9092",
+                                 "servers": "ska-sdp-kafka.ci-ska-mid-itf-at-2111-update-tmc.svc.miditf.internal.skao.int:9092",
                                  "topic": "metrics-receive_state-1",
                                  "encoding": "json"
                              },
@@ -183,7 +182,8 @@
                     "receiver": {
                        "options": {
                            "reception": {
-                               "reset_time_indexing_after_each_scan": true
+                               "reset_time_indexing_after_each_scan": true,
+                               "stats_receiver_kafka_config": "ska-sdp-kafka.staging.svc.miditf.internal.skao.int:9092:json_workflow_state"
                           },
                           "telescope_model": {
                              "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
