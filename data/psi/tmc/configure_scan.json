@@ -1,0 +1,51 @@
+{
+  "interface": "https://schema.skao.int/ska-tmc-configure/2.3",
+  "pointing": {
+    "target": {
+      "reference_frame": "ICRS",
+      "target_name": "Polaris Australis",
+      "ra": "21:08:47.92",
+      "dec": "-88:57:22.9"
+    }
+  },
+  "sdp": {
+    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
+    "scan_type": "science"
+  },
+  "csp": {
+    "interface": "https://schema.skao.int/ska-csp-configure/2.5",
+    "subarray": {
+      "subarray_name": "Single receptor"
+    },
+    "common": {
+      "config_id": "1 receptor, band 1, 1 FSP, no options",
+      "frequency_band": "1",
+      "subarray_id": 1
+    },
+    "cbf": {
+      "fsp": [
+        {
+          "fsp_id": 1,
+          "function_mode": "CORR",
+          "frequency_slice_id": 1,
+          "zoom_factor": 0,
+          "zoom_window_tuning": 450000,
+          "integration_factor": 10,
+          "channel_offset": 0,
+          "output_link_map": [
+            [
+              0,
+              1
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "tmc": {
+    "scan_duration": 120.0
+  },
+  "dish": {
+    "receiver_band": "1"
+  }
+}

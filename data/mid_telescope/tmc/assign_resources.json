@@ -13,7 +13,7 @@
             "receive_nodes": 1
          },
          "execution_block": {
-            "eb_id":"eb-test-20240705-00002",
+            "eb_id":"eb-test-20240717-00003",
             "context": {},
             "max_length":21600.0,
       
@@ -21,11 +21,11 @@
                "channels_id": "vis_channels",
                "spectral_windows": [ {
                    "spectral_window_id": "fsp_1_channels",
-                   "count": 14880,
+                   "count": 59520,
                    "start": 0,
                    "stride": 1,
-                   "freq_min": 0.296e9,
-                   "freq_max": 0.496e9,
+                   "freq_min": 0.2964e9,
+                   "freq_max": 1.0909e9,
                    "link_map": [ [0, 0], [200, 1], [744, 2], [944, 3] ]
                } ]
             }],
@@ -86,7 +86,7 @@
          },
          "processing_blocks":[
             {
-               "pb_id":"pb-test-20240705-00002",
+               "pb_id":"pb-test-20240717-00003",
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
