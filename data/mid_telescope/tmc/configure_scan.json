@@ -38,52 +38,8 @@
                 ],
                 "channel_offset": 0,
                 "zoom_window_tuning": 450000  
-            },
-            {
-              "fsp_id": 2,
-              "function_mode": "CORR",
-              "frequency_slice_id": 2,
-              "zoom_factor": 0,
-              "integration_factor": 10,
-              "output_link_map": [
-                  [
-                      0,
-                      1
-                  ]
-              ],
-              "channel_offset": 14880,
-              "zoom_window_tuning": 450000  
-          },
-          {
-            "fsp_id": 3,
-            "function_mode": "CORR",
-            "frequency_slice_id": 3,
-            "zoom_factor": 0,
-            "integration_factor": 10,
-            "output_link_map": [
-                [
-                    0,
-                    1
-                ]
-            ],
-            "channel_offset": 29760,
-            "zoom_window_tuning": 450000  
-        },
-        {
-          "fsp_id": 4,
-          "function_mode": "CORR",
-          "frequency_slice_id": 4,
-          "zoom_factor": 0,
-          "integration_factor": 10,
-          "output_link_map": [
-              [
-                  0,
-                  1
-              ]
-          ],
-          "channel_offset": 44640,
-          "zoom_window_tuning": 450000  
-        }]
+            }
+        ]
     }
 },
   "tmc": {
@@ -93,4 +49,3 @@
     "receiver_band": "1"
   }
 }
-
