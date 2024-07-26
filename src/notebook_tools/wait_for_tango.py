@@ -33,7 +33,7 @@ def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error
             raise TypeError("desired_state provided is not an known state.")
         desired_state = allowed_states[desired_state]
         print("Converted int, waiting for: ", desired_state)
-    
+
     if desired_state not in allowed_states:
         raise TypeError("desired_state provided is not an known state.")
     spinL = 0
