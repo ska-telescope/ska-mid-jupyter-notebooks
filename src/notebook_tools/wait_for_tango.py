@@ -21,13 +21,19 @@ allowed_states = [
 ]
 
 
-def wait_for_state(device: DeviceProxy, desired_state: str, break_on_error=True) -> None:
+def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error=True) -> None:
     """Poll a tango device until either the given observation state is reached, or it throws an error.
     Arguments:
     device -- Tango Device to check
     desired_state -- The state which to break upon getting (number or state)
     break_on_error -- If set to False, will keeping running when getting an error status.
     """
+    if isinstance(desired_state, int):
+        if desired_state < 0 or desired_state > 10:
+            raise TypeError("desired_state provided is not an known state.")
+        desired_state = allowed_states[desired_state]
+        print("Converted int, waiting for: ", desired_state)
+    
     if desired_state not in allowed_states:
         raise TypeError("desired_state provided is not an known state.")
     spinL = 0
