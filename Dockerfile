@@ -1,4 +1,4 @@
-FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c35aba1a1
 
 ARG USER=newuser
 ENV USER ${USER}
