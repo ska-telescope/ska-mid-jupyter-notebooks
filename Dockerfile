@@ -1,13 +1,13 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c86b3bbb6     
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.cb01c2054
 
 ARG USER=newuser
 ENV USER ${USER}
 ENV HOME /home/${USER}
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
-#RUN userdel tango
-#RUN useradd --create-home --home-dir ${HOME} ${USER}
-#RUN usermod -u 1000 -g 1000 ${USER}
+RUN userdel tango
+RUN useradd --create-home --home-dir ${HOME} ${USER}
+RUN usermod -u 1000 -g 1000 ${USER}
 
 USER ${USER}
 
