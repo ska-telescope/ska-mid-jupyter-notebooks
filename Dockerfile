@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c35aba1a1
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c86b3bbb6     
 
 ARG USER=newuser
 ENV USER ${USER}
