@@ -55,3 +55,14 @@ When creating/updating a notebook, the following should be referenced:
 
 When pushing to the remote, run `make notebook-lint` to preview any linting changes. To run the linter and make automatic changes to your notebooks run `make notebook-format`.
 
+## Environment variables for K8S deployment
+
+Change as required for simulation or hardware in the loop:
+
+```
+CBF_HW_IN_THE_LOOP=false
+SPFRX_IN_THE_LOOP=false
+DISH_LMC_IN_THE_LOOP=false
+HW_IN_THE_LOOP=false
+```
+
