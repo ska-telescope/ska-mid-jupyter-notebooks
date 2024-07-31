@@ -13,15 +13,15 @@ import git
 import pytest
 import ska_ser_logging  # type: ignore[import-untyped]
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
-from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
+from ska_oso_pdm import SBDefinition
+from ska_oso_pdm._shared.target import (
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+from ska_oso_pdm.sb_definition.sdp import BeamMapping
 from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
 from ska_oso_scripting.objects import SubArray, Telescope  # type: ignore[import-untyped]
 from ska_tmc_cdm.messages.central_node.sdp import Channel  # type: ignore[import-untyped]

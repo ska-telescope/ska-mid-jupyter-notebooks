@@ -80,9 +80,9 @@ def receptors() -> list[str]:
 
 # Config files set up
 HOME = os.getenv("HOME")
+# DATA_DIR = "../../../data"
 # TODO find a better way to do file paths
-DATA_DIR = "../../../data"
-# DATA_DIR = f"{HOME}/.local/ska-mid-itf-data/"
+DATA_DIR = f"{HOME}/.local/ska-mid-itf-data/"
 TMC_CONFIGS: str = f"{DATA_DIR}/mid_telescope/tmc"
 SCAN_FILE: str = f"{TMC_CONFIGS}/scan.json"
 RELEASE_RESOURCES_FILE: str = f"{DATA_DIR}/release_resources.json"

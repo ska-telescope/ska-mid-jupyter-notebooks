@@ -11,6 +11,7 @@ from typing import List, Tuple
 import pytest
 import tango
 from ska_oso_pdm import SBDefinition
+from ska_oso_pdm._shared.atoms import TelescopeType
 from ska_oso_pdm._shared.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -277,6 +278,7 @@ os.environ["ODA_URI"] = (
     "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
 )
 EBID: str | None = None
+TEL_TYPE: TelescopeType = TelescopeType.SKA_MID
 
 
 @pytest.fixture()
@@ -289,7 +291,7 @@ def eb_id() -> str | None:
     global EBID
     if EBID is None:
         try:
-            EBID = oda_helper.create_eb()
+            EBID = oda_helper.create_eb(TEL_TYPE)
             caplog.info(f"Execution block ID: {EBID}")
         except ConnectionError as cerr:
             caplog.error("Could not create execution block ID: %s", cerr)

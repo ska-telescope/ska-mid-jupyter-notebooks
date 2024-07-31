@@ -9,7 +9,6 @@ import urllib.error
 import urllib.request
 from typing import Tuple
 
-import pytest
 import tango
 from tango import DevFailed, DeviceProxy
 
@@ -120,12 +119,16 @@ def test_dish_links(ska001_namespace: str, ska036_namespace: str) -> None:
     caplog.info("Dish 036 Taranta dashboard is OK: %s", d001_trnt_devs)
 
 
-@pytest.mark.xfail
+# pylint: disable-next=too-many-arguments
 def test_states_on(
     tmc_central_node: DeviceProxy | None,
     csp_control: DeviceProxy | None,
     cbf_controller: DeviceProxy | None,
     sdp_subarray: DeviceProxy | None,
+    tmc_subarray: DeviceProxy | None,
+    cbf_subarray: DeviceProxy | None,
+    sdp_subarray_leaf_node: DeviceProxy | None,
+    csp_subarray_leaf_node: DeviceProxy | None,
 ) -> None:
     """
     Read states of Tango devices.
@@ -134,6 +137,11 @@ def test_states_on(
     :param csp_control: CSP control
     :param cbf_controller: CBF controller
     :param sdp_subarray: SDP subarray
+    :param tmc_subarray: TMC subarray
+    :param cbf_subarray: CBF subarray
+    :param sdp_subarray_leaf_node: SDP subarray leaf node
+    :param csp_subarray_leaf_node: CSP subarray leaf node
+    :return:
     """
     # TMC central node
     assert tmc_central_node is not None, "TMC central node not loaded"
@@ -149,22 +157,6 @@ def test_states_on(
     # SDP subarray
     assert sdp_subarray is not None, "SDP subarray not loaded"
     caplog.info("SDP subarray (%s) state: %s", sdp_subarray.name(), sdp_subarray.State())
-
-
-def test_states_on_2(
-    tmc_subarray: DeviceProxy | None,
-    cbf_subarray: DeviceProxy | None,
-    sdp_subarray_leaf_node: DeviceProxy | None,
-    csp_subarray_leaf_node: DeviceProxy | None,
-) -> None:
-    """
-    Read states of Tango devices.
-
-    :param tmc_subarray: TMC subarray
-    :param cbf_subarray: CBF subarray
-    :param sdp_subarray_leaf_node: SDP subarray leaf node
-    :param csp_subarray_leaf_node: CSP subarray leaf node
-    """
     # TMC subarray
     assert tmc_subarray is not None, "TMC subarray not loaded"
     assert tmc_subarray.info().dev_type == "SubarrayNodeMid"
@@ -194,108 +186,72 @@ def load_dish_vcc_config(
     tmc_central_node: DeviceProxy | None,
     tmc_csp_master: DeviceProxy | None,
 ) -> Tuple[int, str]:
-    for n in range(1, 3):
-        caplog.info(f"Load config part %d", n)
-        with open(dish_config_file, encoding="utf-8") as f:
-            dish_config_json = json.load(f)
+    """
+    Load dish VCC configuration.
 
-        dish_config_json["tm_data_sources"][
-            0
-        ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-        dish_config_json["tm_data_filepath"] = (
-            "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-        )
-        caplog.info("dish_config_json tm_data_filepath: %s", dish_config_json["tm_data_filepath"])
-        try:
-            tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
-        except tango.DevFailed as terr:
-            for terr_arg in terr.args:
-                caplog.error(terr_arg.desc.strip())
-        except Exception as tmc_err:
-            print(f"ERROR: {str(tmc_err)}")
+    :param dish_config_file: dish config file
+    :param tmc_central_node: tmc central node
+    :param tmc_csp_master: tmc csp master
+    """
+    caplog.info("Load dish VCC configuration file %s", dish_config_file)
+    assert tmc_central_node is not None, "TMC central node not loaded"
+    assert tmc_csp_master is not None, "TMC CSP master not loaded"
+    assert tmc_csp_master.info().dev_type == "CspMasterLeafNodeMid"
+    with open(dish_config_file, encoding="utf-8") as cfg_f:
+        dish_config_json = json.load(cfg_f)
+    dish_config_json["tm_data_sources"][
+        0
+    ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
 
-        time.sleep(2)
-        try:
-            dish_vcc_cfg = json.loads(tmc_csp_master.sourceDishVccConfig)
-            print("TMC CSP Master Source Dish Vcc Config dish parameters:")
-            for key in dish_vcc_cfg:
-                print(f"\t{key:20} : {dish_vcc_cfg[key]}")
-        except tango.DevFailed as terr:
-            for terr_arg in terr.args:
-                caplog.error(terr_arg.desc.strip())
+    dish_config_json["tm_data_filepath"] = (
+        "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+    )
 
+    caplog.debug("Dish config JSON file contents:\n%s", dish_config_json)
+    try:
+        tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+    except DevFailed as t_err:
+        err_msg: str = t_err.args[0].desc.strip()
+        caplog.error("Could not load VCC configuration file: %s", err_msg)
+        return 1, err_msg
 
-# def load_dish_vcc_config(
-#     dish_config_file: str,
-#     tmc_central_node: DeviceProxy | None,
-#     tmc_csp_master: DeviceProxy | None,
-# ) -> Tuple[int, str]:
-#     """
-#     Load dish VCC configuration.
-#
-#     :param dish_config_file: dish config file
-#     :param tmc_central_node: tmc central node
-#     :param tmc_csp_master: tmc csp master
-#     """
-#     caplog.info("Load dish VCC configuration file %s", dish_config_file)
-#     assert tmc_central_node is not None, "TMC central node not loaded"
-#     assert tmc_csp_master is not None, "TMC CSP master not loaded"
-#     assert tmc_csp_master.info().dev_type == "CspMasterLeafNodeMid"
-#     with open(dish_config_file, encoding="utf-8") as cfg_f:
-#         dish_config_json = json.load(cfg_f)
-#     dish_config_json["tm_data_sources"][
-#         0
-#     ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-#
-#     dish_config_json["tm_data_filepath"] = (
-#         "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-#     )
-#
-#     caplog.debug("Dish config JSON file contents:\n%s", dish_config_json)
-#     try:
-#         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
-#     except DevFailed as t_err:
-#         err_msg: str = t_err.args[0].desc.strip()
-#         caplog.error("Could not load VCC configuration file: %s", err_msg)
-#         return 1, err_msg
-#
-#     time.sleep(2)
-#     caplog.info(
-#         "TMC CSP Master's Dish Vcc Config attribute value:\n%s", tmc_csp_master.dishVccConfig
-#     )
-#     caplog.info(
-#         "TMC CSP Master's Source Dish Vcc Config attribute value:\n%s",
-#         tmc_csp_master.sourceDishVccConfig,
-#     )
-#     return 0, "OK"
+    time.sleep(2)
+    caplog.info(
+        "TMC CSP Master's Dish Vcc Config attribute value:\n%s", tmc_csp_master.dishVccConfig
+    )
+    caplog.info(
+        "TMC CSP Master's Source Dish Vcc Config attribute value:\n%s",
+        tmc_csp_master.sourceDishVccConfig,
+    )
+    return 0, "OK"
 
 
-# def test_load_dish_vcc_config(
-#     dish_config_file: str,
-#     tmc_central_node: DeviceProxy | None,
-#     tmc_csp_master: DeviceProxy | None,
-# ) -> None:
-#     """
-#     Load the Dish VCC Configuration and Initialize System Parameters (run twice).
-#
-#     :param dish_config_file: dish config file
-#     :param tmc_central_node: tmc central node
-#     :param tmc_csp_master: tmc csp master
-#     """
-#     caplog.info("Load dish VCC part 1")
-#     assert tmc_central_node is not None, "TMC central node not loaded"
-#     assert tmc_csp_master is not None, "TMC CSP master not loaded"
-#     tmc_central_node_t: str = tmc_central_node.info().dev_type
-#     caplog.info("Type of tmc_central_node is %s", tmc_central_node_t)
-#     assert tmc_central_node_t == "CentralNodeMid", f"TMC central node ype is {tmc_central_node_t}"
-#     tmc_csp_master_t: str = tmc_csp_master.info().dev_type
-#     caplog.info("Type of tmc_csp_master is %s", tmc_csp_master_t)
-#     assert tmc_csp_master_t == "CspMasterLeafNodeMid", f"TMC CSP master type is {tmc_csp_master_t}"
-#     rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
-#     assert rval == 0, msg
-#     caplog.info("Load dish VCC part 2")
-#     rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
-#     assert rval == 0, msg
+def test_load_dish_vcc_config(
+    dish_config_file: str,
+    tmc_central_node: DeviceProxy | None,
+    tmc_csp_master: DeviceProxy | None,
+) -> None:
+    """
+    Load the Dish VCC Configuration and Initialize System Parameters (run twice).
+
+    :param dish_config_file: dish config file
+    :param tmc_central_node: tmc central node
+    :param tmc_csp_master: tmc csp master
+    """
+    caplog.info("Load dish VCC part 1")
+    assert tmc_central_node is not None, "TMC central node not loaded"
+    assert tmc_csp_master is not None, "TMC CSP master not loaded"
+    tmc_central_node_t: str = tmc_central_node.info().dev_type
+    caplog.info("Type of tmc_central_node is %s", tmc_central_node_t)
+    assert tmc_central_node_t == "CentralNodeMid", f"TMC central node ype is {tmc_central_node_t}"
+    tmc_csp_master_t: str = tmc_csp_master.info().dev_type
+    caplog.info("Type of tmc_csp_master is %s", tmc_csp_master_t)
+    assert tmc_csp_master_t == "CspMasterLeafNodeMid", f"TMC CSP master type is {tmc_csp_master_t}"
+    rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
+    assert rval == 0, msg
+    caplog.info("Load dish VCC part 2")
+    rval, msg = load_dish_vcc_config(dish_config_file, tmc_central_node, tmc_csp_master)
+    assert rval == 0, msg
 
 
 def test_turn_telescope_on(tmc_central_node: DeviceProxy | None) -> None:

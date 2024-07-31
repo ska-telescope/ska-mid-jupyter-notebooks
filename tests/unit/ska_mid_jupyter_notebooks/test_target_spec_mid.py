@@ -4,14 +4,14 @@
 
 import json
 
-from ska_oso_pdm.entities.common.target import (
+from ska_oso_pdm._shared.target import (
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.entities.sdp import BeamMapping
+from ska_oso_pdm.sb_definition.sdp import BeamMapping
 from ska_tmc_cdm.messages.central_node.sdp import Channel
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
