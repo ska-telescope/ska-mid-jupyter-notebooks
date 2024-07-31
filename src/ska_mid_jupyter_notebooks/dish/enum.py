@@ -1,9 +1,14 @@
-# Taken form https://gitlab.com/ska-telescope/ska-mid-dish-manager/-/blob/main/src/ska_mid_dish_manager/models/dish_enums.py
-# Unfortunately, due to version, incompatibilities we cannot pull this in directly.
+"""Stuff used for dish data."""
+
+# Taken from
+# https://gitlab.com/ska-telescope/ska-mid-dish-manager/-/blob/main/src/ska_mid_dish_manager/models/dish_enums.py
+# Unfortunately, due to version incompatibilities we cannot pull this in directly.
 import enum
 
 
 class DishMode(enum.IntEnum):
+    """Values for dish mode."""
+
     STARTUP = 0
     SHUTDOWN = 1
     STANDBY_LP = 2
@@ -16,6 +21,8 @@ class DishMode(enum.IntEnum):
 
 
 class SPFOperatingMode(enum.IntEnum):
+    """Values for SPF operating mode."""
+
     UNKNOWN = 0
     STARTUP = 1
     STANDBY_LP = 2
@@ -25,6 +32,8 @@ class SPFOperatingMode(enum.IntEnum):
 
 
 class SPFRxOperatingMode(enum.IntEnum):
+    """Values for SPF receiver."""
+
     # enums are from ICD
     UNKNOWN = 0
     STARTUP = 1
@@ -35,6 +44,8 @@ class SPFRxOperatingMode(enum.IntEnum):
 
 
 class DSOperatingMode(enum.IntEnum):
+    """Values for DS operating mode."""
+
     # enums are from dish lmc
     UNKNOWN = 0
     STARTUP = 1
@@ -47,6 +58,8 @@ class DSOperatingMode(enum.IntEnum):
 
 
 class PointingState(enum.IntEnum):
+    """Values for pointing state."""
+
     READY = 0
     SLEW = 1
     TRACK = 2
@@ -55,6 +68,8 @@ class PointingState(enum.IntEnum):
 
 
 class Band(enum.IntEnum):
+    """Values for band."""
+
     NONE = 0
     B1 = 1
     B2 = 2
@@ -67,6 +82,8 @@ class Band(enum.IntEnum):
 
 
 class IndexerPosition(enum.IntEnum):
+    """Values for indexer position."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -78,6 +95,8 @@ class IndexerPosition(enum.IntEnum):
 
 
 class BandInFocus(enum.IntEnum):
+    """Values for band in focus."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -88,6 +107,8 @@ class BandInFocus(enum.IntEnum):
 
 # pylint: disable=invalid-name
 class SPFBandInFocus(enum.IntEnum):
+    """Values for SPF band in focus."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -98,29 +119,39 @@ class SPFBandInFocus(enum.IntEnum):
 
 
 class TrackInterpolationMode(enum.IntEnum):
+    """Values for track interpolation mode."""
+
     NEWTON = 0
     SPLINE = 1
 
 
 class TrackProgramMode(enum.IntEnum):
+    """Values for track program mode."""
+
     TABLEA = 0
     TABLEB = 1
     POLY = 2
 
 
 class TrackTableLoadMode(enum.IntEnum):
+    """Values for track table load mode."""
+
     NEW = 0
     APPEND = 1
     RESET = 2
 
 
 class PowerState(enum.IntEnum):
+    """Values for power state."""
+
     UPS = 0
     LOW = 1
     FULL = 2
 
 
 class SPFPowerState(enum.IntEnum):
+    """Values for SPF power state."""
+
     # enums are from ICD
     UNKNOWN = 0
     LOW_POWER = 1
@@ -128,6 +159,8 @@ class SPFPowerState(enum.IntEnum):
 
 
 class DSPowerState(enum.IntEnum):
+    """Values for DS power state."""
+
     # enums are from ICD
     OFF = 0
     UPS = 1
@@ -137,6 +170,8 @@ class DSPowerState(enum.IntEnum):
 
 
 class CapabilityStates(enum.IntEnum):
+    """Values for capability states."""
+
     UNAVAILABLE = 0
     STANDBY = 1
     CONFIGURING = 2
@@ -146,6 +181,8 @@ class CapabilityStates(enum.IntEnum):
 
 
 class SPFCapabilityStates(enum.IntEnum):
+    """Values for SPF capability states."""
+
     UNAVAILABLE = 0
     STANDBY = 1
     OPERATE_DEGRADED = 2
@@ -153,6 +190,8 @@ class SPFCapabilityStates(enum.IntEnum):
 
 
 class SPFRxCapabilityStates(enum.IntEnum):
+    """Values for SPF Rx capability states."""
+
     UNKNOWN = 0
     UNAVAILABLE = 1
     STANDBY = 2

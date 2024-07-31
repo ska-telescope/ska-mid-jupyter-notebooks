@@ -1,13 +1,13 @@
-# from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
-# from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
-# from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
-# from ska_oso_pdm.schemas import CODEC as pdm_CODEC
-# from ska_oso_pdm.schemas.common.sb_definition import SBDefinitionSchema
+"""Configuration for observation."""
 
-from ska_oso_pdm._shared.atoms import TelescopeType
-from ska_oso_pdm.sb_definition import ScanDefinition, DishConfiguration
+from typing import Any
+
 from ska_oso_pdm import SBDefinition
-
+from ska_oso_pdm._shared.atoms import TelescopeType
+from ska_oso_pdm.sb_definition import DishConfiguration
+from ska_oso_pdm.sb_definition import PointingCorrection as pdm_PointingCorrection
+from ska_oso_pdm.sb_definition import ScanDefinition
+from ska_oso_pdm.sb_definition.sb_definition import SBD_SCHEMA_URI
 from ska_oso_scripting.functions import pdm_transforms
 from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRequest
 from ska_tmc_cdm.messages.central_node.common import DishAllocation as cdm_DishAllocation
@@ -21,11 +21,15 @@ from ska_mid_jupyter_notebooks.obsconfig.sb import ActivitiesSB, MetaDataSB, Sca
 from ska_mid_jupyter_notebooks.obsconfig.sdp_config_sb import SdpConfigSpecsSB
 from ska_mid_jupyter_notebooks.obsconfig.tmc_config import TMCConfig
 
+# mypy: disable-error-code="import-untyped"
 # pylint: disable=E1101
 
 
+# pylint: disable-next=too-many-ancestors
 class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, ActivitiesSB):
-    def __init__(self, **kwargs):
+    """Scheduling block definition for observation."""
+
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
         ActivitiesSB.__init__(self)
 
@@ -41,7 +45,8 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         dish_configurations: list[DishConfiguration],
     ) -> SBDefinition:
         """
-        Generates Scheduling Block Definition instance based on below configuration details recieved
+        Generates Scheduling Block Definition instance based on configuration details received.
+
         :param: csp_configuration: List of CSP configuration
         :param: scan_configuration: List of Scan definition
         :param: dish_configurations: List of  DishConfiguration
@@ -66,21 +71,27 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
             dish_configurations=dish_configurations,
         )
 
-        sb = SBDefinitionSchema().dumps(sb_specs)
-        pdm_request: SBDefinition = pdm_CODEC.loads(SBDefinition, sb)
-        return pdm_request
+        # TODO this seems to be deprecated
+        # schema_def = SBDefinitionSchema().dumps(sb_specs)
+        # pdm_request: SBDefinition = pdm_CODEC.loads(SBDefinition, schema_def)
+        # return pdm_request
+        return sb_specs
 
-    def generate_pdm_object_for_sbd_save(self, DEFAULT_TARGET_SPECS: dict = None) -> SBDefinition:
+    # pylint: disable-next=dangerous-default-value
+    def generate_pdm_object_for_sbd_save(self, def_tgt_spec: dict = {}) -> SBDefinition:
         """
-        Generates CSP, DISH,Scan Definition configuration based on the Target SPec data provided and creates an SBD
+        Generate CSP, DISH, Scan Definition configuration.
+
+        This is based on the Target spec data provided and creates an SBD.
+
         :param: DEFAULT_TARGET_SPECS : Target Spec details
         :return: Scheduling Block Definition
         """
         configure_request = []
-        if not DEFAULT_TARGET_SPECS:
+        if not def_tgt_spec:
             default_target_specs = self.target_specs
         else:
-            default_target_specs = DEFAULT_TARGET_SPECS
+            default_target_specs = def_tgt_spec
 
         for key, value in default_target_specs.items():
             configure_request.append(
@@ -97,22 +108,22 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         for data in configure_request:
             csp_configuration.append(
                 self.generate_csp_scan_config(
-                    target_id=data["target_id"], sb_target_flag=True
+                    target_id=str(data["target_id"]), sb_target_flag=True
                 ).as_object
             )
             # this condition is used for creating configure request object
 
             scan_configuration.append(
                 ScanDefinitionSB(
-                    data["scan_definition_id"],
-                    data["scan_duration"],
-                    data["target_id"],
-                    data["scan_type_id"],
+                    str(data["scan_definition_id"]),
+                    int(data["scan_duration"]),  # type: ignore[arg-type]
+                    str(data["target_id"]),
+                    str(data["scan_type_id"]),
                 ).get_scan_definition(),
             )
             # this condition is used for creating configure request object
 
-            dish_configurations.append(self.get_dish_configuration_sb(data["target_id"]))
+            dish_configurations.append(self.get_dish_configuration_sb(str(data["target_id"])))
 
         pdm_allocation = self.generate_pdm_object(
             csp_configuration, scan_configuration, dish_configurations
@@ -123,7 +134,8 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         self, pdm_request: SBDefinition, cdm_request: AssignResourcesRequest
     ) -> AssignResourcesRequest:
         """
-        Transforms PDM Allocate request to CDM
+        Transform PDM Allocate request to CDM.
+
         :param: pdm_request: SBDefinition Instance
         :param: cdm_request: AssignResourcesRequest Instance
         :return: AssignResourcesRequest
@@ -148,7 +160,8 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         self, pdm_allocation_request: SBDefinition, subarray_id: int = 1
     ) -> AssignResourcesRequest:
         """
-        Generates CDM Allocation Request
+        Generate CDM Allocation Request.
+
         :param: pdm_allocation_request: SBDefinition Instance
         :param: subarray_id: Subarray ID
         :return: AssignResourcesRequest
@@ -175,7 +188,10 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         self, pdm_allocation_request: SBDefinition
     ) -> AssignResourcesRequest:
         """
-        Generates CDM Allocation Request by calling _generate_cdm_allocate_config and can return in object or json format as needed
+        Generate CDM Allocation Request..
+
+        Can return an object or json format as needed.
+
         :param: pdm_allocation_request: SBDefinition Instance
         :return:  AssignResourcesRequest
         """
@@ -185,13 +201,15 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         self,
         pdm_config: SBDefinition,
         cdm_config: ConfigureRequest,
-        scan_definition,
+        scan_definition: Any,
     ) -> ConfigureRequest:
-        """Transforms PDM Observation request to CDM for configure resource
+        """
+        Transform PDM Observation request to CDM for configure resource.
+
         :param: pdm_config: SBDefinition Instance
         :param: cdm_config: ConfigureRequest Instance
         :param: scan_definition : Scan Definition instance
-        :return: ConfigureRequest
+        :return: Configure request instance
         """
 
         scan_definitions = {
@@ -210,11 +228,11 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         }
 
         targets = {target.target_id: target for target in pdm_config.targets}
-
         scan_definition = scan_definitions[scan_definition]
         target = targets[scan_definition.target_id]
+        correction = pdm_PointingCorrection()
 
-        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target)
+        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target, correction)
 
         dish_configuration = dish_configurations[scan_definition.dish_configuration_id]
         cdm_config.dish = pdm_transforms.convert_dishconfiguration(dish_configuration)
@@ -231,16 +249,17 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
 
     def _generate_cdm_observation_config(
         self,
-        scan_definition_id: str = None,
-        scan_duration: float = None,
-        pdm_observation_request: SBDefinition = None,
+        scan_definition_id: str,
+        scan_duration: float,
+        pdm_observation_request: SBDefinition,
     ) -> ConfigureRequest:
         """
-        Generates CDM Observation request from PDM Observation request
+        Generate CDM Observation request from PDM Observation request.
+
         :param: scan_definition_id: Scan definition ID
         :param: scan_duration: Duration of Scan
         :param: pdm_observation_request: SBDefinition Instance
-        :return: ConfigureRequest
+        :return: Configure Request instance
         """
         cdm_observation_request = ConfigureRequest(
             interface=self.config_resources_schema,
@@ -259,11 +278,14 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
     def generate_scan_config_sb(
         self,
         pdm_observation_request: SBDefinition,
-        scan_definition_id="flux calibrator",
+        scan_definition_id: str = "flux calibrator",
         scan_duration: float = 10.0,
     ) -> ConfigureRequest:
         """
-        Generates CDM SCAN  Request by calling _generate_cdm_observation_config and can return in object or json format as needed
+        Generates CDM SCAN Request by calling _generate_cdm_observation_config.
+
+        Can return in object or json format as needed.
+
         :param: pdm_observation_request: SBDefinition Instance
         :param: scan_definition_id: Scan definition ID
         :param: scan_duration: Duration of Scan

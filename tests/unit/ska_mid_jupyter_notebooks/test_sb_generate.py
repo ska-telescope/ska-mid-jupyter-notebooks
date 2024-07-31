@@ -1,3 +1,7 @@
+"""Test SB generation."""
+
+# pylint: disable=too-many-lines
+
 import json
 from pprint import pprint
 
@@ -19,6 +23,8 @@ from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesReq
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec, get_default_target_specs_sb
+
+# mypy: disable-error-code="import-untyped"
 
 VALID_SB_MID_JSON = """{
   "sbd_id": "sbi-mvp01-20200325-00001",
@@ -712,14 +718,13 @@ channel_configuration = [
 ]
 
 
-def test_sb_generation_validate():
-    """
-    Test to validate SB generated using ObservationSB class
-    """
+def test_sb_generation_validate() -> None:
+    """Test to validate SB generated using ObservationSB class."""
     observation1 = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
 
     observation1.add_target_specs(DEFAULT_TARGET_SPECS)
 
+    # pylint: disable-next=consider-iterating-dictionary
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation1.add_scan_type_configuration(
             config_name=target_id,
@@ -770,16 +775,17 @@ def test_sb_generation_validate():
     assert not diff, f"Dictionaries are not equal:{diff}"
 
 
-def test_sb_generation_validate_target_spec_configuration():
+def test_sb_generation_validate_target_spec_configuration() -> None:
     """Test to validate if required target_spec gets added correctly"""
 
     observation2 = ObservationSB()
 
-    for key, value in DEFAULT_TARGET_SPECS.items():
-        observation2.add_channel_configuration(value.channelisation, channel_configuration)
+    for _key, value in DEFAULT_TARGET_SPECS.items():
+        observation2.add_channel_configuration(str(value.channelisation), channel_configuration)
 
     observation2.add_target_specs(DEFAULT_TARGET_SPECS)
 
+    # pylint: disable-next=consider-iterating-dictionary
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation2.add_scan_type_configuration(
             config_name=target_id,
@@ -816,18 +822,20 @@ def test_sb_generation_validate_target_spec_configuration():
     assert flux_calibrator_target in sb_dict["targets"]
 
 
-def test_sb_generation_validate_target_spec_configuration_remove():
-    """Test to check if Target Specs configurations are removed properly"""
+def test_sb_generation_validate_target_spec_configuration_remove() -> None:
+    """Test to check if Target Specs configurations are removed properly."""
 
     observation3 = ObservationSB()
     observation3._channel_configurations = {}  # pylint: disable=W0212
     observation3.scan_sequence_data = []
 
-    for key, value in DEFAULT_TARGET_SPECS.items():
-        observation3.add_channel_configuration(value.channelisation, channel_configuration)
+    # pylint: disable-next=consider-iterating-dictionary
+    for _key, value in DEFAULT_TARGET_SPECS.items():
+        observation3.add_channel_configuration(str(value.channelisation), channel_configuration)
 
     observation3.add_target_specs(DEFAULT_TARGET_SPECS)
 
+    # pylint: disable-next=consider-iterating-dictionary
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation3.add_scan_type_configuration(
             config_name=target_id,
@@ -846,12 +854,16 @@ def test_sb_generation_validate_target_spec_configuration_remove():
 
     obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.channels = [
         channel
-        for channel in obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.channels
+        for channel in (
+            obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.channels
+        )
         if channel.channels_id != "vis_channels10"
     ]
     obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.scan_types = [
         scan_type
-        for scan_type in obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.scan_types
+        for scan_type in (
+            obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.scan_types
+        )
         if scan_type.scan_type_id != "flux calibrator"
     ]
     obsconfig_scheduling_block_pdm_object.dish_allocations.receptor_ids.remove("SKA001")
@@ -880,8 +892,8 @@ def test_sb_generation_validate_target_spec_configuration_remove():
     assert flux_calibrator_target not in sb_dict["targets"]
 
 
-def test_sb_generation_validate_default_target_spec():
-    """Test to check if no Target spec is provided than Default target spec should be present"""
+def test_sb_generation_validate_default_target_spec() -> None:
+    """Test to check if no Target spec is provided than Default target spec should be present."""
     observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation.eb_id = "eb-mvp01-20231010-82511"
     obsconfig_scheduling_block_pdm_object = observation.generate_pdm_object_for_sbd_save()
@@ -892,9 +904,8 @@ def test_sb_generation_validate_default_target_spec():
     assert polaris_australis_target in sb_dict["targets"]
 
 
-def test_sb_validate_activities_parameter():
-    """Test to check if ActivitySB instance parameters are getting updated"""
-
+def test_sb_validate_activities_parameter() -> None:
+    """Test to check if ActivitySB instance parameters are getting updated."""
     observation = ObservationSB()
     observation.eb_id = "eb-mvp01-20231010-82511"
     default_activities_parameters = observation.get_activities()
@@ -916,9 +927,12 @@ def test_sb_validate_activities_parameter():
     assert modified_activities_parameters["allocate"].path == "git://scripts/new_allocate_path.py"
 
 
-def test_sb_validate_invalid_activities_parameter():
-    """Test to check if Attribute error is raised ActivitySB instance parameters while passing invalid parameters"""
+def test_sb_validate_invalid_activities_parameter() -> None:
+    """
+    Test to check if Attribute error is raised.
 
+    ActivitySB instance parameters while passing invalid parameters
+    """
     observation = ObservationSB()
     observation.eb_id = "eb-mvp01-20231010-82511"
     default_activities_parameters = observation.get_activities()
@@ -938,15 +952,17 @@ def test_sb_validate_invalid_activities_parameter():
         observation.add_activities_parameters(activities_params)
 
 
-def test_assign_resource_allocation_request_sb():
-    """Test to check Validate Assign Resource Request using Scheduling Block"""
+def test_assign_resource_allocation_request_sb() -> None:
+    """Test to check Validate Assign Resource Request using Scheduling Block."""
     observation = ObservationSB(target_specs=get_default_target_specs_sb(DEFAULT_DISH_IDS))
     observation._channel_configurations = {}  # pylint: disable=W0212
 
+    # pylint: disable-next=consider-iterating-dictionary
     for value in list(DEFAULT_TARGET_SPECS.values()):
-        observation.add_channel_configuration(value.channelisation, channel_configuration)
+        observation.add_channel_configuration(str(value.channelisation), channel_configuration)
 
     observation.add_target_specs(DEFAULT_TARGET_SPECS)
+    # pylint: disable-next=consider-iterating-dictionary
     for target_id in DEFAULT_TARGET_SPECS.keys():
         observation.add_scan_type_configuration(
             config_name=target_id,
@@ -977,21 +993,28 @@ def test_assign_resource_allocation_request_sb():
 
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         0
+        # pylint: disable-next=line-too-long
     ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         0
     ].phase_dir.reference_time
+
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         1
+        # pylint: disable-next=line-too-long
     ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         1
     ].phase_dir.reference_time
+
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         2
+        # pylint: disable-next=line-too-long
     ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         2
     ].phase_dir.reference_time
+
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.fields[
         3
+        # pylint: disable-next=line-too-long
     ].phase_dir.reference_time = valid_assign_resource_configuration_object.sdp_config.execution_block.fields[
         3
     ].phase_dir.reference_time

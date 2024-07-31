@@ -21,26 +21,28 @@ allowed_states = [
 ]
 
 
-def wait_for_state(device: DeviceProxy, desired_state: str, break_on_error=True) -> None:
-    """Poll a tango device until either the given observation state is reached, or it throws an error.
-    Arguments:
-    device -- Tango Device to check
-    desired_state -- The state which to break upon getting (number or state)
-    break_on_error -- If set to False, will keeping running when getting an error status.
+def wait_for_state(device: DeviceProxy, desired_state: str, break_on_error: bool = True) -> None:
+    """
+    Poll a tango device until given observation state is reached, or throw an error.
+
+    :param device: Tango Device to check
+    :param desired_state: state which to break upon getting (number or state)
+    :param break_on_error: if set to False, will keep running when getting an error status.
     """
     if desired_state not in allowed_states:
         raise TypeError("desired_state provided is not an known state.")
-    spinL = 0
+    spin_l = 0
     poll = 1
     while desired_state not in str(device.obsState.name):
-        if spinL < len(spinner) - 1:
-            spinL += 1
+        if spin_l < len(spinner) - 1:
+            spin_l += 1
         else:
-            spinL = 0
+            spin_l = 0
         sleep(0.5)
         print(
             "\r",
-            f"{spinner[spinL]} Poll# {poll}: {device.obsState.name}, waiting for {desired_state}...",
+            f"{spinner[spin_l]} Poll# {poll}: {device.obsState.name},"
+            f" waiting for {desired_state}...",
             end="",
         )
         if device.obsState == 9 and break_on_error:
@@ -56,17 +58,18 @@ def wait_for_status(device: DeviceProxy, desired_status: str) -> None:
     device -- Tango Device to check
     desired_state -- The status which to break upon getting (number or state)
     """
-    spinL = 0
+    spin_l = 0
     poll = 1
     while desired_status not in str(device.status()):
-        if spinL < len(spinner) - 1:
-            spinL += 1
+        if spin_l < len(spinner) - 1:
+            spin_l += 1
         else:
-            spinL = 0
+            spin_l = 0
         sleep(0.5)
         print(
             "\r",
-            f"{spinner[spinL]} Poll {poll}: Device is currently {device.status()}, waiting for {desired_status}...",
+            f"{spinner[spin_l]} Poll {poll}: Device is currently {device.status()},"
+            f" waiting for {desired_status}...",
             end="",
         )
         poll += 1

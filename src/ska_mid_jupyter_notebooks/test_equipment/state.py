@@ -1,4 +1,8 @@
-from typing import Any, Callable, Dict, NamedTuple, TypedDict, cast
+"""Read and write states of test equipment."""
+
+# pylint: disable=duplicate-code
+
+from typing import Any, Callable, Literal, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     DeviceAttrPoller,
@@ -15,24 +19,20 @@ from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEqu
 
 
 class DeviceNameAndState(NamedTuple):
+    """Store device name and state."""
+
     device_name: str
     device_state: DeviceDevState
 
 
 class EquipmentState(TypedDict):
+    """Store states of test equipment."""
+
     devices_states: dict[str, DeviceDevState]
 
 
-def get_equipment_model(test_equipment: TangoTestEquipment):
-    """
-    Get equipment status
-    :param test_equipment: TangoTestEquipment
-    :return: Test Equipment Model object
-    """
-    return TestEquipmentModel(test_equipment)
-
-
 class TestEquipmentModel:
+    """Model test equipment."""
 
     test_devices: list[TestDevice] = [
         "mid-itf/progattenuator/1",
@@ -42,9 +42,9 @@ class TestEquipmentModel:
 
     def __init__(self, test_equipment: TangoTestEquipment) -> None:
         """
-        Initialises TestEquipmentModel class
-        :param test_equipment: TangoTestEquipment
-        :return: None
+        Initialise test equipment model class.
+
+        :param test_equipment: Tango test equipment device
         """
         self._dev_factory = RemoteDeviceFactory(test_equipment.tango_host)
         init_state = EquipmentState(
@@ -65,14 +65,15 @@ class TestEquipmentModel:
         self.state_monitor.add_reducers(cast(list[Reducer[Any]], reducers))
         self._active = False
 
-    def get_last_poll_latency(self):
+    def get_last_poll_latency(self) -> float:
         """
-        Get last poll latency
+        Get last poll latency.
+
         :return: last poll latency
         """
         return self.state_monitor.get_last_poll_latency()
 
-    def get_average_poll_latency(self):
+    def get_average_poll_latency(self) -> float:
         """
         Get average poll latency
         :return: average poll latency
@@ -80,9 +81,10 @@ class TestEquipmentModel:
         return self.state_monitor.get_last_poll_latency()
 
     @property
-    def listening_state(self):
+    def listening_state(self) -> Literal["Running", "Aborted", "Not Started"]:
         """
-        Get listening state
+        Get listening state.
+
         :return: listening state
         """
         return self.state_monitor.listening_state
@@ -92,7 +94,8 @@ class TestEquipmentModel:
         cls, state: EquipmentState, event: EventData
     ) -> EquipmentState:
         """
-        Reducer set device attribute
+        Set reducer device attribute.
+
         :param state: Equipment state
         :param event: Event data
         :return: Equipment state
@@ -106,7 +109,8 @@ class TestEquipmentModel:
         cls, device_name: str, attr: str
     ) -> Selector[EquipmentState, DeviceNameAndState]:
         """
-        Generate select device name and attr state
+        Generate select device name and attr state.
+
         :param device_name: Device name
         :param attr: Attribute
         :return: Selector
@@ -115,8 +119,8 @@ class TestEquipmentModel:
         def _select_device_attr(state: EquipmentState) -> DeviceNameAndState:
             """
             Select device attributes
-            :param state: Equipment state
-            :return: DeviceNameAndState
+            :param state: equipment state
+            :return: device name and state
             """
             state_val = state["devices_states"][event_key(device_name, attr)]
             return DeviceNameAndState(device_name, state_val)
@@ -125,11 +129,11 @@ class TestEquipmentModel:
 
     def subscribe_to_test_equipment_state(
         self, observe_function: Callable[[dict[str, DeviceDevState]], None]
-    ):
+    ) -> None:
         """
-        Subscribe to test equipment state
+        Subscribe to test equipment state.
+
         :param observe_function: Observe function
-        :return: None
         """
         input_test_equipment_states = [
             self._generate_select_device_name_and_attr_state(device, "state")
@@ -155,7 +159,8 @@ class TestEquipmentModel:
     @property
     def state(self) -> EquipmentState:
         """
-        Get state
+        Get state.
+
         :return: Equipment state
         """
         if not self._active:
@@ -164,12 +169,19 @@ class TestEquipmentModel:
             self._active = True
         return self.state_monitor.state
 
-    def activate(self):
-        """
-        Activate
-        :return: None
-        """
+    def activate(self) -> None:
+        """Activate monitor."""
         if not self._active:
             self.state_monitor.start_subscriptions()
             self.state_monitor.start_listening()
             self._active = True
+
+
+def get_equipment_model(test_equipment: TangoTestEquipment) -> TestEquipmentModel:
+    """
+    Get test equipment status.
+
+    :param test_equipment: Tango test equipment device
+    :return: Test Equipment Model object
+    """
+    return TestEquipmentModel(test_equipment)

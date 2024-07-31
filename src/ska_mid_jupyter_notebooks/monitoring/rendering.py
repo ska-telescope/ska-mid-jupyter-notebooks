@@ -1,7 +1,11 @@
+"""Render the monitor e.a."""
+
 from typing import Generic, Literal, OrderedDict, TypeVar
 
 from bokeh.io import push_notebook, show
-from bokeh.models import ColumnDataSource, LabelSet
+from bokeh.io.notebook import CommsHandle
+from bokeh.models import ColumnDataSource
+from bokeh.models.annotations import LabelSet
 from bokeh.plotting import figure
 
 ItemStates = Literal["DISABLED", "BUSY", "ACTIVE", "OFFLINE"]
@@ -38,7 +42,10 @@ T = TypeVar("T", bound=str)
 C = TypeVar("C", bound=str)
 
 
+# pylint: disable-next=too-few-public-methods
 class LabeledBlock(Generic[T, C]):
+    """Labels for blocks."""
+
     def __init__(self, text: T, colour: C) -> None:
         """
         Initialises LabeledBlock class
@@ -49,7 +56,10 @@ class LabeledBlock(Generic[T, C]):
         self.colour = colour
 
 
+# pylint: disable-next=too-few-public-methods
 class LabeledBoxesData(Generic[T, C]):
+    """Labels for boxes full of data."""
+
     def __init__(
         self,
         x_position: list[float],
@@ -58,13 +68,12 @@ class LabeledBoxesData(Generic[T, C]):
         square_colours: list[C],
     ):
         """
-        Initialises LabeledBoxesData class
+        Initialise LabeledBoxesData class.
+
         :param x_position: list of x positions
         :param y_position: list of y positions
         :param square_labels: list of labels
         :param square_colours: list of colours
-
-        :return: None
         """
         self.x_position = x_position
         self.y_position = y_position
@@ -72,8 +81,12 @@ class LabeledBoxesData(Generic[T, C]):
         self.square_colours = square_colours
 
     @property
-    def as_dict(self):
-        """Get the data as a dictionary"""
+    def as_dict(self) -> dict:
+        """
+        Get the data as a dictionary.
+
+        :return: dictionary with positions, lables and colours
+        """
         return {
             "x_position": self.x_position,
             "y_position": self.y_position,
@@ -87,7 +100,8 @@ Value = TypeVar("Value", bound=str)
 
 
 def _sample(start: float, end: float, number: int) -> list[float]:
-    """Calculate the list of equidistant positions for number of items in a given range.
+    """
+    Calculate the list of equidistant positions for number of items in a given range.
 
     The first item will always start with the start position and the end item will end on
     exactly the end position.
@@ -101,7 +115,7 @@ def _sample(start: float, end: float, number: int) -> list[float]:
     inner_points = number - 2
     sample_range = end - start
 
-    def calc_pos(index: int):
+    def calc_pos(index: int) -> float:
         return round(distance * index + start, 2)
 
     if inner_points:
@@ -111,14 +125,15 @@ def _sample(start: float, end: float, number: int) -> list[float]:
             *[calc_pos(index) for index in range(1, number - 1)],
             end,
         ]
-    else:
-        return [start, end]
+    return [start, end]
 
 
 MonitoringItems = OrderedDict[Name, Value]
 
 
 class MonitorPlot(Generic[Name, Value]):
+    """Monitor the thickening plot."""
+
     def __init__(
         self,
         plot_width: int,
@@ -127,13 +142,16 @@ class MonitorPlot(Generic[Name, Value]):
         state_mapping_to_colour: dict[Value, Colours],
     ) -> None:
         """
-        Initialises MonitorPlot class
+        Initialise MonitorPlot class.
+
         :param plot_width: width of the plot
         :param plot_height: height of the plot
         :param items: items to be displayed
         :param state_mapping_to_colour: mapping of states to colours
         :return: None
         """
+        self._handle: CommsHandle | None = None
+
         self._state_mapping_to_clr = state_mapping_to_colour
         self._monitor_plot = figure(
             width=plot_width,
@@ -164,12 +182,12 @@ class MonitorPlot(Generic[Name, Value]):
             text_color="black",
             source=self._monitor_source,
         )
-        self._handle = None
 
     @property
     def _colours_as_list(self) -> list[Colours]:
         """
-        Get colours as list
+        Get colours as list.
+
         :return: list of colours
         """
         return list(
@@ -177,11 +195,8 @@ class MonitorPlot(Generic[Name, Value]):
             for value in self._labeled_blocks.values()
         )
 
-    def _create_output(self):
-        """
-        Create output
-        :return: None
-        """
+    def _create_output(self) -> None:
+        """Create output."""
         self._monitor_plot.square(
             x="x_position",
             y="y_position",
@@ -191,34 +206,22 @@ class MonitorPlot(Generic[Name, Value]):
         )
         self._monitor_plot.add_layout(self._labels)  # type: ignore
 
-    def show(self):
-        """
-        Show output
-        :return: None
-        """
+    def show(self) -> None:
+        """Show output."""
         self._create_output()
         self._handle = show(self._monitor_plot, notebook_handle=True)
 
-    def re_render(self):
-        """
-        Re-render plot
-        :return: None
-        """
+    def re_render(self) -> None:
+        """Re-render plot."""
         self._create_output()
         push_notebook(handle=self._handle)
 
-    def _update_data_source(self):
-        """
-        Update data source
-        :return: None
-        """
+    def _update_data_source(self) -> None:
+        """Update data source."""
         self._monitor_source.data["square_colours"] = self._colours_as_list
 
-    def _set_box(self, box_name: Name, value: Value):
-        """
-        Set box
-        :return: None
-        """
+    def _set_box(self, box_name: Name, value: Value) -> None:
+        """Set box."""
         self._labeled_blocks[box_name] = value
         self._update_data_source()
         self.re_render()

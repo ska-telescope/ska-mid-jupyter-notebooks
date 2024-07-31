@@ -1,66 +1,79 @@
+"""Target specifications."""
+
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-# from ska_oso_pdm.entities.common.target import (
-#     CrossScanParameters,
-#     EquatorialCoordinates,
-#     EquatorialCoordinatesReferenceFrame,
-#     FivePointParameters,
-#     HorizontalCoordinates,
-#     PointingPattern,
-#     RasterParameters,
-#     SinglePointParameters,
-#     StarRasterParameters,
-# )
-from ska_oso_pdm._shared.target import CrossScanParameters
+from ska_oso_pdm._shared.target import (
+    CrossScanParameters,
+    EquatorialCoordinates,
+    EquatorialCoordinatesReferenceFrame,
+    FivePointParameters,
+    HorizontalCoordinates,
+    PointingPattern,
+    RasterParameters,
+    SinglePointParameters,
+    StarRasterParameters,
+)
 from ska_oso_pdm._shared.target import Target as PDMTarget
-# from ska_oso_pdm.entities.common.target import Target as PDMTarget
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
 from ska_mid_jupyter_notebooks.obsconfig.base import SchedulingBlock
 
+# mypy: disable-error-code="import-untyped"
+
 
 @dataclass
+# pylint: disable-next=too-many-instance-attributes
 class TargetSpec:
-    # since dishes and band parameters are not required for low imaging scenario hence we have kept default attribute provision
+    """Default attribute provision."""
+
+    # since dishes and band parameters are not required for low imaging scenario,
+    # we have kept default attribute provision
+
+    target_sb_detail: dict
 
     dish_ids: List[str]
-    scan_type: Optional[str] = None
-    target: Optional[Union[Target, PDMTarget]] = None
-    band: Optional[ReceiverBand] = None
-    channelisation: str = None
-    polarisation: str = None
-    field: str = None
-    processing: str = None
+    scan_type: Optional[str] | None = None
+    target: Optional[Union[Target, PDMTarget]] | None = None
+    band: Optional[ReceiverBand] | None = None
+    channelisation: str | None = None
+    polarisation: str | None = None
+    field: str | None = None
+    processing: str | None = None
     scan_duration: Optional[float] = 10.0  # default scan duration
-    target_sb_detail: Optional[dict] = None
 
 
 class Scan:
+    """Do the scan."""
+
     def __init__(self) -> None:
         """
-        Initialise the scan instance
+        Initialise the scan instance.
+
         :return: None
         """
         self._instance_count: int = 0
 
-    def _init_scan(self):
+    def _init_scan(self) -> None:
         """
-        Initialise the scan instance count
+        Initialise the scan instance count.
+
         :return: None
         """
         self._instance_count = 0
 
-    def _inc(self):
+    def _inc(self) -> None:
         """
-        Increment the scan instance count
+        Increment the scan instance count.
+
         :return: None
         """
         self._instance_count += 1
 
-    def generate_next_scan_id(self, backwards: bool = False):
+    def generate_next_scan_id(self, backwards: bool = False) -> dict:
         """
-        Generate the next scan id
+        Generate the next scan id.
+
         :param backwards: If True, return the previous scan id
         :return: The next scan id
         """
@@ -72,7 +85,8 @@ class Scan:
     @property
     def current_scan_id_value(self) -> int:
         """
-        Get the current scan id
+        Get the current scan id.
+
         :return: The current scan id
         """
         return self._instance_count
@@ -80,7 +94,8 @@ class Scan:
     @property
     def current_scan_id(self) -> dict[str, int]:
         """
-        Get the current scan id
+        Get the current scan id.
+
         :return: The current scan id
         """
         return {"scan_id": self._instance_count}
@@ -88,13 +103,20 @@ class Scan:
     @property
     def current_scan_id_backwards(self) -> dict[str, int]:
         """
-        Get the current scan id
+        Get the current scan id.
+
         :return: The current scan id
         """
         return {"id": self._instance_count}
 
 
 def get_default_target_specs_sb(dish_ids: List[str]) -> Dict[str, TargetSpec]:
+    """
+    Get default target specs SB.
+
+    :param dish_ids: dish identifiers
+    :return: dictionary
+    """
     return {
         "Polaris Australis": TargetSpec(
             dish_ids=dish_ids,
@@ -174,23 +196,28 @@ def get_default_target_specs_sb(dish_ids: List[str]) -> Dict[str, TargetSpec]:
 
 
 class TargetSpecs(SchedulingBlock, Scan):
-    def __init__(self, target_specs: dict[str, TargetSpec] = None) -> None:
+    """Specify the target."""
+
+    # pylint: disable-next=dangerous-default-value
+    def __init__(self, target_specs: dict[str, TargetSpec] = {}) -> None:
         """
-        Initialize a new instance of the TargetSpecs class
+        Initialize a new instance of the TargetSpecs class.
+
         :param target_specs: dictionary containing target specs data
         :return: None
         """
         super().__init__()
         self._init_scan()
 
-        self.targets = []
+        self.targets: list = []
         self.target_specs: dict[str, TargetSpec] = {}
-        if target_specs is not None:
+        if target_specs:
             self.add_target_specs(target_specs)
 
-    def add_target_specs(self, target_specs: dict[str, TargetSpec]):
+    def add_target_specs(self, target_specs: dict[str, TargetSpec]) -> None:
         """
-        Add target specs
+        Add target specs.
+
         :param target_specs: dictionary containing target specs data
         :return: None
         """
@@ -247,9 +274,10 @@ class TargetSpecs(SchedulingBlock, Scan):
                     else:
                         self.targets.append(pdm_target)
 
-    def get_target_spec(self, target_id: str | None = None):
+    def get_target_spec(self, target_id: str | None = None) -> TargetSpec:
         """
-        Get the target spec
+        Get the target spec.
+
         :param target_id: target id
         :return: TargetSpec object
         """
@@ -260,7 +288,8 @@ class TargetSpecs(SchedulingBlock, Scan):
     @property
     def next_target_id(self) -> str:
         """
-        Get the next target id
+        Get the next target id.
+
         :return: The next target id
         """
         return list(self.target_specs.keys())[0]

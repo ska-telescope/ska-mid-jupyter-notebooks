@@ -1,3 +1,5 @@
+"""Notebook conversion stuff."""
+
 import argparse
 import csv
 import sys
@@ -31,9 +33,16 @@ parser.add_argument(
 )
 
 
-def _main(dest: Path, source: Path, delimiter: str):
+def _main(dest: Path, source: Path, delimiter: str) -> None:
+    """
+    Not the main peanut.
+
+    :param dest: destination path
+    :param source: source path
+    :param delimiter: delimiter for CSV
+    """
     with dest.open("w") as destination_file:
-        nb = new_notebook()
+        new_nb = new_notebook()
         with source.open("r") as source_file:
             for row in csv.DictReader(source_file, delimiter=delimiter):
                 assert (
@@ -41,16 +50,20 @@ def _main(dest: Path, source: Path, delimiter: str):
                 ), "Incorrect csv file or delimiter: you need a column with heading Action"
                 assert (
                     "Expected Result" in row.keys()
-                ), "Incorrect csv file or delimiter: you need a column with heading Expected Result"
+                ), "Incorrect csv file or delimiter: no column with heading Expected Result"
                 assert (
                     "#" in row.keys()
                 ), "Incorrect csv file or delimiter: you need a column with heading #"
-                data = f"**Step {row['#']}:**\n\n{row['Action']}  \n\nExpected Result:  \n_{row['Expected Result']}_"
-                nb.cells.append(new_markdown_cell(data))
-        nbformat.write(nb, destination_file)
+                data = (
+                    f"**Step {row['#']}:**\n\n{row['Action']}\n\n"
+                    f"Expected Result:  \n_{row['Expected Result']}_"
+                )
+                new_nb.cells.append(new_markdown_cell(data))
+        nbformat.write(new_nb, destination_file)
 
 
-def main():
+def main() -> None:
+    """The main peanut."""
     args = parser.parse_args()
     dest = cast(Path, args.dest)
     source = cast(Path, args.source)

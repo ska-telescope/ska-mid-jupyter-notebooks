@@ -1,3 +1,7 @@
+"""Test target specification."""
+
+# pylint: disable=duplicate-code,no-member
+
 import json
 
 from ska_oso_pdm.entities.common.target import (
@@ -16,13 +20,11 @@ from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSch
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
 from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec
 
-# pylint: disable=E1101
+# mypy: disable-error-code="import-untyped"
 
 
-def test_validate_target_spec_add_configuration_for_mid_sb():
-    """
-    Validates Target Spec AddConfiguration for Mid Non SB
-    """
+def test_validate_target_spec_add_configuration_for_mid_sb() -> None:
+    """Validates Target Spec AddConfiguration for Mid Non SB."""
 
     observation = ObservationSB()
     observation._channel_configurations = {}  # pylint: disable=W0212
@@ -38,7 +40,7 @@ def test_validate_target_spec_add_configuration_for_mid_sb():
             beams={"vis0": BeamMapping(beam_id="vis0", field_id="M83")},
             derive_from=".default",
         )
-        observation.add_channel_configuration(target.channelisation, channel_configuration)
+        observation.add_channel_configuration(str(target.channelisation), channel_configuration)
 
     pdm_allocation = observation.generate_pdm_object_for_sbd_save(target_specs)
     pdm_allocation.sbd_id = "sbd-miditf-20240415-00006"
@@ -73,11 +75,8 @@ def test_validate_target_spec_add_configuration_for_mid_sb():
     assert obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
-def test_validate_target_spec_remove_configuration_for_mid_sb():
-    """
-    Validates Target Spec Remove Configuration for Mid SB
-    """
-
+def test_validate_target_spec_remove_configuration_for_mid_sb() -> None:
+    """Validate Target Spec Remove Configuration for middle SB."""
     observation = ObservationSB()
     observation.target_specs = {}
     observation._channel_configurations = {}  # pylint: disable=W0212
@@ -88,7 +87,7 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
     # User can update freq_min and freq_max based on ReceiverBand
     channel_configuration = DEFAULT_CHANNEL_CONFIGURATION
     for value in target_specs.values():
-        observation.add_channel_configuration(value.channelisation, channel_configuration)
+        observation.add_channel_configuration(str(value.channelisation), channel_configuration)
 
     observation.add_target_specs(target_specs)
 
@@ -106,12 +105,16 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
     ).as_object
     obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels = [
         channel
-        for channel in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels
+        for channel in (
+            obsconfig_assign_resource_configuration_object.sdp_config.execution_block.channels
+        )
         if channel.channels_id != "vis_channels6"
     ]
     obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types = [
         scan_type
-        for scan_type in obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types
+        for scan_type in (
+            obsconfig_assign_resource_configuration_object.sdp_config.execution_block.scan_types
+        )
         if scan_type.scan_type_id != "flux calibrator"
     ]
 
@@ -143,18 +146,17 @@ def test_validate_target_spec_remove_configuration_for_mid_sb():
     assert not obsconfig_configure_resource_dict["sdp"]["scan_type"] == "flux calibrator"
 
 
-def test_validate_target_spec_configuration_for_mid_sb():
-    """
-    Validates Target Spec Configuration for Mid Non SB
-    """
-
+def test_validate_target_spec_configuration_for_mid_sb() -> None:
+    """Validate Target Spec Configuration for middle non-SB."""
     observation = ObservationSB()
     observation.target_specs = {}
     observation.eb_id = "eb-miditf-20240415-00006"
     observation._channel_configurations = {}  # pylint: disable=W0212
 
     for value in DEFAULT_TARGET_SPECS.values():
-        observation.add_channel_configuration(value.channelisation, DEFAULT_CHANNEL_CONFIGURATION)
+        observation.add_channel_configuration(
+            str(value.channelisation), DEFAULT_CHANNEL_CONFIGURATION
+        )
 
     observation.add_target_specs(DEFAULT_TARGET_SPECS)
 

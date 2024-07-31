@@ -1,3 +1,7 @@
+"""Control state of system under test."""
+
+# pylint: disable=duplicate-code
+
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
@@ -20,8 +24,12 @@ DeviceDevState = Literal["ON", "ERROR", "DISABLE", "OFF", "UNKNOWN"]
 
 DeviceState = Union[DeviceDevState, "SubarrayObsState"]
 
+# pylint: disable=use-a-generator
+
 
 class TelescopeState(TypedDict):
+    """Store state of telescope."""
+
     devices_states: dict[str, DeviceState]
 
 
@@ -43,14 +51,27 @@ obsstate_mapping = dict[SubarrayInputObsState, SubarrayObsState](
 
 
 class TelescopeDeviceModel:
+    """Implement telescope device."""
+
     _dish_ids: List[str]
     _subarray_count: int
 
     def __init__(self, dish_ids: List[str], subarray_count: int):
+        """
+        Rock and roll.
+
+        :param dish_ids: list of dish identifiers
+        :param subarray_count: number of subarrays
+        """
         self._dish_ids = dish_ids
         self._subarray_count = subarray_count
 
     def tm_devices(self) -> List[str]:
+        """
+        Compile list of TM device names.
+
+        :return: list of device names
+        """
         return [
             "ska_mid/tm_central/central_node",
             *[f"ska_mid/tm_subarray_node/{index}" for index in range(1, self._subarray_count + 1)],
@@ -70,21 +91,41 @@ class TelescopeDeviceModel:
         ]
 
     def csp_devices(self) -> List[str]:
+        """
+        Compile list of CSP device names.
+
+        :return: list of device names
+        """
         return [
             "mid-csp/control/0",
             *[f"mid-csp/subarray/{index:0>2}" for index in range(1, self._subarray_count + 1)],
         ]
 
     def sdp_devices(self) -> List[str]:
+        """
+        Compile list of SDP device names.
+
+        :return: list of device names
+        """
         return [
             "mid-sdp/control/0",
             *[f"mid-sdp/subarray/{index:0>2}" for index in range(1, self._subarray_count + 1)],
         ]
 
     def tmc_devices(self) -> List[str]:
+        """
+        Compile list of TMC device names.
+
+        :return: list of device names
+        """
         return [*self.tm_devices(), *self.csp_devices()]
 
     def subarray_devices(self) -> List[str]:
+        """
+        Compile list of subarray device names.
+
+        :return: list of device names
+        """
         return [
             *["ska_mid/tm_subarray_node/1"],
             *["mid-csp/subarray/01"],
@@ -95,6 +136,8 @@ TelescopeAggState = Literal["ON", "ERROR", "OFFLINE", "OFF", "UNKNOWN"]
 
 
 class DeviceNameAndState(NamedTuple):
+    """Tuple with device name and state."""
+
     device_name: str
     device_state: DeviceState
 
@@ -108,14 +151,18 @@ class TelescopeModel:
         device_model: TelescopeDeviceModel,
         deployment: TangoDeployment,
     ) -> None:
-        """Initialise the object
+        """
+        Initialise the object.
 
-        :param state_monitor: The provided state monitor object.
+        :param state_monitor: state monitor object
+        :param device_model: telescope device model
+        :param deployment: Tango deployment
         """
         self.state_monitor = state_monitor
         self._device_model = device_model
         self._deployment = deployment
         # add device state reducers
+        # pylint: disable-next=unnecessary-comprehension
         keys = [key for key in state_monitor.state["devices_states"].keys()]
         dev_factory = RemoteDeviceFactory(self._deployment.tango_host)
         poller = DeviceAttrPoller(dev_factory)
@@ -127,30 +174,46 @@ class TelescopeModel:
         self._tel_ready = Event()
         self.subscribe_to_on_off(self.monitor_ready)
 
-    def get_last_poll_latency(self):
-        """Get the last poll latency"""
+    def get_last_poll_latency(self) -> float:
+        """
+        Get the last poll latency.
+
+        :return: last poll latency.
+        """
         return self.state_monitor.get_last_poll_latency()
 
-    def get_average_poll_latency(self):
-        """Get the average poll latency"""
+    def get_average_poll_latency(self) -> float:
+        """
+        Get the average poll latency.
+
+        """
         return self.state_monitor.get_last_poll_latency()
 
     @property
-    def listening_state(self):
-        """Get the listening state"""
+    def listening_state(self) -> Literal["Running", "Aborted", "Not Started"]:
+        """
+        Get the listening state.
+
+        :return: literal value of listening state
+        """
         return self.state_monitor.listening_state
 
     @property
     def state(self) -> TelescopeState:
-        """Get monitoring state"""
+        """
+        Get monitoring state.
+
+        :return: monitoring state
+        """
         return self.state_monitor.state
 
     def subscribe_to_on_off(
         self,
         observe_function: Callable[[Literal["ON", "ERROR", "OFFLINE", "OFF"]], None],
-    ):
+    ) -> None:
         """
-        Add an observe function to be called when the telescope aggregate state change between ON/OFF
+        Add observe function to be called when telescope aggregate state change between ON/OFF
+
         :param observe_function: observe function
         """
 
@@ -165,18 +228,18 @@ class TelescopeModel:
             agg_state: TelescopeAggState, cn_tel_state: Literal["ON", "ERROR"]
         ) -> Literal["ON", "ERROR", "OFFLINE", "OFF"]:
             """
-            Select the state of the telescope based on the aggregate state and the state of the central node
+            Select state of telescope based on aggregate state and state of central node.
+
             :param agg_state: aggregate state
             :param cn_tel_state: state of the central node
             """
             if all([agg_state == "ON", cn_tel_state == "ON"]):
                 return "ON"
-            elif any([agg_state == "ERROR", cn_tel_state == "ERROR"]):
+            if any([agg_state == "ERROR", cn_tel_state == "ERROR"]):
                 return "ERROR"
-            elif agg_state == "OFFLINE":
+            if agg_state == "OFFLINE":
                 return "OFFLINE"
-            else:
-                return "OFF"
+            return "OFF"
 
         telescope_state_selector = Selector[
             TelescopeState, Literal["ON", "ERROR", "OFFLINE", "OFF"]
@@ -188,17 +251,19 @@ class TelescopeModel:
 
         self.state_monitor.add_observer(observe_function, telescope_state_selector)
 
-    def monitor_ready(self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]):
+    def monitor_ready(self, state: Literal["ON", "ERROR", "OFFLINE", "OFF"]) -> None:
         """
-        Check current state and call _tel_ready if state is ON, OFFLINE or OFF
+        Check current state and call _tel_ready if state is ON, OFFLINE or OFF.
+
         :param state: current state
         """
         if any([state == "ON", state == "OFFLINE", state == "OFF"]):
             self._tel_ready.set()
 
-    def wait_til_ready(self, timeout: float | None):
+    def wait_til_ready(self, timeout: float | None) -> None:
         """
-        Wait until _tel_ready is ready
+        Wait until _tel_ready is ready.
+
         :param timeout: timeout
         """
         self._tel_ready.wait(timeout)
@@ -206,11 +271,11 @@ class TelescopeModel:
     def subscribe_to_subarray_resource_state(
         self,
         observe_function: Callable[[SubarrayResourceState], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray resource state have changed.
+
         :param observe_function: observe function
-        :return: None
         """
 
         input_subarray_obsstates = [
@@ -222,18 +287,19 @@ class TelescopeModel:
             *obsstates: SubarrayObsState,
         ) -> SubarrayResourceState:
             """
-            Select the subarray resource state based on the subarray observation states
+            Select the subarray resource state based on the subarray observation states.
+
             :param obsstates: subarray observation states
             :return: SubarrayResourceState
             """
             if all([obsstate == "EMPTY" for obsstate in obsstates]):
                 return "EMPTY"
-            elif all([obsstate == "IDLE" for obsstate in obsstates]):
+            if all([obsstate == "IDLE" for obsstate in obsstates]):
                 return "COMPOSED"
-            elif any([obsstate == "RESOURCING" for obsstate in obsstates]):
+            if any([obsstate == "RESOURCING" for obsstate in obsstates]):
                 return "RESOURCING"
             # if it is already passed COMPOSED
-            elif any(
+            if any(
                 [
                     any(
                         [
@@ -256,11 +322,11 @@ class TelescopeModel:
     def subscribe_to_subarray_configurational_state(
         self,
         observe_function: Callable[[SubarrayConfigurationState], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray configurational state have changed.
+
         :param observe_function: observe function
-        :return: None
         """
         input_subarray_obsstates = [
             self._generate_select_device_attr(device, "obsstate")
@@ -271,16 +337,17 @@ class TelescopeModel:
             *obsstates: SubarrayObsState,
         ) -> SubarrayConfigurationState:
             """
-            Select the subarray configurational state based on the subarray observation states
+            Select the subarray configurational state based on the subarray observation states.
+
             :param obsstates: subarray observation states
             :return: SubarrayConfigurationState
             """
             if any([obsstate == "CONFIGURING" for obsstate in obsstates]):
                 return "CONFIGURING"
-            elif all([obsstate == "READY" for obsstate in obsstates]):
+            if all([obsstate == "READY" for obsstate in obsstates]):
                 return "READY"
             # if it is already passed READY
-            elif any([obsstate == "SCANNING" for obsstate in obsstates]):
+            if any([obsstate == "SCANNING" for obsstate in obsstates]):
                 return "READY"
             return "NOT_CONFIGURED"
 
@@ -293,11 +360,11 @@ class TelescopeModel:
     def subscribe_to_subarray_scanning_state(
         self,
         observe_function: Callable[[SubarrayScanningState], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray scanning state have changed.
+
         :param observe_function: observe function
-        :return: None
         """
         input_subarray_obsstates = [
             self._generate_select_device_attr(device, "obsstate")
@@ -327,11 +394,10 @@ class TelescopeModel:
     def subscribe_to_subarrays_obsstate(
         self,
         observe_function: Callable[[dict[str, SubarrayObsState]], None],
-    ):
+    ) -> None:
         """
         Add an observe function when the aggregate subarray scanning state have changed.
         :param observe_function: observe function
-        :return: None
         """
         input_subarray_obsstates = [
             self._generate_select_device_name_and_attr_state(device, "obsstate")
@@ -357,15 +423,14 @@ class TelescopeModel:
 
         self.state_monitor.add_observer(observe_function, subarray_resource_state_selector)
 
-    def activate(self):
+    def activate(self) -> None:
         """
-        Activate the state monitor
-        :return: None
+        Activate the state monitor.
         """
         self.state_monitor.start_subscriptions()
         self.state_monitor.start_listening()
 
-        # reducers
+        # TODO reducers?
 
     @classmethod
     def _reducer_set_device_attribute(
@@ -393,7 +458,8 @@ class TelescopeModel:
         cls, device_name: str, attr: str
     ) -> Selector[TelescopeState, DeviceState]:
         """
-        Generate a selector for a device attribute
+        Generate a selector for a device attribute.
+
         :param device_name: device name
         :param attr: attribute
         :return: selector
@@ -401,7 +467,8 @@ class TelescopeModel:
 
         def _select_device_attr(state: TelescopeState) -> DeviceState:
             """
-            Select device attribute
+            Select device attribute.
+
             :param state: telescope state
             :return: device state
             """
@@ -414,7 +481,8 @@ class TelescopeModel:
         cls, device_name: str, attr: str
     ) -> Selector[TelescopeState, DeviceNameAndState]:
         """
-        Generate a selector for a device attribute
+        Generate a selector for a device attribute.
+
         :param device_name: device name
         :param attr: attribute
         :return: selector
@@ -422,7 +490,8 @@ class TelescopeModel:
 
         def _select_device_attr(state: TelescopeState) -> DeviceNameAndState:
             """
-            Select device attribute
+            Select device attribute.
+
             :param state: telescope state
             :return: DeviceNameAndState
             """
@@ -437,7 +506,10 @@ class TelescopeModel:
         device_model: TelescopeDeviceModel,
     ) -> Selector[TelescopeState, TelescopeAggState]:
         """
-        Generate a selector for a device attribute
+        Generate a selector for a device attribute.
+
+        :param cls: whatever
+        :param device_model: telescope device model
         :return selector
         """
         input_selectors = [
@@ -449,20 +521,20 @@ class TelescopeModel:
             *states: TelescopeAggState,
         ) -> TelescopeAggState:
             """
-            Select the telescope state based on the states of the devices
+            Select the telescope state based on the states of the devices.
+
             :param states: states of the devices
             :return: TelescopeAggState
             """
             if all([state == "ON" for state in states]):
                 return "ON"
-            elif any([state == "ERROR" for state in states]):
+            if any([state == "ERROR" for state in states]):
                 return "ERROR"
-            elif any([state == "OFFLINE" for state in states]):
+            if any([state == "OFFLINE" for state in states]):
                 return "OFFLINE"
-            elif all([state == "OFF" for state in states]):
+            if all([state == "OFF" for state in states]):
                 return "OFF"
-            else:
-                return "UNKNOWN"
+            return "UNKNOWN"
 
         return Selector[TelescopeState, TelescopeAggState](
             select_telescope_state, *input_selectors
@@ -474,7 +546,13 @@ def get_telescope_state(
     device_model: TelescopeDeviceModel,
     deployment: TangoDeployment,
 ) -> TelescopeModel:
-    """Get TMC mid telescope state"""
+    """
+    Get TMC mid telescope state.
+
+    :param device_model: telescope device model
+    :param TangoDeployment: Tango deployment
+    :return: telescope model instance
+    """
     tmc_devices_states = {
         event_key(device, "state"): "UNKNOWN" for device in device_model.tm_devices()
     }
