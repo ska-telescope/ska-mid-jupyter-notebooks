@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from ska_oso_pdm.entities.common.procedures import FilesystemScript, GitScript, PythonArguments
-from ska_oso_pdm.entities.common.sb_definition import MetaData
-from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
-from ska_oso_pdm.entities.sdp.execution_block import ExecutionBlock
-from ska_oso_pdm.entities.sdp.scan_type import BeamMapping
+# from ska_oso_pdm.entities.common.procedures import FilesystemScript, GitScript, PythonArguments
+# from ska_oso_pdm.entities.common.sb_definition import MetaData
+# from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
+# from ska_oso_pdm.entities.sdp.execution_block import ExecutionBlock
+# from ska_oso_pdm.entities.sdp.scan_type import BeamMapping
+
+from ska_oso_pdm.sb_definition.procedures import FilesystemScript, GitScript
+from ska_oso_pdm._shared import PythonArguments
 
 from ska_mid_jupyter_notebooks.obsconfig.base import encoded, load_next_sb
 from ska_mid_jupyter_notebooks.obsconfig.channelisation import Channelisation

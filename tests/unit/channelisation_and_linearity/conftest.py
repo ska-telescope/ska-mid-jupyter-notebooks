@@ -10,8 +10,8 @@ from typing import List, Tuple
 
 import pytest
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
-from ska_oso_pdm.entities.common.target import (  # type: ignore[import-untyped]
+from ska_oso_pdm import SBDefinition
+from ska_oso_pdm._shared.target import (
     CrossScanParameters,
     FivePointParameters,
     RasterParameters,

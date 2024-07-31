@@ -1,18 +1,20 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-from ska_oso_pdm.entities.common.target import (
-    CrossScanParameters,
-    EquatorialCoordinates,
-    EquatorialCoordinatesReferenceFrame,
-    FivePointParameters,
-    HorizontalCoordinates,
-    PointingPattern,
-    RasterParameters,
-    SinglePointParameters,
-    StarRasterParameters,
-)
-from ska_oso_pdm.entities.common.target import Target as PDMTarget
+# from ska_oso_pdm.entities.common.target import (
+#     CrossScanParameters,
+#     EquatorialCoordinates,
+#     EquatorialCoordinatesReferenceFrame,
+#     FivePointParameters,
+#     HorizontalCoordinates,
+#     PointingPattern,
+#     RasterParameters,
+#     SinglePointParameters,
+#     StarRasterParameters,
+# )
+from ska_oso_pdm._shared.target import CrossScanParameters
+from ska_oso_pdm._shared.target import Target as PDMTarget
+# from ska_oso_pdm.entities.common.target import Target as PDMTarget
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
 from ska_mid_jupyter_notebooks.obsconfig.base import SchedulingBlock

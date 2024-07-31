@@ -1,6 +1,8 @@
 from typing import Any
 
-from ska_oso_pdm.entities.sdp.sdp_configuration import SDPConfiguration
+# from ska_oso_pdm.entities.sdp.sdp_configuration import SDPConfiguration
+
+from ska_oso_pdm.sb_definition.sdp import SDPConfiguration
 
 from ska_mid_jupyter_notebooks.obsconfig.base import encoded
 from ska_mid_jupyter_notebooks.obsconfig.dishes import Dishes

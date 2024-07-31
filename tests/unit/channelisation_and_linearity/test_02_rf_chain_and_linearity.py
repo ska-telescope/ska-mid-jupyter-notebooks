@@ -7,8 +7,12 @@ import time
 from typing import Any, List
 
 import tango
-from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
-from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+# from ska_oso_pdm.entities.common.sb_definition import SBDefinition  # type: ignore[import-untyped]
+# from ska_oso_pdm.entities.sdp import BeamMapping  # type: ignore[import-untyped]
+
+from ska_oso_pdm import SBDefinition
+from ska_oso_pdm.sb_definition.sdp import BeamMapping
+
 from ska_oso_scripting import oda_helper  # type: ignore[import-untyped]
 from ska_oso_scripting.functions.devicecontrol.exception import (
     EventTimeoutError,  # type: ignore[import-untyped]

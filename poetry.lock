@@ -5031,13 +5031,13 @@ reference = "ska"
 
 [[package]]
 name = "setuptools"
-version = "72.0.0"
+version = "72.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-72.0.0-py3-none-any.whl", hash = "sha256:98b4d786a12fadd34eabf69e8d014b84e5fc655981e4ff419994700434ace132"},
-    {file = "setuptools-72.0.0.tar.gz", hash = "sha256:5a0d9c6a2f332881a0153f629d8000118efd33255cfa802757924c53312c76da"},
+    {file = "setuptools-72.1.0-py3-none-any.whl", hash = "sha256:5a03e1860cf56bb6ef48ce186b0e557fdba433237481a9a625176c2831be15d1"},
+    {file = "setuptools-72.1.0.tar.gz", hash = "sha256:8d243eff56d095e5817f796ede6ae32941278f542e0f941867cc05ae52b162ec"},
 ]
 
 [package.extras]
@@ -5047,8 +5047,8 @@ test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metadata
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sgp4"
@@ -5330,13 +5330,13 @@ reference = "ska"
 
 [[package]]
 name = "ska-sdp-realtime-receive-core"
-version = "6.4.0"
+version = "6.5.0"
 description = "Core utilities for the CBF emulator and realtime receive modules"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_sdp_realtime_receive_core-6.4.0-py3-none-any.whl", hash = "sha256:5d016038c949680238d4d1ea53224d0ac3f8f2ea8eea0a404ba2c3491ea42d21"},
-    {file = "ska_sdp_realtime_receive_core-6.4.0.tar.gz", hash = "sha256:c9e2a033dfc046c6543cd014d68e3a9321334babdd88735dc7c590ed1940a514"},
+    {file = "ska_sdp_realtime_receive_core-6.5.0-py3-none-any.whl", hash = "sha256:9b6f7bac3d0ba97ae7a8d7bb1fe8c95a93468129d3d6116018e4934551a090c5"},
+    {file = "ska_sdp_realtime_receive_core-6.5.0.tar.gz", hash = "sha256:0864b1aee2a211f53bac8f83ba33d4fea4bbc0d2566c957f442bc86280d7f7de"},
 ]
 
 [package.dependencies]
@@ -5682,8 +5682,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sphinxcontrib-devhelp"
@@ -5703,8 +5703,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sphinxcontrib-htmlhelp"
@@ -5724,8 +5724,8 @@ test = ["html5lib", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sphinxcontrib-jquery"
@@ -5783,8 +5783,8 @@ test = ["defusedxml (>=0.7.1)", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sphinxcontrib-serializinghtml"
@@ -5804,8 +5804,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
+url = "https://artefact.skao.int/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "sqlalchemy"

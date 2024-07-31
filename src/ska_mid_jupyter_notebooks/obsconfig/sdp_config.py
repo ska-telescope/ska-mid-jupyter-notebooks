@@ -1,8 +1,19 @@
 from typing import Any, Dict, List, NamedTuple, Union
 
-from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
-from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
-from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
+# from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
+# from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
+# from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
+
+from ska_oso_pdm.sb_definition.sdp import (
+    Beam,
+    BeamFunction,
+    BeamMapping,
+    ProcessingBlock,
+    ScanType,
+    Script,
+    ScriptKind,
+)
+
 from ska_tmc_cdm.messages.central_node.sdp import (
     BeamConfiguration,
     EBScanType,
@@ -33,12 +44,12 @@ DEFAULT_BEAMS_SB = {
         Beam(beam_id="vis0", function=BeamFunction.VISIBILITIES),
         {
             "default_beam_type": BeamMapping(
-                beam_id="vis0",
-                channels_id="vis_channels",
-                polarisations_id="all",
+                beam_ref="vis0",
+                channels_ref="vis_channels",
+                polarisations_ref="all",
             ),
             "polaris_australis_beam_type": BeamMapping(
-                beam_id="vis0", field_id="Polaris Australis"
+                beam_ref="vis0", field_ref="Polaris Australis"
             ),
         },
     ),
@@ -47,10 +58,10 @@ DEFAULT_BEAMS_SB = {
         Beam(beam_id="vlbi", function=BeamFunction.VISIBILITIES),
         {
             "polaris_australis_beam_type": BeamMapping(
-                beam_id="vlbi",
-                field_id="Polaris Australis",
-                channels_id="vlbi_channels",
-                polarisations_id="all",
+                beam_ref="vlbi",
+                field_ref="Polaris Australis",
+                channels_ref="vlbi_channels",
+                polarisations_ref="all",
             ),
         },
     ),
