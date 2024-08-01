@@ -1,5 +1,12 @@
 # SKA Mid Jupyter Notebooks
+
+Main branch:
+[![Binder](https://k8s.miditf.internal.skao.int/binderhub/badge_logo.svg)](https://k8s.miditf.internal.skao.int/binderhub/v2/gl/ska-telescope%2Fska-mid-jupyter-notebooks/main)
+
+This branch:
 [![Binder](https://k8s.miditf.internal.skao.int/binderhub/badge_logo.svg)](https://k8s.miditf.internal.skao.int/binderhub/v2/gl/ska-telescope%2Fska-mid-jupyter-notebooks/at-2204-new-notebooks)
+
+https://jira.skatelescope.org/browse/STS-1022
 
 ## Purpose
 
