@@ -10,7 +10,7 @@ def generate_fsp_list(fsp_count: int, target_talons: list[int]):
     fsp_list = []
     # For singular FSP, set up based on first target talon used
     # If using 4 boards, must also match
-    if fsp_count == 1 or fsp_count == 4:
+    if fsp_count == len(target_talons):
         offset = 0
         for board in target_talons:
             fsp = {}
@@ -24,7 +24,9 @@ def generate_fsp_list(fsp_count: int, target_talons: list[int]):
             fsp["zoom_window_tuning"] = 450000
             fsp_list.append(fsp)
             offset += 1
+    # For cases with n boards but n > FSPs
     else:
+        # Generate the amount of FSPs, staring with fsp_id 1
         for fsp_id in range(fsp_count):
             fsp = {}
             fsp["fsp_id"] = fsp_id + 1
