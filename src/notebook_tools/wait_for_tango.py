@@ -52,7 +52,7 @@ def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error
         if device.obsState == 9 and break_on_error:
             break
         poll += 1
-    print("\r", "-------------------------------------", end="")
+    print("\r", "---------------------------------------------", end="")
     print(f"\nFinished with: {device.obsState.name}")
 
 
