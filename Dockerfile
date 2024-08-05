@@ -3,7 +3,7 @@ FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf
 ARG USER=tango
 ENV USER ${USER}
 ENV HOME /home/${USER}
-#ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
+ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
 
 #RUN userdel tango
 #RUN useradd --create-home --home-dir ${HOME} ${USER}
