@@ -1,6 +1,6 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c2a87082a
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.2-dev.c0ef99b9c
 
-ARG USER=newuser
+ARG USER=tango
 ENV USER ${USER}
 ENV HOME /home/${USER}
 ENV PATH ${HOME}/.local/bin:${HOME}/.venv/bin:${PATH}
@@ -13,7 +13,7 @@ USER ${USER}
 
 WORKDIR ${HOME}
 
-COPY --chown=${USER}:${USER} . ./
+#COPY --chown=${USER}:${USER} . ./
 
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     sed -i '/pytango/d' poetry-requirements.txt && \
