@@ -1,4 +1,4 @@
-def generate_fsp_list(fsp_count: int, target_talons: list[int]):
+def generate_fsp_list(fsp_count: int, target_talons: list[int])->list:
     """
     Generates a list of FSP json objects, given a number to generate, and the target talons.
     Arguments:
@@ -8,35 +8,17 @@ def generate_fsp_list(fsp_count: int, target_talons: list[int]):
     A list of JSON FSP config JSON objects.
     """
     fsp_list = []
-    # For singular FSP, set up based on first target talon used
-    # If using 4 boards, must also match
-    if fsp_count == len(target_talons):
-        offset = 0
-        for board in target_talons:
-            fsp = {}
-            fsp["fsp_id"] = board
-            fsp["function_mode"] = "CORR"
-            fsp["frequency_slice_id"] = board
-            fsp["zoom_factor"] = 0
-            fsp["integration_factor"] = 10
-            fsp["output_link_map"] = [[0, 1]]
-            fsp["channel_offset"] = 14880 * offset
-            fsp["zoom_window_tuning"] = 450000
-            fsp_list.append(fsp)
-            offset += 1
-    # For cases with n boards but n > FSPs
-    else:
-        # Generate the amount of FSPs, staring with fsp_id 1
-        for fsp_id in range(fsp_count):
-            fsp = {}
-            fsp["fsp_id"] = fsp_id + 1
-            fsp["function_mode"] = "CORR"
-            fsp["frequency_slice_id"] = fsp_id + 1
-            fsp["zoom_factor"] = 0
-            fsp["integration_factor"] = 10
-            fsp["output_link_map"] = [[0, 1]]
-            fsp["channel_offset"] = 14880 * fsp_id
-            fsp["zoom_window_tuning"] = 450000
-            fsp_list.append(fsp)
-
+    offset = 0
+    for board in range(fsp_count):
+        fsp = {}
+        fsp["fsp_id"] = target_talons[board] # Set fsp id equal to boards
+        fsp["function_mode"] = "CORR"
+        fsp["frequency_slice_id"] = target_talons[board] # equal to fsp id
+        fsp["zoom_factor"] = 0
+        fsp["integration_factor"] = 10
+        fsp["output_link_map"] = [[0, 1]]
+        fsp["channel_offset"] = 14880 * offset # increment by 14800 for each FSP, starting from 0
+        fsp["zoom_window_tuning"] = 450000
+        fsp_list.append(fsp)
+        offset += 1
     return fsp_list
