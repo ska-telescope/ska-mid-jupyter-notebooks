@@ -1,4 +1,4 @@
-def generate_fsp_list(fsp_count: int, target_talons: list[int])->list:
+def generate_fsp_list(fsp_count: int, target_talons: list[int]) -> list:
     """
     Generates a list of FSP json objects, given a number to generate, and the target talons.
     Arguments:
@@ -11,13 +11,13 @@ def generate_fsp_list(fsp_count: int, target_talons: list[int])->list:
     offset = 0
     for board in range(fsp_count):
         fsp = {}
-        fsp["fsp_id"] = target_talons[board] # Set fsp id equal to boards
+        fsp["fsp_id"] = target_talons[board]  # Set fsp id equal to boards
         fsp["function_mode"] = "CORR"
-        fsp["frequency_slice_id"] = target_talons[board] # equal to fsp id
+        fsp["frequency_slice_id"] = target_talons[board]  # equal to fsp id
         fsp["zoom_factor"] = 0
         fsp["integration_factor"] = 10
         fsp["output_link_map"] = [[0, 1]]
-        fsp["channel_offset"] = 14880 * offset # increment by 14800 for each FSP, starting from 0
+        fsp["channel_offset"] = 14880 * offset  # increment by 14800 for each FSP, starting from 0
         fsp["zoom_window_tuning"] = 450000
         fsp_list.append(fsp)
         offset += 1
