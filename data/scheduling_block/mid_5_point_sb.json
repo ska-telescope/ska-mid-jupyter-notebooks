@@ -33,14 +33,14 @@
     {
       "scan_definition_id": "calibrator scan",
       "scan_duration": 60000,
-      "target_ref": "Polaris Australis",
+      "target_ref": "M83",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "pointing",
       "csp_configuration_ref": "csp config 123"
     },
     {
       "scan_duration": 60000,
-      "target_ref": "M83",
+      "target_ref": "Polaris Australis",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "science",
       "scan_definition_id": "science scan",
@@ -269,7 +269,7 @@
         "subarray_id": 1
       },
       "cbf": {
-        "fsp": [
+        "fsps": [
           {
             "fsp_id": 1,
             "function_mode": "CORR",
