@@ -2,8 +2,6 @@
 
 [![Binder](https://k8s.miditf.internal.skao.int/binderhub/badge_logo.svg)](https://k8s.miditf.internal.skao.int/binderhub/v2/gl/ska-telescope%2Fska-mid-jupyter-notebooks/main)
 
-https://jira.skatelescope.org/browse/STS-1022
-
 ## Purpose
 
 This repo contains notebooks intended to be executed against the Mid-ITF. These notebooks can be used to make demos easier to design and follow, as well as make them more repeatable for validation. Some more general notebooks can also be used as onboarding tools, to demonstrate how to interact with Mid-ITF, without having to do much setup.
