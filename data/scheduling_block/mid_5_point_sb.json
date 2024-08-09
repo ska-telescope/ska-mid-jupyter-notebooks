@@ -247,7 +247,12 @@
           "pod_settings": [
             {"securityContext": {"runAsUser": 0, "fsGroup": 0}}
           ],
-          "processors": []
+          "processors": {
+            "signal-display-metrics-amplitude": {},
+            "signal-display-metrics-basic": {},
+            "signal-display-metrics-phase": {},
+            "mswriter": {}
+          }
         },
         "dependencies": [
           { "pb_ref": "pb-test-20211111-00000", "kind": ["pointing-offset"] }
