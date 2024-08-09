@@ -255,7 +255,7 @@
       }
     ],
     "resources": {
-      "receptors": ["SKA001", "SKA036", "SKA063", "SKA100"],
+      "receptors": ["SKA001"],
       "receive_nodes": 1
     }
   },
@@ -297,22 +297,6 @@
                 1
               ]
             ]
-          },
-          {
-            "fsp_id": 2,
-            "function_mode": "CORR",
-            "frequency_slice_id": 2,
-            "integration_factor": 1,
-            "zoom_factor": 0,
-            "channel_averaging_map": [
-              [0, 2],
-              [744, 0]
-            ],
-            "channel_offset": 744,
-            "output_link_map": [
-              [0, 4],
-              [200, 5]
-            ]
           }
         ]
       }
@@ -320,10 +304,7 @@
   ],
   "dish_allocations": {
     "receptor_ids": [
-      "SKA001",
-      "SKA036",
-      "SKA063",
-      "SKA100"
+      "SKA001"
     ]
   },
   "dish_configurations": [
