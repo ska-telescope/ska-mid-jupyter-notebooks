@@ -226,12 +226,13 @@
         "script": {
           "kind": "realtime",
           "name": "vis-receive",
-          "version": "4.1.0"
+          "version": "4.0.0"
         },
         "sbi_ids": [],
         "parameters": {
-          "channels_per_port": 32,
-          "transport_protocol": "tcp",
+          "channels_per_port": 20,
+          "transport_protocol": "udp",
+          "use_network_definition": true,
           "extra_helm_values": {
             "receiver": {
               "options": {
@@ -280,6 +281,8 @@
             "function_mode": "CORR",
             "frequency_slice_id": 1,
             "integration_factor": 1,
+            "output_host": [[0, "10.50.1.34"]],
+            "output_port": [[0, 21000, 1]],
             "zoom_factor": 0,
             "channel_averaging_map": [
               [
@@ -315,7 +318,7 @@
   "dish_configurations": [
     {
       "dish_configuration_id": "dish config 123",
-      "receiver_band": "2"
+      "receiver_band": "1"
     }
   ]
 }
