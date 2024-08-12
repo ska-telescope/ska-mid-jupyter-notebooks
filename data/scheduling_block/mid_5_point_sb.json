@@ -135,8 +135,8 @@
               "count": 14880,
               "start": 0,
               "stride": 1,
-              "freq_min": 1.326e9,
-              "freq_max": 1.367e9,
+              "freq_min": 0.269e9,
+              "freq_max": 0.469e9,
               "link_map": [
                 [
                   0,
@@ -182,7 +182,7 @@
         ]
       },
       {
-        "scan_type_id": "science",
+        "scan_type_id": "pointing",
         "derive_from": ".default",
         "beams": [
           {
@@ -192,7 +192,7 @@
         ]
       },
       {
-        "scan_type_id": "pointing",
+        "scan_type_id": "science",
         "derive_from": ".default",
         "beams": [
           {
@@ -226,7 +226,7 @@
         "script": {
           "kind": "realtime",
           "name": "vis-receive",
-          "version": "4.0.0"
+          "version": "4.2.1"
         },
         "sbi_ids": [],
         "parameters": {
