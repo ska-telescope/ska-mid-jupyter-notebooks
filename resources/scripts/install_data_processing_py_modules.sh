@@ -13,5 +13,4 @@ mkdir -p ~/.casa && mkdir -p ~/.casa/data
 pip install casadata && pip install casatasks && pip install casaviewer
 
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
-
 echo "*** Casa modules installed with success***"
