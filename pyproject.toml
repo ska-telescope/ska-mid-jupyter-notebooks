@@ -84,7 +84,7 @@ build-backend = "poetry.core.masonry.api"
 
 [[tool.poetry.source]]
 name = 'ska'
-url = 'https://artefact.skao.int/repository/pypi-internal/simple'
+url = 'https://artefact.skao.int/repository/pypi-all/simple'
 
 [[tool.poetry.source]]
 name = "PyPI-public"
