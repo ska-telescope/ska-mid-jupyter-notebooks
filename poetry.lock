@@ -13,7 +13,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -29,92 +29,92 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "aiohttp"
-version = "3.10.1"
+version = "3.10.3"
 description = "Async http client/server framework (asyncio)"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "aiohttp-3.10.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:47b4c2412960e64d97258f40616efddaebcb34ff664c8a972119ed38fac2a62c"},
-    {file = "aiohttp-3.10.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:e7dbf637f87dd315fa1f36aaed8afa929ee2c607454fb7791e74c88a0d94da59"},
-    {file = "aiohttp-3.10.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:c8fb76214b5b739ce59e2236a6489d9dc3483649cfd6f563dbf5d8e40dbdd57d"},
-    {file = "aiohttp-3.10.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1c577cdcf8f92862363b3d598d971c6a84ed8f0bf824d4cc1ce70c2fb02acb4a"},
-    {file = "aiohttp-3.10.1-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:777e23609899cb230ad2642b4bdf1008890f84968be78de29099a8a86f10b261"},
-    {file = "aiohttp-3.10.1-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:b07286a1090483799599a2f72f76ac396993da31f6e08efedb59f40876c144fa"},
-    {file = "aiohttp-3.10.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b9db600a86414a9a653e3c1c7f6a2f6a1894ab8f83d11505247bd1b90ad57157"},
-    {file = "aiohttp-3.10.1-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:01c3f1eb280008e51965a8d160a108c333136f4a39d46f516c64d2aa2e6a53f2"},
-    {file = "aiohttp-3.10.1-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:f5dd109a925fee4c9ac3f6a094900461a2712df41745f5d04782ebcbe6479ccb"},
-    {file = "aiohttp-3.10.1-cp310-cp310-musllinux_1_2_i686.whl", hash = "sha256:8c81ff4afffef9b1186639506d70ea90888218f5ddfff03870e74ec80bb59970"},
-    {file = "aiohttp-3.10.1-cp310-cp310-musllinux_1_2_ppc64le.whl", hash = "sha256:2a384dfbe8bfebd203b778a30a712886d147c61943675f4719b56725a8bbe803"},
-    {file = "aiohttp-3.10.1-cp310-cp310-musllinux_1_2_s390x.whl", hash = "sha256:b9fb6508893dc31cfcbb8191ef35abd79751db1d6871b3e2caee83959b4d91eb"},
-    {file = "aiohttp-3.10.1-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:88596384c3bec644a96ae46287bb646d6a23fa6014afe3799156aef42669c6bd"},
-    {file = "aiohttp-3.10.1-cp310-cp310-win32.whl", hash = "sha256:68164d43c580c2e8bf8e0eb4960142919d304052ccab92be10250a3a33b53268"},
-    {file = "aiohttp-3.10.1-cp310-cp310-win_amd64.whl", hash = "sha256:d6bbe2c90c10382ca96df33b56e2060404a4f0f88673e1e84b44c8952517e5f3"},
-    {file = "aiohttp-3.10.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:f6979b4f20d3e557a867da9d9227de4c156fcdcb348a5848e3e6190fd7feb972"},
-    {file = "aiohttp-3.10.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:03c0c380c83f8a8d4416224aafb88d378376d6f4cadebb56b060688251055cd4"},
-    {file = "aiohttp-3.10.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:1c2b104e81b3c3deba7e6f5bc1a9a0e9161c380530479970766a6655b8b77c7c"},
-    {file = "aiohttp-3.10.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b023b68c61ab0cd48bd38416b421464a62c381e32b9dc7b4bdfa2905807452a4"},
-    {file = "aiohttp-3.10.1-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:1a07c76a82390506ca0eabf57c0540cf5a60c993c442928fe4928472c4c6e5e6"},
-    {file = "aiohttp-3.10.1-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:41d8dab8c64ded1edf117d2a64f353efa096c52b853ef461aebd49abae979f16"},
-    {file = "aiohttp-3.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:615348fab1a9ef7d0960a905e83ad39051ae9cb0d2837da739b5d3a7671e497a"},
-    {file = "aiohttp-3.10.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:256ee6044214ee9d66d531bb374f065ee94e60667d6bbeaa25ca111fc3997158"},
-    {file = "aiohttp-3.10.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:b7d5bb926805022508b7ddeaad957f1fce7a8d77532068d7bdb431056dc630cd"},
-    {file = "aiohttp-3.10.1-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:028faf71b338f069077af6315ad54281612705d68889f5d914318cbc2aab0d50"},
-    {file = "aiohttp-3.10.1-cp311-cp311-musllinux_1_2_ppc64le.whl", hash = "sha256:5c12310d153b27aa630750be44e79313acc4e864c421eb7d2bc6fa3429c41bf8"},
-    {file = "aiohttp-3.10.1-cp311-cp311-musllinux_1_2_s390x.whl", hash = "sha256:de1a91d5faded9054957ed0a9e01b9d632109341942fc123947ced358c5d9009"},
-    {file = "aiohttp-3.10.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:9c186b270979fb1dee3ababe2d12fb243ed7da08b30abc83ebac3a928a4ddb15"},
-    {file = "aiohttp-3.10.1-cp311-cp311-win32.whl", hash = "sha256:4a9ce70f5e00380377aac0e568abd075266ff992be2e271765f7b35d228a990c"},
-    {file = "aiohttp-3.10.1-cp311-cp311-win_amd64.whl", hash = "sha256:a77c79bac8d908d839d32c212aef2354d2246eb9deb3e2cb01ffa83fb7a6ea5d"},
-    {file = "aiohttp-3.10.1-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:2212296cdb63b092e295c3e4b4b442e7b7eb41e8a30d0f53c16d5962efed395d"},
-    {file = "aiohttp-3.10.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:4dcb127ca3eb0a61205818a606393cbb60d93b7afb9accd2fd1e9081cc533144"},
-    {file = "aiohttp-3.10.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:cb8b79a65332e1a426ccb6290ce0409e1dc16b4daac1cc5761e059127fa3d134"},
-    {file = "aiohttp-3.10.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:68cc24f707ed9cb961f6ee04020ca01de2c89b2811f3cf3361dc7c96a14bfbcc"},
-    {file = "aiohttp-3.10.1-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:9cb54f5725b4b37af12edf6c9e834df59258c82c15a244daa521a065fbb11717"},
-    {file = "aiohttp-3.10.1-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:51d03e948e53b3639ce4d438f3d1d8202898ec6655cadcc09ec99229d4adc2a9"},
-    {file = "aiohttp-3.10.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:786299d719eb5d868f161aeec56d589396b053925b7e0ce36e983d30d0a3e55c"},
-    {file = "aiohttp-3.10.1-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:abda4009a30d51d3f06f36bc7411a62b3e647fa6cc935ef667e3e3d3a7dd09b1"},
-    {file = "aiohttp-3.10.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:67f7639424c313125213954e93a6229d3a1d386855d70c292a12628f600c7150"},
-    {file = "aiohttp-3.10.1-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:8e5a26d7aac4c0d8414a347da162696eea0629fdce939ada6aedf951abb1d745"},
-    {file = "aiohttp-3.10.1-cp312-cp312-musllinux_1_2_ppc64le.whl", hash = "sha256:120548d89f14b76a041088b582454d89389370632ee12bf39d919cc5c561d1ca"},
-    {file = "aiohttp-3.10.1-cp312-cp312-musllinux_1_2_s390x.whl", hash = "sha256:f5293726943bdcea24715b121d8c4ae12581441d22623b0e6ab12d07ce85f9c4"},
-    {file = "aiohttp-3.10.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:1f8605e573ed6c44ec689d94544b2c4bb1390aaa723a8b5a2cc0a5a485987a68"},
-    {file = "aiohttp-3.10.1-cp312-cp312-win32.whl", hash = "sha256:e7168782621be4448d90169a60c8b37e9b0926b3b79b6097bc180c0a8a119e73"},
-    {file = "aiohttp-3.10.1-cp312-cp312-win_amd64.whl", hash = "sha256:8fbf8c0ded367c5c8eaf585f85ca8dd85ff4d5b73fb8fe1e6ac9e1b5e62e11f7"},
-    {file = "aiohttp-3.10.1-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:54b7f4a20d7cc6bfa4438abbde069d417bb7a119f870975f78a2b99890226d55"},
-    {file = "aiohttp-3.10.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:2fa643ca990323db68911b92f3f7a0ca9ae300ae340d0235de87c523601e58d9"},
-    {file = "aiohttp-3.10.1-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:d8311d0d690487359fe2247ec5d2cac9946e70d50dced8c01ce9e72341c21151"},
-    {file = "aiohttp-3.10.1-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:222821c60b8f6a64c5908cb43d69c0ee978a1188f6a8433d4757d39231b42cdb"},
-    {file = "aiohttp-3.10.1-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:e7b55d9ede66af7feb6de87ff277e0ccf6d51c7db74cc39337fe3a0e31b5872d"},
-    {file = "aiohttp-3.10.1-cp38-cp38-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:5a95151a5567b3b00368e99e9c5334a919514f60888a6b6d2054fea5e66e527e"},
-    {file = "aiohttp-3.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4e9e9171d2fe6bfd9d3838a6fe63b1e91b55e0bf726c16edf265536e4eafed19"},
-    {file = "aiohttp-3.10.1-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:a57e73f9523e980f6101dc9a83adcd7ac0006ea8bf7937ca3870391c7bb4f8ff"},
-    {file = "aiohttp-3.10.1-cp38-cp38-musllinux_1_2_aarch64.whl", hash = "sha256:0df51a3d70a2bfbb9c921619f68d6d02591f24f10e9c76de6f3388c89ed01de6"},
-    {file = "aiohttp-3.10.1-cp38-cp38-musllinux_1_2_i686.whl", hash = "sha256:b0de63ff0307eac3961b4af74382d30220d4813f36b7aaaf57f063a1243b4214"},
-    {file = "aiohttp-3.10.1-cp38-cp38-musllinux_1_2_ppc64le.whl", hash = "sha256:8db9b749f589b5af8e4993623dbda6716b2b7a5fcb0fa2277bf3ce4b278c7059"},
-    {file = "aiohttp-3.10.1-cp38-cp38-musllinux_1_2_s390x.whl", hash = "sha256:6b14c19172eb53b63931d3e62a9749d6519f7c121149493e6eefca055fcdb352"},
-    {file = "aiohttp-3.10.1-cp38-cp38-musllinux_1_2_x86_64.whl", hash = "sha256:5cd57ad998e3038aa87c38fe85c99ed728001bf5dde8eca121cadee06ee3f637"},
-    {file = "aiohttp-3.10.1-cp38-cp38-win32.whl", hash = "sha256:df31641e3f02b77eb3c5fb63c0508bee0fc067cf153da0e002ebbb0db0b6d91a"},
-    {file = "aiohttp-3.10.1-cp38-cp38-win_amd64.whl", hash = "sha256:93094eba50bc2ad4c40ff4997ead1fdcd41536116f2e7d6cfec9596a8ecb3615"},
-    {file = "aiohttp-3.10.1-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:440954ddc6b77257e67170d57b1026aa9545275c33312357472504eef7b4cc0b"},
-    {file = "aiohttp-3.10.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:f9f8beed277488a52ee2b459b23c4135e54d6a819eaba2e120e57311015b58e9"},
-    {file = "aiohttp-3.10.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:d8a8221a63602008550022aa3a4152ca357e1dde7ab3dd1da7e1925050b56863"},
-    {file = "aiohttp-3.10.1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a702bd3663b5cbf3916e84bf332400d24cdb18399f0877ca6b313ce6c08bfb43"},
-    {file = "aiohttp-3.10.1-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:1988b370536eb14f0ce7f3a4a5b422ab64c4e255b3f5d7752c5f583dc8c967fc"},
-    {file = "aiohttp-3.10.1-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:7ccf1f0a304352c891d124ac1a9dea59b14b2abed1704aaa7689fc90ef9c5be1"},
-    {file = "aiohttp-3.10.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bc3ea6ef2a83edad84bbdb5d96e22f587b67c68922cd7b6f9d8f24865e655bcf"},
-    {file = "aiohttp-3.10.1-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:89b47c125ab07f0831803b88aeb12b04c564d5f07a1c1a225d4eb4d2f26e8b5e"},
-    {file = "aiohttp-3.10.1-cp39-cp39-musllinux_1_2_aarch64.whl", hash = "sha256:21778552ef3d44aac3278cc6f6d13a6423504fa5f09f2df34bfe489ed9ded7f5"},
-    {file = "aiohttp-3.10.1-cp39-cp39-musllinux_1_2_i686.whl", hash = "sha256:bde0693073fd5e542e46ea100aa6c1a5d36282dbdbad85b1c3365d5421490a92"},
-    {file = "aiohttp-3.10.1-cp39-cp39-musllinux_1_2_ppc64le.whl", hash = "sha256:bf66149bb348d8e713f3a8e0b4f5b952094c2948c408e1cfef03b49e86745d60"},
-    {file = "aiohttp-3.10.1-cp39-cp39-musllinux_1_2_s390x.whl", hash = "sha256:587237571a85716d6f71f60d103416c9df7d5acb55d96d3d3ced65f39bff9c0c"},
-    {file = "aiohttp-3.10.1-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:bfe33cba6e127d0b5b417623c9aa621f0a69f304742acdca929a9fdab4593693"},
-    {file = "aiohttp-3.10.1-cp39-cp39-win32.whl", hash = "sha256:9fbff00646cf8211b330690eb2fd64b23e1ce5b63a342436c1d1d6951d53d8dd"},
-    {file = "aiohttp-3.10.1-cp39-cp39-win_amd64.whl", hash = "sha256:5951c328f9ac42d7bce7a6ded535879bc9ae13032818d036749631fa27777905"},
-    {file = "aiohttp-3.10.1.tar.gz", hash = "sha256:8b0d058e4e425d3b45e8ec70d49b402f4d6b21041e674798b1f91ba027c73f28"},
+    {file = "aiohttp-3.10.3-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:cc36cbdedf6f259371dbbbcaae5bb0e95b879bc501668ab6306af867577eb5db"},
+    {file = "aiohttp-3.10.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:85466b5a695c2a7db13eb2c200af552d13e6a9313d7fa92e4ffe04a2c0ea74c1"},
+    {file = "aiohttp-3.10.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:71bb1d97bfe7e6726267cea169fdf5df7658831bb68ec02c9c6b9f3511e108bb"},
+    {file = "aiohttp-3.10.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:baec1eb274f78b2de54471fc4c69ecbea4275965eab4b556ef7a7698dee18bf2"},
+    {file = "aiohttp-3.10.3-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:13031e7ec1188274bad243255c328cc3019e36a5a907978501256000d57a7201"},
+    {file = "aiohttp-3.10.3-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:2bbc55a964b8eecb341e492ae91c3bd0848324d313e1e71a27e3d96e6ee7e8e8"},
+    {file = "aiohttp-3.10.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e8cc0564b286b625e673a2615ede60a1704d0cbbf1b24604e28c31ed37dc62aa"},
+    {file = "aiohttp-3.10.3-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f817a54059a4cfbc385a7f51696359c642088710e731e8df80d0607193ed2b73"},
+    {file = "aiohttp-3.10.3-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:8542c9e5bcb2bd3115acdf5adc41cda394e7360916197805e7e32b93d821ef93"},
+    {file = "aiohttp-3.10.3-cp310-cp310-musllinux_1_2_i686.whl", hash = "sha256:671efce3a4a0281060edf9a07a2f7e6230dca3a1cbc61d110eee7753d28405f7"},
+    {file = "aiohttp-3.10.3-cp310-cp310-musllinux_1_2_ppc64le.whl", hash = "sha256:0974f3b5b0132edcec92c3306f858ad4356a63d26b18021d859c9927616ebf27"},
+    {file = "aiohttp-3.10.3-cp310-cp310-musllinux_1_2_s390x.whl", hash = "sha256:44bb159b55926b57812dca1b21c34528e800963ffe130d08b049b2d6b994ada7"},
+    {file = "aiohttp-3.10.3-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:6ae9ae382d1c9617a91647575255ad55a48bfdde34cc2185dd558ce476bf16e9"},
+    {file = "aiohttp-3.10.3-cp310-cp310-win32.whl", hash = "sha256:aed12a54d4e1ee647376fa541e1b7621505001f9f939debf51397b9329fd88b9"},
+    {file = "aiohttp-3.10.3-cp310-cp310-win_amd64.whl", hash = "sha256:b51aef59370baf7444de1572f7830f59ddbabd04e5292fa4218d02f085f8d299"},
+    {file = "aiohttp-3.10.3-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:e021c4c778644e8cdc09487d65564265e6b149896a17d7c0f52e9a088cc44e1b"},
+    {file = "aiohttp-3.10.3-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:24fade6dae446b183e2410a8628b80df9b7a42205c6bfc2eff783cbeedc224a2"},
+    {file = "aiohttp-3.10.3-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:bc8e9f15939dacb0e1f2d15f9c41b786051c10472c7a926f5771e99b49a5957f"},
+    {file = "aiohttp-3.10.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d5a9ec959b5381271c8ec9310aae1713b2aec29efa32e232e5ef7dcca0df0279"},
+    {file = "aiohttp-3.10.3-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:2a5d0ea8a6467b15d53b00c4e8ea8811e47c3cc1bdbc62b1aceb3076403d551f"},
+    {file = "aiohttp-3.10.3-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:c9ed607dbbdd0d4d39b597e5bf6b0d40d844dfb0ac6a123ed79042ef08c1f87e"},
+    {file = "aiohttp-3.10.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d3e66d5b506832e56add66af88c288c1d5ba0c38b535a1a59e436b300b57b23e"},
+    {file = "aiohttp-3.10.3-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:fda91ad797e4914cca0afa8b6cccd5d2b3569ccc88731be202f6adce39503189"},
+    {file = "aiohttp-3.10.3-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:61ccb867b2f2f53df6598eb2a93329b5eee0b00646ee79ea67d68844747a418e"},
+    {file = "aiohttp-3.10.3-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:6d881353264e6156f215b3cb778c9ac3184f5465c2ece5e6fce82e68946868ef"},
+    {file = "aiohttp-3.10.3-cp311-cp311-musllinux_1_2_ppc64le.whl", hash = "sha256:b031ce229114825f49cec4434fa844ccb5225e266c3e146cb4bdd025a6da52f1"},
+    {file = "aiohttp-3.10.3-cp311-cp311-musllinux_1_2_s390x.whl", hash = "sha256:5337cc742a03f9e3213b097abff8781f79de7190bbfaa987bd2b7ceb5bb0bdec"},
+    {file = "aiohttp-3.10.3-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:ab3361159fd3dcd0e48bbe804006d5cfb074b382666e6c064112056eb234f1a9"},
+    {file = "aiohttp-3.10.3-cp311-cp311-win32.whl", hash = "sha256:05d66203a530209cbe40f102ebaac0b2214aba2a33c075d0bf825987c36f1f0b"},
+    {file = "aiohttp-3.10.3-cp311-cp311-win_amd64.whl", hash = "sha256:70b4a4984a70a2322b70e088d654528129783ac1ebbf7dd76627b3bd22db2f17"},
+    {file = "aiohttp-3.10.3-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:166de65e2e4e63357cfa8417cf952a519ac42f1654cb2d43ed76899e2319b1ee"},
+    {file = "aiohttp-3.10.3-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:7084876352ba3833d5d214e02b32d794e3fd9cf21fdba99cff5acabeb90d9806"},
+    {file = "aiohttp-3.10.3-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:8d98c604c93403288591d7d6d7d6cc8a63459168f8846aeffd5b3a7f3b3e5e09"},
+    {file = "aiohttp-3.10.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d73b073a25a0bb8bf014345374fe2d0f63681ab5da4c22f9d2025ca3e3ea54fc"},
+    {file = "aiohttp-3.10.3-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:8da6b48c20ce78f5721068f383e0e113dde034e868f1b2f5ee7cb1e95f91db57"},
+    {file = "aiohttp-3.10.3-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:3a9dcdccf50284b1b0dc72bc57e5bbd3cc9bf019060dfa0668f63241ccc16aa7"},
+    {file = "aiohttp-3.10.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:56fb94bae2be58f68d000d046172d8b8e6b1b571eb02ceee5535e9633dcd559c"},
+    {file = "aiohttp-3.10.3-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:bf75716377aad2c718cdf66451c5cf02042085d84522aec1f9246d3e4b8641a6"},
+    {file = "aiohttp-3.10.3-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:6c51ed03e19c885c8e91f574e4bbe7381793f56f93229731597e4a499ffef2a5"},
+    {file = "aiohttp-3.10.3-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:b84857b66fa6510a163bb083c1199d1ee091a40163cfcbbd0642495fed096204"},
+    {file = "aiohttp-3.10.3-cp312-cp312-musllinux_1_2_ppc64le.whl", hash = "sha256:c124b9206b1befe0491f48185fd30a0dd51b0f4e0e7e43ac1236066215aff272"},
+    {file = "aiohttp-3.10.3-cp312-cp312-musllinux_1_2_s390x.whl", hash = "sha256:3461d9294941937f07bbbaa6227ba799bc71cc3b22c40222568dc1cca5118f68"},
+    {file = "aiohttp-3.10.3-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:08bd0754d257b2db27d6bab208c74601df6f21bfe4cb2ec7b258ba691aac64b3"},
+    {file = "aiohttp-3.10.3-cp312-cp312-win32.whl", hash = "sha256:7f9159ae530297f61a00116771e57516f89a3de6ba33f314402e41560872b50a"},
+    {file = "aiohttp-3.10.3-cp312-cp312-win_amd64.whl", hash = "sha256:e1128c5d3a466279cb23c4aa32a0f6cb0e7d2961e74e9e421f90e74f75ec1edf"},
+    {file = "aiohttp-3.10.3-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:d1100e68e70eb72eadba2b932b185ebf0f28fd2f0dbfe576cfa9d9894ef49752"},
+    {file = "aiohttp-3.10.3-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:a541414578ff47c0a9b0b8b77381ea86b0c8531ab37fc587572cb662ccd80b88"},
+    {file = "aiohttp-3.10.3-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:d5548444ef60bf4c7b19ace21f032fa42d822e516a6940d36579f7bfa8513f9c"},
+    {file = "aiohttp-3.10.3-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5ba2e838b5e6a8755ac8297275c9460e729dc1522b6454aee1766c6de6d56e5e"},
+    {file = "aiohttp-3.10.3-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:48665433bb59144aaf502c324694bec25867eb6630fcd831f7a893ca473fcde4"},
+    {file = "aiohttp-3.10.3-cp38-cp38-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:bac352fceed158620ce2d701ad39d4c1c76d114255a7c530e057e2b9f55bdf9f"},
+    {file = "aiohttp-3.10.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2b0f670502100cdc567188c49415bebba947eb3edaa2028e1a50dd81bd13363f"},
+    {file = "aiohttp-3.10.3-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:43b09f38a67679e32d380fe512189ccb0b25e15afc79b23fbd5b5e48e4fc8fd9"},
+    {file = "aiohttp-3.10.3-cp38-cp38-musllinux_1_2_aarch64.whl", hash = "sha256:cd788602e239ace64f257d1c9d39898ca65525583f0fbf0988bcba19418fe93f"},
+    {file = "aiohttp-3.10.3-cp38-cp38-musllinux_1_2_i686.whl", hash = "sha256:214277dcb07ab3875f17ee1c777d446dcce75bea85846849cc9d139ab8f5081f"},
+    {file = "aiohttp-3.10.3-cp38-cp38-musllinux_1_2_ppc64le.whl", hash = "sha256:32007fdcaab789689c2ecaaf4b71f8e37bf012a15cd02c0a9db8c4d0e7989fa8"},
+    {file = "aiohttp-3.10.3-cp38-cp38-musllinux_1_2_s390x.whl", hash = "sha256:123e5819bfe1b87204575515cf448ab3bf1489cdeb3b61012bde716cda5853e7"},
+    {file = "aiohttp-3.10.3-cp38-cp38-musllinux_1_2_x86_64.whl", hash = "sha256:812121a201f0c02491a5db335a737b4113151926a79ae9ed1a9f41ea225c0e3f"},
+    {file = "aiohttp-3.10.3-cp38-cp38-win32.whl", hash = "sha256:b97dc9a17a59f350c0caa453a3cb35671a2ffa3a29a6ef3568b523b9113d84e5"},
+    {file = "aiohttp-3.10.3-cp38-cp38-win_amd64.whl", hash = "sha256:3731a73ddc26969d65f90471c635abd4e1546a25299b687e654ea6d2fc052394"},
+    {file = "aiohttp-3.10.3-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:38d91b98b4320ffe66efa56cb0f614a05af53b675ce1b8607cdb2ac826a8d58e"},
+    {file = "aiohttp-3.10.3-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:9743fa34a10a36ddd448bba8a3adc2a66a1c575c3c2940301bacd6cc896c6bf1"},
+    {file = "aiohttp-3.10.3-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:7c126f532caf238031c19d169cfae3c6a59129452c990a6e84d6e7b198a001dc"},
+    {file = "aiohttp-3.10.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:926e68438f05703e500b06fe7148ef3013dd6f276de65c68558fa9974eeb59ad"},
+    {file = "aiohttp-3.10.3-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:434b3ab75833accd0b931d11874e206e816f6e6626fd69f643d6a8269cd9166a"},
+    {file = "aiohttp-3.10.3-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:d35235a44ec38109b811c3600d15d8383297a8fab8e3dec6147477ec8636712a"},
+    {file = "aiohttp-3.10.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:59c489661edbd863edb30a8bd69ecb044bd381d1818022bc698ba1b6f80e5dd1"},
+    {file = "aiohttp-3.10.3-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:50544fe498c81cb98912afabfc4e4d9d85e89f86238348e3712f7ca6a2f01dab"},
+    {file = "aiohttp-3.10.3-cp39-cp39-musllinux_1_2_aarch64.whl", hash = "sha256:09bc79275737d4dc066e0ae2951866bb36d9c6b460cb7564f111cc0427f14844"},
+    {file = "aiohttp-3.10.3-cp39-cp39-musllinux_1_2_i686.whl", hash = "sha256:af4dbec58e37f5afff4f91cdf235e8e4b0bd0127a2a4fd1040e2cad3369d2f06"},
+    {file = "aiohttp-3.10.3-cp39-cp39-musllinux_1_2_ppc64le.whl", hash = "sha256:b22cae3c9dd55a6b4c48c63081d31c00fc11fa9db1a20c8a50ee38c1a29539d2"},
+    {file = "aiohttp-3.10.3-cp39-cp39-musllinux_1_2_s390x.whl", hash = "sha256:ba562736d3fbfe9241dad46c1a8994478d4a0e50796d80e29d50cabe8fbfcc3f"},
+    {file = "aiohttp-3.10.3-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:f25d6c4e82d7489be84f2b1c8212fafc021b3731abdb61a563c90e37cced3a21"},
+    {file = "aiohttp-3.10.3-cp39-cp39-win32.whl", hash = "sha256:b69d832e5f5fa15b1b6b2c8eb6a9fd2c0ec1fd7729cb4322ed27771afc9fc2ac"},
+    {file = "aiohttp-3.10.3-cp39-cp39-win_amd64.whl", hash = "sha256:673bb6e3249dc8825df1105f6ef74e2eab779b7ff78e96c15cadb78b04a83752"},
+    {file = "aiohttp-3.10.3.tar.gz", hash = "sha256:21650e7032cc2d31fc23d353d7123e771354f2a3d5b05a5647fc30fea214e696"},
 ]
 
 [package.dependencies]
@@ -131,8 +131,8 @@ speedups = ["Brotli", "aiodns (>=3.2.0)", "brotlicffi"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "aiosignal"
@@ -150,7 +150,7 @@ frozenlist = ">=1.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -173,7 +173,7 @@ docs = ["sphinx (==7.2.6)", "sphinx-mdinclude (==0.5.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -189,7 +189,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -213,7 +213,7 @@ tz = ["backports.zoneinfo"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -229,7 +229,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -256,7 +256,7 @@ trio = ["trio (>=0.23)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -272,7 +272,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -288,7 +288,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -313,7 +313,7 @@ typing = ["mypy"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -355,7 +355,7 @@ tests = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -379,7 +379,7 @@ test = ["dateparser (==1.*)", "pre-commit", "pytest", "pytest-cov", "pytest-mock
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -394,7 +394,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -413,7 +413,7 @@ typing-extensions = {version = ">=4.0.0", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -469,7 +469,7 @@ test-all = ["coverage[toml]", "ipython (>=4.2)", "objgraph", "pytest (>=7.0,<8)"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -492,7 +492,7 @@ test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -508,7 +508,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -524,7 +524,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -548,7 +548,7 @@ tests-mypy = ["mypy (>=1.11.1)", "pytest-mypy-plugins"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -568,18 +568,18 @@ tomli = {version = "*", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "babel"
-version = "2.15.0"
+version = "2.16.0"
 description = "Internationalization utilities"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Babel-2.15.0-py3-none-any.whl", hash = "sha256:08706bdad8d0a3413266ab61bd6c34d0c28d6e1e7badf40a2cebe67644e2e1fb"},
-    {file = "babel-2.15.0.tar.gz", hash = "sha256:8daf0e265d05768bc6c7a314cf1321e9a123afc328cc635c18622a2f30a04413"},
+    {file = "babel-2.16.0-py3-none-any.whl", hash = "sha256:368b5b98b37c06b7daf6696391c3240c938b37767d4584413e8438c5c435fa8b"},
+    {file = "babel-2.16.0.tar.gz", hash = "sha256:d1f3554ca26605fe173f3de0c65f750f5a42f924499bf134de6423582298e316"},
 ]
 
 [package.extras]
@@ -587,8 +587,8 @@ dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "beautifulsoup4"
@@ -613,7 +613,7 @@ lxml = ["lxml"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -664,7 +664,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -687,7 +687,7 @@ css = ["tinycss2 (>=1.1.0,<1.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -714,7 +714,7 @@ xyzservices = ">=2021.09.1"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -742,7 +742,7 @@ virtualenv = ["virtualenv (>=20.0.35)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -758,7 +758,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -774,7 +774,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -797,7 +797,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -881,7 +881,7 @@ pycparser = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -897,7 +897,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1001,7 +1001,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1020,7 +1020,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1040,7 +1040,7 @@ PyYAML = ">=3.11"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1056,7 +1056,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1078,7 +1078,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1097,7 +1097,7 @@ test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1132,7 +1132,7 @@ tests = ["MarkupSafe (>=0.23)", "aiohttp (>=2.3.10,<4)", "aiohttp-jinja2 (>=0.14
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1148,7 +1148,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1216,7 +1216,7 @@ test-no-images = ["pytest", "pytest-cov", "pytest-xdist", "wurlitzer"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1308,7 +1308,7 @@ toml = ["tomli"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1359,7 +1359,7 @@ test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1375,7 +1375,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1411,7 +1411,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1427,7 +1427,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1449,7 +1449,7 @@ cli = ["clevercsv (==0.7.1)", "click (==8.0.3)", "pyyaml (==5.4.1)", "toml (==0.
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1465,7 +1465,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1487,7 +1487,7 @@ dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1507,7 +1507,7 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1532,7 +1532,7 @@ wmi = ["wmi (>=1.5.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1547,7 +1547,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1563,7 +1563,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1583,7 +1583,7 @@ idna = ">=2.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1644,7 +1644,7 @@ test = ["pytest (>=6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1663,7 +1663,7 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1682,7 +1682,7 @@ devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benc
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1701,7 +1701,7 @@ termcolor = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1722,7 +1722,7 @@ pyflakes = ">=3.2.0,<3.3.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1748,7 +1748,7 @@ dotenv = ["python-dotenv"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1764,7 +1764,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1855,7 +1855,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1874,7 +1874,7 @@ smmap = ">=3.0.1,<6"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1897,7 +1897,7 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit",
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -1925,7 +1925,7 @@ requests = ["requests (>=2.20.0,<3.0.0.dev0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2001,7 +2001,7 @@ test = ["objgraph", "psutil"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2064,7 +2064,7 @@ protobuf = ["grpcio-tools (>=1.65.4)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2089,7 +2089,7 @@ tornado = ["tornado (>=0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2105,7 +2105,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2121,7 +2121,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2137,7 +2137,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2153,7 +2153,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2191,7 +2191,7 @@ test = ["flaky", "ipyparallel", "pre-commit", "pytest (>=7.0)", "pytest-asyncio 
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2234,7 +2234,7 @@ test-extra = ["curio", "ipython[test]", "matplotlib (!=3.2.0)", "nbformat", "num
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2250,7 +2250,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2276,7 +2276,7 @@ test = ["ipykernel", "jsonschema", "pytest (>=3.6.0)", "pytest-cov", "pytz"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2295,7 +2295,7 @@ arrow = ">=0.15.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2314,7 +2314,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2330,7 +2330,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2354,7 +2354,7 @@ testing = ["Django", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2376,7 +2376,7 @@ i18n = ["Babel (>=2.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2392,7 +2392,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2413,7 +2413,7 @@ testing-libs = ["simplejson", "ujson", "yajl"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2429,7 +2429,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2461,7 +2461,7 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2483,7 +2483,7 @@ requests = ">=2.31.0,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2501,7 +2501,7 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2521,7 +2521,7 @@ ipywidgets = "==8.*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2548,7 +2548,7 @@ test = ["coverage", "ipykernel (>=6.14)", "mypy", "paramiko", "pre-commit", "pyt
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2573,7 +2573,7 @@ test = ["ipykernel", "pre-commit", "pytest (<8)", "pytest-cov", "pytest-timeout"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2602,7 +2602,7 @@ test = ["click", "coverage", "pre-commit", "pytest (>=7.0)", "pytest-asyncio (>=
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2643,7 +2643,7 @@ test = ["flaky", "ipykernel", "pre-commit", "pytest (>=7.0)", "pytest-console-sc
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2667,7 +2667,7 @@ test = ["jupyter-server[test] (>=1.15,<3)", "pytest", "pytest-cov", "pytest-jupy
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2691,7 +2691,7 @@ test = ["jupyter-server (>=2.0.0)", "pytest (>=7.0)", "pytest-jupyter[server] (>
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2715,7 +2715,7 @@ test = ["coverage", "jupyter-server[test] (>=2.0.0a0)", "pytest (>=7.0)", "pytes
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2737,7 +2737,7 @@ traitlets = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2760,7 +2760,7 @@ test = ["pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)", "ypy-we
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2796,7 +2796,7 @@ test = ["beautifulsoup4[html5lib]", "coverage", "cryptography", "jsonschema", "j
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2830,7 +2830,7 @@ test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2846,7 +2846,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2876,7 +2876,7 @@ test = ["hatch", "ipykernel", "jupyterlab-server[openapi]", "openapi-spec-valida
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2892,7 +2892,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2913,7 +2913,7 @@ sgp4 = ">=2.7"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2929,7 +2929,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -2960,7 +2960,7 @@ adal = ["adal (>=1.0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3011,7 +3011,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3035,7 +3035,7 @@ testing = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3064,7 +3064,7 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3138,7 +3138,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3157,7 +3157,7 @@ traitlets = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3173,7 +3173,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3197,7 +3197,7 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3213,7 +3213,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3229,7 +3229,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3333,7 +3333,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3349,7 +3349,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3380,7 +3380,7 @@ testing-docutils = ["pygments", "pytest (>=7,<8)", "pytest-param-files (>=0.3.4,
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3407,7 +3407,7 @@ test = ["coverage", "nbval", "pytest", "pytest-cov", "pytest-jupyter", "pytest-p
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3433,7 +3433,7 @@ test = ["black", "check-manifest", "flake8", "ipykernel", "ipython", "ipywidgets
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3475,7 +3475,7 @@ webpdf = ["playwright"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3501,7 +3501,7 @@ test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3524,7 +3524,7 @@ pytest = ">=6.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3549,7 +3549,7 @@ toolchain = ["black", "blacken-docs", "flake8", "isort", "jupytext", "mypy", "py
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3565,7 +3565,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3604,7 +3604,7 @@ test = ["coverage", "nbval", "pytest", "pytest-cov", "requests", "requests-unixs
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3626,7 +3626,7 @@ test = ["pytest", "pytest-console-scripts", "pytest-jupyter", "pytest-tornasync"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3676,7 +3676,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3697,7 +3697,7 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3720,7 +3720,7 @@ docs = ["sphinx (>=5.3.0,<6.0.0)", "sphinx-immaterial (>=0.11.0,<0.12.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3742,7 +3742,7 @@ openapi-schema-validator = ">=0.4.2,<0.5.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3761,7 +3761,7 @@ dev = ["black", "mypy", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3777,7 +3777,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3793,24 +3793,24 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "pamela"
-version = "1.1.0"
+version = "1.2.0"
 description = "PAM interface using ctypes"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pamela-1.1.0-py2.py3-none-any.whl", hash = "sha256:f4534bba9645665b01adfce0134772b0147faea72c278f67a1a732e7ebd46ec6"},
-    {file = "pamela-1.1.0.tar.gz", hash = "sha256:d4b139fe600e192e176a2a368059207a6bffa0e7879879b13f4fcba0163481be"},
+    {file = "pamela-1.2.0-py2.py3-none-any.whl", hash = "sha256:27e543f1059bab1d7bc35b322d97705b4653869d1a06fe867d8c2b5206ed9d28"},
+    {file = "pamela-1.2.0.tar.gz", hash = "sha256:0ea6e2a99dded8c7783a4a06f2d31f5bdcad894d79101e8f09322e387a34aacf"},
 ]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pandas"
@@ -3883,7 +3883,7 @@ xml = ["lxml (>=4.9.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3899,7 +3899,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3919,7 +3919,7 @@ testing = ["docopt", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3935,7 +3935,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3951,7 +3951,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -3970,7 +3970,7 @@ ptyprocess = ">=0.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4072,7 +4072,7 @@ xmp = ["defusedxml"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4093,7 +4093,7 @@ type = ["mypy (>=1.8)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4113,7 +4113,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4145,7 +4145,7 @@ ssv = ["swagger-spec-validator (>=2.4,<3.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4164,7 +4164,7 @@ twisted = ["twisted"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4183,7 +4183,7 @@ wcwidth = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4208,7 +4208,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4242,7 +4242,7 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4271,7 +4271,7 @@ test = ["anyio (>=4.0)", "mypy (>=1.6)", "pproxy (>=2.7)", "pytest (>=6.2.5)", "
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4338,7 +4338,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4357,7 +4357,7 @@ typing-extensions = ">=4.4"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4373,7 +4373,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4392,7 +4392,7 @@ tests = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4408,7 +4408,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4427,7 +4427,7 @@ pyasn1 = ">=0.4.6,<0.7.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4443,7 +4443,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4459,7 +4459,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4484,7 +4484,7 @@ email = ["email-validator (>=2.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4590,7 +4590,7 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4622,7 +4622,7 @@ test = ["pytest", "pytest-doctestplus (>=0.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4638,7 +4638,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4657,7 +4657,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4687,7 +4687,7 @@ testutils = ["gitpython (>3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4706,7 +4706,7 @@ pylint = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4729,7 +4729,7 @@ test = ["flaky", "pretend", "pytest (>=3.0.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4745,7 +4745,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4760,7 +4760,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4806,7 +4806,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4857,7 +4857,7 @@ tests = ["gevent (>=20.0)", "pytest", "pytest-asyncio", "pytest-cov", "pytest-fo
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4884,7 +4884,7 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4907,7 +4907,7 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4927,7 +4927,7 @@ pytest-metadata = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4949,7 +4949,7 @@ test = ["black (>=22.1.0)", "flake8 (>=4.0.1)", "pre-commit (>=2.17.0)", "tox (>
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4964,7 +4964,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -4989,7 +4989,7 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5008,7 +5008,7 @@ six = ">=1.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5032,7 +5032,7 @@ yaml = ["PyYaml (>=5.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5048,7 +5048,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5064,7 +5064,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5092,7 +5092,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5112,7 +5112,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5179,7 +5179,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5305,7 +5305,7 @@ cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5326,7 +5326,7 @@ sphinx = ">=1.3.1"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5352,7 +5352,7 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5375,7 +5375,7 @@ rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5394,7 +5394,7 @@ requests = ">=2.0.1,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5413,7 +5413,7 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5429,7 +5429,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5448,7 +5448,7 @@ pyasn1 = ">=0.1.3"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5471,7 +5471,7 @@ jinja2 = ["ruamel.yaml.jinja2 (>=0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5535,7 +5535,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5554,7 +5554,7 @@ contextlib2 = ">=0.5.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5574,7 +5574,7 @@ doc = ["Sphinx", "sphinx-rtd-theme"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5595,29 +5595,29 @@ win32 = ["pywin32"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "setuptools"
-version = "72.1.0"
+version = "72.2.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-72.1.0-py3-none-any.whl", hash = "sha256:5a03e1860cf56bb6ef48ce186b0e557fdba433237481a9a625176c2831be15d1"},
-    {file = "setuptools-72.1.0.tar.gz", hash = "sha256:8d243eff56d095e5817f796ede6ae32941278f542e0f941867cc05ae52b162ec"},
+    {file = "setuptools-72.2.0-py3-none-any.whl", hash = "sha256:f11dd94b7bae3a156a95ec151f24e4637fb4fa19c878e4d191bfb8b2d82728c4"},
+    {file = "setuptools-72.2.0.tar.gz", hash = "sha256:80aacbf633704e9c8bfa1d99fa5dd4dc59573efcf9e4042c13d3bcef91ac2ef9"},
 ]
 
 [package.extras]
 core = ["importlib-metadata (>=6)", "importlib-resources (>=5.10.2)", "jaraco.text (>=3.7)", "more-itertools (>=8.8)", "ordered-set (>=3.1.1)", "packaging (>=24)", "platformdirs (>=2.6.2)", "tomli (>=2.0.1)", "wheel (>=0.43.0)"]
-doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
+doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier", "towncrier (<24.7)"]
 test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metadata", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test", "mypy (==1.11.*)", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-home (>=0.5)", "pytest-mypy", "pytest-perf", "pytest-ruff (<0.4)", "pytest-ruff (>=0.2.1)", "pytest-ruff (>=0.3.2)", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sgp4"
@@ -5674,7 +5674,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5690,7 +5690,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5709,18 +5709,18 @@ transitions = ">=0.9.0,<0.10.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "ska-db-oda"
-version = "5.2.0"
+version = "5.3.3"
 description = "SKA Database OSO Data Archive"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_db_oda-5.2.0-py3-none-any.whl", hash = "sha256:3cbfcb520043a6120c156a4b45401dd4ebf6df1b57cd09cfaf835a539dfda79b"},
-    {file = "ska_db_oda-5.2.0.tar.gz", hash = "sha256:992f3aeaaba910917fd1bfc418ff54225516eb693db044eb67b5da1da2c0b365"},
+    {file = "ska_db_oda-5.3.3-py3-none-any.whl", hash = "sha256:872b2ab2b6a98b67973f70ebe788158e091e70bb4508cdaf998d9f14e00edfc5"},
+    {file = "ska_db_oda-5.3.3.tar.gz", hash = "sha256:780a307ca3b9c7743d82d33d0d1090a6cdbdf69c0523c20925e45bb40bbcafe1"},
 ]
 
 [package.dependencies]
@@ -5733,13 +5733,13 @@ psycopg = {version = ">=3.0.15,<4.0.0", extras = ["binary"]}
 psycopg-pool = ">=3.1.1,<4.0.0"
 python-dateutil = ">=2.8.2,<3.0.0"
 requests = ">=2.27.1,<3.0.0"
-ska-oso-pdm = ">=14.3.0,<15.0.0"
+ska-oso-pdm = ">=15,<16"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.3.3,<4.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5770,54 +5770,54 @@ waitress = ">=2.1.2,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "ska-oso-pdm"
-version = "14.3.0"
+version = "15.2.0"
 description = "SKA Project Data Model serialisation library"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_oso_pdm-14.3.0-py3-none-any.whl", hash = "sha256:338602226633b019a5c81921cc96793a2eb5c1c5fa37ab3ba70de48011c6918d"},
-    {file = "ska_oso_pdm-14.3.0.tar.gz", hash = "sha256:ced97066c90517c065eefdaac5669a702a31aae9cef311e29567f39dbc621a5d"},
+    {file = "ska_oso_pdm-15.2.0-py3-none-any.whl", hash = "sha256:a60138c649bc46a27ebc27a564c3ba36acfd22c56bacbfcc89989f03e0a6b9f9"},
+    {file = "ska_oso_pdm-15.2.0.tar.gz", hash = "sha256:60f117070f911458b76092ac819c10e660c2bf779514c379734f52cb38ac4f6b"},
 ]
 
 [package.dependencies]
-astropy = ">=5.0.3,<6.0.0"
+astropy = ">=5.0.3,<7"
 pydantic = {version = ">=2.7.1,<3.0.0", extras = ["email"]}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "ska-oso-scripting"
-version = "8.1.0"
+version = "9.0.3"
 description = "SKA OSO Scripting Library"
 optional = false
 python-versions = ">=3.10,<3.13"
 files = [
-    {file = "ska_oso_scripting-8.1.0-py3-none-any.whl", hash = "sha256:cdadc28ab22012c5180f9696d0021d6e89c3b5818008bae67af642caa54f8321"},
-    {file = "ska_oso_scripting-8.1.0.tar.gz", hash = "sha256:f73e25d94b83526484a8e5982eab79a350efd0d54eb801efab6d8dc5dc22a933"},
+    {file = "ska_oso_scripting-9.0.3-py3-none-any.whl", hash = "sha256:3a3528b567beb21a0167caacd4a3c0ee882516eae30844bc492b7b006e9c7db2"},
+    {file = "ska_oso_scripting-9.0.3.tar.gz", hash = "sha256:d0144a1f1fec07fae343d2c3731ab68e4096846069bb7cd9891a9fa50a840876"},
 ]
 
 [package.dependencies]
 connexion = "2.14.2"
-ska-db-oda = ">=5.0.1,<6.0.0"
+ska-db-oda = ">=5.3.3,<6.0.0"
 ska-oso-oet = ">=6.2.0,<7.0.0"
-ska-oso-pdm = ">=14.3.0,<15.0.0"
+ska-oso-pdm = ">=15.0.0,<16.0.0"
 ska-ser-log-transactions = ">=0.2.2,<0.3.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.2.1,<4.0.0"
 ska-tango-base = ">=0.19.1,<0.20.0"
-ska-tmc-cdm = ">=10.1.2,<11.0.0"
+ska-tmc-cdm = ">=12.0.0,<13.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5845,7 +5845,7 @@ ska-telmodel = ">=1.15.1,<2.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5873,7 +5873,7 @@ spead2 = ">=4.0.2,<5.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5898,7 +5898,7 @@ semantic-version = ">=2.10.0,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5922,7 +5922,7 @@ python-casacore = ">=3.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5944,7 +5944,7 @@ urllib3 = ">=1.25.3"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5965,7 +5965,7 @@ ska-ser-skuid = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -5981,7 +5981,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6001,7 +6001,7 @@ ska-ser-logging = ">=0.4.1,<0.5.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6021,7 +6021,7 @@ sphinx-rtd-theme = ">=1.2.2,<2.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6046,18 +6046,18 @@ transitions = ">=0.9.0,<0.10.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "ska-telmodel"
-version = "1.19.1"
+version = "1.19.2"
 description = "SKA telescope model library"
 optional = false
 python-versions = ">=3.10.0,<4.0.0"
 files = [
-    {file = "ska_telmodel-1.19.1-py3-none-any.whl", hash = "sha256:7223bc8f39598c16e89b449448cde1056f11134d4d3055897784dc886874bf55"},
-    {file = "ska_telmodel-1.19.1.tar.gz", hash = "sha256:2f91ba7ab2f4579c4b8d15fef331fa3ad956768ed219655e2a6bbafeb2c4cc7a"},
+    {file = "ska_telmodel-1.19.2-py3-none-any.whl", hash = "sha256:89f6605f4e0107a710e36ae35facd55ea25529216a8d82f7d01941acd62d4139"},
+    {file = "ska_telmodel-1.19.2.tar.gz", hash = "sha256:99a8725a9cce91965a820c5a2e0fb99502d76a9030bb4aef46e55748f61fed15"},
 ]
 
 [package.dependencies]
@@ -6072,18 +6072,18 @@ toolz = ">=0.12.0,<0.13.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "ska-tmc-cdm"
-version = "10.1.2"
+version = "12.0.0"
 description = "SKA Control Data Model serialisation library"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_tmc_cdm-10.1.2-py3-none-any.whl", hash = "sha256:e9c97bad2b24344960188a66f2e7e5741ba0d31f9ee653534165cb4829ca9e1d"},
-    {file = "ska_tmc_cdm-10.1.2.tar.gz", hash = "sha256:f4a4264e2c926dd5e02e4910691dfc8b6adad438ace12594557a5d174f0cadd1"},
+    {file = "ska_tmc_cdm-12.0.0-py3-none-any.whl", hash = "sha256:358cec6868aa5199a7b11c741013a2febedab9d9c23870c9071f9ad240d6f3c7"},
+    {file = "ska_tmc_cdm-12.0.0.tar.gz", hash = "sha256:fd5edcaa5ec02046ddce5b2c57f26062f7267271508f491460fc706688162c1d"},
 ]
 
 [package.dependencies]
@@ -6093,10 +6093,11 @@ deepdiff = ">=5.8.1,<6.0.0"
 pydantic = ">=2.7.0,<3.0.0"
 pydantic-core = ">=2.18.1,<3.0.0"
 ska-ost-osd = "1.0.3"
+ska-telmodel = ">=1.18.1,<2.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6112,7 +6113,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6128,7 +6129,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6144,24 +6145,24 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "soupsieve"
-version = "2.5"
+version = "2.6"
 description = "A modern CSS selector implementation for Beautiful Soup."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "soupsieve-2.5-py3-none-any.whl", hash = "sha256:eaa337ff55a1579b6549dc679565eac1e3d000563bcb1c8ab0d0fefbc0c2cdc7"},
-    {file = "soupsieve-2.5.tar.gz", hash = "sha256:5663d5a7b3bfaeee0bc4372e7fc48f9cff4940b3eec54a6451cc5299f1097690"},
+    {file = "soupsieve-2.6-py3-none-any.whl", hash = "sha256:e72c4ff06e4fb6e4b5a9f0f55fe6e81514581fca1515028625d0f299c602ccc9"},
+    {file = "soupsieve-2.6.tar.gz", hash = "sha256:e2e68417777af359ec65daac1057404a3c8a5455bb8abc36f1a9866ab1a51abb"},
 ]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "spead2"
@@ -6201,7 +6202,7 @@ test-numba = ["numba", "scipy"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6241,7 +6242,7 @@ test = ["cython (>=3.0)", "defusedxml (>=0.7.1)", "pytest (>=6.0)", "setuptools 
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6265,7 +6266,7 @@ dev = ["bump2version", "sphinxcontrib-httpdomain", "transifex-client", "wheel"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6286,7 +6287,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6307,7 +6308,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6328,7 +6329,7 @@ test = ["html5lib", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6347,7 +6348,7 @@ Sphinx = ">=1.8"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6366,7 +6367,7 @@ test = ["flake8", "mypy", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6387,7 +6388,7 @@ test = ["defusedxml (>=0.7.1)", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6408,7 +6409,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6500,7 +6501,7 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6524,7 +6525,7 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6543,7 +6544,7 @@ Jinja2 = ">=2.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6559,7 +6560,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6578,7 +6579,7 @@ tests = ["pytest", "pytest-cov"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6604,7 +6605,7 @@ typing = ["mypy (>=1.6,<2.0)", "traitlets (>=5.11.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6627,7 +6628,7 @@ test = ["pytest", "ruff"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6643,7 +6644,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6659,24 +6660,24 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "tomlkit"
-version = "0.13.0"
+version = "0.13.2"
 description = "Style preserving TOML library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tomlkit-0.13.0-py3-none-any.whl", hash = "sha256:7075d3042d03b80f603482d69bf0c8f345c2b30e41699fd8883227f89972b264"},
-    {file = "tomlkit-0.13.0.tar.gz", hash = "sha256:08ad192699734149f5b97b45f1f18dad7eb1b6d16bc72ad0c2335772650d7b72"},
+    {file = "tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde"},
+    {file = "tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79"},
 ]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "toolz"
@@ -6691,7 +6692,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6716,7 +6717,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6736,7 +6737,7 @@ test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6759,7 +6760,7 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6775,7 +6776,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6791,7 +6792,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6807,7 +6808,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6826,7 +6827,7 @@ dev = ["flake8", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6848,7 +6849,7 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6868,7 +6869,7 @@ testing = ["coverage (>=5.0)", "pytest", "pytest-cover"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6884,18 +6885,18 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
 name = "webcolors"
-version = "24.6.0"
+version = "24.8.0"
 description = "A library for working with the color formats defined by HTML and CSS."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "webcolors-24.6.0-py3-none-any.whl", hash = "sha256:8cf5bc7e28defd1d48b9e83d5fc30741328305a8195c29a8e668fa45586568a1"},
-    {file = "webcolors-24.6.0.tar.gz", hash = "sha256:1d160d1de46b3e81e58d0a280d0c78b467dc80f47294b91b1ad8029d2cedb55b"},
+    {file = "webcolors-24.8.0-py3-none-any.whl", hash = "sha256:fc4c3b59358ada164552084a8ebee637c221e4059267d0f8325b3b560f6c7f0a"},
+    {file = "webcolors-24.8.0.tar.gz", hash = "sha256:08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"},
 ]
 
 [package.extras]
@@ -6904,8 +6905,8 @@ tests = ["coverage[toml]"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "webencodings"
@@ -6920,7 +6921,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6941,7 +6942,7 @@ test = ["websockets"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6963,7 +6964,7 @@ watchdog = ["watchdog"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -6979,7 +6980,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -7063,7 +7064,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -7079,7 +7080,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -7167,7 +7168,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -7275,7 +7276,7 @@ multidict = ">=4.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [[package]]
@@ -7299,7 +7300,7 @@ test = ["mypy", "pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-all/simple"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "ska"
 
 [extras]
@@ -7308,4 +7309,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "dcfcedf1163e631db1bfbf0f5248796b30778749f62e6551f47a71bef5f175c7"
+content-hash = "ffd0d973151c3c3c168b6a58757abc7d7d99e7bc2dc762a74001266095804e0e"
