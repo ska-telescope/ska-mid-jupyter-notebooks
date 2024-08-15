@@ -8,13 +8,10 @@ cd ../../
 mkdir -p ~/.casa/data
 
 #Add required python libraries
-poetry add protobuf=="3.20.1" 
-poetry add casadata 
-poetry add casatasks
-poetry add casaviewer
+poetry add protobuf=="3.20.1" casadata casatasks casaviewer
 
 #update the lock file
-poetry lock --no-update && poetry install
+poetry install
 
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 echo "*** Casa modules installed with success. ***"
