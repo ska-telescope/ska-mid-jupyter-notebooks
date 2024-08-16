@@ -13,24 +13,24 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "aiohappyeyeballs"
-version = "2.3.5"
+version = "2.3.6"
 description = "Happy Eyeballs for asyncio"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "aiohappyeyeballs-2.3.5-py3-none-any.whl", hash = "sha256:4d6dea59215537dbc746e93e779caea8178c866856a721c9c660d7a5a7b8be03"},
-    {file = "aiohappyeyeballs-2.3.5.tar.gz", hash = "sha256:6fa48b9f1317254f122a07a131a86b71ca6946ca989ce6326fff54a99a920105"},
+    {file = "aiohappyeyeballs-2.3.6-py3-none-any.whl", hash = "sha256:15dca2611fa78442f1cb54cf07ffb998573f2b4fbeab45ca8554c045665c896b"},
+    {file = "aiohappyeyeballs-2.3.6.tar.gz", hash = "sha256:88211068d2a40e0436033956d7de3926ff36d54776f8b1022d6b21320cadae79"},
 ]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "aiohttp"
@@ -150,8 +150,8 @@ frozenlist = ">=1.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "aiosqlite"
@@ -173,8 +173,8 @@ docs = ["sphinx (==7.2.6)", "sphinx-mdinclude (==0.5.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "alabaster"
@@ -189,8 +189,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "alembic"
@@ -213,8 +213,8 @@ tz = ["backports.zoneinfo"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "annotated-types"
@@ -229,8 +229,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "anyio"
@@ -256,8 +256,8 @@ trio = ["trio (>=0.23)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "appdirs"
@@ -272,8 +272,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "appnope"
@@ -288,8 +288,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "argon2-cffi"
@@ -313,8 +313,8 @@ typing = ["mypy"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "argon2-cffi-bindings"
@@ -355,8 +355,8 @@ tests = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "arrow"
@@ -379,8 +379,8 @@ test = ["dateparser (==1.*)", "pre-commit", "pytest", "pytest-cov", "pytest-mock
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "assertpy"
@@ -394,8 +394,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "astroid"
@@ -413,8 +413,8 @@ typing-extensions = {version = ">=4.0.0", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "astropy"
@@ -469,8 +469,8 @@ test-all = ["coverage[toml]", "ipython (>=4.2)", "objgraph", "pytest (>=7.0,<8)"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "asttokens"
@@ -492,8 +492,8 @@ test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "async-generator"
@@ -508,8 +508,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "async-timeout"
@@ -524,8 +524,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "attrs"
@@ -548,8 +548,8 @@ tests-mypy = ["mypy (>=1.11.1)", "pytest-mypy-plugins"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "autopep8"
@@ -568,8 +568,8 @@ tomli = {version = "*", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "babel"
@@ -613,8 +613,8 @@ lxml = ["lxml"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "black"
@@ -664,8 +664,8 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "bleach"
@@ -687,8 +687,8 @@ css = ["tinycss2 (>=1.1.0,<1.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "bokeh"
@@ -714,8 +714,8 @@ xyzservices = ">=2021.09.1"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "build"
@@ -742,8 +742,8 @@ virtualenv = ["virtualenv (>=20.0.35)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "cachetools"
@@ -758,8 +758,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "certifi"
@@ -774,8 +774,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "certipy"
@@ -797,8 +797,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "cffi"
@@ -881,8 +881,8 @@ pycparser = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "chardet"
@@ -897,8 +897,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "charset-normalizer"
@@ -1001,8 +1001,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "click"
@@ -1020,8 +1020,8 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "clickclick"
@@ -1040,8 +1040,8 @@ PyYAML = ">=3.11"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "colorama"
@@ -1056,8 +1056,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "comm"
@@ -1078,8 +1078,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "commonmark"
@@ -1097,8 +1097,8 @@ test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "connexion"
@@ -1132,8 +1132,8 @@ tests = ["MarkupSafe (>=0.23)", "aiohttp (>=2.3.10,<4)", "aiohttp-jinja2 (>=0.14
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "contextlib2"
@@ -1148,8 +1148,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "contourpy"
@@ -1216,8 +1216,8 @@ test-no-images = ["pytest", "pytest-cov", "pytest-xdist", "wurlitzer"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "coverage"
@@ -1308,8 +1308,8 @@ toml = ["tomli"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "cryptography"
@@ -1359,8 +1359,8 @@ test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "dataclass-type-validator"
@@ -1375,8 +1375,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "debugpy"
@@ -1411,8 +1411,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "decorator"
@@ -1427,8 +1427,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "deepdiff"
@@ -1449,8 +1449,8 @@ cli = ["clevercsv (==0.7.1)", "click (==8.0.3)", "pyyaml (==5.4.1)", "toml (==0.
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "defusedxml"
@@ -1465,8 +1465,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "deprecated"
@@ -1487,8 +1487,8 @@ dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "dill"
@@ -1507,8 +1507,8 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "dnspython"
@@ -1532,8 +1532,8 @@ wmi = ["wmi (>=1.5.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "docopt"
@@ -1547,8 +1547,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "docutils"
@@ -1563,8 +1563,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "email-validator"
@@ -1583,8 +1583,8 @@ idna = ">=2.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "etcd3"
@@ -1644,8 +1644,8 @@ test = ["pytest (>=6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "executing"
@@ -1663,8 +1663,8 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "fastjsonschema"
@@ -1682,8 +1682,8 @@ devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benc
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "fire"
@@ -1701,8 +1701,8 @@ termcolor = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "flake8"
@@ -1722,8 +1722,8 @@ pyflakes = ">=3.2.0,<3.3.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "flask"
@@ -1748,8 +1748,8 @@ dotenv = ["python-dotenv"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "fqdn"
@@ -1764,8 +1764,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "frozenlist"
@@ -1855,8 +1855,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "gitdb"
@@ -1874,8 +1874,8 @@ smmap = ">=3.0.1,<6"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "gitpython"
@@ -1897,8 +1897,8 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit",
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "google-auth"
@@ -1925,8 +1925,8 @@ requests = ["requests (>=2.20.0,<3.0.0.dev0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "greenlet"
@@ -2001,8 +2001,8 @@ test = ["objgraph", "psutil"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "grpcio"
@@ -2064,8 +2064,8 @@ protobuf = ["grpcio-tools (>=1.65.4)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "gunicorn"
@@ -2089,8 +2089,8 @@ tornado = ["tornado (>=0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "idna"
@@ -2105,8 +2105,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "imagesize"
@@ -2121,8 +2121,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "inflection"
@@ -2137,8 +2137,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "iniconfig"
@@ -2153,8 +2153,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ipykernel"
@@ -2191,8 +2191,8 @@ test = ["flaky", "ipyparallel", "pre-commit", "pytest (>=7.0)", "pytest-asyncio 
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ipython"
@@ -2234,8 +2234,8 @@ test-extra = ["curio", "ipython[test]", "matplotlib (!=3.2.0)", "nbformat", "num
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ipython-genutils"
@@ -2250,8 +2250,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ipywidgets"
@@ -2276,8 +2276,8 @@ test = ["ipykernel", "jsonschema", "pytest (>=3.6.0)", "pytest-cov", "pytz"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "isoduration"
@@ -2295,8 +2295,8 @@ arrow = ">=0.15.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "isort"
@@ -2314,8 +2314,8 @@ colors = ["colorama (>=0.4.6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "itsdangerous"
@@ -2330,8 +2330,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jedi"
@@ -2354,8 +2354,8 @@ testing = ["Django", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jinja2"
@@ -2376,8 +2376,8 @@ i18n = ["Babel (>=2.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "json5"
@@ -2392,8 +2392,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jsonpickle"
@@ -2413,13 +2413,13 @@ testing-libs = ["simplejson", "ujson", "yajl"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jsonpointer"
 version = "3.0.0"
-description = "Identify specific nodes in a JSON document (RFC 6901)"
+description = "Identify specific nodes in a JSON document (RFC 6901) "
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -2429,8 +2429,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jsonschema"
@@ -2461,8 +2461,8 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jsonschema-spec"
@@ -2483,8 +2483,8 @@ requests = ">=2.31.0,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "junit-xml-2"
@@ -2501,8 +2501,8 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-bokeh"
@@ -2521,8 +2521,8 @@ ipywidgets = "==8.*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-client"
@@ -2548,8 +2548,8 @@ test = ["coverage", "ipykernel (>=6.14)", "mypy", "paramiko", "pre-commit", "pyt
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-core"
@@ -2573,8 +2573,8 @@ test = ["ipykernel", "pre-commit", "pytest (<8)", "pytest-cov", "pytest-timeout"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-events"
@@ -2602,8 +2602,8 @@ test = ["click", "coverage", "pre-commit", "pytest (>=7.0)", "pytest-asyncio (>=
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-server"
@@ -2643,8 +2643,8 @@ test = ["flaky", "ipykernel", "pre-commit", "pytest (>=7.0)", "pytest-console-sc
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-server-fileid"
@@ -2667,8 +2667,8 @@ test = ["jupyter-server[test] (>=1.15,<3)", "pytest", "pytest-cov", "pytest-jupy
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-server-terminals"
@@ -2691,8 +2691,8 @@ test = ["jupyter-server (>=2.0.0)", "pytest (>=7.0)", "pytest-jupyter[server] (>
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-server-ydoc"
@@ -2715,8 +2715,8 @@ test = ["coverage", "jupyter-server[test] (>=2.0.0a0)", "pytest (>=7.0)", "pytes
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-telemetry"
@@ -2737,8 +2737,8 @@ traitlets = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyter-ydoc"
@@ -2760,8 +2760,8 @@ test = ["pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)", "ypy-we
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyterhub"
@@ -2796,8 +2796,8 @@ test = ["beautifulsoup4[html5lib]", "coverage", "cryptography", "jsonschema", "j
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyterlab"
@@ -2830,8 +2830,8 @@ test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyterlab-pygments"
@@ -2846,8 +2846,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyterlab-server"
@@ -2876,8 +2876,8 @@ test = ["hatch", "ipykernel", "jupyterlab-server[openapi]", "openapi-spec-valida
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "jupyterlab-widgets"
@@ -2892,8 +2892,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "katpoint"
@@ -2913,8 +2913,8 @@ sgp4 = ">=2.7"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "katversion"
@@ -2929,8 +2929,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "kubernetes"
@@ -2960,8 +2960,8 @@ adal = ["adal (>=1.0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "lazy-object-proxy"
@@ -3011,8 +3011,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mako"
@@ -3035,8 +3035,8 @@ testing = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "markdown-it-py"
@@ -3064,8 +3064,8 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "markupsafe"
@@ -3138,8 +3138,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "matplotlib-inline"
@@ -3157,8 +3157,8 @@ traitlets = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mccabe"
@@ -3173,8 +3173,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mdit-py-plugins"
@@ -3197,8 +3197,8 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mdurl"
@@ -3213,8 +3213,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mistune"
@@ -3229,8 +3229,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "multidict"
@@ -3333,8 +3333,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "mypy-extensions"
@@ -3349,8 +3349,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "myst-parser"
@@ -3380,8 +3380,8 @@ testing-docutils = ["pygments", "pytest (>=7,<8)", "pytest-param-files (>=0.3.4,
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbclassic"
@@ -3407,8 +3407,8 @@ test = ["coverage", "nbval", "pytest", "pytest-cov", "pytest-jupyter", "pytest-p
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbclient"
@@ -3433,8 +3433,8 @@ test = ["black", "check-manifest", "flake8", "ipykernel", "ipython", "ipywidgets
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbconvert"
@@ -3475,8 +3475,8 @@ webpdf = ["playwright"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbformat"
@@ -3501,8 +3501,8 @@ test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbmake"
@@ -3524,8 +3524,8 @@ pytest = ">=6.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nbqa"
@@ -3549,8 +3549,8 @@ toolchain = ["black", "blacken-docs", "flake8", "isort", "jupytext", "mypy", "py
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "nest-asyncio"
@@ -3565,8 +3565,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "notebook"
@@ -3604,8 +3604,8 @@ test = ["coverage", "nbval", "pytest", "pytest-cov", "requests", "requests-unixs
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "notebook-shim"
@@ -3626,8 +3626,8 @@ test = ["pytest", "pytest-console-scripts", "pytest-jupyter", "pytest-tornasync"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "numpy"
@@ -3676,8 +3676,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "oauthlib"
@@ -3697,8 +3697,8 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "openapi-schema-validator"
@@ -3720,8 +3720,8 @@ docs = ["sphinx (>=5.3.0,<6.0.0)", "sphinx-immaterial (>=0.11.0,<0.12.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "openapi-spec-validator"
@@ -3742,8 +3742,8 @@ openapi-schema-validator = ">=0.4.2,<0.5.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ordered-set"
@@ -3761,8 +3761,8 @@ dev = ["black", "mypy", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "overrides"
@@ -3777,8 +3777,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "packaging"
@@ -3793,8 +3793,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pamela"
@@ -3883,8 +3883,8 @@ xml = ["lxml (>=4.9.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pandocfilters"
@@ -3899,8 +3899,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "parso"
@@ -3919,8 +3919,8 @@ testing = ["docopt", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pathable"
@@ -3935,8 +3935,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pathspec"
@@ -3951,8 +3951,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pexpect"
@@ -3970,8 +3970,8 @@ ptyprocess = ">=0.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pillow"
@@ -4072,8 +4072,8 @@ xmp = ["defusedxml"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "platformdirs"
@@ -4093,8 +4093,8 @@ type = ["mypy (>=1.8)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pluggy"
@@ -4113,8 +4113,8 @@ testing = ["pytest", "pytest-benchmark"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "prance"
@@ -4145,8 +4145,8 @@ ssv = ["swagger-spec-validator (>=2.4,<3.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "prometheus-client"
@@ -4164,8 +4164,8 @@ twisted = ["twisted"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "prompt-toolkit"
@@ -4183,8 +4183,8 @@ wcwidth = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "protobuf"
@@ -4208,8 +4208,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "psutil"
@@ -4242,8 +4242,8 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "psycopg"
@@ -4271,8 +4271,8 @@ test = ["anyio (>=4.0)", "mypy (>=1.6)", "pproxy (>=2.7)", "pytest (>=6.2.5)", "
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "psycopg-binary"
@@ -4338,8 +4338,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "psycopg-pool"
@@ -4357,8 +4357,8 @@ typing-extensions = ">=4.4"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ptyprocess"
@@ -4373,8 +4373,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pure-eval"
@@ -4392,8 +4392,8 @@ tests = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyasn1"
@@ -4408,8 +4408,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyasn1-modules"
@@ -4427,8 +4427,8 @@ pyasn1 = ">=0.4.6,<0.7.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pycodestyle"
@@ -4443,8 +4443,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pycparser"
@@ -4459,8 +4459,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pydantic"
@@ -4484,8 +4484,8 @@ email = ["email-validator (>=2.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pydantic-core"
@@ -4590,8 +4590,8 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyerfa"
@@ -4622,8 +4622,8 @@ test = ["pytest", "pytest-doctestplus (>=0.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyflakes"
@@ -4638,8 +4638,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pygments"
@@ -4657,8 +4657,8 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pylint"
@@ -4687,8 +4687,8 @@ testutils = ["gitpython (>3)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pylint-junit"
@@ -4706,8 +4706,8 @@ pylint = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyopenssl"
@@ -4729,8 +4729,8 @@ test = ["flaky", "pretend", "pytest (>=3.0.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyproject-hooks"
@@ -4745,8 +4745,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pypubsub"
@@ -4760,8 +4760,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyrsistent"
@@ -4806,8 +4806,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytango"
@@ -4857,8 +4857,8 @@ tests = ["gevent (>=20.0)", "pytest", "pytest-asyncio", "pytest-cov", "pytest-fo
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytest"
@@ -4884,8 +4884,8 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytest-cov"
@@ -4907,8 +4907,8 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytest-json-report"
@@ -4927,8 +4927,8 @@ pytest-metadata = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytest-metadata"
@@ -4949,8 +4949,8 @@ test = ["black (>=22.1.0)", "flake8 (>=4.0.1)", "pre-commit (>=2.17.0)", "tox (>
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "python-build"
@@ -4964,8 +4964,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "python-casacore"
@@ -4989,8 +4989,8 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "python-dateutil"
@@ -5008,8 +5008,8 @@ six = ">=1.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "python-gitlab"
@@ -5032,8 +5032,8 @@ yaml = ["PyYaml (>=5.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "python-json-logger"
@@ -5048,8 +5048,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pytz"
@@ -5064,8 +5064,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pywin32"
@@ -5092,8 +5092,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pywinpty"
@@ -5112,8 +5112,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyyaml"
@@ -5179,8 +5179,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "pyzmq"
@@ -5305,8 +5305,8 @@ cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "recommonmark"
@@ -5326,8 +5326,8 @@ sphinx = ">=1.3.1"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "requests"
@@ -5352,8 +5352,8 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "requests-oauthlib"
@@ -5375,8 +5375,8 @@ rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "requests-toolbelt"
@@ -5394,8 +5394,8 @@ requests = ">=2.0.1,<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "rfc3339-validator"
@@ -5413,8 +5413,8 @@ six = "*"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "rfc3986-validator"
@@ -5429,8 +5429,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "rsa"
@@ -5448,8 +5448,8 @@ pyasn1 = ">=0.1.3"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ruamel-yaml"
@@ -5471,8 +5471,8 @@ jinja2 = ["ruamel.yaml.jinja2 (>=0.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ruamel-yaml-clib"
@@ -5535,8 +5535,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "schema"
@@ -5554,8 +5554,8 @@ contextlib2 = ">=0.5.5"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "semantic-version"
@@ -5574,8 +5574,8 @@ doc = ["Sphinx", "sphinx-rtd-theme"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "send2trash"
@@ -5595,8 +5595,8 @@ win32 = ["pywin32"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "setuptools"
@@ -5674,8 +5674,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "six"
@@ -5690,8 +5690,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ska-control-model"
@@ -5710,7 +5710,7 @@ transitions = ">=0.9.0,<0.10.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-db-oda"
@@ -5740,7 +5740,7 @@ ska-ser-skuid = ">=3.3.3,<4.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-oso-oet"
@@ -5771,7 +5771,7 @@ waitress = ">=2.1.2,<3.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-oso-pdm"
@@ -5791,7 +5791,7 @@ pydantic = {version = ">=2.7.1,<3.0.0", extras = ["email"]}
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-oso-scripting"
@@ -5818,7 +5818,7 @@ ska-tmc-cdm = ">=12.0.0,<13.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ost-osd"
@@ -5846,7 +5846,7 @@ ska-telmodel = ">=1.15.1,<2.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-sdp-cbf-emulator"
@@ -5874,7 +5874,7 @@ spead2 = ">=4.0.2,<5.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-sdp-config"
@@ -5899,7 +5899,7 @@ semantic-version = ">=2.10.0,<3.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-sdp-realtime-receive-core"
@@ -5923,7 +5923,7 @@ python-casacore = ">=3.1.1"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ser-config-inspector-client"
@@ -5945,7 +5945,7 @@ urllib3 = ">=1.25.3"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ser-log-transactions"
@@ -5966,7 +5966,7 @@ ska-ser-skuid = "*"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ser-logging"
@@ -5982,7 +5982,7 @@ files = [
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ser-skuid"
@@ -6002,7 +6002,7 @@ ska-ser-logging = ">=0.4.1,<0.5.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-ser-sphinx-theme"
@@ -6022,7 +6022,7 @@ sphinx-rtd-theme = ">=1.2.2,<2.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-tango-base"
@@ -6047,7 +6047,7 @@ transitions = ">=0.9.0,<0.10.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-telmodel"
@@ -6073,7 +6073,7 @@ toolz = ">=0.12.0,<0.13.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "ska-tmc-cdm"
@@ -6098,7 +6098,7 @@ ska-telmodel = ">=1.18.1,<2.0.0"
 [package.source]
 type = "legacy"
 url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+reference = "ska-internal"
 
 [[package]]
 name = "smmap"
@@ -6113,8 +6113,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sniffio"
@@ -6129,8 +6129,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "snowballstemmer"
@@ -6145,8 +6145,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "soupsieve"
@@ -6202,8 +6202,8 @@ test-numba = ["numba", "scipy"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinx"
@@ -6242,8 +6242,8 @@ test = ["cython (>=3.0)", "defusedxml (>=0.7.1)", "pytest (>=6.0)", "setuptools 
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinx-rtd-theme"
@@ -6266,8 +6266,8 @@ dev = ["bump2version", "sphinxcontrib-httpdomain", "transifex-client", "wheel"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-applehelp"
@@ -6287,8 +6287,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-devhelp"
@@ -6308,8 +6308,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-htmlhelp"
@@ -6329,8 +6329,8 @@ test = ["html5lib", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-jquery"
@@ -6348,8 +6348,8 @@ Sphinx = ">=1.8"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-jsmath"
@@ -6367,8 +6367,8 @@ test = ["flake8", "mypy", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-qthelp"
@@ -6388,8 +6388,8 @@ test = ["defusedxml (>=0.7.1)", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sphinxcontrib-serializinghtml"
@@ -6409,8 +6409,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "sqlalchemy"
@@ -6501,8 +6501,8 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "stack-data"
@@ -6525,8 +6525,8 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "swagger-ui-bundle"
@@ -6544,8 +6544,8 @@ Jinja2 = ">=2.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tblib"
@@ -6560,8 +6560,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "termcolor"
@@ -6579,8 +6579,8 @@ tests = ["pytest", "pytest-cov"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "terminado"
@@ -6605,8 +6605,8 @@ typing = ["mypy (>=1.6,<2.0)", "traitlets (>=5.11.1)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tinycss2"
@@ -6628,8 +6628,8 @@ test = ["pytest", "ruff"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tokenize-rt"
@@ -6644,8 +6644,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tomli"
@@ -6660,8 +6660,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tomlkit"
@@ -6692,8 +6692,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tornado"
@@ -6717,8 +6717,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "traitlets"
@@ -6737,8 +6737,8 @@ test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "transitions"
@@ -6760,8 +6760,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "types-python-dateutil"
@@ -6776,8 +6776,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "typing-extensions"
@@ -6792,8 +6792,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "tzdata"
@@ -6808,8 +6808,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "uri-template"
@@ -6827,8 +6827,8 @@ dev = ["flake8", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "urllib3"
@@ -6849,8 +6849,8 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "waitress"
@@ -6869,8 +6869,8 @@ testing = ["coverage (>=5.0)", "pytest", "pytest-cover"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "wcwidth"
@@ -6885,8 +6885,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "webcolors"
@@ -6921,8 +6921,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "websocket-client"
@@ -6942,8 +6942,8 @@ test = ["websockets"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "werkzeug"
@@ -6964,8 +6964,8 @@ watchdog = ["watchdog"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "widgetsnbextension"
@@ -6980,8 +6980,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "wrapt"
@@ -7064,8 +7064,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "xyzservices"
@@ -7080,8 +7080,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "y-py"
@@ -7168,8 +7168,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "yarl"
@@ -7276,8 +7276,8 @@ multidict = ">=4.0"
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [[package]]
 name = "ypy-websocket"
@@ -7300,8 +7300,8 @@ test = ["mypy", "pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "ska"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
 
 [extras]
 localtango = []
@@ -7309,4 +7309,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "ffd0d973151c3c3c168b6a58757abc7d7d99e7bc2dc762a74001266095804e0e"
+content-hash = "3f73886039ec8f78f41604dcfd898bb7958925500078f706120a2f32f433705f"

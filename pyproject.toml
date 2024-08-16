@@ -83,6 +83,10 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [[tool.poetry.source]]
+name = 'ska-internal'
+url = 'https://artefact.skao.int/repository/pypi-internal/simple'
+
+[[tool.poetry.source]]
 name = 'ska'
 url = 'https://artefact.skao.int/repository/pypi-all/simple'
 
