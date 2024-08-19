@@ -55,3 +55,9 @@ When creating/updating a notebook, the following should be referenced:
 
 When pushing to the remote, run `make notebook-lint` to preview any linting changes. To run the linter and make automatic changes to your notebooks run `make notebook-format`.
 
+# Adding GUI elements to Jupyter Notebooks
+
+For a short introduction and examples of using the *ipywidgets* library, refer to:
+
+[How to add visual appeal to Jupyter Notebooks](https://confluence.skatelescope.org/display/SE/How+to+add+visual+appeal+to+Jupyter+Notebooks)
+
