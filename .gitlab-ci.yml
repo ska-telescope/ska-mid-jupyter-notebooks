@@ -46,3 +46,7 @@ notebook-test:
 
 notebook-lint:
   allow_failure: true
+
+  docs-build-rtd:
+    rules:
+      - when: never
