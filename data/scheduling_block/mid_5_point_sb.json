@@ -32,14 +32,14 @@
   "scan_definitions": [
     {
       "scan_definition_id": "calibrator scan",
-      "scan_duration_ms": 60000,
+      "scan_duration_ms": 180000,
       "target_ref": "M83",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "pointing",
       "csp_configuration_ref": "csp config 123"
     },
     {
-      "scan_duration_ms": 60000,
+      "scan_duration_ms": 180000,
       "target_ref": "Polaris Australis",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "science",
