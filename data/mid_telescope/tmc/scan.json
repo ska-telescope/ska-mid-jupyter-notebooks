@@ -1,10 +1,5 @@
 {
-  "sdp": {
-  "interface": "https://schema.skao.int/ska-sdp-scan/0.4",
+  "interface": "https://schema.skao.intg/ska-tmc-scan/2.0",
+  "transaction_id": "txn-....-00001",
   "scan_id": 1
-  },
-  "csp": {
-  "interface": "https://schema.skao.int/ska-csp-scan/2.2",
-  "scan_id": 1
-  }
 }
