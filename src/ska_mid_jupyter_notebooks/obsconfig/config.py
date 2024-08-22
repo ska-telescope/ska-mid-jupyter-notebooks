@@ -209,7 +209,9 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         scan_definition = scan_definitions[scan_definition]
         target = targets[scan_definition.target_id]
 
-        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target)
+        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(
+            target, scan_definition.pointing_correction
+        )
 
         dish_configuration = dish_configurations[scan_definition.dish_configuration_id]
         cdm_config.dish = pdm_transforms.convert_dishconfiguration(dish_configuration)
