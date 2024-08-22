@@ -1,6 +1,6 @@
-from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
-from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
-from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
+from ska_oso_pdm.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
+from ska_oso_pdm.common.scan_definition import ScanDefinition
+from ska_oso_pdm.dish.dish_configuration import DishConfiguration
 from ska_oso_pdm.schemas import CODEC as pdm_CODEC
 from ska_oso_pdm.schemas.common.sb_definition import SBDefinitionSchema
 from ska_oso_scripting.functions import pdm_transforms

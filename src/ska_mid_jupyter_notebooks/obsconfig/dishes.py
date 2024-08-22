@@ -1,6 +1,6 @@
 from typing import Literal, TypedDict
 
-from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration as sb_dish_configuration
+from ska_oso_pdm.dish.dish_configuration import DishConfiguration as sb_dish_configuration
 from ska_tmc_cdm.messages.central_node.common import DishAllocation
 from ska_tmc_cdm.messages.subarray_node.configure.core import (
     DishConfiguration,
