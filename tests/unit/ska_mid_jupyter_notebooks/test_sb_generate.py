@@ -3,7 +3,6 @@ from pprint import pprint
 
 import pytest
 from deepdiff import DeepDiff
-from ska_oso_pdm.sb_definition.sb_definition import SBDefinition
 from ska_oso_pdm._shared.target import (
     CrossScanParameters,
     FivePointParameters,
@@ -11,8 +10,9 @@ from ska_oso_pdm._shared.target import (
     SinglePointParameters,
     StarRasterParameters,
 )
-from ska_oso_pdm.sb_definition.sdp.scan_type import BeamMapping
 from ska_oso_pdm.openapi import CODEC as pdm_CODEC
+from ska_oso_pdm.sb_definition.sb_definition import SBDefinition
+from ska_oso_pdm.sb_definition.sdp.scan_type import BeamMapping
 from ska_tmc_cdm.messages.central_node.sdp import Channel
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
 from ska_tmc_cdm.schemas.central_node.assign_resources import AssignResourcesRequestSchema
