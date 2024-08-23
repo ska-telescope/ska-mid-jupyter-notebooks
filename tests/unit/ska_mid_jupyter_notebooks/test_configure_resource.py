@@ -8,9 +8,13 @@ from ska_oso_pdm._shared.target import (
     StarRasterParameters,
 )
 from ska_oso_pdm.sb_definition.sdp.scan_type import BeamMapping
-from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
-from ska_tmc_cdm.messages.subarray_node.configure.tmc import TMCConfiguration
+
+# from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
+from ska_tmc_cdm.schemas.subarray_node.configure.core import ConfigureRequestSchema
+
+# from ska_tmc_cdm.messages.subarray_node.configure.tmc import TMCConfiguration
+from ska_tmc_cdm.schemas.subarray_node.configure.tmc import TMCConfigurationSchema
 from ska_tmc_cdm.utils import assert_json_is_equal
 
 from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
