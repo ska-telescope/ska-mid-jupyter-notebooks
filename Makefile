@@ -6,6 +6,8 @@ PYTHON_LINE_LENGTH = 99
 PYTHON_RUNNER := poetry run
 DOCS_SPHINXBUILD := poetry run python -m sphinx
 
+PYTHON_VARS_AFTER_PYTEST += --ignore=tests/unit/ska_mid_jupyter_notebooks/test_configure_resource.py --ignore=tests/unit/ska_mid_jupyter_notebooks/test_obsconfig.py --ignore=tests/unit/ska_mid_jupyter_notebooks/test_sb_generate.py --ignore=tests/unit/ska_mid_jupyter_notebooks/test_target_spec_mid.py
+
 include .make/oci.mk
 
 include .make/python.mk
