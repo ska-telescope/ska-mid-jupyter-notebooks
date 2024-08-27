@@ -1,4 +1,4 @@
-from ska_oso_pdm.entities.csp.csp_configuration import CSPConfiguration as CSPConfigurationPDM
+from ska_oso_pdm.csp.csp_configuration import CSPConfiguration as CSPConfigurationPDM
 from ska_tmc_cdm.messages.central_node.csp import CommonConfiguration as CentralCommonConfiguration
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CentralCSPConfiguration
 from ska_tmc_cdm.messages.subarray_node.configure.csp import (

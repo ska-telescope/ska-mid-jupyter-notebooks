@@ -1,8 +1,8 @@
 from typing import Any, Dict, List, NamedTuple, Union
 
-from ska_oso_pdm.entities.sdp import BeamMapping, ProcessingBlock, ScanType
-from ska_oso_pdm.entities.sdp.beam import Beam, BeamFunction
-from ska_oso_pdm.entities.sdp.processing_block import Script, ScriptKind
+from ska_oso_pdm.sb_definition.sdp import BeamMapping, ProcessingBlock, ScanType
+from ska_oso_pdm.sb_definition.sdp.beam import Beam, BeamFunction
+from ska_oso_pdm.sb_definition.sdp.processing_block import Script, ScriptKind
 from ska_tmc_cdm.messages.central_node.sdp import (
     BeamConfiguration,
     EBScanType,

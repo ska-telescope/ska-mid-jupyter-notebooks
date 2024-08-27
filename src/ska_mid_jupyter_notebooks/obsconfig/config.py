@@ -1,7 +1,7 @@
-from ska_oso_pdm.entities.common.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
-from ska_oso_pdm.entities.common.scan_definition import ScanDefinition
-from ska_oso_pdm.entities.dish.dish_configuration import DishConfiguration
-from ska_oso_pdm.schemas import CODEC as pdm_CODEC
+from ska_oso_pdm.openapi import CODEC as pdm_CODEC
+from ska_oso_pdm.sb_definition.dish.dish_configuration import DishConfiguration
+from ska_oso_pdm.sb_definition.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType
+from ska_oso_pdm.sb_definition.scan_definition import ScanDefinition
 from ska_oso_pdm.schemas.common.sb_definition import SBDefinitionSchema
 from ska_oso_scripting.functions import pdm_transforms
 from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRequest
@@ -209,7 +209,9 @@ class ObservationSB(SdpConfigSpecsSB, MetaDataSB, Dishes, CSPconfig, TMCConfig, 
         scan_definition = scan_definitions[scan_definition]
         target = targets[scan_definition.target_id]
 
-        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(target)
+        cdm_config.pointing = pdm_transforms.convert_pointingconfiguration(
+            target, scan_definition.pointing_correction
+        )
 
         dish_configuration = dish_configurations[scan_definition.dish_configuration_id]
         cdm_config.dish = pdm_transforms.convert_dishconfiguration(dish_configuration)
