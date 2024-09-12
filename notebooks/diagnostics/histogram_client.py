@@ -6,9 +6,12 @@ class HistogramClient:
         self.dp = DeviceProxy(fqdn)
         self.timeout = timeout
     
+    def set_channel(self, channel):
+        self.dp.histogram_channel = channel
+
     def capture(self):
-        self.dp.write_attribute("histogram_timeout", self.timeout)
-        self.dp.command_inout("start_histogram_capture")
+        self.dp.histogram_timeout = self.timeout
+        self.dp.start_histogram_capture()
         success = self._wait_done()
         data = None
         if success:
