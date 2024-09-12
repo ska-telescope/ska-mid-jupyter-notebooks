@@ -1,8 +1,9 @@
 """ Helper functions to make checking device status and state neater."""
 
 from time import sleep
-
-from tango import DeviceProxy
+from queue import Queue, Empty
+from typing import Any, Dict
+from tango import DeviceProxy, EventType
 
 spinner = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"]
 
@@ -21,7 +22,9 @@ allowed_states = [
 ]
 
 
-def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error=True) -> None:
+def wait_for_state(
+    device: DeviceProxy, desired_state: str | int, break_on_error=True
+) -> None:
     """Poll a tango device until either the given observation state is reached, or it throws an error.
     Arguments:
     device -- Tango Device to check
@@ -78,3 +81,66 @@ def wait_for_status(device: DeviceProxy, desired_status: str) -> None:
         poll += 1
     print("\r", "-------------------------------------", end="")
     print(f"\nFinished with: {device.status()}")
+
+
+def wait_for_event(
+    device_proxy: DeviceProxy,
+    attr_name: str,
+    desired_value: Any,
+    event_type: EventType = EventType.CHANGE_EVENT,
+    n_events: int = 2,
+    timeout: float = 15.0,
+    print_event_details: bool = False,
+) -> bool:
+    """Wait for a specific type of attribute event to occur and check that the attribute changed to a specific value.
+
+    :param device_proxy: Device proxy to be used for event subscription
+    :type device_proxy: DeviceProxy
+    :param attr_name: Attribute of interest
+    :type attr_name: str
+    :param desired_value: Expected value for attribute specified with attr_name
+    :type desired_value: Any
+    :param event_type: Tango event type to wait for
+    :type event_type: EventType
+    :param n_events: Maximum number of events to check for desired transition, defaults to 2
+    :type n_events: int, optional
+    :param timeout: Maximum period in [s] to wait per event, defaults to 15.0
+    :type timeout: float, optional
+    :param print_event_details: Toggle printing of event data structure, defaults to False
+    :type print_event_details: bool, optional
+    :return: Success or failure flag indicating whether the attribute changed as desired or not
+    :rtype: Bool
+    """
+    result = False
+
+    event_queue = Queue()
+
+    device_proxy.subscribe_event(
+        attr_name, event_type, lambda event: event_queue.put(event)
+    )
+
+    for i in range(n_events):
+        try:
+            event = event_queue.get(timeout=timeout)
+            if print_event_details:
+                print(f"Received event: {event}")
+            assert not event.err, "Event error"
+
+            value = event.attr_value.value
+            if value == desired_value:
+                print(
+                    f"Device {device_proxy.name()} attribute {attr_name} changed to the following desired value: {desired_value}"
+                )
+                result = True
+                break
+        except Empty:
+            print(
+                f"Device {device_proxy.name()} attribute change event did not occur within timeout period of {timeout}s. Attempts remaining: {n_events - 1 - i}"
+            )
+
+    return result
+
+
+def wait_for_change_events(event_list: Dict[DeviceProxy, Any]):
+    device_proxy = Devie
+    wait_for_event()
