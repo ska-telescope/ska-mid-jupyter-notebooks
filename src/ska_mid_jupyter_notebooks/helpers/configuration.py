@@ -5,7 +5,7 @@ def get_band_frequency_limits(
     band_number: int,
     band_overlap: float = 0.2e9,
     band_width: float = 0.7945e9,
-    f_min_b1: float = 0.2964e9,
+    freq_min_b1: float = 0.2964e9,
 ) -> Dict[str, float]:
     """_summary_
 
@@ -15,13 +15,13 @@ def get_band_frequency_limits(
     :type band_overlap: float, optional
     :param band_width: Band width in Hz, defaults to 0.7945e9 Hz
     :type band_width: float, optional
-    :param f_min_b1: f_min for band 1 in Hz, defaults to 0.2964e9 Hz
-    :type f_min_b1: float, optional
-    :return: f_min and f_max in Hz for the respective band
+    :param freq_min_b1: freq_min for band 1 in Hz, defaults to 0.2964e9 Hz
+    :type freq_min_b1: float, optional
+    :return: freq_min and freq_max in Hz for the respective band
     :rtype: Dict[str, float]
     """
 
-    f_min_bn = f_min_b1 + (band_number - 1) * (band_width - band_overlap)
-    f_max_bn = f_min_bn + band_width
+    freq_min_bn = freq_min_b1 + (band_number - 1) * (band_width - band_overlap)
+    freq_max_bn = freq_min_bn + band_width
 
-    return {"f_min": f_min_bn, "f_max": f_max_bn}
+    return {"freq_min": freq_min_bn, "freq_max": freq_max_bn}
