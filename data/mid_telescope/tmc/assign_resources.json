@@ -182,8 +182,7 @@
                     "receiver": {
                        "options": {
                            "reception": {
-                               "reset_time_indexing_after_each_scan": true,
-                               "stats_receiver_kafka_config": "ska-sdp-kafka.staging.svc.miditf.internal.skao.int:9092:json_workflow_state"
+                               "reset_time_indexing_after_each_scan": true
                           },
                           "telescope_model": {
                              "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
@@ -192,9 +191,6 @@
                     }
                   },
                   "processors": {
-                     "signal-display-metrics-amplitude": {},
-                     "signal-display-metrics-basic": {},
-                     "signal-display-metrics-phase": {},
                      "mswriter": {}
                  },
                   "pod_settings": [{            

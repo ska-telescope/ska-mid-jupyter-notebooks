@@ -94,8 +94,10 @@
                },
                "parameters": {
                   "channels_per_port": 20,
-                  "queue_connector_configuration": {},
                   "transport_protocol": "udp",
+                  "signal_display": {
+                     "metrics": ["all"]
+                  },
                   "use_network_definition": true,
                   "extra_helm_values": {
                     "receiver": {
@@ -110,9 +112,6 @@
                     }
                   },
                   "processors": {
-                     "signal-display-metrics-amplitude": {},
-                     "signal-display-metrics-basic": {},
-                     "signal-display-metrics-phase": {},
                      "mswriter": {}
                  },
                   "pod_settings": [{            
