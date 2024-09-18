@@ -25,3 +25,19 @@ def get_band_frequency_limits(
     freq_max_bn = freq_min_bn + band_width
 
     return {"freq_min": freq_min_bn, "freq_max": freq_max_bn}
+
+
+def get_dish_namespace(sut_namespace: str, dish_id: str) -> str:
+    """_summary_
+
+    :param sut_namespace: Namespace to which the SUT has been deployed
+    :type sut_namespace: str
+    :param dish_id: Dish ID e.g SKA001, SKA002
+    :type dish_id: str
+    :return: Namespace to which the dishes are deployed
+    :rtype: _type_
+    """
+    if sut_namespace in ["staging", "integration"]:
+        return f"{sut_namespace}-dish-lmc-{str.lower(dish_id)}"
+    else:
+        return f"ci-dish-lmc-{str.lower(dish_id)}-{sut_namespace[15:]}"

@@ -1,7 +1,7 @@
 """ Helper functions to make checking device status and state neater."""
 
 from queue import Empty, Queue
-from time import sleep
+from time import sleep, time
 from typing import Any
 
 from tango import DeviceProxy, EventType
@@ -90,8 +90,7 @@ def wait_for_event(
     attr_name: str,
     desired_value: Any,
     event_type: EventType = EventType.CHANGE_EVENT,
-    n_events: int = 2,
-    timeout: float = 15.0,
+    timeout: float = 150.0,
     print_event_details: bool = False,
 ) -> bool:
     """Wait for a specific type of attribute event to occur and check that the attribute
@@ -105,9 +104,7 @@ def wait_for_event(
     :type desired_value: Any
     :param event_type: Tango event type to wait for
     :type event_type: EventType
-    :param n_events: Maximum number of events to check for desired transition, defaults to 2
-    :type n_events: int, optional
-    :param timeout: Maximum period in [s] to wait per event, defaults to 15.0
+    :param timeout: Maximum period in [s] to wait for desired event, defaults to 150.0
     :type timeout: float, optional
     :param print_event_details: Toggle printing of event data structure, defaults to False
     :type print_event_details: bool, optional
@@ -118,27 +115,40 @@ def wait_for_event(
 
     event_queue = Queue()
 
-    device_proxy.subscribe_event(attr_name, event_type, event_queue.put)
+    event_id = device_proxy.subscribe_event(attr_name, event_type, event_queue.put)
+    
+    time_start = time()
+    while (time() - time_start) < timeout:
+        if not event_queue.empty():
+            try:
+                event = event_queue.get_nowait()
+                if print_event_details:
+                    print(f"Received event: {event}")
+                assert not event.err, "Event error"
 
-    for i in range(n_events):
-        try:
-            event = event_queue.get(timeout=timeout)
-            if print_event_details:
-                print(f"Received event: {event}")
-            assert not event.err, "Event error"
+                value = event.attr_value.value
+                if value == desired_value:
+                    print(
+                        f"Device {device_proxy.name()} attribute {attr_name} changed \
+                        to the following desired value: {desired_value}"
+                    )
+                    result = True
+                    break
+            except Empty:
+                print("Event queue empty")
+        sleep(1)
+    
+    device_proxy.unsubscribe_event(event_id)
 
-            value = event.attr_value.value
-            if value == desired_value:
-                print(
-                    f"Device {device_proxy.name()} attribute {attr_name} changed \
-                    to the following desired value: {desired_value}"
-                )
-                result = True
-                break
-        except Empty:
-            print(
-                f"Device {device_proxy.name()} attribute change event did not occur \
-                within timeout period of {timeout}s. Attempts remaining: {n_events - 1 - i}"
-            )
-
+    if not result:
+        raise Exception("Desired event failed to occur")
     return result
+
+def get_dish_namespace(SUT_NAMESPACE: str):
+    pass
+
+
+def get_dish_tango_host():
+    pass
+    # return f"tango-databaseds.{SKA001_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
+    
