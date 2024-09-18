@@ -86,7 +86,8 @@ def wait_for_status(device: DeviceProxy, desired_status: str) -> None:
 
 
 class EventWaitTimeout(Exception):
-    """ Exception raised when a an event does not occur within a specified timeout"""
+    """Exception raised when an event does not occur within a specified timeout"""
+
 
 def wait_for_event(
     device_proxy: DeviceProxy,
@@ -143,6 +144,7 @@ def wait_for_event(
     device_proxy.unsubscribe_event(event_id)
 
     if not result:
-        raise EventWaitTimeout("Desired event did not occur within the"
-                               f"timeout period of {timeout}s")
+        raise EventWaitTimeout(
+            "Desired event did not occur within the" f"timeout period of {timeout}s"
+        )
     return result
