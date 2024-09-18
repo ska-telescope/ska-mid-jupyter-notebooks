@@ -1,11 +1,16 @@
-from tango import DeviceProxy
 from beautifultable import BeautifulTable
+from tango import DeviceProxy
+
 
 # Check if data is flowing at the input 100g (from dish) and output 100g (to SDP)
 class Eth100gClient:
     def __init__(self, vcc_boards, fsp_boards):
-        self.eth_in_fqdns = [f"talondx-00{v}/ska-talondx-100-gigabit-ethernet/100g_eth_0" for v in vcc_boards]
-        self.eth_out_fqdn = f"talondx-00{fsp_boards[0]}/ska-talondx-100-gigabit-ethernet/100g_eth_1"
+        self.eth_in_fqdns = [
+            f"talondx-00{v}/ska-talondx-100-gigabit-ethernet/100g_eth_0" for v in vcc_boards
+        ]
+        self.eth_out_fqdn = (
+            f"talondx-00{fsp_boards[0]}/ska-talondx-100-gigabit-ethernet/100g_eth_1"
+        )
         self.dp_eth_in = [DeviceProxy(f) for f in self.eth_in_fqdns]
         self.dp_eth_out = DeviceProxy(self.eth_out_fqdn)
         self.tx_stats_idx = {
@@ -78,11 +83,11 @@ class Eth100gClient:
         tx_table = self._get_tx_stat_table()
         rx_table = self._get_rx_stat_table()
         return tx_table, rx_table
-    
+
     def _get_name(self, fqdn):
-        parts = fqdn.split('/')
-        return parts[0] + '__' + parts[2]
-    
+        parts = fqdn.split("/")
+        return parts[0] + "__" + parts[2]
+
     def _get_tx_stat_table(self):
         tx_stats = self.dp_eth_out.get_tx_stats()
         tx_table = BeautifulTable(maxwidth=180)
@@ -136,4 +141,3 @@ class Eth100gClient:
                 )
             )
         return rx_table
-

@@ -1,11 +1,13 @@
-from PyTango import DeviceProxy
 from time import sleep
+
+from PyTango import DeviceProxy
+
 
 class HistogramClient:
     def __init__(self, fqdn, timeout=3000):
         self.dp = DeviceProxy(fqdn)
         self.timeout = timeout
-    
+
     def set_channel(self, channel):
         self.dp.histogram_channel = channel
 
@@ -30,7 +32,7 @@ class HistogramClient:
 
         success = self.dp.read_attribute("histogram_capture_success").value
         return success
-    
+
     def _read_histogram_data(self):
         pol_x_data = self.dp.read_attribute("histogram_result_polX").value
         pol_y_data = self.dp.read_attribute("histogram_result_polY").value
