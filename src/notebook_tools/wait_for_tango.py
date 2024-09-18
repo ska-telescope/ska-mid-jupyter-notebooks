@@ -116,7 +116,7 @@ def wait_for_event(
     event_queue = Queue()
 
     event_id = device_proxy.subscribe_event(attr_name, event_type, event_queue.put)
-    
+
     time_start = time()
     while (time() - time_start) < timeout:
         if not event_queue.empty():
@@ -129,26 +129,17 @@ def wait_for_event(
                 value = event.attr_value.value
                 if value == desired_value:
                     print(
-                        f"Device {device_proxy.name()} attribute {attr_name} changed \
-                        to the following desired value: {desired_value}"
+                        f"Device {device_proxy.name()} attribute {attr_name} changed "
+                        f"to the following desired value: {desired_value}"
                     )
                     result = True
                     break
             except Empty:
                 print("Event queue empty")
         sleep(1)
-    
+
     device_proxy.unsubscribe_event(event_id)
 
     if not result:
         raise Exception("Desired event failed to occur")
     return result
-
-def get_dish_namespace(SUT_NAMESPACE: str):
-    pass
-
-
-def get_dish_tango_host():
-    pass
-    # return f"tango-databaseds.{SKA001_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
-    
