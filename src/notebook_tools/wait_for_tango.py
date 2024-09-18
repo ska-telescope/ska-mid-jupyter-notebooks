@@ -121,7 +121,7 @@ def wait_for_event(
     while (time() - time_start) < timeout:
         if not event_queue.empty():
             try:
-                event = event_queue.get_nowait()
+                event = event_queue.get(timeout=2)
                 if print_event_details:
                     print(f"Received event: {event}")
                 assert not event.err, "Event error"
@@ -136,10 +136,10 @@ def wait_for_event(
                     break
             except Empty:
                 print("Event queue empty")
-        sleep(1)
 
     device_proxy.unsubscribe_event(event_id)
 
     if not result:
-        raise Exception("Desired event failed to occur")
+        # pylint: disable=broad-except
+        raise Exception(f"Desired event did not occur within the timeout period of {timeout}s")
     return result
