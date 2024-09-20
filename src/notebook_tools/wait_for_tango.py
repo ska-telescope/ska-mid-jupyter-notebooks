@@ -1,8 +1,10 @@
 """ Helper functions to make checking device status and state neater."""
 
-from time import sleep
+from queue import Empty, Queue
+from time import sleep, time
+from typing import Any
 
-from tango import DeviceProxy
+from tango import DeviceProxy, EventType
 
 spinner = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"]
 
@@ -22,7 +24,8 @@ allowed_states = [
 
 
 def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error=True) -> None:
-    """Poll a tango device until either the given observation state is reached, or it throws an error.
+    """Poll a tango device until either the given observation state is reached, or it throws
+    an error.
     Arguments:
     device -- Tango Device to check
     desired_state -- The state which to break upon getting (number or state)
@@ -46,7 +49,8 @@ def wait_for_state(device: DeviceProxy, desired_state: str | int, break_on_error
         sleep(0.5)
         print(
             "\r",
-            f"{spinner[spinL]} Poll# {poll}: {device.obsState.name}, waiting for {desired_state}...",
+            f"{spinner[spinL]} Poll# {poll}: {device.obsState.name}, \
+            waiting for {desired_state}...",
             end="",
         )
         if device.obsState == 9 and break_on_error:
@@ -72,9 +76,75 @@ def wait_for_status(device: DeviceProxy, desired_status: str) -> None:
         sleep(0.5)
         print(
             "\r",
-            f"{spinner[spinL]} Poll {poll}: Device is currently {device.status()}, waiting for {desired_status}...",
+            f"{spinner[spinL]} Poll {poll}: Device is currently {device.status()},\
+            waiting for {desired_status}...",
             end="",
         )
         poll += 1
     print("\r", "-------------------------------------", end="")
     print(f"\nFinished with: {device.status()}")
+
+
+class EventWaitTimeout(Exception):
+    """Exception raised when an event does not occur within a specified timeout"""
+
+
+def wait_for_event(
+    device_proxy: DeviceProxy,
+    attr_name: str,
+    desired_value: Any,
+    event_type: EventType = EventType.CHANGE_EVENT,
+    timeout: float = 150.0,
+    print_event_details: bool = False,
+) -> bool:
+    """Wait for a specific type of attribute event to occur and check that the attribute
+    changed to a specific value.
+
+    :param device_proxy: Device proxy to be used for event subscription
+    :type device_proxy: DeviceProxy
+    :param attr_name: Attribute of interest
+    :type attr_name: str
+    :param desired_value: Expected value for attribute specified with attr_name
+    :type desired_value: Any
+    :param event_type: Tango event type to wait for
+    :type event_type: EventType
+    :param timeout: Maximum period in [s] to wait for desired event, defaults to 150.0
+    :type timeout: float, optional
+    :param print_event_details: Toggle printing of event data structure, defaults to False
+    :type print_event_details: bool, optional
+    :return: Success or failure flag indicating whether the attribute changed as desired or not
+    :rtype: Bool
+    """
+    result = False
+
+    event_queue = Queue()
+
+    event_id = device_proxy.subscribe_event(attr_name, event_type, event_queue.put)
+
+    time_start = time()
+    while (time() - time_start) < timeout:
+        if not event_queue.empty():
+            try:
+                event = event_queue.get(timeout=2)
+                if print_event_details:
+                    print(f"Received event: {event}")
+                assert not event.err, "Event error"
+
+                value = event.attr_value.value
+                if value == desired_value:
+                    print(
+                        f"Device {device_proxy.name()} attribute {attr_name} changed "
+                        f"to the following desired value: {desired_value}"
+                    )
+                    result = True
+                    break
+            except Empty:
+                print("Event queue empty")
+
+    device_proxy.unsubscribe_event(event_id)
+
+    if not result:
+        raise EventWaitTimeout(
+            "Desired event did not occur within the" f"timeout period of {timeout}s"
+        )
+    return result
