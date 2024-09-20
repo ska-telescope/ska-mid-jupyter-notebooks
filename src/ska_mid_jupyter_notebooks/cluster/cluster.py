@@ -102,7 +102,6 @@ class TangoDeployment:
         :param pattern: pattern
         :return: bool
         """
-        import re
 
         if re.findall(pattern, value):
             return False
@@ -205,8 +204,9 @@ def get_pod_info(namespace: str, pod_identifier: str, parameter: str) -> Dict[st
             ],
             stdout=subprocess.PIPE,
             text=True,
+            check=True,
         )
-    except Exception:
+    except subprocess.CalledProcessError:
         print("Failed to retrieve pod info. Please check manually")
         return None
 
@@ -214,5 +214,5 @@ def get_pod_info(namespace: str, pod_identifier: str, parameter: str) -> Dict[st
     matches = compiled_pattern.finditer(result.stdout)
 
     if matches:
-        pod_info = {match.group("name"): match.group("status") for match in matches}
+        pod_info = {match.group("name"): match.group(parameter) for match in matches}
         return pod_info
