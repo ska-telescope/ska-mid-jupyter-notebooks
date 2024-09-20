@@ -1,7 +1,9 @@
 import enum
-import logging
 import pathlib
-from typing import Any, List
+from typing import Any, List, Dict
+import re
+import subprocess
+from time import time
 
 from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
 from ska_ser_config_inspector_client import (
@@ -172,3 +174,46 @@ class Environment(enum.IntEnum):
     CI = 0  # For on-demand deployments
     Integration = 1
     Staging = 2
+
+
+def get_pod_info(namespace: str, pod_identifier: str, parameter: str) -> Dict[str, str] | None:
+    """This method allows extraction of information about a pods given
+    a pod identifier. It runs kubectl get pods within and parses the output for the
+    required output
+
+    :param namespace: namespace within which to search for pod
+    :type namespace: str
+    :param pod_identifier: an identifier for the pod(s). Can be a portion of the pod name.
+    :type pod_identifier: str
+    :param parameter: Pod parameter of interest e.g status, age etc.
+    :return: Dictionary containing pod as key and parameter of interest as value,
+     None = Not found
+    :rtype: Dict[str, str] | None
+    """
+
+    pattern = (
+        rf"(?P<name>[^\s]*{pod_identifier}[^\s]*)\s+(?P<ready>[^\s]+)"
+        r"\s+(?P<status>[^\s]+)\s+(?P<restarts>\d+)\s+(?P<age>[^\s]+)"
+    )
+    try:
+        result = subprocess.run(
+            [
+                "kubectl",
+                "get",
+                "pods",
+                "-n",
+                namespace,
+            ],
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+    except Exception:
+        print("Failed to retrieve pod info. Please check manualy")
+        return None
+
+    compiled_pattern = re.compile(pattern)
+    matches = compiled_pattern.finditer(result.stdout)
+
+    if matches:
+        pod_info = {match.group("name"): match.group("status") for match in matches}
+        return pod_info
