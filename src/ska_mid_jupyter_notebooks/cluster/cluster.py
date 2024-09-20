@@ -1,9 +1,8 @@
 import enum
 import pathlib
-from typing import Any, List, Dict
 import re
 import subprocess
-from time import time
+from typing import Any, Dict, List
 
 from ska_control_model import AdminMode, ControlMode, HealthState, ObsState
 from ska_ser_config_inspector_client import (
@@ -208,7 +207,7 @@ def get_pod_info(namespace: str, pod_identifier: str, parameter: str) -> Dict[st
             text=True,
         )
     except Exception:
-        print("Failed to retrieve pod info. Please check manualy")
+        print("Failed to retrieve pod info. Please check manually")
         return None
 
     compiled_pattern = re.compile(pattern)
