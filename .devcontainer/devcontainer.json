@@ -67,14 +67,15 @@
     "runArgs": [
         // "--dns",
         // "10.164.0.11"
+        "--network",
+        "host"
     ],
     //this may break if you are attempting to do this from a non debian host
     // therefore manually uncomment it in your branch if you want to use K8s
-    
     "mounts": [
         // "source=${localEnv:HOME}${localEnv:USERPROFILE}code/skampi-code2/ska-skampi,target=/workspaces/ska-mid-itf/build2/,type=bind,consistency=cached",
         //"source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/root/host,type=bind,consistency=cached",
-        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/root/.kube,type=bind,consistency=cached"
+        // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/tango/.kube,type=bind,consistency=delegated"
     ],
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
