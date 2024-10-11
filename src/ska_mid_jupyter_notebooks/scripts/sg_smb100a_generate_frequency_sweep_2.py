@@ -30,9 +30,9 @@ import time
 import socket
 import argparse
 
-sys.path.insert(0, os.path.abspath(os.path.join('../../') + '/resources/'))   # Works for importing from System folder
+# sys.path.insert(0, os.path.abspath(os.path.join('../../') + '/resources/'))   # Works for importing from System folder
 
-from scpi_database import SGCmds
+from ska_mid_jupyter_notebooks.scripts.scpi_database import SGCmds
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.20.7.1'               # smb100a signal generator IP

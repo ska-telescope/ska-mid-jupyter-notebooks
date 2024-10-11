@@ -28,9 +28,9 @@ import argparse
 
 #sys.path.insert(0, os.path.abspath(os.path.join('..') + '/scripts/'))
 #sys.path.append('.')
-sys.path.append (os.path.join('/home/daveh/ska_mid_jupyter_notebooks/src/ska_mid_jupyter_notebooks/scripts/'))
+# sys.path.append (os.path.join('/home/daveh/ska_mid_jupyter_notebooks/src/ska_mid_jupyter_notebooks/scripts/'))
 
-from sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
+from ska_mid_jupyter_notebooks.scripts.sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
@@ -38,8 +38,8 @@ from sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Ge
 #from sa_ms2090a_set_maxhold_read_trace_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
 
 #--------Import scpi database for Signal Generator and Spectrum analyzer ----------#
-sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/'))
-from scpi_database import SGCmds
+# sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/'))
+from ska_mid_jupyter_notebooks.scripts.scpi_database import SGCmds
 #from scpi_database import SACmds
 
 # -----------------Connection Settings----------------------
