@@ -17,7 +17,8 @@
         and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
-@Revision: 1 (copied from revision 1 in mid-itf repo - spectrum analyser part commented out, left other details unchanged)
+@Revision: 1 
+@Modifier: Dave @Date xx-10-2024(copied from revision 1 in mid-itf repo - spectrum analyser part commented out, left other details unchanged)
 '''
 import sys, os, socket
 # import os
@@ -25,8 +26,10 @@ import time
 import argparse
 #import matplotlib.pyplot as plt
 
-#sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
-sys.path.append('.')
+#sys.path.insert(0, os.path.abspath(os.path.join('..') + '/scripts/'))
+#sys.path.append('.')
+sys.path.append (os.path.join('/home/daveh/ska_mid_jupyter_notebooks/src/ska_mid_jupyter_notebooks/scripts/'))
+
 from sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
 
 #%%
