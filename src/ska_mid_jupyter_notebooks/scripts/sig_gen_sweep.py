@@ -77,31 +77,26 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
             step_freq       : step frequency in Hz (default = 100 MHz)
             dwel_time       : duration of frequency output in ms (default=1000 ms)
         ''' 
-    # Set and Display SG start frequency
+    # 1. Select sweep mode, sweep trigger and freq mode
+    sg.setSGCmd(SGCmds['sweep_freq_mode'], 'AUTO')
+    sg.setSGCmd(SGCmds['sweep_freq_trig'], 'SING')
+    sg.setSGCmd(SGCmds['freq_mode'], 'SWE')
+
+
+    # 2. Set and Display SG start frequency
     sg.setSGCmd(SGCmds["start_freq"], start_freq)
     start_freq_recvd = sg.getSGCmd(SGCmds["start_freq"]).decode()
     print(f'Signal Generator Start Frequency = {float(start_freq_recvd) / 1e9} GHz') 
 
-    # Set and Display SG stop frequency
+    # 3. Set and Display SG stop frequency
     sg.setSGCmd(SGCmds["stop_freq"], stop_freq)
     stop_freq_recvd = int(sg.getSGCmd(SGCmds["stop_freq"]).decode())
     print(f'Signal Generator Stop Frequency = {float(stop_freq_recvd) / 1e9} GHz')
 
-    centFreq = (int(float(start_freq)) + int(float(stop_freq))) / 2
-    span = int(float(stop_freq)) - int(float(start_freq))    
-    span_recvd = int(sg.getSGCmd(SGCmds['span_freq']).decode())
-    print(f"Sweep Span = {span_recvd / 1e9} GHz")
-
-        # 1. Set the sweep range
-    sg.setSGCmd(SGCmds['cent_freq'], centFreq)
-    centFreq_recvd = int(sg.getSGCmd(SGCmds['cent_freq']).decode())
-    print(f"Sweep Center Frequency = {centFreq_recvd / 1e9} GHz")
-    sg.setSGCmd(SGCmds['span_freq'], span)
-
-        # 2. Select linear or logarithmic spacing
+    # 4. Select linear or logarithmic spacing
     sg.setSGCmd(SGCmds['sweep_freq_spac_conf'], 'LIN')
 
-        # 3. Set the step width and dwell time
+    # 5. Set the step width and dwell time
     sg.setSGCmd(SGCmds['sweep_freq_step'], f'{step_freq}')
     step_freq_recvd = int(float(sg.getSGCmd(SGCmds['sweep_freq_step']).decode()))
     print(f"Step Frequency = {step_freq_recvd / 1e9} GHz")
@@ -110,16 +105,16 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
     dwell_time_recvd = int(float(sg.getSGCmd(SGCmds['sweep_freq_dwell']).decode()))
     print(f"Dwell time = {dwel_time} ms")
 
-        # 4. Select the trigger mode
-    sg.setSGCmd(SGCmds['sweep_freq_trig'], 'SING')
-
-        # 5. Select sweep mode and activate the sweep
-    sg.setSGCmd(SGCmds['sweep_freq_mode'], 'AUTO')
-    sg.setSGCmd(SGCmds['freq_mode'], 'SWE')
-
-        # 6. Trigger the sweep     
+    # 6. Turn off sig gen display updates
+    time.sleep(1)
+    sg.setSGCmd(SGCmds['display-update'], 'OFF')
+    time.sleep(1)
+    # 7. Trigger the sweep     
     sg.setSGCmd(SGCmds['sweep_freq_exec'])
+    sg.setSGCmd(SGCmds['trigger_freq_sweep_imm'])
     print('Executing sweep...')
+
+    
 # ----------------End of Signal Generator Setup Sweep Parameters -----------------------
 
     # Wait until the sweep is finished
@@ -134,3 +129,6 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
         # set_marker_freq = sa.setSACmd((SACmds['marker_frequency']), current_freq)
         # marker_freq_pow = sa.getSACmd(SACmds['marker_power'])
     print ("sweep should be finished")
+
+    # 8. Turn back on sig gen display updates
+    sg.setSGCmd(SGCmds['display-update'], 'ON')

@@ -37,7 +37,8 @@ SGCmds = {
     'sweep_freq_step': 'SWE:FREQ:STEP:LIN',  # pass sweep step freq e.g. SWE:FREQ:STEP:LIN {step_freq}
     'sweep_freq_dwell': 'SWE:FREQ:DWEL',     # pass sweep dwell time SWE:FREQ:DWEL {dwel_time}
     'sweep_freq_trig': 'TRIG:FSW:SOUR',      # pass freq sweep trig e.g. TRIG:FSW:SOUR SING
-    'sweep_freq_exec': 'SWE:FREQ:EXEC', # no paramater passed
+    'sweep_freq_exec': 'SWE:FREQ:EXEC',      # no paramater passed
+    'trigger_freq_sweep_imm': 'TRIG:FSW:IMM', # no parameter passed
 
     # RF 
     'rf_state': 'OUTP',
