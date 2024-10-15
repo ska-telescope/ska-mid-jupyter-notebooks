@@ -102,12 +102,12 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
     print(f"Step Frequency = {step_freq_recvd / 1e9} GHz")
     
     sg.setSGCmd(SGCmds['sweep_freq_dwell'], f'{dwel_time}')
-    dwell_time_recvd = int(float(sg.getSGCmd(SGCmds['sweep_freq_dwell']).decode()))
-    print(f"Dwell time = {dwel_time} ms")
+    dwell_time_recvd = (float(sg.getSGCmd(SGCmds['sweep_freq_dwell']).decode()))
+    print(f"Dwell time = {dwell_time_recvd} s")
 
     # 6. Turn off sig gen display updates
     time.sleep(1)
-    sg.setSGCmd(SGCmds['display-update'], 'OFF')
+    #sg.setSGCmd(SGCmds['display-update'], 'OFF')
     time.sleep(1)
     # 7. Trigger the sweep     
     sg.setSGCmd(SGCmds['sweep_freq_exec'])
@@ -118,7 +118,7 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
 # ----------------End of Signal Generator Setup Sweep Parameters -----------------------
 
     # Wait until the sweep is finished
-    run_time_delay = int((float(stop_freq) - float(start_freq)) * (float(dwel_time) / 1000 / float(step_freq)))
+    run_time_delay = int((float(stop_freq) - float(start_freq)) * (float(dwel_time) / float(step_freq)))
     print (f"run time delay = {run_time_delay}")
     for count in range(0, run_time_delay, 10):
         print (f"count = {count}")
@@ -131,4 +131,4 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
     print ("sweep should be finished")
 
     # 8. Turn back on sig gen display updates
-    sg.setSGCmd(SGCmds['display-update'], 'ON')
+    #sg.setSGCmd(SGCmds['display-update'], 'ON')
