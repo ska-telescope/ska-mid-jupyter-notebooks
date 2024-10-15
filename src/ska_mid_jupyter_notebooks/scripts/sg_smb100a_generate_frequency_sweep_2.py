@@ -143,8 +143,10 @@ class SG_SOCK(socket.socket):
 # -----------------------
 """
 if __name__ == "__main__":
-    # Set up arguments to be parsed 
-    parser = argparse.ArgumentParser(description = "Specify Sig Gen Start Frequency, Stop Frequency, Step Frequency and Dwell Time")
+    # Set up arguments to be parsed
+    parser = argparse.ArgumentParser(
+        description = "Specify Sig Gen Start Frequency, Stop Frequency, Step Frequency and Dwell Time"
+    )
     parser.add_argument("start_freq", type = str, help = "the start frequency incl. units (Hz)")
     parser.add_argument("stop_freq", type = str, help = "the stop frequency incl. units (Hz)")
     parser.add_argument("step_freq", type = str, help = "the step frequency incl. units (Hz)")
@@ -154,7 +156,7 @@ if __name__ == "__main__":
     print("/------Setup Signal Generator ---------/")
     SG = SG_SOCK()
     SG.connectSG(SG_ADDRESS)
-    # Set Power 
+    # Set Power
     SG.setSGCmd(SGCmds["power"], -20)   # constant
     SG.setSGCmd(SGCmds["rf_state"], RF_ON)
 
@@ -166,13 +168,13 @@ if __name__ == "__main__":
     #        step_freq       : step frequency in Hz (default = 100 MHz)
     #        dwel_time       : duration of frequency output in ms (default=1000 ms)
     #        sweep_mode      : sweep mode (auto / manual)
- 
+
     # Display Start and Stop Frequency
     start_freq = float(SG.setSGCmdResponse(SGCmds["start_freq"], args.start_freq).decode())
     if start_freq != float(args.start_freq):              # set start freq, check response
         print("Error setting Signal Generator Start Freq")
     else: print(f"Start Frequency = {start_freq / 1e6} MHz")
-    
+
     # Set stop frequency of spectrum analyzer
     stop_freq = float(SG.setSGCmdResponse(SGCmds["stop_freq"], args.stop_freq).decode())
     if stop_freq != float(args.stop_freq):              # set stop freq, check response
@@ -180,7 +182,7 @@ if __name__ == "__main__":
     else: print(f"Stop Frequency = {stop_freq / 1e6} MHz")
 
     centFreq = (int(float(args.start_freq)) + int(float(args.stop_freq))) / 2
-    span = int(float(args.stop_freq)) - int(float(args.start_freq))    
+    span = int(float(args.stop_freq)) - int(float(args.start_freq))
     # 1. Set the sweep range
     SG.setSGCmd(SGCmds["cent_freq"], f"{centFreq}")
     print(f"Centre frequency = {centFreq / 1e6} MHz")
@@ -195,12 +197,14 @@ if __name__ == "__main__":
     # 5. Select sweep mode and activate the sweep
     SG.setSGCmd(SGCmds["sweep_freq_mode"], "AUTO")
     SG.setSGCmd(SGCmds["freq_mode"], "SWE")
-    # 6. Trigger the sweep     
+    # 6. Trigger the sweep
     SG.setSGCmd(SGCmds["sweep_freq_exec"])
     print("Executing sweep...")
-    run_time_delay = int((float(args.stop_freq) - float(args.start_freq)) / float(args.step_freq) * float(args.dwel_time / 1000) + 15)
+    run_time_delay = int(
+        (float(args.stop_freq) - float(args.start_freq)) / float(args.step_freq) * float(args.dwel_time / 1000) + 15
+    )
     for count in range(0, run_time_delay, 10):
-        time.sleep(10)          # wait for sweep to complete  
+        time.sleep(10)          # wait for sweep to complete
         print(f"count = {count}...")
     SG.setSGCmd(SGCmds["rf_state"], RF_OFF)
     # SG.closeGenSock() # Socket closed at top-level

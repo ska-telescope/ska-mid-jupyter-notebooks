@@ -1,7 +1,5 @@
 import time
 
-from tango import Database
-
 from ska_mid_jupyter_notebooks.cluster.cluster import (
     Environment,
     TangoDeployment,
