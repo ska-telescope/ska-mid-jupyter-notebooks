@@ -20,22 +20,10 @@
 @Revision: 1 
 @Modifier: Dave @Date xx-10-2024(copied from revision 1 in mid-itf repo - spectrum analyser part commented out, left other details unchanged)
 '''
-import sys, os, socket
-# import os
 import time
-import argparse
-#import matplotlib.pyplot as plt
 
-#sys.path.insert(0, os.path.abspath(os.path.join('..') + '/scripts/'))
-#sys.path.append('.')
-# sys.path.append (os.path.join('/home/daveh/ska_mid_jupyter_notebooks/src/ska_mid_jupyter_notebooks/scripts/'))
-
-from ska_mid_jupyter_notebooks.scripts.sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
-
-#--------Import scpi database for Signal Generator and Spectrum analyzer ----------#
-# sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/'))
+from ska_mid_jupyter_notebooks.scripts.sg_smb100a_generate_frequency_sweep_2 import SG_SOCK # Import the Signal Generator Socket class
 from ska_mid_jupyter_notebooks.scripts.scpi_database import SGCmds
-#from scpi_database import SACmds
 
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                    # default SMB R&S port 

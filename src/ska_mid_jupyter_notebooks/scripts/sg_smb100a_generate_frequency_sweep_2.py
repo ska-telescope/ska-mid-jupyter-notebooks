@@ -24,13 +24,8 @@
     2. File renaming to sg_smb100a_generate_frequency_sweep_2.py
 @Revision: 2
 '''
-import sys
-import os
 import time
 import socket
-import argparse
-
-# sys.path.insert(0, os.path.abspath(os.path.join('../../') + '/resources/'))   # Works for importing from System folder
 
 from ska_mid_jupyter_notebooks.scripts.scpi_database import SGCmds
 # -----------------Connection Settings----------------------
