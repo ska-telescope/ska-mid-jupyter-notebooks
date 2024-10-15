@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Any, Callable, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (

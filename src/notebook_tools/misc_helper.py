@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 import subprocess
 
 

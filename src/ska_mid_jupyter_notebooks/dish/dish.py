@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 import time
 
 from ska_mid_jupyter_notebooks.cluster.cluster import (

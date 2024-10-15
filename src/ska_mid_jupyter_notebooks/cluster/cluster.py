@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 import enum
 import pathlib
 import re

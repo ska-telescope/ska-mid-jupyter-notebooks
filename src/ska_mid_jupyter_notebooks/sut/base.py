@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Literal
 
 SubarrayResourceState = Literal["EMPTY", "RESOURCING", "COMPOSED"]

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=C,R,W
 # -*- coding: utf-8 -*-
 """
 @author: Ben/Vhuli/Monde
@@ -14,8 +15,8 @@
         - step frequency = 100000000 or 100e6, integer with no units [100 MHz]
         - dwell time = 1000, integer with no units [ms]
 @Notes:
-    1. This script was written for the SMB100A Signal Generator. Raw ethernet socket communication is used
-        and thus VISA library/installation is not required
+    1. This script was written for the SMB100A Signal Generator. Raw ethernet socket
+        communication is used and thus VISA library/installation is not required.
     2. This script uses scpi protocol for the automatic test equipment intended
 
 @modifier: Monde
@@ -57,7 +58,7 @@ class SG_SOCK(socket.socket):
         self.default_buffer = DEFAULT_BUFFER
         self.response_timeout = RESPONSE_TIMEOUT
 
-    def connectSG(self, SG_ADDRESS):
+    def connectSG(self, sg_address):
         """
         Establish socket connect connection.
 
@@ -68,7 +69,7 @@ class SG_SOCK(socket.socket):
 
         :param SA_ADDRESS: sigHOST str, sigPORT int
         """
-        self.connect(SG_ADDRESS)  # connect to spectrum analyzer via socket and Port
+        self.connect(sg_address)  # connect to spectrum analyzer via socket and Port
         self.settimeout(self.response_timeout)
         print(f'Connected to: {self.getSGCmd(SGCmds["device_id"]).decode()}')
 

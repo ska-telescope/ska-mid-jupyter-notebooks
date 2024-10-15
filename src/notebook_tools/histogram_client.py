@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from time import sleep
 
 from PyTango import DeviceProxy

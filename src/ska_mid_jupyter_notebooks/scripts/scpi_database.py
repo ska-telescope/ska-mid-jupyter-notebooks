@@ -5,8 +5,8 @@
 @Date: 26-09-2022
 @Affiliation: Test Engineers
 @Functional Description:
-    - This script implements a look-up-table that maps MID ITF Test Equipment SCPI commands to natural
-      language for the ease of readability.
+    - This script implements a look-up-table that maps MID ITF Test Equipment SCPI commands to
+      natural language for the ease of readability.
     - The mapping is implemented as dictionary key-value pairs
 
 @Revision: 1
@@ -31,7 +31,7 @@ SGCmds = {
     # Sweep Settings Commands
     "sweep_freq_mode": "SWE:FREQ:MODE",  # pass sweep mode e.g. SWE:FREQ:MODE AUTO
     "sweep_freq_spac_conf": "SWE:FREQ:SPAC",  # pass sweep freq spacing e.g. SWE:FREQ:SPAC LIN
-    "sweep_freq_step": "SWE:FREQ:STEP:LIN",  # pass sweep step freq e.g. SWE:FREQ:STEP:LIN {step_freq}
+    "sweep_freq_step": "SWE:FREQ:STEP:LIN",  # pass sweep step freq e.g. SWE:FREQ:STEP:LIN 1000
     "sweep_freq_dwell": "SWE:FREQ:DWEL",  # pass sweep dwell time SWE:FREQ:DWEL {dwel_time}
     "sweep_freq_trig": "TRIG:FSW:SOUR",  # pass freq sweep trig e.g. TRIG:FSW:SOUR SING
     "sweep_freq_exec": "SWE:FREQ:EXEC",  # no paramater passed
@@ -100,7 +100,7 @@ SACmds = {
     "marker4_power": "CALC:MARK4:Y",  # no par, query only e.g. :CALC:MARK4:Y?
     "marker5_power": "CALC:MARK5:Y",  # no par, query only e.g. :CALC:MARK5:Y?
     "marker6_power": "CALC:MARK6:Y",  # no par, query only e.g. :CALC:MARK6:Y?
-    "marker_table": "CALC1:MARK:TABL:STAT",  # pass marker table state e.g. :CALCulate<n>:MARKer:TABLe ON
+    "marker_table": "CALC1:MARK:TABL:STAT",  # pass marker table state e.g. :CALC<n>:MARK:TABL ON
     "marker1-function": "CALC:MARK1:FUNC",  # pass marker function e.g. CALC:MARK1:FUNC NOIS
     "marker1-mode": "CALC:MARK1:MODE",  # pass marker mode e.g. CALC:MARK:MODE DELT
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=C,R,W
 # -*- coding: utf-8 -*-
 """
 @author: Ben / Vhuli / Monde
@@ -12,13 +13,15 @@
         - step frequency = 100000000 or 100e6, integer with no units [100 MHz]
         - dwell time = 1000, integer with no units [ms]
 @Notes:
-    1. This script was originally written for the SMB100A Signal Generator and MS2090A Spectrum Analyzer.
+    1. This script was originally written for the SMB100A Signal Generator and MS2090A Spectrum
+       Analyzer.
         Raw ethernet socket communication is used
         and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
 @Revision: 1
-@Modifier: Dave @Date xx-10-2024(copied from revision 1 in mid-itf repo - spectrum analyser part commented out, left other details unchanged)
+@Modifier: Dave @Date xx-10-2024(copied from revision 1 in mid-itf repo - spectrum analyser part commented out,
+left other details unchanged)
 """
 import time
 
@@ -39,8 +42,8 @@ SHORT_DELAY = 0.1
 LONG_DELAY = 1
 
 
-# -------------------SG_SMB100A Setup------------------------- #
 def setupSG():
+    """Do SG_SMB100A Setup."""
     print("/------Setup signal generator Class---------/\n")
     SG = SG_SOCK()  # Call main class
     SG.connectSG(SG_ADDRESS)
@@ -52,6 +55,14 @@ def setupSG():
 
 
 def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
+    """
+    Run sweep for signal generator.
+
+    :param start_freq: start frequency
+    :param stop_freq: stop frequency
+    :param dwel_time: dwell time
+    :param step_freq: frequency step
+    """
 
     print("\n/--------- Running sig gen sweep ---------/")
     sg = setupSG()
