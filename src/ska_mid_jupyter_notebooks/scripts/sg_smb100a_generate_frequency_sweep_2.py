@@ -1,35 +1,36 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-@author: Ben/Vhuli/Monde 
+@author: Ben/Vhuli/Monde
 @Date: xx-09-2022
 @Affiliation: Test Engineers
-@Functional Description: 
+@Functional Description:
     1. This script generates a frequency sweep from 100 MHz to 2 GHz at 100 MHz steps
     2. The parameters can be adjusted as per user requirements
-    3. Where it applies SG denotes Signal Generator 
+    3. Where it applies SG denotes Signal Generator
     4. Run the script by parsing the following arguments on the terminal:
         - start frequency = 100000000 or 100e6, integer with no units [100 MHz]
         - stop frequency = 2000000000 or 2e9, integer with no units [2 GHz]
         - step frequency = 100000000 or 100e6, integer with no units [100 MHz]
         - dwell time = 1000, integer with no units [ms]
-@Notes: 
+@Notes:
     1. This script was written for the SMB100A Signal Generator. Raw ethernet socket communication is used
         and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
 @modifier: Monde
 @Date: 12-09-2022
-    1. Replaced raw commands with database lookups 
+    1. Replaced raw commands with database lookups
     2. File renaming to sg_smb100a_generate_frequency_sweep_2.py
 @Revision: 2
 '''
-import time
 import socket
+import time
 
 from ska_mid_jupyter_notebooks.scripts.scpi_database import SGCmds
+
 # -----------------Connection Settings----------------------
-SG_PORT = 5025                      # default SMB R&S port 
+SG_PORT = 5025                      # default SMB R&S port
 SG_HOST = '10.20.7.1'               # smb100a signal generator IP
 SG_ADDRESS = (SG_HOST, SG_PORT)
 #---------------------------------------------------------------
@@ -54,7 +55,7 @@ class SG_SOCK(socket.socket):
         socket.socket.__init__(self)                # Object init
         self.delay_long_s = LONG_DELAY
         self.delay_short_s = SHORT_DELAY
-        self.default_buffer = DEFAULT_BUFFER 
+        self.default_buffer = DEFAULT_BUFFER
         self.response_timeout = RESPONSE_TIMEOUT
 
     def connectSG(self, SG_ADDRESS):
@@ -63,23 +64,23 @@ class SG_SOCK(socket.socket):
         This function:
             - Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
             - Sets the Display to On in Remote mode
-        @params 
+        @params
         SA_ADDRESS         : sigHOST str, sigPORT int
-        '''    
+        '''
         self.connect(SG_ADDRESS)  # connect to spectrum analyzer via socket and Port
-        self.settimeout(self.response_timeout) 
+        self.settimeout(self.response_timeout)
         print(f'Connected to: {self.getSGCmd(SGCmds["device_id"]).decode()}')
-        
-        
+
+
     def getSGCmd(self, request_str, response_buffer = DEFAULT_BUFFER, timeout_max = 10, param = ''):
         ''' Request data
 
         This function requests and reads the command to and from the test device
         @params:
             request_str  : string
-        '''                                     
+        '''
         self.sendall(bytes(request_str + f'? {param}\n', encoding = 'utf8'))
-        time.sleep(self.response_timeout) 
+        time.sleep(self.response_timeout)
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
         while True:
@@ -88,34 +89,34 @@ class SG_SOCK(socket.socket):
                 return_str += self.recv(response_buffer)            # Attempt to read the buffer
             except socket.timeout:
                 if (time.time() - time_start) > timeout_max:
-                    raise StopIteration('No data received from instrument') 
+                    raise StopIteration('No data received from instrument')
                 else:
                     time.sleep(self.delay_short_s)                  # No response, keep waiting
             else:
                 if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
-                    return return_str[:-1]  
+                    return return_str[:-1]
 
     def setSGCmd(self, command_str, param = ''):
         ''' Send command
-        
-        This function sends the command and adds \n at the end of any commands 
+
+        This function sends the command and adds \n at the end of any commands
         sent to the test device
         @params:
-            command_str  : string    
+            command_str  : string
         '''
         self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
-        time.sleep(self.response_timeout)        
+        time.sleep(self.response_timeout)
 
     def setSGCmdResponse(self, command_str, param = ''):
         ''' Send command
-        
-        This function sends the command and adds \n at the end of any commands 
+
+        This function sends the command and adds \n at the end of any commands
         sent to the test device and returns getSACmd to verify the value was set correctly
         @params:
-            command_str  : string    
+            command_str  : string
         '''
         self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
-        time.sleep(self.response_timeout)        
+        time.sleep(self.response_timeout)
         return self.getSGCmd(command_str)
 
     def closeSGSock(self):
@@ -126,7 +127,7 @@ class SG_SOCK(socket.socket):
 # ---------------------------------------------------
 # End of Signal Generator class
 # ---------------------------------------------------
-#%%   
+#%%
 # Main program -- Deactivated to all high-level signal instance
 # -----------------------
 '''
