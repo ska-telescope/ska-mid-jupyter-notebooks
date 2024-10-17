@@ -1,187 +1,230 @@
 {
     "cbf_input_data": {
-        "talon1 basic gaussian noise": {
+        "talon-001 basic gaussian noise": {
             "receptors": [
                 {
-                    "talon": "1",
+                    "talon": "001",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "basic gaussian noise 1",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "basic gaussian noise"
                 }
             ]
         },
-        "talon2 basic gaussian noise": {
+        "talon-002 basic gaussian noise": {
             "receptors": [
                 {
-                    "talon": "2",
+                    "talon": "002",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic gaussian noise 2",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic gaussian noise"
                 }
             ]
         },
-        "talon3 basic gaussian noise": {
+        "talon-003 basic gaussian noise": {
             "receptors": [
                 {
-                    "talon": "3",
+                    "talon": "003",
                     "dish_id": "SKA063",
                     "sample_rate_k" : 1220,
-                    "bite_config_id": "basic gaussian noise 3",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian noise"
                 }
             ]
         },
-        "talon4 basic gaussian noise": {
+        "talon-004 basic gaussian noise": {
             "receptors": [
                 {
-                    "talon": "4",
+                    "talon": "004",
                     "dish_id": "SKA100",
                     "sample_rate_k" : 1815,
-                    "bite_config_id": "basic gaussian noise 4",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian noise"
                 }
             ]
         },
-        "talons 1-2 basic gaussian noise": {
+        "talons 001-002 basic gaussian noise with varied filters": {
             "receptors": [
                 {
-                    "talon": "1",
+                    "talon": "001",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "basic gaussian noise 1",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "basic gaussian bandpass x40"
                 },
                 {
-                    "talon": "2",
+                    "talon": "002",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic gaussian noise 2",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic gaussian bandpass x20"
                 }
             ]
         },
-        "talons 1-3 basic gaussian noise": {
+        "talons 001-004 basic gaussian noise with varied filters": {
             "receptors": [
                 {
-                    "talon": "1",
+                    "talon": "001",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "basic gaussian noise 1",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "basic gaussian bandpass x40"
                 },
                 {
-                    "talon": "2",
+                    "talon": "002",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic gaussian noise 2",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic gaussian bandpass x20"
                 },
                 {
-                    "talon": "3",
-                    "dish_id": "SKA063",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic gaussian noise 3",
-                    "bite_initial_timestamp_time_offset": 60.0
-                }
-            ]
-        },
-        "talons 1-4 basic gaussian noise": {
-            "receptors": [
-                {
-                    "talon": "1",
-                    "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "basic gaussian noise 1",
-                    "bite_initial_timestamp_time_offset": 60.0
-                },
-                {
-                    "talon": "2",
-                    "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic gaussian noise 2",
-                    "bite_initial_timestamp_time_offset": 60.0
-                },
-                {
-                    "talon": "3",
+                    "talon": "003",
                     "dish_id": "SKA063",
                     "sample_rate_k" : 1220,
-                    "bite_config_id": "basic gaussian noise 3",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian bandpass x10"
                 },
                 {
-                    "talon": "4",
+                    "talon": "004",
                     "dish_id": "SKA100",
                     "sample_rate_k" : 1815,
-                    "bite_config_id": "basic gaussian noise 4",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian noise"
                 }
             ]
         },
-        "talons 1-4 gaussian noise": {
+        "talons 001-008 basic gaussian noise with varied filters": {
             "receptors": [
                 {
-                    "talon": "1",
+                    "talon": "001",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "gaussian noise 1",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "basic gaussian bandpass x40"
                 },
                 {
-                    "talon": "2",
+                    "talon": "002",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "gaussian noise 2",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic gaussian bandpass x20"
                 },
                 {
-                    "talon": "3",
+                    "talon": "003",
                     "dish_id": "SKA063",
                     "sample_rate_k" : 1220,
-                    "bite_config_id": "gaussian noise 3",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian bandpass x10"
                 },
                 {
-                    "talon": "4",
+                    "talon": "004",
                     "dish_id": "SKA100",
                     "sample_rate_k" : 1815,
-                    "bite_config_id": "gaussian noise 4",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "basic gaussian noise"
+                },
+                {
+                    "talon": "005",
+                    "dish_id": "SKA081",
+                    "sample_rate_k" : 2193,
+                    "bite_config_id": "basic gaussian bandpass x60"
+                },
+                {
+                    "talon": "006",
+                    "dish_id": "SKA046",
+                    "sample_rate_k" : 23,
+                    "bite_config_id": "basic gaussian bandpass x80"
+                },
+                {
+                    "talon": "007",
+                    "dish_id": "SKA077",
+                    "sample_rate_k" : 954,
+                    "bite_config_id": "basic gaussian bandpass ramp down x20"
+                },
+                {
+                    "talon": "008",
+                    "dish_id": "SKA048",
+                    "sample_rate_k" : 1227,
+                    "bite_config_id": "basic gaussian bandpass ramp up x20"
                 }
             ]
         },
-        "talons 1-4 all different configurations": {
+        "talons 001-004 gaussian noise": {
             "receptors": [
                 {
-                    "talon": "1",
+                    "talon": "001",
                     "dish_id": "SKA001",
-                    "sample_rate_k" : 100,
-                    "bite_config_id": "band-pass, all-pass filtered gaussian noise",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "gaussian noise 1"
                 },
                 {
-                    "talon": "2",
+                    "talon": "002",
                     "dish_id": "SKA036",
-                    "sample_rate_k" : 618,
-                    "bite_config_id": "basic tone",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "gaussian noise 2"
                 },
                 {
-                    "talon": "3",
+                    "talon": "003",
                     "dish_id": "SKA063",
                     "sample_rate_k" : 1220,
-                    "bite_config_id": "ramp filtered gaussian noise and tone",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "gaussian noise 3"
                 },
                 {
-                    "talon": "4",
+                    "talon": "004",
                     "dish_id": "SKA100",
                     "sample_rate_k" : 1815,
-                    "bite_config_id": "high pass, low pass filtered gaussian noise and tone",
-                    "bite_initial_timestamp_time_offset": 60.0
+                    "bite_config_id": "gaussian noise 4"
+                }
+            ]
+        },
+        "talons 001-004 all different configurations": {
+            "receptors": [
+                {
+                    "talon": "001",
+                    "dish_id": "SKA001",
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "band-pass, all-pass filtered gaussian noise"
+                },
+                {
+                    "talon": "002",
+                    "dish_id": "SKA036",
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic tone"
+                },
+                {
+                    "talon": "003",
+                    "dish_id": "SKA063",
+                    "sample_rate_k" : 1220,
+                    "bite_config_id": "ramp filtered gaussian noise and tone"
+                },
+                {
+                    "talon": "004",
+                    "dish_id": "SKA100",
+                    "sample_rate_k" : 1815,
+                    "bite_config_id": "high pass, low pass filtered gaussian noise and tone"
+                }
+            ]
+        },
+        "talon-001 delay model test": {
+            "receptors": [
+                {
+                    "talon": "001",
+                    "dish_id": "SKA001",
+                    "sample_rate_k" : 100,
+                    "bite_config_id": "basic gaussian noise",
+                    "delay_source_files": "test_parameters/delay_models_csv/4_VCC/gdm_sig_gen/Receptor1"
+                }
+            ]
+        },
+        "talon-002 delay model test": {
+            "receptors": [
+                {
+                    "talon": "002",
+                    "dish_id": "SKA036",
+                    "sample_rate_k" : 618,
+                    "bite_config_id": "basic gaussian noise",
+                    "delay_source_files": "test_parameters/delay_models_csv/4_VCC/gdm_sig_gen/Receptor2"
+                }
+            ]
+        },
+        "talon-003 delay model test": {
+            "receptors": [
+                {
+                    "talon": "003",
+                    "dish_id": "SKA063",
+                    "sample_rate_k" : 1220,
+                    "bite_config_id": "basic gaussian noise",
+                    "delay_source_files": "test_parameters/delay_models_csv/4_VCC/gdm_sig_gen/Receptor3"
                 }
             ]
         }
     }
 }
+

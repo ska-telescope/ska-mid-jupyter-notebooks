@@ -1,10 +1,10 @@
 {
     "bite_configs": {
-        "basic gaussian noise 1": {
+        "basic gaussian noise": {
             "description": "4 seconds of basic gaussian noise with no filtering, using the default mean (0) and standard deviation (0.5).",
             "sources": [
                 {
-                    "description": "Noise input, independent between X and Y pols; unique filter shapes for X and Y pols.",
+                    "description": "Noise input, independent between X and Y pols; all pass filter shapes for X and Y pols.",
                     "gaussian": {
                         "pol_x": {
                             "seed": 1234,
@@ -22,19 +22,19 @@
             "tone_gens": [],
             "lstv_seconds": 4
         },
-        "basic gaussian noise 2": {
-            "description": "4 seconds of basic gaussian noise with no filtering, using the default mean (0) and standard deviation (0.5).",
+        "basic gaussian noise ramp up": {
+            "description": "4 seconds of basic gaussian noise with filter ramping up, using the default mean (0) and standard deviation (0.5).",
             "sources": [
                 {
-                    "description": "Noise input, independent between X and Y pols; unique filter shapes for X and Y pols.",
+                    "description": "Noise input, independent between X and Y pols; ramp up filter shapes for X and Y pols.",
                     "gaussian": {
                         "pol_x": {
                             "seed": 1234,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_ramp_up"
                         },
                         "pol_y": {
                             "seed": 9876,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_ramp_up"
                         }
                     },
                     "pol_coupling_rho": 0.0,
@@ -44,19 +44,19 @@
             "tone_gens": [],
             "lstv_seconds": 4
         },
-        "basic gaussian noise 3": {
-            "description": "4 seconds of basic gaussian noise with no filtering, using the default mean (0) and standard deviation (0.5).",
+        "basic gaussian noise ramp down": {
+            "description": "4 seconds of basic gaussian noise with filter ramping down, using the default mean (0) and standard deviation (0.5).",
             "sources": [
                 {
-                    "description": "Noise input, independent between X and Y pols; unique filter shapes for X and Y pols.",
+                    "description": "Noise input, independent between X and Y pols; ramp down filter shapes for X and Y pols.",
                     "gaussian": {
                         "pol_x": {
                             "seed": 1234,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_ramp_down"
                         },
                         "pol_y": {
                             "seed": 9876,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_ramp_down"
                         }
                     },
                     "pol_coupling_rho": 0.0,
@@ -66,19 +66,173 @@
             "tone_gens": [],
             "lstv_seconds": 4
         },
-        "basic gaussian noise 4": {
-            "description": "4 seconds of basic gaussian noise with no filtering, using the default mean (0) and standard deviation (0.5).",
+        "basic gaussian bandpass x80": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 80 equally spaced bands, using the default mean (0) and standard deviation (0.5).",
             "sources": [
                 {
-                    "description": "Noise input, independent between X and Y pols; unique filter shapes for X and Y pols.",
+                    "description": "Noise input, independent between X and Y pols; 80 band pass filter shapes for X and Y pols.",
                     "gaussian": {
                         "pol_x": {
                             "seed": 1234,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_bandpass_x80"
                         },
                         "pol_y": {
                             "seed": 9876,
-                            "filter": "filter_all_pass"
+                            "filter": "filter_bandpass_x80"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass x60": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 60 equally spaced bands, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 60 band pass filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_x60"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_x60"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass x40": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 40 equally spaced bands, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 40 band pass filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_x40"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_x40"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass x20": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 20 equally spaced bands, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 20 band pass filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_x20"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_x20"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass x10": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 10 equally spaced bands, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 10 band pass filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_x10"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_x10"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian noise band pass": {
+            "description": "4 seconds of basic gaussian noise with band pass filter, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; band pass filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_band_pass"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_band_pass"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass ramp up x20": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 20 bandpass regions that have a ramp up shape, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 20 band pass ramp up filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_rampup_x20"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_rampup_x20"
+                        }
+                    },
+                    "pol_coupling_rho": 0.0,
+                    "pol_Y_1_sample_delay": false
+                }
+            ],
+            "tone_gens": [],
+            "lstv_seconds": 4
+        },
+        "basic gaussian bandpass ramp down x20": {
+            "description": "4 seconds of basic gaussian noise with bandpass filter with 20 bandpass regions that have a ramp down shape, using the default mean (0) and standard deviation (0.5).",
+            "sources": [
+                {
+                    "description": "Noise input, independent between X and Y pols; 20 band pass ramp down filter shapes for X and Y pols.",
+                    "gaussian": {
+                        "pol_x": {
+                            "seed": 1234,
+                            "filter": "filter_bandpass_rampdown_x20"
+                        },
+                        "pol_y": {
+                            "seed": 9876,
+                            "filter": "filter_bandpass_rampdown_x20"
                         }
                     },
                     "pol_coupling_rho": 0.0,
