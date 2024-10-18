@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Any
 
 from ska_oso_pdm.sdp.sdp_configuration import SDPConfiguration

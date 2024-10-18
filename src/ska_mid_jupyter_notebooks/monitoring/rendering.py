@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Generic, Literal, OrderedDict, TypeVar
 
 from bokeh.io import push_notebook, show

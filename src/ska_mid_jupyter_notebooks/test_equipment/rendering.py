@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Literal, OrderedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.rendering import Colours, MonitorPlot

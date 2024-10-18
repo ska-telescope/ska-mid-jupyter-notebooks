@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from beautifultable import BeautifulTable
 from tango import DeviceProxy
 

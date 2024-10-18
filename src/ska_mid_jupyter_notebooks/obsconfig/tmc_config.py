@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from datetime import timedelta
 
 from ska_tmc_cdm.messages.subarray_node.configure import TMCConfiguration

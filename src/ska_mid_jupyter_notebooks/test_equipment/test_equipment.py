@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import List
 
 from ska_control_model import AdminMode

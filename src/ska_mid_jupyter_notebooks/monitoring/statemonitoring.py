@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 """Helper classes and functions dealing with aggregation of state from tango dev."""
 
 import abc
