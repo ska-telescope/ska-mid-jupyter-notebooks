@@ -1,14 +1,20 @@
-from PyTango import DeviceProxy
+# pylint: disable=C,R
 from time import sleep
+
+from PyTango import DeviceProxy
+
 
 class HistogramClient:
     def __init__(self, fqdn, timeout=3000):
         self.dp = DeviceProxy(fqdn)
         self.timeout = timeout
-    
+
+    def set_channel(self, channel):
+        self.dp.histogram_channel = channel
+
     def capture(self):
-        self.dp.write_attribute("histogram_timeout", self.timeout)
-        self.dp.command_inout("start_histogram_capture")
+        self.dp.histogram_timeout = self.timeout
+        self.dp.start_histogram_capture()
         success = self._wait_done()
         data = None
         if success:
@@ -27,7 +33,7 @@ class HistogramClient:
 
         success = self.dp.read_attribute("histogram_capture_success").value
         return success
-    
+
     def _read_histogram_data(self):
         pol_x_data = self.dp.read_attribute("histogram_result_polX").value
         pol_y_data = self.dp.read_attribute("histogram_result_polY").value

@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 import json
 from datetime import datetime
 from typing import Any, Callable, Generic, NamedTuple, ParamSpec, TypeVar

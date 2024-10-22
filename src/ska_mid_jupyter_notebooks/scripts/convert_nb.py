@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 import argparse
 import csv
 import sys

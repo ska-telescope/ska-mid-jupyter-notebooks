@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from threading import Event
 from typing import Callable, List, Literal, NamedTuple, TypedDict, Union, cast
 
