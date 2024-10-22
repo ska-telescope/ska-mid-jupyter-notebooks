@@ -21,11 +21,11 @@
                "channels_id": "vis_channels",
                "spectral_windows": [ {
                    "spectral_window_id": "fsp_1_channels",
-                   "count": 14880,
+                   "count": 54640,
                    "start": 0,
                    "stride": 1,
                    "freq_min": 0.296e9,
-                   "freq_max": 0.496e9,
+                   "freq_max": 1.096e9,
                    "link_map": [ [0, 0], [200, 1], [744, 2], [944, 3] ]
                } ]
             }],
