@@ -5,6 +5,9 @@ FS_BW = 198180864
 HALF_FS_BW = 99090432
 CHANNEL_WIDTH = 13440
 
+FS_BW = 198180864
+HALF_FS_BW = 99090432
+CHANNEL_WIDTH = 13440
 
 def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) -> list:
     """
