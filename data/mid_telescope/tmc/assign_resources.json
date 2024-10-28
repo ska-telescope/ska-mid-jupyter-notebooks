@@ -96,8 +96,9 @@
                   "channels_per_port": 20,
                   "transport_protocol": "udp",
                   "signal_display": {
-                        "metrics": ["all"]
-                  },
+                        "metrics": ["all"],
+                        "nchan_avg": 20
+                    },
                   "use_network_definition": true,
                   "extra_helm_values": {
                     "receiver": {
