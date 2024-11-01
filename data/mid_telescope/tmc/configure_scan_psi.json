@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/2.3",
+  "interface": "https://schema.skao.int/ska-tmc-configure/3.0",
   "pointing": {
     "target": {
       "reference_frame": "ICRS",
@@ -13,7 +13,7 @@
     "scan_type": "science"
   },
   "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configure/2.5",
+    "interface": "https://schema.skao.int/ska-csp-configurescan/3.0",
     "subarray": {
       "subarray_name": "Receptor(s)"
     },
@@ -28,7 +28,6 @@
           "fsp_id": 1,
           "function_mode": "CORR",
           "frequency_slice_id": 1,
-          "zoom_factor": 0,
           "integration_factor": 10,
           "output_link_map": [
             [
@@ -36,8 +35,7 @@
               1
             ]
           ],
-          "channel_offset": 0,
-          "zoom_window_tuning": 450000  
+          "channel_offset": 0
         }
       ]
     }

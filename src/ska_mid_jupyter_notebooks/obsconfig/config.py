@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from ska_oso_pdm.openapi import CODEC as pdm_CODEC
 from ska_oso_pdm.sb_definition.dish.dish_configuration import DishConfiguration
 from ska_oso_pdm.sb_definition.sb_definition import SBD_SCHEMA_URI, SBDefinition, TelescopeType

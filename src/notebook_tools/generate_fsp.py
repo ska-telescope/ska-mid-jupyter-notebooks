@@ -1,3 +1,6 @@
+# pylint: disable=C,R
+
+
 def generate_fsp_list(fsp_count: int, target_talons: list[int]) -> list:
     """
     Generates a list of FSP json objects, given a number to generate, and the target talons.

@@ -1,3 +1,5 @@
+# pylint: disable=C,R
+
 """ Helper functions to make checking device status and state neater."""
 
 from queue import Empty, Queue
