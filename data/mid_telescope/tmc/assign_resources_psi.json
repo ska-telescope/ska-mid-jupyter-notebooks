@@ -90,14 +90,14 @@
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
-                  "version":"4.3.0"
+                  "version":"4.4.0"
                },
                "parameters": {
                   "channels_per_port": 20,
                   "transport_protocol": "udp",
                   "signal_display": {
                      "metrics": ["all"],
-                     "nchan_avg": 1
+                     "nchan_avg": 50
                   },
                   "use_network_definition": true,
                   "extra_helm_values": {
