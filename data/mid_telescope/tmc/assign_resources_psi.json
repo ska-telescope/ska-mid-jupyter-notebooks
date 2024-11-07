@@ -97,7 +97,9 @@
                   "transport_protocol": "udp",
                   "signal_display": {
                      "metrics": ["all"],
-                     "nchan_avg": 50
+                     "nchan_avg": 50,
+                     "image": "registry.gitlab.com/ska-telescope/sdp/ska-sdp-qa-metric-generator/ska-sdp-qa-metric-generator",
+                     "version": "0.23.0-dev.c670859a4"
                   },
                   "use_network_definition": true,
                   "extra_helm_values": {
