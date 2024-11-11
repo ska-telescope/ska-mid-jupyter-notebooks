@@ -56,6 +56,22 @@
                 }
             ]
         },
+        "talons 003-004 basic gaussian noise with varied filters": {
+            "receptors": [
+                {
+                    "talon": "003",
+                    "dish_id": "SKA063",
+                    "sample_rate_k" : 2,
+                    "bite_config_id": "basic gaussian bandpass x40"
+                },
+                {
+                    "talon": "004",
+                    "dish_id": "SKA100",
+                    "sample_rate_k" : 2221,
+                    "bite_config_id": "basic gaussian bandpass x20"
+                }
+            ]
+        },
         "talons 001-004 basic gaussian noise with varied filters": {
             "receptors": [
                 {

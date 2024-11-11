@@ -31,17 +31,16 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
     
     return fsp_list
 
-def calculate_channel_count(start_freq: int, end_freq: int, channel_width: int) -> int:
+def calculate_channel_count(start_freq: int, end_freq: int) -> int:
     """
     Generates a list of FSP json objects, given the start frequency, end frequency, channel list, and target talons
     Arguments:
     start_freq -- Requested started frequency for visibilities
     end_freq -- Requested started frequency for visibilities
-    channel_width -- provided channel width in configure json
     Returns:
     The expected channel count to process frequency range given the start,end, and width
     """
-    return (((end_freq - channel_width - start_freq) // channel_width) // 20 ) * 20
+    return (((end_freq - CHANNEL_WIDTH - start_freq) // CHANNEL_WIDTH) // 20 ) * 20
 
 def calculate_end_freq(start_freq: int, num_fsps_available: int) -> int:
     """
