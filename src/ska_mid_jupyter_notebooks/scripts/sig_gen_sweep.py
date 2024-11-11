@@ -42,19 +42,19 @@ SHORT_DELAY = 0.1
 LONG_DELAY = 1
 
 
-def setupSG():
+def setupSG(power = -25):
     """Do SG_SMB100A Setup."""
     print("/------Setup signal generator Class---------/\n")
     SG = SG_SOCK()  # Call main class
     SG.connectSG(SG_ADDRESS)
     print(f'Connected to: {SG.getSGCmd(SGCmds["device_id"]).decode()}')
     SG.setSGCmd(SGCmds["rf_state"], RF_ON)
-    SG.setSGCmd(SGCmds["power"], -25)
+    SG.setSGCmd(SGCmds["power"], power)
     print("/------End of Setup signal generator---------/\n\n")
     return SG
 
 
-def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
+def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq,power):
     """
     Run sweep for signal generator.
 
@@ -65,7 +65,7 @@ def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq):
     """
 
     print("\n/--------- Running sig gen sweep ---------/")
-    sg = setupSG()
+    sg = setupSG(power)
     time.sleep(1)
 
     # Set Sig Gen to start freq, stop freq, step freq and dwell time
