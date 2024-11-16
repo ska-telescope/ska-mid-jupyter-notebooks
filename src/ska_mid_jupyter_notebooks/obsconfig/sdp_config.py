@@ -451,7 +451,6 @@ class ProcessingSpecs(TargetSpecs):
 
 
 class ProcessingBlockSpec(ProcessingSpecs):
-
     @property
     def processing_blocks(self):
         """

@@ -5,6 +5,7 @@ FS_BW = 198180864
 HALF_FS_BW = 99090432
 CHANNEL_WIDTH = 13440
 
+
 def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) -> list:
     """
     Generates a list of FSP json objects, given the start frequency, end frequency, channel list, and target talons
@@ -16,20 +17,21 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
     A list of JSON FSP config JSON objects.
     """
     fsp_list = []
-    
-    coarse_channel_low = math.floor((start_freq + HALF_FS_BW)/FS_BW)
-    coarse_channel_high = math.floor((end_freq + HALF_FS_BW)/FS_BW)
+
+    coarse_channel_low = math.floor((start_freq + HALF_FS_BW) / FS_BW)
+    coarse_channel_high = math.floor((end_freq + HALF_FS_BW) / FS_BW)
 
     num_fsps = list(range(coarse_channel_low, coarse_channel_high + 1))
 
     if len(num_fsps) > len(target_talons):
-        raise Exception('Required FSPs is lower than number of deployed talon boards')
-    
+        raise Exception("Required FSPs is lower than number of deployed talon boards")
+
     for i in range(len(num_fsps)):
         sorted_talons = sorted(target_talons)
         fsp_list.append(sorted_talons[i])
-    
+
     return fsp_list
+
 
 def calculate_channel_count(start_freq: int, end_freq: int) -> int:
     """
@@ -40,7 +42,8 @@ def calculate_channel_count(start_freq: int, end_freq: int) -> int:
     Returns:
     The expected channel count to process frequency range given the start,end, and width
     """
-    return (((end_freq - CHANNEL_WIDTH - start_freq) // CHANNEL_WIDTH) // 20 ) * 20
+    return (((end_freq - CHANNEL_WIDTH - start_freq) // CHANNEL_WIDTH) // 20) * 20
+
 
 def calculate_end_freq(start_freq: int, num_fsps_available: int) -> int:
     """
@@ -51,10 +54,7 @@ def calculate_end_freq(start_freq: int, num_fsps_available: int) -> int:
     Returns:
     The maximum end frequency given the number of FSPs available and requested start frequency
     """
-    coarse_channel_low = math.floor((start_freq + HALF_FS_BW)/FS_BW)
+    coarse_channel_low = math.floor((start_freq + HALF_FS_BW) / FS_BW)
     coarse_channel_high = coarse_channel_low + num_fsps_available - 0.01
 
     return (coarse_channel_high * FS_BW) - HALF_FS_BW
-
-
-
