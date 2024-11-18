@@ -737,12 +737,12 @@ def test_sb_generation_validate():
 
     valid_scheduling_block_pdm_object = pdm_CODEC.loads(SBDefinition, VALID_SB_MID_JSON)
 
-    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].pb_id = valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].pb_id
-    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[
-        0
-    ].sbi_ids = valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].sbi_ids
+    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].pb_id = (
+        valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].pb_id
+    )
+    obsconfig_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].sbi_ids = (
+        valid_scheduling_block_pdm_object.sdp_configuration.processing_blocks[0].sbi_ids
+    )
     obsconfig_scheduling_block_pdm_object.sdp_configuration.execution_block.eb_id = (
         valid_scheduling_block_pdm_object.sdp_configuration.execution_block.eb_id
     )
@@ -965,12 +965,12 @@ def test_assign_resource_allocation_request_sb():
         VALID_ASSIGN_RESOURCE_MID_JSON_SB
     )
 
-    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[
-        0
-    ].pb_id = valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id
-    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[
-        0
-    ].sbi_ids = valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[0].pb_id = (
+        valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].pb_id
+    )
+    obsconfig_assign_resource_configuration_sb_object.sdp_config.processing_blocks[0].sbi_ids = (
+        valid_assign_resource_configuration_object.sdp_config.processing_blocks[0].sbi_ids
+    )
     obsconfig_assign_resource_configuration_sb_object.sdp_config.execution_block.eb_id = (
         valid_assign_resource_configuration_object.sdp_config.execution_block.eb_id
     )
