@@ -34,7 +34,6 @@ def get_equipment_model(test_equipment: TangoTestEquipment):
 
 
 class TestEquipmentModel:
-
     test_devices: list[TestDevice] = [
         "mid-itf/progattenuator/1",
         "mid-itf/siggen/1",
