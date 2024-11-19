@@ -211,7 +211,6 @@ class TargetSpecs(SchedulingBlock, Scan):
                 pointing_pattern = PointingPattern(active=active, parameters=parameters)
 
                 if value.target_sb_detail["co_ordinate_type"] == "Equatorial":
-
                     reference_frame = EquatorialCoordinatesReferenceFrame[
                         value.target_sb_detail["reference_frame"].upper()
                     ]
