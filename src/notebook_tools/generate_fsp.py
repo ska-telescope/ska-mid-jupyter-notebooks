@@ -21,9 +21,6 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
     coarse_channel_low = math.floor((start_freq + HALF_FS_BW) / FS_BW)
     coarse_channel_high = math.floor((end_freq + HALF_FS_BW) / FS_BW)
 
-    coarse_channel_low = math.floor((start_freq + HALF_FS_BW) / FS_BW)
-    coarse_channel_high = math.floor((end_freq + HALF_FS_BW) / FS_BW)
-
     num_fsps = list(range(coarse_channel_low, coarse_channel_high + 1))
 
     if len(num_fsps) > len(target_talons):
