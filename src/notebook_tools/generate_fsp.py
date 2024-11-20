@@ -35,9 +35,7 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
         sorted_talons = sorted(target_talons)
         fsp_list.append(sorted_talons[i])
 
-
     return fsp_list
-
 
 
 def calculate_channel_count(start_freq: int, end_freq: int) -> int:

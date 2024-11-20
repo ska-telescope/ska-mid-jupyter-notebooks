@@ -42,7 +42,7 @@ SHORT_DELAY = 0.1
 LONG_DELAY = 1
 
 
-def setupSG(power = -25):
+def setupSG(power=-25):
     """Do SG_SMB100A Setup."""
     print("/------Setup signal generator Class---------/\n")
     SG = SG_SOCK()  # Call main class
@@ -54,7 +54,7 @@ def setupSG(power = -25):
     return SG
 
 
-def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq,power):
+def run_sig_gen_sweep(start_freq, stop_freq, dwel_time, step_freq, power):
     """
     Run sweep for signal generator.
 
