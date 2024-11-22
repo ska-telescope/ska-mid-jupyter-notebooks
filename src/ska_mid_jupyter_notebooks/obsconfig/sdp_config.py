@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Any, Dict, List, NamedTuple, Union
 
 from ska_oso_pdm.sb_definition.sdp import BeamMapping, ProcessingBlock, ScanType
@@ -450,7 +451,6 @@ class ProcessingSpecs(TargetSpecs):
 
 
 class ProcessingBlockSpec(ProcessingSpecs):
-
     @property
     def processing_blocks(self):
         """

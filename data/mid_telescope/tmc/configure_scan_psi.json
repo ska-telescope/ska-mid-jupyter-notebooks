@@ -1,51 +1,48 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/2.3",
+  "interface": "https://schema.skao.int/ska-tmc-configure/4.1",
+  "transaction_id": "",
   "pointing": {
-    "target": {
-      "reference_frame": "ICRS",
-      "target_name": "Polaris Australis",
-      "ra": "21:08:47.92",
-      "dec": "-88:57:22.9"
-    }
-  },
-  "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
-    "scan_type": "science"
-  },
-  "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configure/2.5",
-    "subarray": {
-      "subarray_name": "Receptor(s)"
-    },
-    "common": {
-      "config_id": "1 receptor, band 1, 2 FSP, no options",
-      "subarray_id": 1,
-      "frequency_band": "1"
-    },
-    "cbf": {
-      "fsp": [
-        {
-          "fsp_id": 1,
-          "function_mode": "CORR",
-          "frequency_slice_id": 1,
-          "zoom_factor": 0,
-          "integration_factor": 10,
-          "output_link_map": [
-            [
-              0,
-              1
-            ]
-          ],
-          "channel_offset": 0,
-          "zoom_window_tuning": 450000  
-        }
-      ]
-    }
-},
-  "tmc": {
-    "scan_duration": 920.0
+      "target": {
+          "reference_frame": "ICRS",
+          "target_name": "Polaris Australis",
+          "ra": "21:08:47.92",
+          "dec": "-88:57:22.9",
+          "ca_offset_arcsec": 0.0,
+          "ie_offset_arcsec": 0.0
+      },
+      "correction": "UPDATE"
   },
   "dish": {
-    "receiver_band": "1"
+      "receiver_band": "2"
+  },
+  "csp": {
+    "interface": "https://schema.skao.int/ska-csp-configurescan/4.1",
+    "common": {
+        "config_id": "sbi-mvp01-20200325-00001-science_A",
+        "frequency_band": "2",
+        "eb_id": "eb-m001-20230712-56789"
+    },
+    "pst": {},
+    "transaction_id": "txn-....-00001",
+    "midcbf": {
+        "correlation": {
+            "processing_regions": [{
+                "fsp_ids": [1,2,3,4],
+                "start_freq" : 950000000,
+                "channel_width" : 13440,
+                "channel_count" : 54640,
+                "sdp_start_channel_id": 0,
+                "integration_factor": 1
+            }]
+        }
+    }
+},
+  "sdp": {
+      "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
+      "scan_type": "science"
+  },
+  "tmc": {
+      "scan_duration": 620.0,
+      "partial_configuration": false
   }
 }

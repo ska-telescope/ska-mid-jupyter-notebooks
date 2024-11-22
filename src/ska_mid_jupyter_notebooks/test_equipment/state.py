@@ -1,4 +1,5 @@
-from typing import Any, Callable, Dict, NamedTuple, TypedDict, cast
+# pylint: disable=C,R
+from typing import Any, Callable, NamedTuple, TypedDict, cast
 
 from ska_mid_jupyter_notebooks.monitoring.statemonitoring import (
     DeviceAttrPoller,
@@ -33,7 +34,6 @@ def get_equipment_model(test_equipment: TangoTestEquipment):
 
 
 class TestEquipmentModel:
-
     test_devices: list[TestDevice] = [
         "mid-itf/progattenuator/1",
         "mid-itf/siggen/1",

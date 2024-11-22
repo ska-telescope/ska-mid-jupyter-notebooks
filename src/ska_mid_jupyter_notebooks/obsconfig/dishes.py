@@ -1,3 +1,4 @@
+# pylint: disable=C,R
 from typing import Literal, TypedDict
 
 from ska_oso_pdm.dish.dish_configuration import DishConfiguration as sb_dish_configuration
