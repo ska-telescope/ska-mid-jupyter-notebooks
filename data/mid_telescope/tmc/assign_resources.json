@@ -90,7 +90,7 @@
                "script":{
                   "kind":"realtime",
                   "name":"vis-receive",
-                  "version":"4.0.0"
+                  "version":"4.2.1"
                },
                "parameters": {
                   "channels_per_port": 20,
