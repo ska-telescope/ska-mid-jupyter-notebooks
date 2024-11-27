@@ -19,12 +19,10 @@
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/4.1",
     "transaction_id": "txn-....-00001",
-    "subarray": {
-        "subarray_name": "Receptor(s)"
-    },
     "common": {
         "config_id": "1 receptor, band 1, 2 FSP, no options",
         "subarray_id": 1,
+        "eb_id": "eb-m001-20230712-56789",
         "frequency_band": "1"
     },
     "pst": {},
