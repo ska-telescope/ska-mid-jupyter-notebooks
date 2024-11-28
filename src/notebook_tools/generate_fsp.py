@@ -35,12 +35,12 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
 
 
 def generate_band_params(band_num: int):
-    """_summary_.
+    """Generate start frequency, end frequency and channel count per band.
     Generates start_freq and channel count
     14880 = Number of fine channels a single FSP can provide
     13440 = Bandwidth per fine channel
-    Overlap = 2MHz (496.4e6 - 296.4e6)
-    course_channel_start = (band_params["start_freq"] - 296.4e6)
+    2MHz = Overlap (496.4e6 - 296.4e6)
+
     :param band_num: _description_
     :type band_num: int
     :return: _description_
@@ -72,6 +72,7 @@ def generate_band_params(band_num: int):
             * 20
         )
     )
+
     band_params["end_freq"] = (band_params["channel_count"] * CHANNEL_WIDTH) + band_params[
         "start_freq"
     ]
