@@ -85,22 +85,22 @@
            ]
         },
         "processing_blocks":[
-           {
-              "pb_id":"pb-test-20240717-00003",
-              "script":{
-                 "kind":"realtime",
-                 "name":"vis-receive",
-                 "version":"4.4.0"
-              },
-              "parameters": {
-                 "channels_per_port": 10,
-                 "transport_protocol": "udp",
+            {
+               "pb_id":"pb-test-20241113-12345",
+               "script":{
+                  "kind":"realtime",
+                  "name":"vis-receive",
+                  "version":"4.5.0"
+               },
+               "parameters": {
+                 "channels_per_port": 6912,
+                 "transport_protocol": "tcp",
                  "signal_display": {
-                       "metrics": ["all"],
-                       "nchan_avg": 50,
-                       "image": "registry.gitlab.com/ska-telescope/sdp/ska-sdp-qa-metric-generator/ska-sdp-qa-metric-generator",
-                       "version": "0.23.0-dev.c670859a4"
-                   },
+                     "metrics": ["all"],
+                     "nchan_avg": 50,
+                     "window_count": 5,
+                     "rounding_sensitivity": 10
+                 },
                  "use_network_definition": true,
                  "extra_helm_values": {
                    "receiver": {
