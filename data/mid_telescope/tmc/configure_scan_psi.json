@@ -32,7 +32,7 @@
                 "channel_width" : 13440,
                 "channel_count" : 54640,
                 "sdp_start_channel_id": 0,
-                "integration_factor": 1
+                "integration_factor": 10
             }]
         }
     }
