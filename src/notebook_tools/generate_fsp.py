@@ -4,6 +4,7 @@ import math
 FS_BW = 198180864
 HALF_FS_BW = 99090432
 CHANNEL_WIDTH = 13440
+FINE_CHANNELS_PER_FSP = 14880
 
 
 def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) -> list:
@@ -23,14 +24,60 @@ def generate_fsp_list(start_freq: int, end_freq: int, target_talons: list[int]) 
 
     num_fsps = list(range(coarse_channel_low, coarse_channel_high + 1))
 
-    if len(num_fsps) > len(target_talons):
-        raise Exception("Required FSPs is lower than number of deployed talon boards")
+    # if len(num_fsps) > len(target_talons):
+    #     raise Exception(f"Required FSPs is lower than number of deployed talon boards {num_fsps}")
 
     for i in range(len(num_fsps)):
         sorted_talons = sorted(target_talons)
         fsp_list.append(sorted_talons[i])
 
     return fsp_list
+
+
+def generate_band_params(band_num: int):
+    """Generate start frequency, end frequency and channel count per band.
+    Generates start_freq and channel count
+    14880 = Number of fine channels a single FSP can provide
+    13440 = Bandwidth per fine channel
+    2MHz = Overlap (496.4e6 - 296.4e6)
+
+    :param band_num: _description_
+    :type band_num: int
+    :return: _description_
+    :rtype: _type_
+    """
+    band_params = {}
+    course_channel_overlap = 2.1e06
+    if band_num == 1:
+        band_params["start_freq"] = 350e6  # 330e6
+        course_channel_start = 296.4e6
+    elif band_num == 2:
+        band_params["start_freq"] = 940e6
+        course_channel_start = 890.9e6
+
+    band_params["channel_count"] = int(
+        (
+            math.floor(
+                (
+                    FINE_CHANNELS_PER_FSP * 4
+                    - (
+                        math.floor(
+                            (band_params["start_freq"] - course_channel_start) / CHANNEL_WIDTH
+                        )
+                        + (math.floor((course_channel_overlap / CHANNEL_WIDTH) * 3))
+                    )
+                )
+                / 20
+            )
+            * 20
+        )
+    )
+
+    band_params["end_freq"] = (band_params["channel_count"] * CHANNEL_WIDTH) + band_params[
+        "start_freq"
+    ]
+
+    return band_params
 
 
 def calculate_channel_count(start_freq: int, end_freq: int) -> int:
