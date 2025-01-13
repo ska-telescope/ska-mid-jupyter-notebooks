@@ -17,28 +17,34 @@
     "scan_type": "science"
   },
   "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configure/4.1",
+    "interface": "https://schema.skao.int/ska-csp-configurescan/4.1",
     "transaction_id": "txn-....-00001",
     "common": {
-        "config_id": "1 receptor, band 1, 2 FSP, no options",
-        "subarray_id": 1,
-        "eb_id": "eb-m001-20230712-56789",
-        "frequency_band": "1"
+      "config_id": "1 receptor, band 1, 2 FSP, no options",
+      "eb_id": "eb-m001-20230712-56789",
+      "frequency_band": "1"
     },
     "pst": {},
     "midcbf": {
       "correlation": {
-        "processing_regions": [{
-            "fsp_ids": [1,2,3,4],
-            "start_freq" : 950000000,
-            "channel_width" : 13440,
-            "channel_count" : 54640,
+        "processing_regions": [
+          {
+            "fsp_ids": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "start_freq": 350000000,
+            "channel_width": 13440,
+            "channel_count": 54900,
             "sdp_start_channel_id": 0,
             "integration_factor": 10
-        }]
+          }
+        ]
       }
     }
-},
+  },
   "tmc": {
     "scan_duration": 920.0,
     "partial_configuration": false
@@ -47,4 +53,3 @@
     "receiver_band": "1"
   }
 }
-
