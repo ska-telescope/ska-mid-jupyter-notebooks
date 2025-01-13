@@ -3,205 +3,261 @@
     "transaction_id": "txn-....-00001",
     "subarray_id": 1,
     "dish": {
-        "receptor_ids": ["SKA001"]
+        "receptor_ids": [
+            "SKA001"
+        ]
     },
     "sdp": {
         "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
         "resources": {
-            "csp_links": [ 1, 2, 3, 4 ],
-            "receptors": ["SKA001"],
+            "csp_links": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "receptors": [
+                "SKA001"
+            ],
             "receive_nodes": 1
-         },
-         "execution_block": {
-            "eb_id":"eb-test-20240717-00003",
+        },
+        "execution_block": {
+            "eb_id": "eb-test-20240717-00003",
             "context": {},
-            "max_length":21600.0,
-      
-            "channels": [ {
-               "channels_id": "vis_channels",
-               "spectral_windows": [ {
-                   "spectral_window_id": "fsp_1_channels",
-                   "count": 59520,
-                   "start": 0,
-                   "stride": 1,
-                   "freq_min": 0.2964e9,
-                   "freq_max": 1.0909e9,
-                   "link_map": [ [0, 0], [200, 1], [744, 2], [944, 3] ]
-               } ]
-            }],
-            "polarisations": [ {
-               "polarisations_id": "all",
-               "corr_type": [ "XX", "XY", "YX", "YY" ]
-            } ],
-      
-            "fields": [ {
-               "field_id": "field_a",
-               "phase_dir" : {
-                 "ra": [ 2.711325 ],
-                 "dec": [ -0.01328889 ],
-                 "reference_time": "...",
-                 "reference_frame": "ICRF3"
-               },
-               "pointing_fqdn": "low-tmc/telstate/0/pointing"
-            }, {
-               "field_id": "field_b",
-               "phase_dir" : {
-                 "ra": [ 12.48519 ],
-                 "dec": [ 2.052388 ],
-                 "reference_time": "...",
-                 "reference_frame": "ICRF3"
-               },
-               "pointing_fqdn": "low-tmc/telstate/0/pointing"
-            } ],
-      
-            "beams": [ {
-               "beam_id": "vis0",
-               "function": "visibilities"
-            } ],
-            "scan_types":[
-               {
-                  "scan_type_id": ".default",
-                  "beams": {
-                     "vis0": {
-                        "polarisations_id": "all",
-                        "channels_id": "vis_channels"
-                     }
-                  }
-               },
-               {
-                  "scan_type_id": "science",
-                  "derive_from": ".default",
-                  "beams": {
-                    "vis0": { "field_id": "field_a" }
-                  }
-               },
-               {
-                  "scan_type_id": "calibration",
-                  "derive_from": ".default",
-                  "beams": {
-                    "vis0": { "field_id": "field_b" }
-                  }
-               }
-            ]
-         },
-         "processing_blocks":[
-            {
-               "pb_id":"pb-test-20240717-00003",
-               "script":{
-                  "kind":"realtime",
-                  "name":"vis-receive",
-                  "version":"4.2.1"
-               },
-               "parameters": {
-                  "channels_per_port": 20,
-                  "queue_connector_configuration": {
-                     "exchanges": [
-                         {
-                             "dtype": "object",
-                             "shape": [],
-                             "source": {
-                                 "type": "KafkaConsumerSource",
-                                 "servers": "ska-sdp-kafka.ci-ska-mid-itf-at-2111-update-tmc.svc.miditf.internal.skao.int:9092",
-                                 "topic": "metrics-receive_state-1",
-                                 "encoding": "json"
-                             },
-                             "sink": {
-                                 "type": "TangoObjectScatterAttributeSink",
-                                 "attributes": [
-                                     {
-                                         "attribute_name": "receiver_state",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "state",
-                                         "dtype": "str",
-                                         "default_value": "unknown"
-                                     },
-                                     {
-                                         "attribute_name": "last_update",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "time",
-                                         "dtype": "float",
-                                         "default_value": 0.0
-                                     },
-                                     {
-                                         "attribute_name": "processing_block_id",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "processing_block_id",
-                                         "dtype": "str",
-                                         "default_value": ""
-                                     },
-                                     {
-                                         "attribute_name": "execution_block_id",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "execution_block_id",
-                                         "dtype": "str",
-                                         "default_value": ""
-                                     },
-                                     {
-                                         "attribute_name": "subarray_id",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "subarray_id",
-                                         "dtype": "str",
-                                         "default_value": "-1"
-                                     },
-                                     {
-                                         "attribute_name": "scan_id",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "scan_id",
-                                         "dtype": "int",
-                                         "default_value": 0
-                                     },
-                                     {
-                                         "attribute_name": "payloads_received",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "payloads_received",
-                                         "dtype": "int",
-                                         "default_value": 0
-                                     },
-                                     {
-                                         "attribute_name": "time_slices_received",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "time_slices",
-                                         "dtype": "int",
-                                         "default_value": 0
-                                     },
-                                     {
-                                         "attribute_name": "time_since_last_payload",
-                                         "filter": "type=='visibility_receive'",
-                                         "path": "time_since_last_payload",
-                                         "dtype": "float",
-                                         "default_value": 0.0
-                                     }
-                                 ]
-                             }
-                         }
-                     ]
-                 },
-                  "transport_protocol": "udp",
-                  "use_network_definition": true,
-                  "extra_helm_values": {
-                    "receiver": {
-                       "options": {
-                           "reception": {
-                               "reset_time_indexing_after_each_scan": true,
-                               "stats_receiver_kafka_config": "ska-sdp-kafka.staging.svc.miditf.internal.skao.int:9092:json_workflow_state"
-                          },
-                          "telescope_model": {
-                             "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
-                          }
-                       }
+            "max_length": 21600.0,
+            "channels": [
+                {
+                    "channels_id": "vis_channels",
+                    "spectral_windows": [
+                        {
+                            "spectral_window_id": "fsp_1_channels",
+                            "count": 54900,
+                            "start": 0,
+                            "stride": 1,
+                            "freq_min": 0.2964e9,
+                            "freq_max": 1.0909e9,
+                            "link_map": [
+                                [
+                                    0,
+                                    0
+                                ],
+                                [
+                                    200,
+                                    1
+                                ],
+                                [
+                                    744,
+                                    2
+                                ],
+                                [
+                                    944,
+                                    3
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "polarisations": [
+                {
+                    "polarisations_id": "all",
+                    "corr_type": [
+                        "XX",
+                        "XY",
+                        "YX",
+                        "YY"
+                    ]
+                }
+            ],
+            "fields": [
+                {
+                    "field_id": "field_a",
+                    "phase_dir": {
+                        "ra": [
+                            2.711325
+                        ],
+                        "dec": [
+                            -0.01328889
+                        ],
+                        "reference_time": "...",
+                        "reference_frame": "ICRF3"
+                    },
+                    "pointing_fqdn": "low-tmc/telstate/0/pointing"
+                },
+                {
+                    "field_id": "field_b",
+                    "phase_dir": {
+                        "ra": [
+                            12.48519
+                        ],
+                        "dec": [
+                            2.052388
+                        ],
+                        "reference_time": "...",
+                        "reference_frame": "ICRF3"
+                    },
+                    "pointing_fqdn": "low-tmc/telstate/0/pointing"
+                }
+            ],
+            "beams": [
+                {
+                    "beam_id": "vis0",
+                    "function": "visibilities"
+                }
+            ],
+            "scan_types": [
+                {
+                    "scan_type_id": ".default",
+                    "beams": {
+                        "vis0": {
+                            "polarisations_id": "all",
+                            "channels_id": "vis_channels"
+                        }
                     }
-                  },
-                  "processors": {
-                     "signal-display-metrics-amplitude": {},
-                     "signal-display-metrics-basic": {},
-                     "signal-display-metrics-phase": {},
-                     "mswriter": {}
-                 },
-                  "pod_settings": [{            
-                    "securityContext": {"runAsUser": 0, "fsGroup": 0}
-                  }]
-               }
+                },
+                {
+                    "scan_type_id": "science",
+                    "derive_from": ".default",
+                    "beams": {
+                        "vis0": {
+                            "field_id": "field_a"
+                        }
+                    }
+                },
+                {
+                    "scan_type_id": "calibration",
+                    "derive_from": ".default",
+                    "beams": {
+                        "vis0": {
+                            "field_id": "field_b"
+                        }
+                    }
+                }
+            ]
+        },
+        "processing_blocks": [
+            {
+                "pb_id": "pb-test-20240717-00003",
+                "script": {
+                    "kind": "realtime",
+                    "name": "vis-receive",
+                    "version": "4.2.1"
+                },
+                "parameters": {
+                    "channels_per_port": 20,
+                    "queue_connector_configuration": {
+                        "exchanges": [
+                            {
+                                "dtype": "object",
+                                "shape": [],
+                                "source": {
+                                    "type": "KafkaConsumerSource",
+                                    "servers": "ska-sdp-kafka.ci-ska-mid-itf-at-2111-update-tmc.svc.miditf.internal.skao.int:9092",
+                                    "topic": "metrics-receive_state-1",
+                                    "encoding": "json"
+                                },
+                                "sink": {
+                                    "type": "TangoObjectScatterAttributeSink",
+                                    "attributes": [
+                                        {
+                                            "attribute_name": "receiver_state",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "state",
+                                            "dtype": "str",
+                                            "default_value": "unknown"
+                                        },
+                                        {
+                                            "attribute_name": "last_update",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "time",
+                                            "dtype": "float",
+                                            "default_value": 0.0
+                                        },
+                                        {
+                                            "attribute_name": "processing_block_id",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "processing_block_id",
+                                            "dtype": "str",
+                                            "default_value": ""
+                                        },
+                                        {
+                                            "attribute_name": "execution_block_id",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "execution_block_id",
+                                            "dtype": "str",
+                                            "default_value": ""
+                                        },
+                                        {
+                                            "attribute_name": "subarray_id",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "subarray_id",
+                                            "dtype": "str",
+                                            "default_value": "-1"
+                                        },
+                                        {
+                                            "attribute_name": "scan_id",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "scan_id",
+                                            "dtype": "int",
+                                            "default_value": 0
+                                        },
+                                        {
+                                            "attribute_name": "payloads_received",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "payloads_received",
+                                            "dtype": "int",
+                                            "default_value": 0
+                                        },
+                                        {
+                                            "attribute_name": "time_slices_received",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "time_slices",
+                                            "dtype": "int",
+                                            "default_value": 0
+                                        },
+                                        {
+                                            "attribute_name": "time_since_last_payload",
+                                            "filter": "type=='visibility_receive'",
+                                            "path": "time_since_last_payload",
+                                            "dtype": "float",
+                                            "default_value": 0.0
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "transport_protocol": "udp",
+                    "use_network_definition": true,
+                    "extra_helm_values": {
+                        "receiver": {
+                            "options": {
+                                "reception": {
+                                    "reset_time_indexing_after_each_scan": true,
+                                    "stats_receiver_kafka_config": "ska-sdp-kafka.staging.svc.miditf.internal.skao.int:9092:json_workflow_state"
+                                },
+                                "telescope_model": {
+                                    "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
+                                }
+                            }
+                        }
+                    },
+                    "processors": {
+                        "signal-display-metrics-amplitude": {},
+                        "signal-display-metrics-basic": {},
+                        "signal-display-metrics-phase": {},
+                        "mswriter": {}
+                    },
+                    "pod_settings": [
+                        {
+                            "securityContext": {
+                                "runAsUser": 0,
+                                "fsGroup": 0
+                            }
+                        }
+                    ]
+                }
             }
-         ]
+        ]
     }
 }
