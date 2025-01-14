@@ -16,7 +16,7 @@ SKA MID ITF Engineering tools
 
 
 README: Events and Logs Parser for Sequence Diagram Generation
-=============================================================
+==============================================================
 
 The sequence_diagrams.ipynb notebook facilitates generating sequence diagrams from events and logs captured during testing of the **SUT (System Under Test)**. It uses device hierarchies and pod configurations to collect and process data, ultimately producing a **PlantUML sequence diagram**. Follow the steps outlined below to set up, execute, and generate the diagrams.
 
@@ -58,21 +58,21 @@ Optional Flags in the Parser
 
 The ``EventsAndLogsFileParser`` provides the following options to customize diagram generation:
 
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
-| Flag                              | Default Value | Description                                                                         |
-+===================================+===============+=====================================================================================+
-| ``limit_track_load_table_calls``  | ``True``      | Limit the number of ``TrackLoadTable`` commands in the diagram to reduce verbosity. |
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
-| ``show_events``                   | ``False``     | Include all events in the diagram for a detailed view of interactions.             |
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
-| ``show_component_state_updates``  | ``False``     | Display component state updates as hexagonal notes in the sequence diagram.        |
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
-| ``include_dividers``              | ``True``      | Add dividers to the diagram for better visual separation between commands.         |
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
-| ``use_new_pages``                 | ``True``      | Split large diagrams into multiple pages when major notebook commands are executed.|
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
+| Flag                              | Default Value | Description                                                                                 |
++===================================+===============+=============================================================================================+
+| ``limit_track_load_table_calls``  | ``True``      | Limit the number of ``TrackLoadTable`` commands in the diagram to reduce verbosity.         |
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
+| ``show_events``                   | ``False``     | Include all events in the diagram for a detailed view of interactions.                      |
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
+| ``show_component_state_updates``  | ``False``     | Display component state updates as hexagonal notes in the sequence diagram.                 |
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
+| ``include_dividers``              | ``True``      | Add dividers to the diagram for better visual separation between commands.                  |
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
+| ``use_new_pages``                 | ``True``      | Split large diagrams into multiple pages when major notebook commands are executed.         |
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
 | ``group_devices``                 | ``True``      | Organize devices into color-coded boxes based on their group (e.g., TMC, CSP, SDP, Dishes). |
-+-----------------------------------+---------------+-------------------------------------------------------------------------------------+
++-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
 
 ---
 
