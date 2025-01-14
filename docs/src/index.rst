@@ -56,7 +56,7 @@ Workflow
 Optional Flags in the Parser
 ----------------------------
 
-The ``EventsAndLogsFileParser`` provides the following options to customize diagram generation:
+The ``EventsAndLogsFileParser`` provides the following options to customise diagram generation:
 
 +-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
 | Flag                              | Default Value | Description                                                                                 |
@@ -71,7 +71,7 @@ The ``EventsAndLogsFileParser`` provides the following options to customize diag
 +-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
 | ``use_new_pages``                 | ``True``      | Split large diagrams into multiple pages when major notebook commands are executed.         |
 +-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
-| ``group_devices``                 | ``True``      | Organize devices into color-coded boxes based on their group (e.g., TMC, CSP, SDP, Dishes). |
+| ``group_devices``                 | ``True``      | Organise devices into colour-coded boxes based on their group (e.g., TMC, CSP, SDP, Dishes). |
 +-----------------------------------+---------------+---------------------------------------------------------------------------------------------+
 
 ---
