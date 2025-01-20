@@ -25,6 +25,8 @@
     "pst": {},
     "transaction_id": "txn-....-00001",
     "midcbf": {
+      "frequency_band_offset_stream1": 80,
+      "frequency_band_offset_stream2": 80,
       "correlation": {
         "processing_regions": [
           {
