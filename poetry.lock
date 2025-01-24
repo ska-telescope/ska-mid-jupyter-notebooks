@@ -6247,13 +6247,13 @@ reference = "ska"
 
 [[package]]
 name = "ska-db-oda"
-version = "6.3.1"
+version = "7.1.1"
 description = "SKA Database OSO Data Archive"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_db_oda-6.3.1-py3-none-any.whl", hash = "sha256:5fba0822c38e1c68108fe62e89a3f15021464a8cd72a00ac565c8bb5a6a83ff9"},
-    {file = "ska_db_oda-6.3.1.tar.gz", hash = "sha256:00a6c6a95f6675104e269690a8a3addeb6f069a1ce28aa71fbf9a961b509f6e6"},
+    {file = "ska_db_oda-7.1.1-py3-none-any.whl", hash = "sha256:67b4bd35d40a5e6d6478db9ca82693c7dac73da224237c5236799febb1d0b1c6"},
+    {file = "ska_db_oda-7.1.1.tar.gz", hash = "sha256:663ec9bc1b0e6e4cafedd2176011067408d7750daf215d839841805589f14580"},
 ]
 
 [package.dependencies]
@@ -6261,10 +6261,10 @@ fastapi = ">=0.111.0,<0.112.0"
 fire = ">=0.5.0,<0.6.0"
 psycopg = {version = ">=3.0.15,<4.0.0", extras = ["binary"]}
 psycopg-pool = ">=3.1.1,<4.0.0"
-pydantic = ">=2.7,<3.0"
+pydantic = ">=2.9,<3.0"
 python-dateutil = ">=2.8.2,<3.0.0"
 requests = ">=2.27.1,<3.0.0"
-ska-oso-pdm = ">=16.1.0,<17.0.0"
+ska-oso-pdm = ">=17.0.0,<18.0.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.3.3,<4.0.0"
 
@@ -6275,13 +6275,13 @@ reference = "ska"
 
 [[package]]
 name = "ska-oso-oet"
-version = "6.3.2"
+version = "6.4.0"
 description = "SKA Observation Execution Tool"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_oso_oet-6.3.2-py3-none-any.whl", hash = "sha256:780dd969060ff640223bcc1e47b35deff16099b9616c82d282f500e5a875f668"},
-    {file = "ska_oso_oet-6.3.2.tar.gz", hash = "sha256:2a50202e3be464d40c36a74b956293587d47001ec859a84e79b2cb5e4051b538"},
+    {file = "ska_oso_oet-6.4.0-py3-none-any.whl", hash = "sha256:a088ffa6d8b1b8e54ef8908bbaf6dea273a5d453ac7d14e2e43b573cfef7f2ba"},
+    {file = "ska_oso_oet-6.4.0.tar.gz", hash = "sha256:fe4a279a9b7f2acc5b7dd3f48ad6a1887777bbe3a5b6a3d3abdaa655303dc479"},
 ]
 
 [package.dependencies]
@@ -6289,11 +6289,12 @@ connexion = {version = ">=2.14.2,<3.0.0", extras = ["swagger-ui"]}
 Flask = ">=2.2,<2.3"
 GitPython = ">=3.1.27,<4.0.0"
 jsonpickle = ">=2.2.0,<3.0.0"
-prance = ">=23.6.21.0,<24.0.0.0"
+jsonschema = "4.17.3"
+prance = {version = ">=23.6.21.0,<24.0.0.0", extras = ["osv"]}
 PyPubSub = ">=4.0.3,<5.0.0"
 pytango = ">=9.5.1,<10.0.0"
 requests = ">=2.28.1,<3.0.0"
-ska-db-oda = ">=6.0.0,<7.0.0"
+ska-db-oda = ">=7.1.0,<8.0.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.3.3,<4.0.0"
 tblib = ">=1.7.0,<2.0.0"
@@ -6306,19 +6307,19 @@ reference = "ska"
 
 [[package]]
 name = "ska-oso-pdm"
-version = "16.2.1"
+version = "17.0.1"
 description = "SKA Project Data Model serialisation library"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_oso_pdm-16.2.1-py3-none-any.whl", hash = "sha256:cf1f27b4e826f3c7f4f3adf95f60ebdb929f34ddb05b6b3e2f8a712e510ad6d5"},
-    {file = "ska_oso_pdm-16.2.1.tar.gz", hash = "sha256:4fdbaadde79d7923253cdfa64dca12f3f976897e6ba3deb3db2d2d5878163f44"},
+    {file = "ska_oso_pdm-17.0.1-py3-none-any.whl", hash = "sha256:7a53045ae50c9532af9cbc3f1a0ae064fa50d40d59bd04c42f217419fdd28312"},
+    {file = "ska_oso_pdm-17.0.1.tar.gz", hash = "sha256:27ba86b6e5599d7f812f4b604e626f3cc0d3027d2b1732851ab517fb94909303"},
 ]
 
 [package.dependencies]
-astropy = ">=5.0.3,<7"
+astropy = ">=6.1,<7.0"
 packaging = ">=24.1,<25.0"
-pydantic = {version = ">=2.7.1,<3.0.0", extras = ["email"]}
+pydantic = {version = ">=2.9,<3.0", extras = ["email"]}
 
 [package.source]
 type = "legacy"
@@ -6327,19 +6328,18 @@ reference = "ska"
 
 [[package]]
 name = "ska-oso-scripting"
-version = "10.2.0rc5"
+version = "10.2.1"
 description = "SKA OSO Scripting Library"
 optional = false
 python-versions = ">=3.10,<3.13"
 files = [
-    {file = "ska_oso_scripting-10.2.0rc5-py3-none-any.whl", hash = "sha256:6c2c5d9fd418972eb111ac490af80a0c402033f11e786ac29952ea11950aca28"},
-    {file = "ska_oso_scripting-10.2.0rc5.tar.gz", hash = "sha256:75d6798e83c3294eb01b6e422efa3b7b2a4d01ee0881675d078417f1b1841707"},
+    {file = "ska_oso_scripting-10.2.1-py3-none-any.whl", hash = "sha256:c6745e8b61ce8988d5e90f88a74911338ee2fe768f6b9eb56de3cbfef10822ce"},
+    {file = "ska_oso_scripting-10.2.1.tar.gz", hash = "sha256:f6cd9e0d6c3ec51bf6be1c9b797ad78e6e4f476fc6703bc1eaca3df5a194b232"},
 ]
 
 [package.dependencies]
-ska-db-oda = ">=6.0.0,<7.0.0"
-ska-oso-oet = ">=6.3.0,<7.0.0"
-ska-oso-pdm = ">=16.2.1,<17.0.0"
+ska-db-oda = ">=7.1.0,<8.0.0"
+ska-oso-oet = ">=6.4.0,<7.0.0"
 ska-ser-log-transactions = ">=0.2.2,<0.3.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.2.1,<4.0.0"
@@ -8189,4 +8189,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "bafac6ef4fb3dd48a7c3dbd48587e8665c3c276b1112799c10febb8308a9a592"
+content-hash = "17d2deebd4e06e5b00a36fcbedb670166647750653258e24112f894db5d1c3e8"
