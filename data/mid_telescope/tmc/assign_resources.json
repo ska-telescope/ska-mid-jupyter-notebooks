@@ -228,6 +228,14 @@
                         ]
                     },
                     "transport_protocol": "udp",
+                    "signal_display": {
+                        "metrics": [
+                            "all"
+                        ],
+                        "nchan_avg": 50,
+                        "window_count": 5,
+                        "rounding_sensitivity": 10
+                    },
                     "use_network_definition": true,
                     "extra_helm_values": {
                         "receiver": {
