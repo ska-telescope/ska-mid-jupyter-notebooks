@@ -8,18 +8,26 @@ RETURN_COMMAND_CALL_REGEX_PATTERN = re.compile(r"^(.*) <- (\w+\.\w+)\(\)")
 LRC_RETURN_VAL_REGEX_PATTERN = re.compile(r"\(\[(.*)\], \['(.*)'\]\)")
 LRC_TUPLE_REGEX_PATTERN = re.compile(r"'([0-9a-zA-Z._]*)', '([^']*)'")
 
-LOG_REGEX_PATTERN = re.compile(r"([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|(.*)")
+LOG_REGEX_PATTERN = re.compile(
+    r"([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|(.*)"
+)
 EVENT_REGEX_PATTERN = re.compile(r"([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)")
 DEBUG_PATCH_FORWARD_REGEX_PATTERN = re.compile(r"->\s*(\w+)\.(\w+)\(\)")
 ISO_DATE_STRING_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z")
 
-LOG_LRC_RESULT_REGEX_PATTERN = re.compile(r"Received longRunningCommandResult event for\s*device:?\s*(.*?),?\s*with value:\s*\('(.*?)',\s*'\[\d,\s*\"(.*?)\"\]'\)")
-INVOKE_EXECUTE_COMMAND_REGEX_PATTERN = re.compile(r"(?:Invoked|About to execute command) \[?(.*?)\]? on device (\[.*?\]|[^\[]+)")
+LOG_LRC_RESULT_REGEX_PATTERN = re.compile(
+    r"Received longRunningCommandResult event for\s*device:?\s*(.*?),?\s*with value:\s*\('(.*?)',\s*'\[\d,\s*\"(.*?)\"\]'\)"
+)
+INVOKE_EXECUTE_COMMAND_REGEX_PATTERN = re.compile(
+    r"(?:Invoked|About to execute command) \[?(.*?)\]? on device (\[.*?\]|[^\[]+)"
+)
+CSP_SDP_RELEASE_RESOURCES_COMMAND_REGEX_PATTERN = re.compile(
+    r"(.*) command invoked on (?:CSP|SDP) Subarray Leaf Node  (.*)"
+)
 K_VALUES_TO_DISH_REGEX_PATTERN = re.compile(r"Invoking (.*) on dish adapter (.*)")
 CSP_SDP_ON_OFF_COMMAND_REGEX_PATTERN = re.compile(r"Invoking (.*) command for (.*) devices\s*")
 INVOKING_COMMAND_REGEX_PATTERN = re.compile(r"Invoking (.*) command on(?:\:)\s*(.*)")
 COMMAND_INVOKED_REGEX_PATTERN = re.compile(r"(.*) command (?:is\s)invoked (?:on|from) (.*)")
-CSP_SDP_RELEASE_RESOURCES_COMMAND_REGEX_PATTERN = re.compile(r"(.*) command invoked on (?:CSP|SDP) Subarray Leaf Node  (.*)")
 
 # Limits for spammy calls
 TRACK_LOAD_TABLE_LIMIT = 8
@@ -131,15 +139,20 @@ def setup_device_hierarchy(dish_indexes: list[str]) -> list[list[str]]:
     # Use a for loop because the dish devices should be grouped for the diagram
     for index in dish_indexes:
         device_hierarchy.append([
-            'tm_subarray_node.1', f'tm_leaf_node.d0{index}', f'dish-manager.ska{index}', f'ds-manager.ska{index}'
+            'tm_subarray_node.1',
+            f'tm_leaf_node.d0{index}',
+            f'dish-manager.ska{index}',
+            f'ds-manager.ska{index}'
         ])
 
         device_hierarchy.append([
-            f'dish-manager.ska{index}', f'ska{index}.spfrxpu.controller'
+            f'dish-manager.ska{index}',
+            f'ska{index}.spfrxpu.controller'
         ])
 
         device_hierarchy.append([
-            f'dish-manager.ska{index}', f'simulator_spfc.ska{index}'
+            f'dish-manager.ska{index}',
+            f'simulator_spfc.ska{index}'
         ])
 
     return device_hierarchy
