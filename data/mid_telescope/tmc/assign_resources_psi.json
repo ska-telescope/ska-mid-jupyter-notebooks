@@ -102,7 +102,7 @@
                        ],
                        "nchan_avg": 10,
                        "window_count": 5,
-                       "rounding_sensitivity": 20
+                       "rounding_sensitivity": 10
                    },
                  "use_network_definition": true,
                  "extra_helm_values": {
