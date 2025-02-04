@@ -1,9 +1,8 @@
-# TO USE, OVERRIDE HW_CONFIG_FILE VARIABLE WITH THIS FILE NAME IN CI JOB
 talon_board:
-    "001": 192.168.8.13
-    "002": 192.168.8.14
-    "003": 192.168.8.15
-    "004": 192.168.8.16
+    "001": 192.168.8.11
+    "002": 192.168.8.12
+    "003": 192.168.8.13
+    "004": 192.168.8.14
     "005": 192.168.8.1
     "006": 192.168.8.2
     "007": 192.168.8.3
@@ -11,16 +10,16 @@ talon_board:
 talon_lru:
     "001":
         PDU1: "002"
-        PDU1PowerOutlet: "3"
+        PDU1PowerOutlet: "4"
         PDU2: "002"
-        PDU2PowerOutlet: "3"
+        PDU2PowerOutlet: "4"
         TalonDxBoard1: "001"
         TalonDxBoard2: "002"
     "002":
         PDU1: "002"
-        PDU1PowerOutlet: "4"
+        PDU1PowerOutlet: "3"
         PDU2: "002"
-        PDU2PowerOutlet: "4"
+        PDU2PowerOutlet: "3"
         TalonDxBoard1: "003"
         TalonDxBoard2: "004"
     "003":
