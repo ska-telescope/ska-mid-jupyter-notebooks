@@ -1,0 +1,26 @@
+{
+  "channels_per_port": 20,
+  "transport_protocol": "udp",
+  "use_network_definition": true,
+  "extra_helm_values": {
+    "receiver": {
+      "options": {
+        "reception": {
+          "reset_time_indexing_after_each_scan": true
+        },
+        "telescope_model": {
+          "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
+        }
+      }
+    }
+  },
+  "pod_settings": [
+    {"securityContext": {"runAsUser": 0, "fsGroup": 0}}
+  ],
+  "processors": {
+    "signal-display-metrics-amplitude": {},
+    "signal-display-metrics-basic": {},
+    "signal-display-metrics-phase": {},
+    "mswriter": {}
+  }
+}
