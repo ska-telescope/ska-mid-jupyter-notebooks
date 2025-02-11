@@ -100,7 +100,7 @@
                        "metrics": [
                            "all"
                        ],
-                       "nchan_avg": 50,
+                       "nchan_avg": 10,
                        "window_count": 5,
                        "rounding_sensitivity": 10
                    },
