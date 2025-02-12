@@ -104,4 +104,4 @@ def calculate_end_freq(start_freq: int, num_fsps_available: int) -> int:
     coarse_channel_low = math.floor((start_freq + HALF_FS_BW) / FS_BW)
     coarse_channel_high = coarse_channel_low + num_fsps_available - 0.01
 
-    return (coarse_channel_high * FS_BW) - HALF_FS_BW
+    return int((coarse_channel_high * FS_BW)) - HALF_FS_BW
