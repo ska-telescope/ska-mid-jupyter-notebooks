@@ -6328,13 +6328,13 @@ reference = "ska"
 
 [[package]]
 name = "ska-oso-scripting"
-version = "10.4.0"
+version = "10.2.1"
 description = "SKA OSO Scripting Library"
 optional = false
 python-versions = ">=3.10,<3.13"
 files = [
-    {file = "ska_oso_scripting-10.4.0-py3-none-any.whl", hash = "sha256:60307efe3fa4c8ef8c2fa816d31cc8f8862822f8041f00063d140f14f8b7bf8e"},
-    {file = "ska_oso_scripting-10.4.0.tar.gz", hash = "sha256:2d1afdef67e100a13c6815ff9428396ea7f14033d989e3614337b2b00910baf6"},
+    {file = "ska_oso_scripting-10.2.1-py3-none-any.whl", hash = "sha256:c6745e8b61ce8988d5e90f88a74911338ee2fe768f6b9eb56de3cbfef10822ce"},
+    {file = "ska_oso_scripting-10.2.1.tar.gz", hash = "sha256:f6cd9e0d6c3ec51bf6be1c9b797ad78e6e4f476fc6703bc1eaca3df5a194b232"},
 ]
 
 [package.dependencies]
@@ -6344,7 +6344,7 @@ ska-ser-log-transactions = ">=0.2.2,<0.3.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.2.1,<4.0.0"
 ska-tango-base = ">=1.2.3,<2.0.0"
-ska-tmc-cdm = ">=12.6.2,<13.0.0"
+ska-tmc-cdm = ">=12.6.0,<13.0.0"
 
 [package.source]
 type = "legacy"
@@ -8188,4 +8188,4 @@ localtango = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "ec494b7ef69e25ecbb9d7253c9d53d1b7f87c3e17b9c47665d390e27d221e4e5"
+content-hash = "07f66e12231216e1a2ac2e519bbae735eab10a43b07d51f1d6f83d057ee838db"
