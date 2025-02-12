@@ -131,7 +131,7 @@
         ]
       },
       "midcbf": {
-        "frequency_band": "2",
+        "frequency_band": "1",
         "subbands": [
           {
             "frequency_slice_offset": {
