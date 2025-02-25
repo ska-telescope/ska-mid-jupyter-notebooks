@@ -92,11 +92,17 @@ def define_pods_for_logs(
 ) -> dict[str, list[str]]:
     """Create a dictionary for the pods in each namespace that logs will be retrieved from"""
     # Define pods to get logs from
+    csp_subarray_pod_name = (
+        f"ds-cspsubarray-{sut_namespace}-subarray1-0"
+        if sut_namespace in ["staging", "integration"]
+        else "ds-cspsubarray-sut-subarray1-0"
+    )
+
     sut_device_pods = [
         "ds-centralnode-01-0",
         "ds-subarraynode-01-0",
         "ds-cspmasterleafnode-01-0",
-        f"ds-cspsubarray-{sut_namespace}-subarray1-0",
+        csp_subarray_pod_name,
         "ds-cspsubarrayleafnode-01-0",
         "ds-cbfcontroller-controller-0",
         "ds-cbfsubarray-cbfsubarray-0",
