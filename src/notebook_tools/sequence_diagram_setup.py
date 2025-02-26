@@ -176,7 +176,7 @@ def determine_box_name_and_colour(device: str) -> tuple[str, str]:
     match device:
         case _ if device.startswith("tm"):
             return DeviceGroup.TMC.value
-        case _ if device.startswith(("mid-csp", "mid_csp", "sub_elt")):
+        case _ if device.startswith(("mid-csp", "mid_csp", "mid_csp_cbf", "sub_elt")):
             return DeviceGroup.CSP.value
         case _ if device.startswith("mid-sdp"):
             return DeviceGroup.SDP.value
