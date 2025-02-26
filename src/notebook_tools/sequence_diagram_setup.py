@@ -159,9 +159,14 @@ def setup_device_hierarchy(dish_indexes: list[str]) -> list[list[str]]:
             ]
         )
 
-        device_hierarchy.append([f"dish-manager.ska{index}", f"ska{index}.spfrxpu.controller"])
-
-        device_hierarchy.append([f"dish-manager.ska{index}", f"simulator_spfc.ska{index}"])
+        device_hierarchy.append(
+            [
+                f"dish-manager.ska{index}",
+                f"simulator-spfrx.ska{index}",
+                f"ska{index}.spfrxpu.controller",
+            ]
+        )
+        device_hierarchy.append([f"dish-manager.ska{index}", f"simulator-spfc.ska{index}"])
 
     return device_hierarchy
 
@@ -175,10 +180,10 @@ def determine_box_name_and_colour(device: str) -> tuple[str, str]:
             return DeviceGroup.CSP.value
         case _ if device.startswith("mid-sdp"):
             return DeviceGroup.SDP.value
-        case _ if device.startswith(("dish-", "ds-", "ska", "simulator_spfc")):
+        case _ if device.startswith(("dish-", "ds-", "ska", "simulator_spf")):
             return DeviceGroup.DISHES.value
         case _:
-            print(f"Device {device} set to UNKNOWN group")
+            # print(f"Device {device} set to UNKNOWN group")
             return DeviceGroup.UNKNOWN.value
 
 
