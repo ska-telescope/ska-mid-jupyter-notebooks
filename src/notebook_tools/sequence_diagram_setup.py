@@ -38,7 +38,7 @@ DEBUG_LOG_TIME_ADJUSTMENT_SECONDS = 0.23
 
 
 class DeviceGroup(Enum):
-    """Enum class for determining device colours on the diagram"""
+    """Enum class for determining device colours on the diagram."""
 
     TMC = ("TMC Mid", "Lavender")
     CSP = ("CSP Mid", "DCE3C7")  # Sage green
@@ -50,7 +50,7 @@ class DeviceGroup(Enum):
 def define_tracked_device_trls(
     dish_indexes: list[str], sut_namespace: str, dish_namespaces: list[str]
 ) -> list[str]:
-    """Create the list of tango devices to track events on based on dishes and namespaces"""
+    """Create the list of tango devices to track events on based on dishes and namespaces."""
     # Define tango hosts
     sut_tango_host = f"tango-databaseds.{sut_namespace}.svc.miditf.internal.skao.int:10000"
     dish_tango_hosts = [
@@ -90,7 +90,7 @@ def define_tracked_device_trls(
 def define_pods_for_logs(
     dish_indexes: list[str], sut_namespace: str, dish_namespaces: list[str]
 ) -> dict[str, list[str]]:
-    """Create a dictionary for the pods in each namespace that logs will be retrieved from"""
+    """Create a dictionary for the pods in each namespace that logs will be retrieved from."""
     # Define pods to get logs from
     csp_subarray_pod_name = (
         f"ds-cspsubarray-{sut_namespace}-subarray1-0"
@@ -132,7 +132,7 @@ def define_pods_for_logs(
 
 
 def setup_device_hierarchy(dish_indexes: list[str]) -> list[list[str]]:
-    """Create the list of device lists used to order and group the sequence diagram"""
+    """Create the list of device lists used to order and group the sequence diagram."""
     # Declare likely callers for each device
     device_hierarchy = [
         ["notebook", "tm_central.central_node", "tm_leaf_node.csp_master", "mid-csp.control.0"],
@@ -172,7 +172,7 @@ def setup_device_hierarchy(dish_indexes: list[str]) -> list[list[str]]:
 
 
 def determine_box_name_and_colour(device: str) -> tuple[str, str]:
-    """Determine the group the device falls under and assign the appropriate colour"""
+    """Determine the group the device falls under and assign the appropriate colour."""
     match device:
         case _ if device.startswith("tm"):
             return DeviceGroup.TMC.value
