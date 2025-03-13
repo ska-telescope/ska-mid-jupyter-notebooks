@@ -160,12 +160,16 @@
                 "window_count": 5,
                 "rounding_sensitivity": 10
             },
+            "processes_per_node": 4,
             "extra_helm_values": {
                 "plasma":{"storeSize":10737418240},
                 "receiver": {
                 "options": {
                   "reception": {
-                    "reset_time_indexing_after_each_scan": true
+                    "reset_time_indexing_after_each_scan": true,
+                    "aggregation": {
+                      "payloads_per_backoff": 3000
+                    }
                   },
                   "telescope_model": {
                     "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
