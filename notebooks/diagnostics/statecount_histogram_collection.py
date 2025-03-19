@@ -12,13 +12,10 @@ import notebook_tools.histogram_client as HistogramClient
 from notebook_tools.misc_helper import get_tango_host
 
 timeout_ms = 3000
-collect_pre_vcc = True
-collect_post_vcc = True
-collect_post_16k = True
-collect_wideband = True
 
-def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[int]):
-    """ For a given namespace, board and lanes, collect the histogram and wideband data and save to a folder. Then compress the folder to a .zip file."""
+def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[int], collect_pre_vcc:bool, collect_post_vcc:bool, collect_post_16k:bool, collect_wideband:bool):
+    """ For a given namespace, board and lanes, collect the histogram and wideband data and save to a folder. Then compress the folder to a .zip file.
+    """
     # Parse the boards/lanes from the args
     path = os.getcwd() + "/output-data/" + namespace  # The directory name to use for data storage
 
@@ -38,14 +35,19 @@ def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[in
 
     # Collect each of the histograms and statecounts needed
     if collect_pre_vcc:
+        print("Collecting pre VCC histograms:")
         collect_histogram("pre_vcc",boards,path)
     if collect_post_vcc:
+        print("Collecting post VCC histograms:")
         collect_histogram_lanes("post_vcc", boards, lanes, path)
     if collect_post_16k:
+        print("Collecting post 16k channelizer histograms:")
         collect_histogram_lanes("post_ch16k", boards, lanes,path)
     if collect_wideband: 
-        collect_statecount_data(boards)
+        print("Collecting wideband data:")
+        collect_statecount_data(boards, path)
     # Compress data to zip archive
+    print("Writing to zip file")
     shutil.make_archive(namespace, "zip", path)
 
 def collect_histogram(target:str,boards:list[int], path:str):
@@ -71,11 +73,11 @@ def collect_histogram(target:str,boards:list[int], path:str):
                 with open(str(folder) + f"/{target}_x.csv", "w") as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerows(histo_x)
-                    print(f"Wrote histogram data to {histogram_folder}{target}_x.csv")
+                    print(f"Wrote histogram data to {histogram_folder}/{target}_x.csv")
                 with open(str(folder) + f"/{target}_y.csv", "w") as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerows(histo_y)
-                    print(f"Wrote histogram data to {histogram_folder}{target}_y.csv")
+                    print(f"Wrote histogram data to {histogram_folder}/{target}_y.csv")
             else:
                 print(f"Could not get {target} data!")
 
@@ -100,18 +102,18 @@ def collect_histogram_lanes(target:str, boards:list[int],lanes:list[int], path:s
             else:
                 print(f"Could not capture data for Board {board}, lane {lane}")
         
-        histogram_folder = path + f"/talondx-00{board}/" + "/histograms/" + f"/{target}/"
+        histogram_folder = path + f"/talondx-00{board}/" + "/histograms/" + f"{target}/"
         folder = pathlib.Path(histogram_folder)
         folder.mkdir(parents=True, exist_ok=True)
         for lane in lanes:
             with open(str(folder) + f"/{target}_x_lane{lane}.csv", "w") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerows(histo_x[lane])
-                print(f"Wrote histogram data to {histo_x}{target}_x.csv")
+                print(f"Wrote histogram data to {folder}/{target}_x_lane{lane}.csv")
             with open(str(folder) + f"/{target}_y_lane{lane}.csv", "w") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerows(histo_y[lane])
-                print(f"Wrote histogram data to {histo_y}{target}_y.csv")
+                print(f"Wrote histogram data to {folder}/{target}_y_lane{lane}.csv")
 
 def collect_statecount_data(boards:list[int], path:str):
     """Collects the state count vectors, and power spectrum data from a board. Writes a single .csv file containing all this data to the relevant folder."""
@@ -167,13 +169,29 @@ if __name__ == '__main__':
     parser.add_argument('-ns', "--namespace", help = "The id of the namespace to target", type = str, required=True)
     parser.add_argument('-b', "--boards", help = "The list of boards to target", nargs= "+", type = int, required=True)
     parser.add_argument('-l', "--lanes", help = "The lanes to target for post-vcc/16k histograms", nargs= "+", type = int, required=True)
-    parser.add_argument('--pre_vcc', help = "Set if pre_vcc histogram data should be collected.")
-    parser.add_argument('--post_vcc', help = "Set if pre_vcc histogram data should be collected.")
-    parser.add_argument('--post_16k', help = "Set if pre_vcc histogram data should be collected. ")
+    parser.add_argument('--no_pre_vcc', action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
+    parser.add_argument('--no_post_vcc',action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
+    parser.add_argument('--no_post_channel',action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
+    parser.add_argument('--no_wideband',action="store_true", help = "Set if wideband collection should be skipped.")
+
     args = parser.parse_args()
     print(args)
     boards = list(args.boards)
     lanes = list(args.lanes)
-    namespace = args.namespace
+    namespace = args.namespace 
+    pre_vcc = True
+    post_vcc = True
+    post_channel = True
+    wideband = True
+
+    if args.no_pre_vcc:
+        pre_vcc = False
+    if args.no_post_vcc:
+        post_vcc = False
+    if args.no_post_channel:
+        post_channel = False
+    if args.no_wideband: 
+        wideband = False
+    
     print(f"Targeting namespace:{namespace}, with targeted boards {boards}, lanes {lanes}")
-    collect_statecount_histograms(namespace,boards,lanes)
+    collect_statecount_histograms(namespace,boards,lanes, pre_vcc, post_vcc, post_channel, wideband)
