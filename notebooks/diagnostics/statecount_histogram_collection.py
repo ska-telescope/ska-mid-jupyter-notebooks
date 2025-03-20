@@ -13,7 +13,7 @@ from notebook_tools.misc_helper import get_tango_host
 
 timeout_ms = 3000
 
-def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[int], collect_pre_vcc:bool, collect_post_vcc:bool, collect_post_16k:bool, collect_wideband:bool):
+def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[int], env:str, collect_pre_vcc:bool, collect_post_vcc:bool, collect_post_16k:bool, collect_wideband:bool):
     """ For a given namespace, board and lanes, collect the histogram and wideband data and save to a folder. Then compress the folder to a .zip file.
     """
     # Parse the boards/lanes from the args
@@ -23,7 +23,14 @@ def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[in
     folder = pathlib.Path(path)
     folder.mkdir(parents=True, exist_ok=True)
 
-    os.environ["TANGO_HOST"] = get_tango_host(namespace)
+    # Set the TANGO host env var based on which environment was specified
+    match env:
+        case "psi":
+            os.environ["TANGO_HOST"] = f"databaseds-tango-base.{namespace}.svc.cluster.local:10000"
+        case "itf":
+            os.environ["TANGO_HOST"] = f"tango-databaseds.{namespace}.svc.miditf.internal.skao.int:10000"
+        # Any future cases can be added here
+
     # Mapping higher number boards to correct value
     if len(boards) > 1 and boards[1] == 17:
         boards[1] = 2
@@ -166,9 +173,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Collects histogram and state count data from active namespaces for specified boards/lanes. Stores data to .csv files in a .zip file."
     )
-    parser.add_argument('-ns', "--namespace", help = "The id of the namespace to target", type = str, required=True)
-    parser.add_argument('-b', "--boards", help = "The list of boards to target", nargs= "+", type = int, required=True)
-    parser.add_argument('-l', "--lanes", help = "The lanes to target for post-vcc/16k histograms", nargs= "+", type = int, required=True)
+    parser.add_argument('-ns', "--namespace", help = "The id of the namespace to target, or sut if in itf.", type = str, required=True)
+    parser.add_argument('-b', "--boards", help = "The list of boards to target.", nargs= "+", type = int, required=True)
+    parser.add_argument('-l', "--lanes", help = "The lanes to target for post-vcc/16k histograms. Defaults to all 4", nargs= "+", type = int, required=True)
+    parser.add_argument('-e', "--env", help = "The env the script is running in (psi/itf/kpp).", type = str, required=True)
+
     parser.add_argument('--no_pre_vcc', action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
     parser.add_argument('--no_post_vcc',action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
     parser.add_argument('--no_post_channel',action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
@@ -179,6 +188,7 @@ if __name__ == '__main__':
     boards = list(args.boards)
     lanes = list(args.lanes)
     namespace = args.namespace 
+    env = args.env
     pre_vcc = True
     post_vcc = True
     post_channel = True
@@ -192,6 +202,14 @@ if __name__ == '__main__':
         post_channel = False
     if args.no_wideband: 
         wideband = False
+
+    if env not in ["psi", "itf", "kpp"]:
+        print("Error, provided env argument is not in known envs. (currently known envs are psi,itf,kpp)")
+        exit()
+    
+    if env == "kpp":
+        print("KPP env is currently not implemented.")
+        exit()
     
     print(f"Targeting namespace:{namespace}, with targeted boards {boards}, lanes {lanes}")
-    collect_statecount_histograms(namespace,boards,lanes, pre_vcc, post_vcc, post_channel, wideband)
+    collect_statecount_histograms(namespace,boards,lanes, env, pre_vcc, post_vcc, post_channel, wideband)
