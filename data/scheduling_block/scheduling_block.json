@@ -80,7 +80,7 @@
       {
         "scan_definition_id": "scan-definition-28007",
         "scan_duration_ms": 60000,
-        "target_ref": "target-06003",
+        "target_ref": "target-92858",
         "scan_type_ref": "calibration_B",
         "dish_allocation_ref": "dish-allocation-95719",
         "csp_configuration_ref": "csp-configuration-12754",

@@ -61,7 +61,7 @@ def collect_histogram(target:str,boards:list[int], path:str):
         """Collects the raw histogram data from the target, for each of the boards provided. If collection is successful, writes the data to a .csv file in the relevant folder."""
         for board in boards:
             print(f"----Board #{board}----")
-            device = f"talondx-00{board}/histogram/{target}"
+            device = f"talondx-00{board}/histogram/e_{target}"
             # Create a histogram client to the VCC device
             client = HistogramClient.HistogramClient(device, timeout_ms)
             # Run the capture command on the device and read the data for the histogram
@@ -187,7 +187,7 @@ if __name__ == '__main__':
     boards = list(args.boards)
     if args.lanes == None:
         print("Using default 4 lanes.")
-        lanes = [1,2,3,4]
+        lanes = [0,1,2,3]
     else:
         lanes = list(args.lanes)
     namespace = args.namespace 
