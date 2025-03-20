@@ -175,7 +175,7 @@ if __name__ == '__main__':
     )
     parser.add_argument('-ns', "--namespace", help = "The id of the namespace to target, or sut if in itf.", type = str, required=True)
     parser.add_argument('-b', "--boards", help = "The list of boards to target.", nargs= "+", type = int, required=True)
-    parser.add_argument('-l', "--lanes", help = "The lanes to target for post-vcc/16k histograms. Defaults to all 4", nargs= "+", type = int, required=True)
+    parser.add_argument('-l', "--lanes", help = "The lanes to target for post-vcc/16k histograms. Defaults to all 4 lanes if not specified", nargs= "*", type = int)
     parser.add_argument('-e', "--env", help = "The env the script is running in (psi/itf/kpp).", type = str, required=True)
 
     parser.add_argument('--no_pre_vcc', action="store_true", help = "Set if pre_vcc histogram data should be skipped.")
@@ -184,9 +184,12 @@ if __name__ == '__main__':
     parser.add_argument('--no_wideband',action="store_true", help = "Set if wideband collection should be skipped.")
 
     args = parser.parse_args()
-    print(args)
     boards = list(args.boards)
-    lanes = list(args.lanes)
+    if args.lanes == None:
+        print("Using default 4 lanes.")
+        lanes = [1,2,3,4]
+    else:
+        lanes = list(args.lanes)
     namespace = args.namespace 
     env = args.env
     pre_vcc = True
@@ -206,7 +209,6 @@ if __name__ == '__main__':
     if env not in ["psi", "itf", "kpp"]:
         print("Error, provided env argument is not in known envs. (currently known envs are psi,itf,kpp)")
         exit()
-    
     if env == "kpp":
         print("KPP env is currently not implemented.")
         exit()
