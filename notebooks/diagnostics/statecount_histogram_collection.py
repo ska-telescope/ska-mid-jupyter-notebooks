@@ -11,7 +11,7 @@ from PyTango import DeviceProxy
 import notebook_tools.histogram_client as HistogramClient
 from notebook_tools.misc_helper import get_tango_host
 
-timeout_ms = 3000
+timeout_ms = 10000
 
 def collect_statecount_histograms(namespace:str, boards:list[int], lanes:list[int], env:str, collect_pre_vcc:bool, collect_post_vcc:bool, collect_post_16k:bool, collect_wideband:bool):
     """ For a given namespace, board and lanes, collect the histogram and wideband data and save to a folder. Then compress the folder to a .zip file.
