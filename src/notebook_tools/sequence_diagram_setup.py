@@ -135,7 +135,7 @@ def setup_device_hierarchy(dish_indexes: list[str]) -> list[list[str]]:
     """Create the list of device lists used to order and group the sequence diagram."""
     # Declare likely callers for each device
     device_hierarchy = [
-        ["notebook", "tm_central.central_node", "tm_leaf_node.csp_master", "mid-csp.control.0"],
+        ["test", "tm_central.central_node", "tm_leaf_node.csp_master", "mid-csp.control.0"],
         ["tm_central.central_node", "tm_leaf_node.sdp_master"],
         ["tm_central.central_node", "tm_subarray_node.2"],
         ["tm_central.central_node", "tm_subarray_node.1"],
@@ -180,7 +180,7 @@ def determine_box_name_and_colour(device: str) -> tuple[str, str]:
             return DeviceGroup.CSP.value
         case _ if device.startswith("mid-sdp"):
             return DeviceGroup.SDP.value
-        case _ if device.startswith(("dish-", "ds-", "ska", "simulator_spf")):
+        case _ if device.startswith(("dish-", "ds-", "ska", "simulator")):
             return DeviceGroup.DISHES.value
         case _:
             # print(f"Device {device} set to UNKNOWN group")
