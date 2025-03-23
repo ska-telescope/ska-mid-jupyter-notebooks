@@ -180,7 +180,7 @@ def determine_box_name_and_colour(device: str) -> tuple[str, str]:
             return DeviceGroup.CSP.value
         case _ if device.startswith("mid-sdp"):
             return DeviceGroup.SDP.value
-        case _ if device.startswith(("dish-", "ds-", "ska", "simulator")):
+        case _ if device.startswith(("dish-", "ds-", "ska", "simulator-spf")):
             return DeviceGroup.DISHES.value
         case _:
             # print(f"Device {device} set to UNKNOWN group")
