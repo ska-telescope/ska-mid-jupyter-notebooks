@@ -180,7 +180,7 @@
             "processors": {
               "mswriter": {
                 "image": "registry.gitlab.com/ska-telescope/sdp/ska-sdp-realtime-receive-processors/ska-sdp-realtime-receive-processors",
-                "version": "2.3.1-dev.c2cfa5cc9"
+                "version": "2.3.1-dev.c5a1bf975"
               }
             },
             "pod_settings": [
