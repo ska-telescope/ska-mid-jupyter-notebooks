@@ -162,11 +162,13 @@
             },
             "processes_per_node": 6,
             "extra_helm_values": {
-                "plasma":{"storeSize":10737418240},
-                "receiver": {
+              "plasma":{"storeSize":10737418240},
+              "receiver": {
                 "options": {
+                  "uvw": {
+                    "engine": "measures"
+                    },
                   "reception": {
-                    "reset_time_indexing_after_each_scan": true,
                     "aggregation": {
                       "payloads_per_backoff": 3500
                     }
