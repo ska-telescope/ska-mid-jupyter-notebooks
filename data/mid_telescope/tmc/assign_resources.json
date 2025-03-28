@@ -162,7 +162,7 @@
             },
             "processes_per_node": 6,
             "extra_helm_values": {
-              "plasma":{"storeSize":10737418240},
+              "plasma":{"storeSize":21474836480},
               "receiver": {
                 "options": {
                   "uvw": {
