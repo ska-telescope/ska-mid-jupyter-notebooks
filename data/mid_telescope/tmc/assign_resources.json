@@ -151,7 +151,6 @@
           },
           "parameters": {
             "channels_per_port": 20,
-            "queue_connector_configuration": {},
             "transport_protocol": "udp",
             "use_network_definition": true,
             "signal_display": {
