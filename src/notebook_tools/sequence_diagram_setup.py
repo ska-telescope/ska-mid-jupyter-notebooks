@@ -60,10 +60,10 @@ def define_tracked_device_trls(
 
     # Define device TRLs (for events)
     tracked_device_trls = [
-        f"{sut_tango_host}/ska_mid/tm_central/central_node",
-        f"{sut_tango_host}/ska_mid/tm_subarray_node/1",
-        f"{sut_tango_host}/ska_mid/tm_leaf_node/csp_master",
-        f"{sut_tango_host}/ska_mid/tm_leaf_node/csp_subarray01",
+        f"{sut_tango_host}/mid-tmc/central-node/0",
+        f"{sut_tango_host}/mid-tmc/subarray/01",
+        f"{sut_tango_host}/mid-tmc/leaf-node-csp/0",
+        f"{sut_tango_host}/mid-tmc/subarray-leaf-node-csp/01",
         f"{sut_tango_host}/mid-csp/subarray/01",
         f"{sut_tango_host}/mid_csp_cbf/sub_elt/controller",
         f"{sut_tango_host}/mid_csp_cbf/sub_elt/subarray_01",
@@ -71,7 +71,7 @@ def define_tracked_device_trls(
     ]
 
     tracked_device_trls.extend(
-        f"{sut_tango_host}/ska_mid/tm_leaf_node/d0{index}" for index in dish_indexes
+        f"{sut_tango_host}/mid-tmc/leaf-node-dish/SKA{index}" for index in dish_indexes
     )
 
     tracked_device_trls.extend(
