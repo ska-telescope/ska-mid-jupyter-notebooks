@@ -71,7 +71,7 @@ def define_tracked_device_trls(
     ]
 
     tracked_device_trls.extend(
-        f"{sut_tango_host}/ska_mid/tm_leaf_node/d0{index}" for index in dish_indexes
+        f"{sut_tango_host}/mid-tmc/leaf-node-dish/SKA{index}" for index in dish_indexes
     )
 
     tracked_device_trls.extend(
