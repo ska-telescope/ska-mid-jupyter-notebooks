@@ -62,7 +62,7 @@ def define_tracked_device_trls(
     tracked_device_trls = [
         f"{sut_tango_host}/mid-tmc/central-node/0",
         f"{sut_tango_host}/mid-tmc/subarray/0",
-        f"{sut_tango_host}/ska_mid/tm_leaf_node/csp_master",
+        f"{sut_tango_host}/mid-tmc/leaf-node-csp/0",
         f"{sut_tango_host}/ska_mid/tm_leaf_node/csp_subarray01",
         f"{sut_tango_host}/mid-csp/subarray/01",
         f"{sut_tango_host}/mid_csp_cbf/sub_elt/controller",
